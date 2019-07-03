@@ -28,19 +28,26 @@ func letterCombinations(digits string) []string {
 	}
 	point := 0
 	for {
+		// 通过每个字符游标记录，组合成新的字符串
 		for i := 0; i < size; i++ {
 			tmp += string(dict[digits[i]][save[i]])
 		}
 		out = append(out, tmp)
 		tmp = ""
 		point = 0
+		// 循环判断每个字符的游标是否到顶
 		for size-1-point >= 0 {
 			save[size-1-point]++
+			// 如果游标没有到顶
 			if save[size-1-point] < len(dict[digits[size-1-point]]) {
+				// 继续组合成新的字符串
 				break
 			} else {
+				// 如果第一个字符的游标没有到顶
 				if save[0] < len(dict[digits[0]]) {
+					// 将最后一个字符的游标重置
 					save[size-1-point] = 0
+					// 继续判断前一个字符的游标记录
 					point++
 					continue
 				} else {

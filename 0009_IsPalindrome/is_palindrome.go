@@ -6,10 +6,10 @@ func isPalindrome(x int) bool {
 	if x < 0 {
 		return false
 	}
-	rev, new := 0, x
-	for new != 0 {
-		rev = rev*10 + new%10
-		new /= 10
+	rev, newx := 0, x
+	for newx != 0 {
+		rev = rev*10 + newx%10
+		newx /= 10
 	}
 	if x == rev {
 		return true

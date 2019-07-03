@@ -1,76 +1,57 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func myAtoi(str string) int {
-	if str == "" {
-		return 0
-	}
-	out := 0
+	var out int
+	// flg1: true 是负数 , false 是正数
+	// flg2: true 已存在一个‘-’或‘+’
+	// flg3: true 之前遍历的字符是数字
 	var flg1, flg2, flg3 bool
 	for _, s := range str {
-		if s == ' ' {
-			if flg3 || flg2 {
+		// 如果字符非数字或 ' ' '+' '-'
+		if (s > '9' || s < '0') && s != '-' && s != '+' && s != ' ' {
+			break
+		}
+		if s == ' ' || s == '-' || s == '+' {
+			if flg2 || flg3 {
 				break
 			}
-			continue
-		}
-		if s > '9' && s < '0' && s != '-' {
-			return 0
-		}
-		if s == '-' {
-			if flg3 {
-				break
+			if s == '-' {
+				flg1 = true
+				flg2 = true
+			} else if s == '+' {
+				flg1 = false
+				flg2 = true
 			}
-			if flg2 {
-				return 0
-			}
-			if flg3 {
-				return 0
-			}
-			flg1 = true
-			flg2 = true
-			continue
-		}
-		if s == '+' {
-			if flg3 {
-				break
-			}
-			if flg2 == true {
-				return 0
-			}
-			if flg3 {
-				return 0
-			}
-			flg1 = false
-			flg2 = true
 			continue
 		}
 		if s >= '0' && s <= '9' {
+			// 如果字符是数字
 			flg3 = true
 			out = out*10 + int(s-'0')
+			// 如果超过 32 位有符号整数范围
 			if out >= 2147483648 && flg1 {
 				return -2147483648
-			}
-			if out > 2147483647 {
+			} else if out > 2147483647 {
 				return 2147483647
 			}
 			continue
 		}
-		if s > '9' || s < '0' {
-			break
-		}
 	}
 	if flg1 {
 		return -out
-	}
-	if out > 0 {
+	} else {
 		return out
 	}
-	return 0
 }
 
 func main() {
-	str := "    -88827   5655  U"
+	//str := "    -88827   5655  U"
+	//str := "0-1"
+	//str := "test 123"
+	str := "123 aaa"
 	fmt.Println(myAtoi(str))
 }

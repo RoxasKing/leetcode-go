@@ -4,15 +4,8 @@ import "fmt"
 
 func threeSumClosest(nums []int, target int) int {
 	size := len(nums)
-
-	for i := 0; i < size; i++ {
-		for j := 0; j < size-i-1; j++ {
-			if nums[j] > nums[j+1] {
-				nums[j], nums[j+1] = nums[j+1], nums[j]
-			}
-		}
-	}
 	out := nums[size-1] + nums[size-2] + nums[size-3]
+	QuickSort(nums)
 
 	i := 0
 	for i < size-1 {
@@ -48,6 +41,26 @@ func threeSumClosest(nums []int, target int) int {
 		}
 	}
 	return out
+}
+
+func QuickSort(data []int) {
+	if len(data) <= 1 {
+		return
+	}
+	mid := data[0]
+	head, tail := 0, len(data)-1
+	for i := 1; i <= tail; {
+		if data[i] > mid {
+			data[i], data[tail] = data[tail], data[i]
+			tail--
+		} else {
+			data[i], data[head] = data[head], data[i]
+			head++
+			i++
+		}
+	}
+	QuickSort(data[:head])
+	QuickSort(data[head+1:])
 }
 
 func main() {

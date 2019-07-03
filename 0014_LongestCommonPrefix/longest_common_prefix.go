@@ -4,23 +4,20 @@ import "fmt"
 
 func longestCommonPrefix(strs []string) string {
 	lens := len(strs)
-	if lens == 0 || strs[0] == "" {
+	if lens == 0 {
 		return ""
-	}
-	if lens == 1 {
-		return strs[0]
 	}
 	out := ""
 	min := len(strs[0])
-	for i := 1; i < lens; i++ {
+	for i := 0; i < lens; i++ {
 		if strs[i] == "" {
 			return ""
 		}
-		for j := 0; j < len(strs[i]); j++ {
+		for j := 0; j < len(strs[i]) && j < min; j++ {
 			if j == 0 && strs[0][:j+1] != strs[i][:j+1] {
-				out = ""
+				return ""
 			}
-			if j < min && strs[0][:j+1] == strs[i][:j+1] {
+			if strs[0][:j+1] == strs[i][:j+1] {
 				out = strs[0][:j+1]
 			}
 		}
@@ -30,7 +27,8 @@ func longestCommonPrefix(strs []string) string {
 }
 
 func main() {
-	//strs := []string{"flower","flow","flight",}
-	strs := []string{"aaa", "aa", "aaa"}
+	strs := []string{"flower", "flow", "flight"}
+	//strs := []string{"aaa", "aa", "aa"}
+	//strs := []string{"dog", "racecar", "car"}
 	fmt.Println(longestCommonPrefix(strs))
 }
