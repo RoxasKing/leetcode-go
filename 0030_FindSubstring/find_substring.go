@@ -4,13 +4,6 @@ import "fmt"
 
 func findSubstring2(s string, words []string) []int {
 	var out []int
-
-
-	return out
-}
-
-func findSubstring(s string, words []string) []int {
-	var out []int
 	sizes := len(s)
 	sizew := len(words)
 	if sizes == 0 || sizew == 0 {
@@ -22,27 +15,106 @@ func findSubstring(s string, words []string) []int {
 	for _, elem := range words {
 		dict[elem]++
 	}
-	var flg bool
-	for i := 0; i < sizes-sizea+1; i++ {
-		for j := i; j < i+sizea-sizee+1; j = j + sizee {
-			if _, ok := dict[s[j:j+sizee]]; ok {
-				dict[s[j:j+sizee]]--
-			}
-		}
-		for _, v := range dict {
-			if v != 0 {
-				flg = true
-				break
-			}
-		}
-		dict = make(map[string]int)
-		for _, elem := range words {
-			dict[elem]++
-		}
-		if !flg {
-			out = append(out, i)
+	subs := make(map[string]int)
+	for i := 0; i <= sizes-sizea; i++ {
+		dictt := make(map[string]int)
+		if _, ok := dict[s[i:i+sizee]]; !ok {
+			continue
 		} else {
-			flg = false
+			var flg bool
+			for j := i; j <= i+sizea-sizee; j += sizee {
+				if _, ok := dict[s[j:j+sizee]]; ok {
+					dictt[s[j:j+sizee]]++
+					if dictt[s[j:j+sizee]] > dict[s[j:j+sizee]] {
+						flg = true
+						break
+					}
+					subs[s[j:j+sizee]] = j
+				} else {
+					flg = true
+					break
+				}
+			}
+			if flg {
+				flg = false
+			} else {
+				out = append(out, i)
+			}
+		}
+	}
+	return out
+}
+
+func findSubstring(s string, words []string) []int {
+	sizes := len(s)
+	out := make([]int, 0, sizes)
+	sizews := len(words)
+	if sizes == 0 || sizews == 0 {
+		return out
+	}
+	sizew := len(words[0])
+	if sizes < sizews*sizew {
+		return out
+	}
+	// 记录 words 中每个单词总共出现的次数
+	recw := make(map[string]int, sizews)
+	for _, w := range words {
+		if len(w) == sizew {
+			recw[w]++
+		} else {
+			return out
+		}
+	}
+	// 记录当前单词出现次数
+	recc := make(map[string]int)
+	// 记录符合条件的单词数
+	var count int
+	// 选择器最左和最右单词起始位置
+	left, right := 0, 0
+	// 移位循环，循环次数视单词长度而定
+	for i := 0; i < sizew; i++ {
+		// 初始化选择器
+		left, right = i, i
+		// 初始化单词出现次数统计
+		recc = make(map[string]int)
+		// 初始化符合次数统计
+		count = 0
+		// 若当前可选择最大范围超过 words 字符串总长
+		for sizes-left >= sizews*sizew {
+			word := s[right : right+sizew]
+			if max, ok := recw[word]; !ok {
+				// 如果单词不在记录中,从当前点往后一个单词位置重新开始检查
+				left, right = right+sizew, right+sizew
+				// 初始化单词出现次数统计
+				recc = make(map[string]int)
+				// 初始化符合次数统计
+				count = 0
+			} else if recc[word]+1 > max {
+				// 如果单词出现次数超过words记录
+				// left位置单词记录数减 1
+				recc[s[left:left+sizew]]--
+				// 符合条件单词数减 1
+				count--
+				// 选择器左边位置向右移动一个单词长度
+				left += sizew
+			} else {
+				// 如果符合增加单词记录的条件,单词计数加 1
+				recc[word]++
+				// 符合条件单词数加 1
+				count++
+				// 选择器左边位置向右移动一个单词位置
+				right += sizew
+				// 如果符合条件单词计数等于 words 长度
+				if count == sizews {
+					out = append(out, left)
+					// left位置单词记录数减 1
+					recc[s[left:left+sizew]]--
+					// 符合条件单词数减 1
+					count--
+					// 选择器左边位置向右移动一个单词长度
+					left += sizew
+				}
+			}
 		}
 	}
 	return out

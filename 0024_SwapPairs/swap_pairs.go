@@ -17,17 +17,21 @@ type ListNode struct {
 
 func swapPairs(head *ListNode) *ListNode {
 	var out *ListNode
+	// 定义要交换节点的前一个结点
 	pre := &ListNode{}
 	pre.Next = head
 	out = pre
 	for {
 		if head != nil {
 			if head.Next != nil {
+				// 要交换的两个节点的后一个节点
 				next := head.Next.Next
+				// 交换两个节点的指针操作
 				pre.Next = head.Next
 				pre.Next.Next = head
 				head.Next = next
 
+				// 准备下一次交换的前一个节点
 				pre = pre.Next.Next
 				head = pre.Next
 			} else {

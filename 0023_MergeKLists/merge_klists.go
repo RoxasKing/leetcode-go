@@ -20,14 +20,18 @@ func mergeKLists2(lists []*ListNode) *ListNode {
 	var tmp *ListNode
 	var array []int
 
+	// 先放入同一个数组中
 	for i := 0; i < len(lists); i++ {
 		for node := lists[i]; node != nil; node = node.Next {
 			array = append(array, node.Val)
 		}
 	}
+	// 并排序
 	QuickSort(array)
 
+	// 生成排序后的链表
 	for j := 0; j < len(array); j++ {
+		// 初始链表为空时
 		if out == nil {
 			out = &ListNode{}
 			tmp = out
