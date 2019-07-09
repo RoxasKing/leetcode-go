@@ -4,30 +4,32 @@ import "fmt"
 
 func searchInsert(nums []int, target int) int {
 	size := len(nums)
-	start := 0
+	head := 0
 	mid := size / 2
-	end := size - 1
+	tail := size - 1
+	if target > nums[tail] {
+		// 如果目标值大于数组尾
+		return tail + 1
+	} else if target <= nums[head] {
+		// 如果目标值小于数组头
+		return head
+	}
 	for {
-		if target > nums[end] {
-			return end + 1
-		} else if target <= nums[start] {
-			return start
+		// 如果目标值在数组范围之内
+		if target > nums[mid] {
+			// 目标值大于中间值,继续检索右半边
+			head = mid
+			mid = (mid + tail) / 2
+		} else if target < nums[mid] {
+			// 目标值小于中间值,继续检索左半边
+			tail = mid
+			mid = (head + mid) / 2
 		} else {
-			if target > nums[mid] {
-				start = mid
-				mid = (mid + end) / 2
-			} else if target < nums[mid] {
-				end = mid
-				mid = (start + mid) / 2
-			} else {
-				return mid
-			}
+			return mid
 		}
-		if start == mid {
-			return start + 1
-		}
-		if mid == end {
-			return mid + 1
+		// head 等于 mid  说明数组已经遍历完，插入位置即为 head+1
+		if head == mid {
+			return head + 1
 		}
 	}
 }
