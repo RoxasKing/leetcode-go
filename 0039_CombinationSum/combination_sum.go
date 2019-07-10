@@ -3,22 +3,30 @@ package main
 import "fmt"
 
 func combinationSum(candidates []int, target int) [][]int {
+	// 快排数组，从大到小顺序
 	QuickSort(candidates)
+	// 找出无重复数组
 	out := combination(candidates, target)
 	return out
 }
 
 func combination(candidates []int, target int) [][]int {
+	// 定义一个二维数组用于输出
 	var out [][]int
 	size := len(candidates)
 	for i := 0; i < size; i++ {
 		if candidates[i] == target {
+			// 如果当前数组元素直接满足目标值，则作为单元素数组add到二维数组中
 			out = append(out, []int{candidates[i]})
 		} else if target-candidates[i] >= candidates[i] {
+			// 如果当前数组元素小于等于目标值,则从当前下标开始作为一个 新切片，和 目标值-当前下标元素值 作为新目标值，
+			// 寻找符合要求的二维数组
 			temp := combination(candidates[i:], target-candidates[i])
+			// 如果结果集不为空
 			if temp != nil {
 				for _, elem := range temp {
-					out = append(out, append(elem, candidates[i]))
+					// 将结果合并为新的数组加入到二维数组中
+					out = append(out, append([]int{candidates[i]}, elem...))
 				}
 			}
 		}
