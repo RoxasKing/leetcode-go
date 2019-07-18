@@ -7,28 +7,31 @@ func permute(nums []int) [][]int {
 	if size < 1 {
 		return [][]int{nums}
 	}
-	out := [][]int{}
+	out := [][]int{nums[:1]}
 	tmps := [][]int{}
 	tmp := []int{}
 
-	for _, num := range nums {
+	for i := 1; i < size; i++ {
 		for _, elem := range out {
-			for i := 0; i < len(elem); i++ {
-				if i == 0 {
-					tmp = append([]int{num}, elem...)
-				} else if i == len(elem)-1 {
-					tmp = append(elem, nums[i])
+			for j := 0; j <= len(elem); j++ {
+				if j == 0 {
+					tmp = append(tmp, nums[i])
+					tmp = append(tmp, elem...)
+				} else if j == len(elem) {
+					tmp = append(tmp, elem...)
+					tmp = append(tmp, nums[i])
 				} else {
-					tmp = append(elem[:i], nums[i])
-					tmp = append(tmp, nums[i+1])
+					tmp = append(tmp, elem[:j]...)
+					tmp = append(tmp, nums[i])
+					tmp = append(tmp, elem[j:]...)
 				}
 				tmps = append(tmps, tmp)
+				tmp = []int{}
 			}
 		}
 		out = tmps
 		tmps = nil
 	}
-
 	return out
 }
 
