@@ -30,6 +30,7 @@ func fib(num int, memo []int) int {
 	return memo[num]
 }
 
+// 2.自底向上的动态规划
 func Fibonacci2(num int) int {
 	if num <= 0 {
 		return num
