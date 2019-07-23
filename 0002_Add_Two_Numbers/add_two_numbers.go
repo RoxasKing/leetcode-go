@@ -1,4 +1,6 @@
-package _002_Add_Two_Numbers
+package main
+
+import "fmt"
 
 type ListNode struct {
 	Val  int
@@ -35,4 +37,19 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	}
 
 	return resPre.Next
+}
+
+func main() {
+	head1 := &ListNode{Val: 1}
+	next11 := &ListNode{Val: 2}
+	head1.Next = next11
+	next12 := &ListNode{Val: 3}
+	head1.Next = next12
+	head2 := &ListNode{Val: 4}
+	next21 := &ListNode{Val: 5}
+	head2.Next = next21
+	next22 := &ListNode{Val: 6}
+	head2.Next = next22
+	combine := addTwoNumbers(head1, head2)
+	fmt.Println(combine)
 }

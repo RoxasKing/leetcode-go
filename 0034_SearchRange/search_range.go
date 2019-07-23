@@ -69,5 +69,6 @@ func main() {
 	//target := 7
 	//nums := []int{1}
 	//target := 1
+	fmt.Println(searchRange(nums, target))
 	fmt.Println(searchRange2(nums, target))
 }

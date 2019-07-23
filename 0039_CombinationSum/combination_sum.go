@@ -23,11 +23,9 @@ func combination(candidates []int, target int) [][]int {
 			// 寻找符合要求的二维数组
 			temp := combination(candidates[i:], target-candidates[i])
 			// 如果结果集不为空
-			if temp != nil {
-				for _, elem := range temp {
-					// 将结果合并为新的数组加入到二维数组中
-					out = append(out, append([]int{candidates[i]}, elem...))
-				}
+			for _, elem := range temp {
+				// 将结果合并为新的数组加入到二维数组中
+				out = append(out, append([]int{candidates[i]}, elem...))
 			}
 		}
 	}

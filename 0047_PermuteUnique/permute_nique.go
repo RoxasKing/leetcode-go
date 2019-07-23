@@ -109,5 +109,6 @@ func makePermutation(cur, n int, nums, vector []int, taken []bool, ans *[][]int)
 
 func main() {
 	in := []int{1, 1, 2, 2}
+	fmt.Println(permuteUnique(in))
 	fmt.Println(permuteUnique2(in))
 }
