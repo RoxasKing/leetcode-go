@@ -1,29 +1,27 @@
-package main
+package Algorithm
 
 import "fmt"
 
-func fibonacci(c, quit chan int) {
-	x, y := 0, 1
-	for {
-		select {
-		case c <- x:
-			x, y = y, x+y
-		case <-quit:
-			fmt.Println("quit")
-			return
-		}
-	}
-}
-
-func main() {
+func Fibonacci(n int) {
 	c := make(chan int)
 	quit := make(chan int)
-	go fibonacci(c, quit)
+	go func() {
+		x, y := 0, 1
+		for {
+			select {
+			case c <- x:
+				x, y = y, x+y
+			case <-quit:
+				fmt.Println("quit")
+				return
+			}
+		}
+	}()
 	i := 0
 	for elem := range c {
 		fmt.Println(elem)
 		i++
-		if i > 13 {
+		if i > n {
 			close(quit)
 			break
 		}

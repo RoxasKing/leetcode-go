@@ -1,6 +1,4 @@
-package main
-
-import "fmt"
+package Algorithm
 
 func QuickSort(data []int) {
 	if len(data) <= 1 {
@@ -20,10 +18,4 @@ func QuickSort(data []int) {
 	}
 	QuickSort(data[:head])
 	QuickSort(data[head+1:])
-}
-
-func main() {
-	list := []int{8, 56, 4, 3, 5, 78, 12, 5, 0, 6, 3, 12, 12, 56}
-	QuickSort(list)
-	fmt.Println(list)
 }
