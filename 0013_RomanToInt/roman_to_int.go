@@ -3,26 +3,6 @@ package main
 import "fmt"
 
 func romanToInt(s string) int {
-	str := [13]string{"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
-	val := [13]int{1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1}
-	i, j, out := 0, 0, 0
-	for {
-		if i+1 < len(s) && s[i:i+2] == str[j] {
-			out += val[j]
-			i += 2
-		} else if i < len(s) && s[i:i+1] == str[j] {
-			out += val[j]
-			i++
-		} else {
-			j++
-		}
-		if i >= len(s) {
-			break
-		}
-	}
-	return out
-}
-func romanToInt2(s string) int {
 	m := map[string]int{
 		"I":  1,
 		"V":  5,
@@ -47,7 +27,7 @@ func romanToInt2(s string) int {
 			out += m[string(s[i])]
 		}
 	}
-	return out;
+	return out
 }
 
 func main() {

@@ -2,49 +2,6 @@ package main
 
 import "fmt"
 
-func findSubstring2(s string, words []string) []int {
-	var out []int
-	sizes := len(s)
-	sizew := len(words)
-	if sizes == 0 || sizew == 0 {
-		return nil
-	}
-	sizee := len(words[0])
-	sizea := sizew * sizee
-	dict := make(map[string]int)
-	for _, elem := range words {
-		dict[elem]++
-	}
-	subs := make(map[string]int)
-	for i := 0; i <= sizes-sizea; i++ {
-		dictt := make(map[string]int)
-		if _, ok := dict[s[i:i+sizee]]; !ok {
-			continue
-		} else {
-			var flg bool
-			for j := i; j <= i+sizea-sizee; j += sizee {
-				if _, ok := dict[s[j:j+sizee]]; ok {
-					dictt[s[j:j+sizee]]++
-					if dictt[s[j:j+sizee]] > dict[s[j:j+sizee]] {
-						flg = true
-						break
-					}
-					subs[s[j:j+sizee]] = j
-				} else {
-					flg = true
-					break
-				}
-			}
-			if flg {
-				flg = false
-			} else {
-				out = append(out, i)
-			}
-		}
-	}
-	return out
-}
-
 func findSubstring(s string, words []string) []int {
 	sizes := len(s)
 	out := make([]int, 0, sizes)
@@ -66,7 +23,7 @@ func findSubstring(s string, words []string) []int {
 		}
 	}
 	// 记录当前单词出现次数
-	recc := make(map[string]int)
+	var recc map[string]int
 	// 记录符合条件的单词数
 	var count int
 	// 选择器最左和最右单词起始位置

@@ -2,56 +2,6 @@ package main
 
 import "fmt"
 
-func fourSum(nums []int, target int) [][]int {
-	size := len(nums)
-	if size < 4 {
-		return nil
-	}
-	var out [][]int
-	QuickSort(nums)
-	i, j, k, l := 0, 1, 2, size-1
-	for i < size-3 {
-		for k < l {
-			sum := nums[i] + nums[j] + nums[k] + nums[l]
-			if sum == target {
-				out = append(out, []int{nums[i], nums[j], nums[k], nums[l]})
-				l--
-				for l > k && nums[l] == nums[l+1] {
-					l--
-				}
-				k++
-				for k < l && nums[k] == nums[k-1] {
-					k++
-				}
-			} else if sum > target {
-				l--
-				for l > k && nums[l] == nums[l+1] {
-					l--
-				}
-			} else if sum < target {
-				k++
-				for k < l && nums[k] == nums[k-1] {
-					k++
-				}
-			}
-		}
-		j++
-		for j < size-2 && nums[j] == nums[j-1] {
-			j++
-		}
-		if j < size-2 {
-			k, l = j+1, size-1
-		} else {
-			i++
-			for i < size-3 && nums[i] == nums[i-1] {
-				i++
-			}
-			j, k, l = i+1, i+2, size-1
-		}
-	}
-	return out
-}
-
 func QuickSort(data []int) {
 	if len(data) <= 1 {
 		return
@@ -72,7 +22,7 @@ func QuickSort(data []int) {
 	QuickSort(data[head+1:])
 }
 
-func fourSum2(nums []int, target int) [][]int {
+func fourSum(nums []int, target int) [][]int {
 	size := len(nums)
 	if size < 4 {
 		return nil
@@ -145,5 +95,5 @@ func main() {
 	//target := 0
 	//nums := []int{-1, -5, -5, -3, 2, 5, 0, 4}
 	//target := -7
-	fmt.Println(fourSum2(nums, target))
+	fmt.Println(fourSum(nums, target))
 }

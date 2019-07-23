@@ -45,62 +45,6 @@ func solve(board [][]byte, k int) bool {
 	return false
 }
 
-func solveSudoku2(board [][]byte) {
-	// record：记录当前坐标是否为空，不为空非0
-	// row、col、matrix 分别用于记录横向、纵向、3x3矩阵填入的数字
-	var record, row, col, matrix [9][9]int
-	for y := 0; y < 9; y++ {
-		for x := 0; x < 9; x++ {
-			if board[y][x] != '.' {
-				record[y][x]++
-				row[y][int(board[y][x]-'1')]++
-				col[x][int(board[y][x]-'1')]++
-				matrix[y/3*3+x/3][int(board[y][x]-'1')]++
-			}
-		}
-	}
-	for y := 0; y < 9; y++ {
-	Loop:
-		for x := 0; x < 9; x++ {
-			matrixIndex := y/3*3 + x/3
-			if board[y][x] != '.' {
-				continue
-			}
-			for i := 0; i < 9; i++ {
-				if row[y][i]+col[x][i]+matrix[matrixIndex][i] == 0 {
-					row[y][i]++
-					col[x][i]++
-					matrix[matrixIndex][i]++
-					board[y][x] = byte(i + '1')
-					continue Loop
-				}
-			}
-			x0, y0 := (x+8)%9, y+(x-8)/8
-			for ; x0 >= 0 && y0 >= 0; x0, y0 = (x0+8)%9, y0+(x0-8)/8 {
-				squareIndex0 := y0/3*3 + x0/3
-				val := int(board[y0][x0] - '1')
-				if record[y0][x0] > 0 {
-					continue
-				}
-				row[y0][val]--
-				col[x0][val]--
-				matrix[squareIndex0][val]--
-				for i := int(board[y0][x0]-'1') + 1; i < 9; i++ {
-					if row[y0][i]+col[x0][i]+matrix[squareIndex0][i] == 0 {
-						row[y0][i]++
-						col[x0][i]++
-						matrix[squareIndex0][i]++
-						board[y0][x0] = byte(i + '1')
-						x, y = x0, y0
-						continue Loop
-					}
-				}
-				board[y0][x0] = '.'
-			}
-		}
-	}
-}
-
 func main() {
 	in := [][]byte{
 		{'5', '3', '.', '.', '7', '.', '.', '.', '.'},
