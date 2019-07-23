@@ -17,9 +17,8 @@ func pow(x float64, n int) float64 {
 	half := pow(x, n/2)
 	if n%2 == 0 {
 		return half * half
-	} else {
-		return half * half * x
 	}
+	return half * half * x
 }
 
 func main() {
