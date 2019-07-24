@@ -3,25 +3,6 @@ package main
 import "fmt"
 
 func searchRange(nums []int, target int) []int {
-	size := len(nums)
-	out := []int{-1, -1}
-
-	i := 0
-	for ; i < size; i++ {
-		if nums[i] == target {
-			out[0] = i
-			break
-		}
-	}
-	if i < size {
-		for i < size-1 && nums[i+1] == target {
-			i++
-		}
-		out[1] = i
-	}
-	return out
-}
-func searchRange2(nums []int, target int) []int {
 	out := []int{-1, -1}
 	size := len(nums)
 	if size < 1 {
@@ -70,5 +51,4 @@ func main() {
 	//nums := []int{1}
 	//target := 1
 	fmt.Println(searchRange(nums, target))
-	fmt.Println(searchRange2(nums, target))
 }

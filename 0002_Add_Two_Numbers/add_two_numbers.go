@@ -1,6 +1,12 @@
 package main
 
+<<<<<<< HEAD
 import "fmt"
+=======
+import (
+	"fmt"
+)
+>>>>>>> fbd37d4face5d0a6b5a9061c15e8a182736e8a62
 
 type ListNode struct {
 	Val  int
@@ -35,21 +41,19 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 		cur.Next = &ListNode{Val: sum % 10}
 		cur = cur.Next
 	}
-
 	return resPre.Next
 }
 
 func main() {
 	head1 := &ListNode{Val: 1}
-	next11 := &ListNode{Val: 2}
-	head1.Next = next11
-	next12 := &ListNode{Val: 3}
-	head1.Next = next12
-	head2 := &ListNode{Val: 4}
-	next21 := &ListNode{Val: 5}
-	head2.Next = next21
-	next22 := &ListNode{Val: 6}
-	head2.Next = next22
-	combine := addTwoNumbers(head1, head2)
-	fmt.Println(combine)
+	node1 := &ListNode{Val: 2}
+	head1.Next = node1
+	node2 := &ListNode{Val: 3}
+	head1.Next = node2
+	head2 := &ListNode{Val: 3}
+	node3 := &ListNode{Val: 4}
+	head2.Next = node3
+	node4 := &ListNode{Val: 5}
+	head1.Next = node4
+	fmt.Println(addTwoNumbers(head1, head2))
 }
