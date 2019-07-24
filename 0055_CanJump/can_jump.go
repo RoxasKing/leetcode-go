@@ -17,10 +17,7 @@ func canJump(nums []int) bool {
 			break
 		}
 	}
-	if max >= len(nums)-1 {
-		return true
-	}
-	return false
+	return max >= len(nums)-1
 }
 
 func main() {
