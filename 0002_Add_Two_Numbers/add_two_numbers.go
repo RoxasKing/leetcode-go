@@ -1,12 +1,8 @@
 package main
 
-<<<<<<< HEAD
-import "fmt"
-=======
 import (
 	"fmt"
 )
->>>>>>> fbd37d4face5d0a6b5a9061c15e8a182736e8a62
 
 type ListNode struct {
 	Val  int
