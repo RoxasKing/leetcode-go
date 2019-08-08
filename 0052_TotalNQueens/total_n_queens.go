@@ -15,7 +15,7 @@ func totalNQueens(n int) int {
 }
 
 func DFS(n, row, col, pie, na int) {
-	if row >= n {
+	if row == n {
 		count += 1
 		return
 	}
