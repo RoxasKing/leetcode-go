@@ -3,24 +3,20 @@ package main
 import "fmt"
 
 func uniquePaths(m int, n int) int {
-	if n < 1 {
-		return 0
+	dp := make([][]int, n)
+	for i := range dp {
+		dp[i] = make([]int, m)
 	}
-	if n == 1 {
-		return 1
+	for i := 0; i < n; i++ {
+		for j := 0; j < m; j++ {
+			if i == 0 || j == 0 {
+				dp[i][j] = 1
+				continue
+			}
+			dp[i][j] = dp[i-1][j] + dp[i][j-1]
+		}
 	}
-	if n == 2 {
-		return m
-	}
-	out := 0
-	for i := m; i >= 0; i-- {
-		out += i
-	}
-	for i := 0; i < n-3; i++ {
-		out += m
-		m++
-	}
-	return out
+	return dp[n-1][m-1]
 }
 
 func main() {
