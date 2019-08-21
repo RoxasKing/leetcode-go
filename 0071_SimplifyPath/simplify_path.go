@@ -27,7 +27,7 @@ func simplifyPath(path string) string {
 			// 跳过
 		case "..":
 			if len(stack) > 0 {
-				//
+				// 后退一个文件夹
 				stack = stack[:len(stack)-1]
 			}
 		default:
