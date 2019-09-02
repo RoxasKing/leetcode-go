@@ -33,8 +33,6 @@ func subsetsWithDup(nums []int) [][]int {
 }
 
 func main() {
-	nums := []int{1, 2, 2}
-	aa := nums[:3:3]
+	nums := []int{1, 2, 2, 2}
 	fmt.Println(subsetsWithDup(nums))
-	fmt.Println(aa)
 }
