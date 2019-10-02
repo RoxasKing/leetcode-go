@@ -7,17 +7,13 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 	len2 := len(nums2)
 	lens := len1 + len2
 	nums := make([]int, lens)
-	for i := 0; i < len1; i++ {
-		nums[i] = nums1[i]
-	}
-	for j := 0; j < len2; j++ {
-		nums[len1+j] = nums2[j]
-	}
+	copy(nums[0:len1], nums1)
+	copy(nums[len1:lens], nums2)
 	QuickSort(nums)
 	if lens == 0 {
 		return 0
 	} else if lens%2 == 0 {
-		return float64(nums[lens/2-1] + nums[lens/2]) / 2.0
+		return float64(nums[lens/2-1]+nums[lens/2]) / 2.0
 	} else {
 		return float64(nums[lens/2])
 	}

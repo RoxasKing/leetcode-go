@@ -4,7 +4,6 @@ import "fmt"
 
 var count int
 
-// TODO
 func totalNQueens(n int) int {
 	count = 0
 	if n < 1 {
