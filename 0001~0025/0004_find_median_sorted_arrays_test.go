@@ -6,55 +6,43 @@ import (
 )
 
 func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
-	if len(nums1) > len(nums2) {
-		nums1, nums2 = nums2, nums1
-	}
-	iMin, iMax := 0, len(nums1)
-	for iMin <= iMax {
-		i := (iMin + iMax) / 2
-		j := (len(nums1)+len(nums2)+1)/2 - i
-		if i < iMax && nums1[i] < nums2[j-1] {
-			iMin = i + 1
-		} else if i > iMin && nums1[i-1] > nums2[j] {
-			iMax = i - 1
+	len1, len2 := len(nums1), len(nums2)
+	median, flag := (len1+len2)/2, (len1+len2)%2 == 0
+	slice := make([]int, 2)
+	flag1, flag2 := len(nums1) != 0, len(nums2) != 0
+	i, j, k := 0, 0, 0
+	for ; k <= median; k++ {
+		if flag1 && flag2 {
+			if nums1[i] < nums2[j] {
+				slice[k%2] = nums1[i]
+				if i < len1-1 {
+					i++
+				} else {
+					flag1 = false
+				}
+			} else {
+				slice[k%2] = nums2[j]
+				if j < len2-1 {
+					j++
+				} else {
+					flag2 = false
+				}
+			}
 		} else {
-			var maxLeft float64
-			if i == 0 {
-				maxLeft = float64(nums2[j-1])
-			} else if j == 0 {
-				maxLeft = float64(nums1[i-1])
+			if flag1 {
+				slice[k%2] = nums1[i]
+				i++
 			} else {
-				maxLeft = max(float64(nums1[i-1]), float64(nums2[j-1]))
+				slice[k%2] = nums2[j]
+				j++
 			}
-			if (len(nums1)+len(nums2))%2 == 1 {
-				return maxLeft
-			}
-			var minRight float64
-			if i == len(nums1) {
-				minRight = float64(nums2[j])
-			} else if j == len(nums2) {
-				minRight = float64(nums1[i])
-			} else {
-				minRight = min(float64(nums1[i]), float64(nums2[j]))
-			}
-			return (maxLeft + minRight) / 2.0
 		}
 	}
-	return 0.0
-}
-
-func min(i, j float64) float64 {
-	if i <= j {
-		return i
+	if flag {
+		return float64(slice[0]+slice[1]) / 2.0
+	} else {
+		return float64(slice[(k-1)%2])
 	}
-	return j
-}
-
-func max(i, j float64) float64 {
-	if i >= j {
-		return i
-	}
-	return j
 }
 
 func TestFindMedianSortedArrays(t *testing.T) {

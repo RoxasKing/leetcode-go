@@ -1,6 +1,9 @@
-package main
+package _001_0025
 
-import "fmt"
+import (
+	"fmt"
+	"testing"
+)
 
 func longestPalindrome(s string) string {
 	size, out := len(s), ""
@@ -30,7 +33,7 @@ func longestPalindrome(s string) string {
 	return out
 }
 
-func main() {
-	s := "dbcacb"
+func TestLongestPalindrome(t *testing.T) {
+	s := "babad"
 	fmt.Println(longestPalindrome(s))
 }
