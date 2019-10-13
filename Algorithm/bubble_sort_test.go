@@ -1,5 +1,10 @@
 package Algorithm
 
+import (
+	"fmt"
+	"testing"
+)
+
 func BubbleSort(nums []int) {
 	if len(nums) <= 1 {
 		return
@@ -13,4 +18,11 @@ func BubbleSort(nums []int) {
 			}
 		}
 	}
+}
+
+func TestBubbleSort(t *testing.T) {
+	data := []int{5, 6, 7, 3, 8, 1, 9, 0, 3, 5}
+	fmt.Println(data)
+	BubbleSort(data)
+	fmt.Println(data)
 }
