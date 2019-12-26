@@ -1,7 +1,7 @@
 package My_LeetCode_In_Go
 
 func addTwoNumbers(l1, l2 *ListNode) *ListNode {
-	head := &ListNode{0, nil}
+	head := new(ListNode)
 	tail := head
 	var val, rest int
 	for {
