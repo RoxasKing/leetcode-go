@@ -14,13 +14,10 @@ func lengthOfLongestSubstring(s string) int {
 func longestSubstring(s string) string {
 	var out string
 	dict := make([]int, 128)
-	for i, j := 0, 0; i < len(s) && j < len(s); j++ {
+	for i, j := 0, 0; len(s)-i >= len(out) && j < len(s); j++ {
 		i = max(i, dict[s[j]])
 		if len(out) < j-i+1 {
 			out = s[i : j+1]
-		}
-		if len(s)-i < len(out) {
-			break
 		}
 		dict[s[j]] = j + 1
 	}

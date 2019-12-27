@@ -11,9 +11,8 @@ func Test_singleNumber(t *testing.T) {
 		args args
 		want int
 	}{
-		{
-			"test 1", args{[]int{4, 1, 2, 1, 2}}, 4,
-		},
+		{"test 1", args{[]int{4, 1, 2, 1, 2}}, 4},
+		{"test 2", args{[]int{4, 4, 2, 1, 2}}, 1},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
