@@ -14,6 +14,19 @@ type Node struct {
 	Prev *Node
 }
 
+func (this *LRUCache) insert(node *Node) {
+	tail := this.Tail
+	node.Prev = tail.Prev
+	tail.Prev.Next = node
+	node.Next = tail
+	tail.Prev = node
+}
+
+func (this *LRUCache) remove(node *Node) {
+	node.Prev.Next = node.Next
+	node.Next.Prev = node.Prev
+}
+
 type LRUCache struct {
 	limit int
 	hash  map[int]*Node
@@ -22,26 +35,14 @@ type LRUCache struct {
 }
 
 func Constructor(capacity int) LRUCache {
-	h := &Node{-1, -1, nil, nil}
-	t := &Node{-1, -1, nil, nil}
-	h.Next = t
-	t.Prev = h
-	hash := make(map[int]*Node, capacity)
-	cache := LRUCache{hash: hash, limit: capacity, Head: h, Tail: t}
-	return cache
-}
-
-func (this *LRUCache) insert(node *Node) {
-	t := this.Tail
-	node.Prev = t.Prev
-	t.Prev.Next = node
-	node.Next = t
-	t.Prev = node
-}
-
-func (this *LRUCache) remove(node *Node) {
-	node.Prev.Next = node.Next
-	node.Next.Prev = node.Prev
+	head, tail := new(Node), new(Node)
+	head.Next, tail.Prev = tail, head
+	return LRUCache{
+		limit: capacity,
+		hash:  make(map[int]*Node, capacity),
+		Head:  head,
+		Tail:  tail,
+	}
 }
 
 func (this *LRUCache) Get(key int) int {
@@ -49,9 +50,8 @@ func (this *LRUCache) Get(key int) int {
 		this.remove(v)
 		this.insert(v)
 		return v.Val
-	} else {
-		return -1
 	}
+	return -1
 }
 
 func (this *LRUCache) Put(key int, value int) {
@@ -59,16 +59,16 @@ func (this *LRUCache) Put(key int, value int) {
 		this.remove(v)
 		this.insert(v)
 		v.Val = value
-	} else {
-		if len(this.hash) >= this.limit {
-			h := this.Head.Next
-			this.remove(h)
-			delete(this.hash, h.Key)
-		}
-		node := &Node{key, value, nil, nil}
-		this.hash[key] = node
-		this.insert(node)
+		return
 	}
+	if len(this.hash) >= this.limit {
+		h := this.Head.Next
+		this.remove(h)
+		delete(this.hash, h.Key)
+	}
+	node := &Node{Key: key, Val: value}
+	this.hash[key] = node
+	this.insert(node)
 }
 
 /**
