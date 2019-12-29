@@ -12,7 +12,9 @@ func Test_isMatch(t *testing.T) {
 		args args
 		want bool
 	}{
-		// TODO: Add test cases.
+		{"", args{"aa", "b"}, false},
+		{"", args{"aa", "a*"}, true},
+		{"", args{"aa", "a*"}, true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
