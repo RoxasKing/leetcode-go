@@ -1,5 +1,7 @@
 package My_LeetCode_In_Go
 
+func init() {}
+
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
