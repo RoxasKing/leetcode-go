@@ -16,6 +16,11 @@ func Test_reverseKGroup(t *testing.T) {
 	}{
 		{
 			"",
+			args{&ListNode{1, &ListNode{2, nil}}, 2},
+			&ListNode{2, &ListNode{1, nil}},
+		},
+		{
+			"",
 			args{
 				&ListNode{1,
 					&ListNode{2,

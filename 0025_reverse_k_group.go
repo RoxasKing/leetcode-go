@@ -17,7 +17,7 @@ func reverseKGroup(head *ListNode, k int) *ListNode {
 	pre := &ListNode{}
 	tail := pre
 	for {
-		var stack []*ListNode
+		stack := make([]*ListNode, 0, k)
 		var i int
 		for ; i < k && head != nil; i++ {
 			stack = append(stack, head)
@@ -26,9 +26,9 @@ func reverseKGroup(head *ListNode, k int) *ListNode {
 		if i == k {
 			for j := 0; j < i; j++ {
 				node := stack[len(stack)-1]
-				node.Next = tail.Next
 				tail.Next = node
-				tail = node
+				tail = tail.Next
+				tail.Next = nil
 				stack = stack[:len(stack)-1]
 			}
 		} else {
