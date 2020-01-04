@@ -33,3 +33,20 @@ func dfs(str string, l, r int, out *[]string) {
 		dfs(str+")", l, r-1, out)
 	}
 }
+
+func generateParenthesis2(n int) []string {
+	var out []string
+	switch n {
+	case 0:
+		out = append(out, "")
+	default:
+		for i := 0; i < n; i++ {
+			for _, l := range generateParenthesis2(n - 1 - i) {
+				for _, r := range generateParenthesis2(i) {
+					out = append(out, "("+l+")"+r)
+				}
+			}
+		}
+	}
+	return out
+}
