@@ -15,7 +15,7 @@ func Test_addTwoNumbers(t *testing.T) {
 		want *ListNode
 	}{
 		{
-			"test 1",
+			"",
 			args{
 				&ListNode{2, &ListNode{4, &ListNode{3, nil}}},
 				&ListNode{5, &ListNode{6, &ListNode{4, nil}}},

@@ -14,7 +14,7 @@ func Test_swapPairs(t *testing.T) {
 		want *ListNode
 	}{
 		{
-			"test 1",
+			"",
 			args{&ListNode{1, &ListNode{2, &ListNode{3, &ListNode{4, nil}}}}},
 			&ListNode{2, &ListNode{1, &ListNode{4, &ListNode{3, nil}}}},
 		},

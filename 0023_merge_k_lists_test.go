@@ -14,7 +14,7 @@ func Test_mergeKLists(t *testing.T) {
 		want *ListNode
 	}{
 		{
-			"test 2",
+			"",
 			args{
 				[]*ListNode{
 					nil,
@@ -34,7 +34,7 @@ func Test_mergeKLists(t *testing.T) {
 			},
 		},
 		{
-			"test 1",
+			"",
 			args{
 				[]*ListNode{
 					&ListNode{1, &ListNode{4, &ListNode{5, nil}}},
@@ -64,7 +64,7 @@ func Test_mergeKLists(t *testing.T) {
 			got := mergeKLists(tt.args.lists)
 			for node := tt.want; node != nil; node, got = node.Next, got.Next {
 				if node.Val != got.Val {
-					t.Errorf("mergeTwoLists() = %v, want %v", got, tt.want)
+					t.Errorf("mergeKLists() = %v, want %v", got, tt.want)
 				}
 			}
 		})

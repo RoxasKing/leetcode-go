@@ -15,7 +15,7 @@ func Test_mergeTwoLists(t *testing.T) {
 		want *ListNode
 	}{
 		{
-			"test 1",
+			"",
 			args{
 				&ListNode{1, &ListNode{2, &ListNode{4, nil}}},
 				&ListNode{1, &ListNode{3, &ListNode{4, nil}}},

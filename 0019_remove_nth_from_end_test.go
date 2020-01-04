@@ -14,9 +14,9 @@ func Test_removeNthFromEnd(t *testing.T) {
 		args args
 		want *ListNode
 	}{
-		{"test 2", args{&ListNode{1, nil}, 1}, nil},
+		{"", args{&ListNode{1, nil}, 1}, nil},
 		{
-			"test 1",
+			"",
 			args{
 				&ListNode{1,
 					&ListNode{2,

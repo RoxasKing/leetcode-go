@@ -12,9 +12,9 @@ func Test_findMedianSortedArrays(t *testing.T) {
 		args args
 		want float64
 	}{
-		{"test 1", args{[]int{1, 3}, []int{2}}, 2.0},
-		{"test 2", args{[]int{}, []int{2, 3}}, 2.5},
-		{"test 3", args{[]int{1, 2}, []int{3, 4}}, 2.5},
+		{"", args{[]int{1, 3}, []int{2}}, 2.0},
+		{"", args{[]int{}, []int{2, 3}}, 2.5},
+		{"", args{[]int{1, 2}, []int{3, 4}}, 2.5},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

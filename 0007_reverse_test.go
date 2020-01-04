@@ -11,7 +11,7 @@ func Test_reverse(t *testing.T) {
 		args args
 		want int
 	}{
-		{"test 1", args{12345}, 54321},
+		{"", args{12345}, 54321},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
