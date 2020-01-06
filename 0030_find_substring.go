@@ -6,55 +6,53 @@ package My_LeetCode_In_Go
 */
 
 func findSubstring(s string, words []string) []int {
-	strLen, wordsLen := len(s), len(words)
-	if strLen == 0 || wordsLen == 0 {
+	if len(s) == 0 || len(words) == 0 {
 		return nil
 	}
-	wordLen := len(words[0])
-	if strLen < wordsLen*wordLen {
+	if len(s) < len(words)*len(words[0]) {
 		return nil
 	}
-	out := make([]int, 0, strLen)
-	wordsCount := make(map[string]int, wordsLen)
+	out := make([]int, 0, len(s))
+	maxCount := make(map[string]int, len(words))
 	for _, word := range words {
-		if len(word) == wordLen {
-			wordsCount[word]++
+		if len(word) == len(words[0]) {
+			maxCount[word]++
 		} else {
 			return nil
 		}
 	}
 	var (
-		currentCount map[string]int
-		countAll     int
-		left         int
-		right        int
+		curCount map[string]int
+		countAll int
+		left     int
+		right    int
 	)
 	initCount := func() {
-		currentCount = make(map[string]int)
+		curCount = make(map[string]int)
 		countAll = 0
 	}
-	rightMove := func() {
-		currentCount[s[left:left+wordLen]]--
+	shiftRight := func() {
+		curCount[s[left:left+len(words[0])]]--
 		countAll--
-		left += wordLen
+		left += len(words[0])
 	}
-	for i := 0; i < wordLen; i++ {
+	for i := 0; i < len(words[0]); i++ {
 		left, right = i, i
 		initCount()
-		for strLen-left >= wordsLen*wordLen {
-			word := s[right : right+wordLen]
-			if max, ok := wordsCount[word]; !ok {
-				left, right = right+wordLen, right+wordLen
+		for len(s)-left >= len(words)*len(words[0]) {
+			word := s[right : right+len(words[0])]
+			if max, ok := maxCount[word]; !ok {
+				left, right = right+len(words[0]), right+len(words[0])
 				initCount()
-			} else if currentCount[word]+1 > max {
-				rightMove()
+			} else if curCount[word]+1 > max {
+				shiftRight()
 			} else {
-				currentCount[word]++
+				curCount[word]++
 				countAll++
-				right += wordLen
-				if countAll == wordsLen {
+				right += len(words[0])
+				if countAll == len(words) {
 					out = append(out, left)
-					rightMove()
+					shiftRight()
 				}
 			}
 		}
