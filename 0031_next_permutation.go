@@ -29,5 +29,9 @@ func nextPermutation(nums []int) {
 			break
 		}
 	}
-	quickSort(nums[i+1:])
+	head, tail := i+1, len(nums)-1
+	for head < tail {
+		nums[head], nums[tail] = nums[tail], nums[head]
+		head, tail = head+1, tail-1
+	}
 }
