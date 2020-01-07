@@ -7,25 +7,30 @@ package My_LeetCode_In_Go
 */
 
 func searchRange(nums []int, target int) []int {
-	if len(nums) < 1 {
-		return []int{-1, -1}
-	}
 	searchBonde := func(target int, searchLeft bool) int {
-		left, right := 0, len(nums)
-		for left < right {
-			mid := (left + right) / 2
-			if target < nums[mid] || (searchLeft && target == nums[mid]) {
-				right = mid
-			} else {
-				left = mid + 1
+		l, r := 0, len(nums)-1
+		for l <= r {
+			m := (l + r) / 2
+			switch {
+			case target < nums[m]:
+				r = m - 1
+			case target > nums[m]:
+				l = m + 1
+			case target == nums[m]:
+				if searchLeft {
+					for nums[l] < target {
+						l++
+					}
+					return l
+				} else {
+					for nums[r] > target {
+						r--
+					}
+					return r
+				}
 			}
 		}
-		return left
+		return -1
 	}
-	l := searchBonde(target, true)
-	if l == len(nums) || target != nums[l] {
-		return []int{-1, -1}
-	}
-	r := searchBonde(target, false) - 1
-	return []int{l, r}
+	return []int{searchBonde(target, true), searchBonde(target, false)}
 }
