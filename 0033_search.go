@@ -49,22 +49,3 @@ func search(nums []int, target int) int {
 		return binary_search(0, rotate_index)
 	}
 }
-
-func find_rotate_index(nums []int, l, r int) int {
-	if nums[l] <= nums[r] {
-		return 0
-	}
-	for l <= r {
-		m := (l + r) / 2
-		if nums[m] > nums[m+1] {
-			return m + 1
-		} else {
-			if nums[m] < nums[l] {
-				r = m - 1
-			} else {
-				l = m + 1
-			}
-		}
-	}
-	return 0
-}
