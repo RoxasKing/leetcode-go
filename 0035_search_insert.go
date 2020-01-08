@@ -6,27 +6,18 @@ package My_LeetCode_In_Go
 */
 
 func searchInsert(nums []int, target int) int {
-	switch {
-	case len(nums) == 0 || target < nums[0]:
+	if len(nums) == 0 {
 		return 0
-	case target == nums[len(nums)-1]:
-		return len(nums) - 1
-	case target > nums[len(nums)-1]:
+	} else if target > nums[len(nums)-1] {
 		return len(nums)
 	}
 	l, r := 0, len(nums)-1
-	if target > nums[r] {
-		return r + 1
-	}
 	for l < r {
 		m := (l + r) / 2
-		switch {
-		case target == nums[m]:
-			return m
-		case target < nums[m]:
-			r = m
-		case target > nums[m]:
+		if target > nums[m] {
 			l = m + 1
+		} else {
+			r = m
 		}
 	}
 	return l
