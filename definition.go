@@ -27,6 +27,13 @@ func min(a, b int) int {
 	return b
 }
 
+func abs(n int) int {
+	if n <= 0 {
+		return 0 - n
+	}
+	return n
+}
+
 func quickSort(nums []int) {
 	if len(nums) <= 1 {
 		return
