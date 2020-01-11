@@ -18,7 +18,7 @@ func Test_isMatch(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := isMatch(tt.args.s, tt.args.p); got != tt.want {
+			if got := isMatch_0010(tt.args.s, tt.args.p); got != tt.want {
 				t.Errorf("isMatch() = %v, want %v", got, tt.want)
 			}
 		})

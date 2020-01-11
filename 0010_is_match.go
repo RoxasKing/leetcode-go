@@ -10,7 +10,7 @@ package My_LeetCode_In_Go
     p 可能为空，且只包含从 a-z 的小写字母，以及字符 . 和 *。
 */
 
-func isMatch(s string, p string) bool {
+func isMatch_0010(s string, p string) bool {
 	dp := make([][]bool, len(s)+1)
 	for i := range dp {
 		dp[i] = make([]bool, len(p)+1)
