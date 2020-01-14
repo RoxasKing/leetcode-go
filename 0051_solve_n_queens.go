@@ -27,7 +27,7 @@ func solveNQueens(n int) [][]string {
 			return
 		}
 		for col := 0; col < n; col++ {
-			if rows[row] || cols[col] || hills[row-col+n-1] || dales[row+col] {
+			if cols[col] || hills[row-col+n-1] || dales[row+col] {
 				continue
 			}
 
@@ -47,7 +47,6 @@ func solveNQueens(n int) [][]string {
 			dales[row+col] = false
 			hills[row-col+n-1] = false
 
-			tmp = []byte(track[row])
 			tmp[col] = '.'
 			track[row] = string(tmp)
 		}
