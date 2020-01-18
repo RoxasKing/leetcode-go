@@ -6,10 +6,6 @@ package My_LeetCode_In_Go
 */
 
 func insert(intervals [][]int, newInterval []int) [][]int {
-	if len(intervals) == 0 {
-		return [][]int{newInterval}
-	}
-	out := make([][]int, 0, len(intervals)+1)
 	var left, right int
 	for ; right < len(intervals); right++ {
 		if intervals[right][0] > newInterval[1] {
@@ -25,8 +21,9 @@ func insert(intervals [][]int, newInterval []int) [][]int {
 			}
 		}
 	}
-	out = append(out, intervals[:left]...)
-	out = append(out, newInterval)
-	out = append(out, intervals[right:]...)
+	out := make([][]int, len(intervals)+1+left-right)
+	copy(out[:left], intervals[:left])
+	out[left] = newInterval
+	copy(out[left+1:], intervals[right:])
 	return out
 }

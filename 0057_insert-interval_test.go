@@ -15,7 +15,6 @@ func Test_insert(t *testing.T) {
 		args args
 		want [][]int
 	}{
-		{"", args{[][]int{{1, 5}}, []int{6, 8}}, [][]int{{1, 5}, {6, 8}}},
 		{
 			"",
 			args{
@@ -24,6 +23,7 @@ func Test_insert(t *testing.T) {
 			},
 			[][]int{{1, 2}, {3, 10}, {12, 16}},
 		},
+		{"", args{[][]int{{1, 5}}, []int{6, 8}}, [][]int{{1, 5}, {6, 8}}},
 		{
 			"",
 			args{[][]int{{1, 3}, {6, 9}}, []int{2, 5}},
