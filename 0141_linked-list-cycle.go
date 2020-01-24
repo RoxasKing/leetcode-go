@@ -6,12 +6,12 @@ package My_LeetCode_In_Go
 */
 
 func hasCycle(head *ListNode) bool {
-	if head == nil || head.Next == nil {
+	if head == nil || head.Next == nil || head.Next.Next == nil {
 		return false
 	}
-	slow, fast := head, head.Next
+	slow, fast := head.Next, head.Next.Next
 	for slow != fast {
-		if fast == nil || fast.Next == nil {
+		if fast.Next == nil || fast.Next.Next == nil {
 			return false
 		}
 		slow, fast = slow.Next, fast.Next.Next

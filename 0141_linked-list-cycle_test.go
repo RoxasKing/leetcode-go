@@ -3,9 +3,12 @@ package My_LeetCode_In_Go
 import "testing"
 
 func Test_hasCycle(t *testing.T) {
-	head := &ListNode{1, nil}
-	head.Next = &ListNode{2, nil}
-	head.Next.Next = &ListNode{3, head}
+	node1 := &ListNode{1, nil}
+	node1.Next = &ListNode{2, nil}
+	node1.Next.Next = &ListNode{3, node1}
+	node2 := &ListNode{1, nil}
+	node2.Next = &ListNode{2, nil}
+	node2.Next.Next = &ListNode{3, nil}
 	type args struct {
 		head *ListNode
 	}
@@ -14,7 +17,8 @@ func Test_hasCycle(t *testing.T) {
 		args args
 		want bool
 	}{
-		{"test 1", args{head}, true},
+		{"", args{node1}, true},
+		{"", args{node2}, false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
