@@ -7,18 +7,18 @@ package My_LeetCode_In_Go
 */
 
 func detectCycle(head *ListNode) *ListNode {
-	if head == nil || head.Next == nil || head.Next.Next == nil {
+	if head == nil {
 		return nil
 	}
-	slow, fast := head.Next, head.Next.Next
-	for slow != fast {
-		if fast.Next == nil || fast.Next.Next == nil {
-			return nil
-		}
+	slow, fast := head, head
+	for fast.Next != nil && fast.Next.Next != nil {
 		slow, fast = slow.Next, fast.Next.Next
+		if slow == fast {
+			for head != slow {
+				head, slow = head.Next, slow.Next
+			}
+			return head
+		}
 	}
-	for head != slow {
-		head, slow = head.Next, slow.Next
-	}
-	return head
+	return nil
 }
