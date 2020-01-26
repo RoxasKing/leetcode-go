@@ -1,10 +1,5 @@
 package Algorithm
 
-import (
-	"fmt"
-	"testing"
-)
-
 func SearchInsert(nums []int, target int) int {
 	if len(nums) == 0 {
 		return -1
@@ -21,10 +16,4 @@ func SearchInsert(nums []int, target int) int {
 		}
 	}
 	return tail
-}
-
-func TestSearchInsert(t *testing.T) {
-	nums := []int{1, 3, 5, 7, 9, 11, 13, 15, 17, 19}
-	target := 10
-	fmt.Println(SearchInsert(nums, target))
 }

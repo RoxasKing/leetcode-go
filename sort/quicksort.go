@@ -1,20 +1,17 @@
 package sort
 
 func QuickSort(array []int) {
-	if len(array) <= 1 {
+	if len(array) < 2 {
 		return
 	}
-	mid, head, tail := array[0], 0, len(array)-1
+	midElem, mid, tail := array[0], 0, len(array)-1
 	for i := 1; i <= tail; {
-		if array[i] > mid {
-			array[i], array[tail] = array[tail], array[i]
-			tail--
+		if array[i] > midElem {
+			array[i], array[tail], tail = array[tail], array[i], tail-1
 		} else {
-			array[i], array[head] = array[head], array[i]
-			head++
-			i++
+			array[i], array[mid], mid, i = array[mid], array[i], mid+1, i+1
 		}
 	}
-	QuickSort(array[:head])
-	QuickSort(array[head+1:])
+	QuickSort(array[:mid])
+	QuickSort(array[mid+1:])
 }

@@ -5,16 +5,13 @@ type ListNode struct {
 	Next *ListNode
 }
 
-func Reverse(head *ListNode) {
+func Reverse(head *ListNode) *ListNode {
 	var rev *ListNode
-	cur := head
-	for cur != nil {
+	for cur := head; cur != nil; {
 		tmp := cur.Next
-		cur.Next = rev
-		rev = cur
-		cur = tmp
+		cur.Next, rev, cur = rev, cur, tmp
 	}
-	head = rev
+	return rev
 }
 
 func HasCycle(head *ListNode) bool {

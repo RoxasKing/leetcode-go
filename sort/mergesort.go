@@ -13,7 +13,7 @@ func MergeSort(array []int) {
 }
 
 func merge(left, right []int) []int {
-	var result []int
+	result := make([]int, 0, len(left)+len(right))
 	for len(left) != 0 && len(right) != 0 {
 		if left[0] <= right[0] {
 			result = append(result, left[0])
@@ -32,14 +32,14 @@ func merge(left, right []int) []int {
 	return result
 }
 
-func mergeSort_recur(array []int) {
-	copy(array, divide(array))
-}
-
-func divide(array []int) []int {
-	if len(array) < 2 {
-		return array
+func MergeSortInRecur(array []int) {
+	var divide func([]int) []int
+	divide = func(array []int) []int {
+		if len(array) < 2 {
+			return array
+		}
+		mid := len(array) / 2
+		return merge(divide(array[0:mid]), divide(array[mid:]))
 	}
-	mid := len(array) / 2
-	return merge(divide(array[0:mid]), divide(array[mid:]))
+	copy(array, divide(array))
 }

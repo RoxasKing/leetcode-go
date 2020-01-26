@@ -1,24 +1,30 @@
 package Algorithm
 
-import (
-	"fmt"
-	"testing"
-)
+import "testing"
 
-// 动态规划法解决斐波那契额数列问题
-func Fibonacci(num int) int {
-	if num <= 0 {
-		return num
+func TestFibonacci(t *testing.T) {
+	type args struct {
+		num int
 	}
-	memo := make([]int, num+1)
-	memo[0] = 0
-	memo[1] = 1
-	for i := 2; i <= num; i++ {
-		memo[i] = memo[i-1] + memo[i-2]
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"", args{1}, 1},
+		{"", args{2}, 1},
+		{"", args{3}, 2},
+		{"", args{4}, 3},
+		{"", args{5}, 5},
+		{"", args{6}, 8},
+		{"", args{7}, 13},
+		{"", args{8}, 21},
 	}
-	return memo[num]
-}
-
-func Test_Fibonacci(t *testing.T) {
-	fmt.Println(Fibonacci(1000))
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := Fibonacci(tt.args.num); got != tt.want {
+				t.Errorf("Fibonacci() = %v, want %v", got, tt.want)
+			}
+		})
+	}
 }

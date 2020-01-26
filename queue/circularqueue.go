@@ -35,15 +35,15 @@ func (c *CircularQueue) Dequeue() interface{} {
 }
 
 func (c *CircularQueue) String() string {
-	var out string
+	var str string
 	for i := c.head; ; {
-		out += fmt.Sprintf("%+v", c.items[i])
+		str += fmt.Sprintf("%+v", c.items[i])
 		i = (i + 1) % len(c.items)
 		if i != c.tail {
-			out += " "
+			str += " "
 		} else {
 			break
 		}
 	}
-	return fmt.Sprintf("[%s]", out)
+	return fmt.Sprintf("[%s]", str)
 }
