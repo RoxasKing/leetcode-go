@@ -3,7 +3,9 @@ package sort
 func RadixSort(array []int) {
 	max := array[0]
 	for i := range array {
-		max = Max(max, array[i])
+		if array[i] > max {
+			max = array[i]
+		}
 	}
 	var maxLen int
 	for i := max; i != 0; i /= 10 {
