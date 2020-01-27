@@ -33,18 +33,18 @@ func findKthLargest(nums []int, k int) int {
 	}
 	pivotIndex := rand.Intn(len(nums))
 	pivot := nums[pivotIndex]
-	nums[0], nums[pivotIndex] = nums[pivotIndex], nums[0]
-	mid, tail := 0, len(nums)-1
-	for i := 1; i <= tail; {
-		if nums[i] > pivot {
-			nums[i], nums[tail], tail = nums[tail], nums[i], tail-1
-		} else {
-			nums[i], nums[mid], mid, i = nums[mid], nums[i], mid+1, i+1
+	nums[len(nums)-1], nums[pivotIndex] = nums[pivotIndex], nums[len(nums)-1]
+	var mid int
+	for i := 0; i < len(nums)-1; i++ {
+		if nums[i] < pivot {
+			nums[i], nums[mid] = nums[mid], nums[i]
+			mid++
 		}
 	}
-	if mid < len(nums)-k {
+	nums[mid], nums[len(nums)-1] = nums[len(nums)-1], nums[mid]
+	if k < len(nums)-mid {
 		return findKthLargest(nums[mid+1:], k)
-	} else if mid > len(nums)-k {
+	} else if k > len(nums)-mid {
 		return findKthLargest(nums[:mid], k-(len(nums)-mid))
 	}
 	return pivot
