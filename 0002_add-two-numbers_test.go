@@ -2,6 +2,8 @@ package My_LeetCode_In_Go
 
 import (
 	"testing"
+
+	. "My_LeetCode_In_Go/util/linkedlist"
 )
 
 func Test_addTwoNumbers(t *testing.T) {
@@ -17,10 +19,10 @@ func Test_addTwoNumbers(t *testing.T) {
 		{
 			"",
 			args{
-				&ListNode{2, &ListNode{4, &ListNode{3, nil}}},
-				&ListNode{5, &ListNode{6, &ListNode{4, nil}}},
+				&ListNode{Val: 2, Next: &ListNode{Val: 4, Next: &ListNode{Val: 3, Next: nil}}},
+				&ListNode{Val: 5, Next: &ListNode{Val: 6, Next: &ListNode{Val: 4, Next: nil}}},
 			},
-			&ListNode{7, &ListNode{0, &ListNode{8, nil}}},
+			&ListNode{Val: 7, Next: &ListNode{Val: 0, Next: &ListNode{Val: 8, Next: nil}}},
 		},
 	}
 	for _, tt := range tests {

@@ -1,6 +1,10 @@
 package My_LeetCode_In_Go
 
-import "testing"
+import (
+	"testing"
+
+	. "My_LeetCode_In_Go/util/tree"
+)
 
 func Test_maxPathSum(t *testing.T) {
 	type args struct {
@@ -15,12 +19,12 @@ func Test_maxPathSum(t *testing.T) {
 			"test 1",
 			args{
 				&TreeNode{
-					-10,
-					&TreeNode{9, nil, nil},
-					&TreeNode{
-						20,
-						&TreeNode{15, nil, nil},
-						&TreeNode{7, nil, nil},
+					Val:  -10,
+					Left: &TreeNode{Val: 9, Left: nil, Right: nil},
+					Right: &TreeNode{
+						Val:   20,
+						Left:  &TreeNode{Val: 15, Left: nil, Right: nil},
+						Right: &TreeNode{Val: 7, Left: nil, Right: nil},
 					},
 				},
 			},

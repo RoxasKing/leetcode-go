@@ -1,5 +1,9 @@
 package My_LeetCode_In_Go
 
+import (
+	. "My_LeetCode_In_Go/util/linkedlist"
+)
+
 func addTwoNumbers(l1, l2 *ListNode) *ListNode {
 	head := new(ListNode)
 	tail := head
@@ -26,7 +30,7 @@ func addTwoNumbers(l1, l2 *ListNode) *ListNode {
 		} else {
 			rest = 0
 		}
-		tail.Next = &ListNode{val, nil}
+		tail.Next = &ListNode{Val: val, Next: nil}
 		tail = tail.Next
 	}
 }

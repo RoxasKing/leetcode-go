@@ -1,5 +1,9 @@
 package My_LeetCode_In_Go
 
+import (
+	. "My_LeetCode_In_Go/util"
+)
+
 /*
   给定两个大小为 m 和 n 的有序数组 nums1 和 nums2。
   请你找出这两个有序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。
@@ -25,7 +29,7 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 			} else if j == 0 {
 				maxLeft = nums1[i-1]
 			} else {
-				maxLeft = max(nums1[i-1], nums2[j-1])
+				maxLeft = Max(nums1[i-1], nums2[j-1])
 			}
 
 			if (len(nums1)+len(nums2))%2 == 1 {
@@ -38,7 +42,7 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 			} else if j == len(nums2) {
 				minRight = nums1[i]
 			} else {
-				minRight = min(nums1[i], nums2[j])
+				minRight = Min(nums1[i], nums2[j])
 			}
 
 			return float64(maxLeft+minRight) / 2

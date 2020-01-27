@@ -2,15 +2,17 @@ package My_LeetCode_In_Go
 
 import (
 	"testing"
+
+	. "My_LeetCode_In_Go/util/linkedlist"
 )
 
 func Test_hasCycle(t *testing.T) {
-	node1 := &ListNode{1, nil}
-	node1.Next = &ListNode{2, nil}
-	node1.Next.Next = &ListNode{3, node1}
-	node2 := &ListNode{1, nil}
-	node2.Next = &ListNode{2, nil}
-	node2.Next.Next = &ListNode{3, nil}
+	node1 := &ListNode{Val: 1, Next: nil}
+	node1.Next = &ListNode{Val: 2, Next: nil}
+	node1.Next.Next = &ListNode{Val: 3, Next: node1}
+	node2 := &ListNode{Val: 1, Next: nil}
+	node2.Next = &ListNode{Val: 2, Next: nil}
+	node2.Next.Next = &ListNode{Val: 3, Next: nil}
 	type args struct {
 		head *ListNode
 	}

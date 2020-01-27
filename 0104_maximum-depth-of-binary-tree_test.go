@@ -1,6 +1,10 @@
 package My_LeetCode_In_Go
 
-import "testing"
+import (
+	"testing"
+
+	. "My_LeetCode_In_Go/util/tree"
+)
 
 func Test_maxDepth(t *testing.T) {
 	type args struct {
@@ -15,19 +19,19 @@ func Test_maxDepth(t *testing.T) {
 			"test 1",
 			args{
 				&TreeNode{
-					2,
-					&TreeNode{
-						3,
-						&TreeNode{4, nil, nil},
-						&TreeNode{5, nil, nil},
+					Val: 2,
+					Left: &TreeNode{
+						Val:   3,
+						Left:  &TreeNode{Val: 4, Left: nil, Right: nil},
+						Right: &TreeNode{Val: 5, Left: nil, Right: nil},
 					},
-					&TreeNode{
-						6,
-						&TreeNode{7, nil, nil},
-						&TreeNode{
-							8,
-							nil,
-							&TreeNode{9, nil, nil},
+					Right: &TreeNode{
+						Val:  6,
+						Left: &TreeNode{Val: 7, Left: nil, Right: nil},
+						Right: &TreeNode{
+							Val:   8,
+							Left:  nil,
+							Right: &TreeNode{Val: 9, Left: nil, Right: nil},
 						},
 					},
 				},

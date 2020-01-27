@@ -1,5 +1,9 @@
 package My_LeetCode_In_Go
 
+import (
+	. "My_LeetCode_In_Go/util/linkedlist"
+)
+
 /*
   给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。
 */
@@ -10,7 +14,7 @@ func removeNthFromEnd(head *ListNode, n int) *ListNode {
 		size++
 	}
 	index := size - n
-	tmp := &ListNode{-1, nil}
+	tmp := &ListNode{Val: -1, Next: nil}
 	tmp.Next = head
 	node := tmp
 	for i := 0; i < index; i++ {

@@ -1,5 +1,10 @@
 package My_LeetCode_In_Go
 
+import (
+	. "My_LeetCode_In_Go/util"
+	. "My_LeetCode_In_Go/util/tree"
+)
+
 /*
   给定一个二叉树，找出其最大深度。
   二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。
@@ -10,5 +15,5 @@ func maxDepth(root *TreeNode) int {
 	if root == nil {
 		return 0
 	}
-	return max(maxDepth(root.Left), maxDepth(root.Right)) + 1
+	return Max(maxDepth(root.Left), maxDepth(root.Right)) + 1
 }

@@ -3,12 +3,14 @@ package My_LeetCode_In_Go
 import (
 	"reflect"
 	"testing"
+
+	. "My_LeetCode_In_Go/util/linkedlist"
 )
 
 func Test_detectCycle(t *testing.T) {
-	head := &ListNode{1, nil}
-	head.Next = &ListNode{2, nil}
-	head.Next.Next = &ListNode{3, head.Next}
+	head := &ListNode{Val: 1, Next: nil}
+	head.Next = &ListNode{Val: 2, Next: nil}
+	head.Next.Next = &ListNode{Val: 3, Next: head.Next}
 	type args struct {
 		head *ListNode
 	}

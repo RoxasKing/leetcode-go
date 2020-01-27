@@ -1,5 +1,9 @@
 package My_LeetCode_In_Go
 
+import (
+	. "My_LeetCode_In_Go/util"
+)
+
 /*
   给定一个未排序的整数数组，找出其中没有出现的最小的正整数。
 */
@@ -17,7 +21,7 @@ func firstMissingPositive(nums []int) int {
 		return 1
 	}
 	for i := range nums {
-		num := abs(nums[i])
+		num := Abs(nums[i])
 		if nums[num-1] > 0 {
 			nums[num-1] = -nums[num-1]
 		}

@@ -1,11 +1,15 @@
 package My_LeetCode_In_Go
 
+import (
+	. "My_LeetCode_In_Go/util/linkedlist"
+)
+
 /*
   将两个有序链表合并为一个新的有序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。
 */
 
 func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
-	head := &ListNode{-1, nil}
+	head := &ListNode{Val: -1, Next: nil}
 	node := head
 	for l1 != nil && l2 != nil {
 		if l1.Val < l2.Val {

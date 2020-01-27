@@ -2,6 +2,8 @@ package My_LeetCode_In_Go
 
 import (
 	"testing"
+
+	. "My_LeetCode_In_Go/util/linkedlist"
 )
 
 func Test_sortList(t *testing.T) {
@@ -16,9 +18,9 @@ func Test_sortList(t *testing.T) {
 		{
 			"test 1",
 			args{
-				&ListNode{4, &ListNode{2, &ListNode{1, &ListNode{3, nil}}}},
+				&ListNode{Val: 4, Next: &ListNode{Val: 2, Next: &ListNode{Val: 1, Next: &ListNode{Val: 3, Next: nil}}}},
 			},
-			&ListNode{1, &ListNode{2, &ListNode{3, &ListNode{4, nil}}}},
+			&ListNode{Val: 1, Next: &ListNode{Val: 2, Next: &ListNode{Val: 3, Next: &ListNode{Val: 4, Next: nil}}}},
 		},
 	}
 	for _, tt := range tests {

@@ -2,6 +2,8 @@ package My_LeetCode_In_Go
 
 import (
 	"testing"
+
+	. "My_LeetCode_In_Go/util/linkedlist"
 )
 
 func Test_removeNthFromEnd(t *testing.T) {
@@ -14,28 +16,13 @@ func Test_removeNthFromEnd(t *testing.T) {
 		args args
 		want *ListNode
 	}{
-		{"", args{&ListNode{1, nil}, 1}, nil},
+		{"", args{&ListNode{Val: 1, Next: nil}, 1}, nil},
 		{
 			"",
 			args{
-				&ListNode{1,
-					&ListNode{2,
-						&ListNode{3,
-							&ListNode{4,
-								&ListNode{5, nil},
-							},
-						},
-					},
-				},
-				2,
+				&ListNode{Val: 1, Next: &ListNode{Val: 2, Next: &ListNode{Val: 3, Next: &ListNode{Val: 4, Next: &ListNode{Val: 5, Next: nil}}}}}, 2,
 			},
-			&ListNode{1,
-				&ListNode{2,
-					&ListNode{3,
-						&ListNode{5, nil},
-					},
-				},
-			},
+			&ListNode{Val: 1, Next: &ListNode{Val: 2, Next: &ListNode{Val: 3, Next: &ListNode{Val: 5, Next: nil}}}},
 		},
 	}
 	for _, tt := range tests {

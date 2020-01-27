@@ -2,6 +2,8 @@ package My_LeetCode_In_Go
 
 import (
 	"testing"
+
+	. "My_LeetCode_In_Go/util/linkedlist"
 )
 
 func Test_mergeKLists(t *testing.T) {
@@ -18,45 +20,23 @@ func Test_mergeKLists(t *testing.T) {
 			args{
 				[]*ListNode{
 					nil,
-					&ListNode{-1, &ListNode{5, &ListNode{11, nil}}},
+					&ListNode{Val: -1, Next: &ListNode{Val: 5, Next: &ListNode{Val: 11, Next: nil}}},
 					nil,
-					&ListNode{6, &ListNode{10, nil}},
+					&ListNode{Val: 6, Next: &ListNode{Val: 10, Next: nil}},
 				},
 			},
-			&ListNode{-1,
-				&ListNode{5,
-					&ListNode{6,
-						&ListNode{10,
-							&ListNode{11, nil},
-						},
-					},
-				},
-			},
+			&ListNode{Val: -1, Next: &ListNode{Val: 5, Next: &ListNode{Val: 6, Next: &ListNode{Val: 10, Next: &ListNode{Val: 11, Next: nil}}}}},
 		},
 		{
 			"",
 			args{
 				[]*ListNode{
-					&ListNode{1, &ListNode{4, &ListNode{5, nil}}},
-					&ListNode{1, &ListNode{3, &ListNode{4, nil}}},
-					&ListNode{2, &ListNode{6, nil}},
+					&ListNode{Val: 1, Next: &ListNode{Val: 4, Next: &ListNode{Val: 5, Next: nil}}},
+					&ListNode{Val: 1, Next: &ListNode{Val: 3, Next: &ListNode{Val: 4, Next: nil}}},
+					&ListNode{Val: 2, Next: &ListNode{Val: 6, Next: nil}},
 				},
 			},
-			&ListNode{1,
-				&ListNode{1,
-					&ListNode{2,
-						&ListNode{3,
-							&ListNode{4,
-								&ListNode{4,
-									&ListNode{5,
-										&ListNode{6, nil},
-									},
-								},
-							},
-						},
-					},
-				},
-			},
+			&ListNode{Val: 1, Next: &ListNode{Val: 1, Next: &ListNode{Val: 2, Next: &ListNode{Val: 3, Next: &ListNode{Val: 4, Next: &ListNode{Val: 4, Next: &ListNode{Val: 5, Next: &ListNode{Val: 6, Next: nil}}}}}}}},
 		},
 	}
 	for _, tt := range tests {

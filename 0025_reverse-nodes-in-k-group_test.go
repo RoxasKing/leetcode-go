@@ -2,6 +2,8 @@ package My_LeetCode_In_Go
 
 import (
 	"testing"
+
+	. "My_LeetCode_In_Go/util/linkedlist"
 )
 
 func Test_reverseKGroup(t *testing.T) {
@@ -16,56 +18,24 @@ func Test_reverseKGroup(t *testing.T) {
 	}{
 		{
 			"",
-			args{&ListNode{1, &ListNode{2, nil}}, 2},
-			&ListNode{2, &ListNode{1, nil}},
+			args{&ListNode{Val: 1, Next: &ListNode{Val: 2, Next: nil}}, 2},
+			&ListNode{Val: 2, Next: &ListNode{Val: 1, Next: nil}},
 		},
 		{
 			"",
 			args{
-				&ListNode{1,
-					&ListNode{2,
-						&ListNode{3,
-							&ListNode{4,
-								&ListNode{5, nil},
-							},
-						},
-					},
-				},
+				&ListNode{Val: 1, Next: &ListNode{Val: 2, Next: &ListNode{Val: 3, Next: &ListNode{Val: 4, Next: &ListNode{Val: 5, Next: nil}}}}},
 				2,
 			},
-			&ListNode{2,
-				&ListNode{1,
-					&ListNode{4,
-						&ListNode{3,
-							&ListNode{5, nil},
-						},
-					},
-				},
-			},
+			&ListNode{Val: 2, Next: &ListNode{Val: 1, Next: &ListNode{Val: 4, Next: &ListNode{Val: 3, Next: &ListNode{Val: 5, Next: nil}}}}},
 		},
 		{
 			"",
 			args{
-				&ListNode{1,
-					&ListNode{2,
-						&ListNode{3,
-							&ListNode{4,
-								&ListNode{5, nil},
-							},
-						},
-					},
-				},
+				&ListNode{Val: 1, Next: &ListNode{Val: 2, Next: &ListNode{Val: 3, Next: &ListNode{Val: 4, Next: &ListNode{Val: 5, Next: nil}}}}},
 				3,
 			},
-			&ListNode{3,
-				&ListNode{2,
-					&ListNode{1,
-						&ListNode{4,
-							&ListNode{5, nil},
-						},
-					},
-				},
-			},
+			&ListNode{Val: 3, Next: &ListNode{Val: 2, Next: &ListNode{Val: 1, Next: &ListNode{Val: 4, Next: &ListNode{Val: 5, Next: nil}}}}},
 		},
 	}
 	for _, tt := range tests {

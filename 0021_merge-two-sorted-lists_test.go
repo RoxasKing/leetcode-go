@@ -2,6 +2,8 @@ package My_LeetCode_In_Go
 
 import (
 	"testing"
+
+	. "My_LeetCode_In_Go/util/linkedlist"
 )
 
 func Test_mergeTwoLists(t *testing.T) {
@@ -17,20 +19,10 @@ func Test_mergeTwoLists(t *testing.T) {
 		{
 			"",
 			args{
-				&ListNode{1, &ListNode{2, &ListNode{4, nil}}},
-				&ListNode{1, &ListNode{3, &ListNode{4, nil}}},
+				&ListNode{Val: 1, Next: &ListNode{Val: 2, Next: &ListNode{Val: 4, Next: nil}}},
+				&ListNode{Val: 1, Next: &ListNode{Val: 3, Next: &ListNode{Val: 4, Next: nil}}},
 			},
-			&ListNode{1,
-				&ListNode{1,
-					&ListNode{2,
-						&ListNode{3,
-							&ListNode{4,
-								&ListNode{4, nil},
-							},
-						},
-					},
-				},
-			},
+			&ListNode{Val: 1, Next: &ListNode{Val: 1, Next: &ListNode{Val: 2, Next: &ListNode{Val: 3, Next: &ListNode{Val: 4, Next: &ListNode{Val: 4, Next: nil}}}}}},
 		},
 	}
 	for _, tt := range tests {
