@@ -12,9 +12,10 @@ func BucketSort(array []int) {
 			max = array[i]
 		}
 	}
-	buckets := make([][]int, (max-min)/5+1)
+	factor := 1
+	buckets := make([][]int, (max-min)/factor+1)
 	for i := range array {
-		index := (array[i] - min) / 5
+		index := (array[i] - min) / factor
 		buckets[index] = append(buckets[index], array[i])
 	}
 	var index int

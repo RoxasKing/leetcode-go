@@ -10,7 +10,7 @@ func searchRange(nums []int, target int) []int {
 	searchBonde := func(target int, searchLeft bool) int {
 		l, r := 0, len(nums)-1
 		for l <= r {
-			m := (l + r) / 2
+			m := l + (r-l)>>1
 			switch {
 			case target < nums[m]:
 				r = m - 1
@@ -18,15 +18,15 @@ func searchRange(nums []int, target int) []int {
 				l = m + 1
 			case target == nums[m]:
 				if searchLeft {
-					for nums[l] < target {
-						l++
+					if m == 0 || target != nums[m-1] {
+						return m
 					}
-					return l
+					r = m - 1
 				} else {
-					for nums[r] > target {
-						r--
+					if m == len(nums)-1 || target != nums[m+1] {
+						return m
 					}
-					return r
+					l = m + 1
 				}
 			}
 		}

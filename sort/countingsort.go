@@ -7,16 +7,17 @@ func CountingSort(array []int) {
 			max = array[i]
 		}
 	}
-	dp := make([]int, max+1)
+	c := make([]int, max+1)
 	for i := range array {
-		dp[array[i]]++
+		c[array[i]]++
 	}
-	var index int
-	for i := range dp {
-		for dp[i] > 0 {
-			array[index] = i
-			index++
-			dp[i]--
-		}
+	for i := 1; i <= max; i++ {
+		c[i] = c[i] + c[i-1]
 	}
+	newArray := make([]int, len(array))
+	for i := len(array) - 1; i >= 0; i-- {
+		newArray[c[array[i]]-1] = array[i]
+		c[array[i]]--
+	}
+	copy(array, newArray)
 }
