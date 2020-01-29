@@ -12,32 +12,21 @@ func rotateRight(head *ListNode, k int) *ListNode {
 	if head == nil {
 		return nil
 	}
-
-	var size int
-	for node := head; node != nil; node = node.Next {
+	tail := head
+	size := 1
+	for tail.Next != nil {
+		tail = tail.Next
 		size++
 	}
-
 	k = k % size
 	if k == 0 {
 		return head
 	}
-
-	pre := &ListNode{Val: -1, Next: head}
-	ptr := pre
-	for i := 0; i < size-k; i++ {
-		ptr = ptr.Next
+	tail.Next = head // Circular-Linked-List
+	for i := 1; i < size-k; i++ {
+		head = head.Next
 	}
-	rotatingPart := ptr.Next
-	ptr.Next = nil
-
-	nonRotatingPart := pre.Next
-	pre.Next = rotatingPart
-	ptr = pre
-	for i := 0; i < k; i++ {
-		ptr = ptr.Next
-	}
-	ptr.Next = nonRotatingPart
-
-	return pre.Next
+	next := head.Next
+	head.Next = nil
+	return next
 }
