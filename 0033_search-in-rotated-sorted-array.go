@@ -12,6 +12,22 @@ func search(nums []int, target int) int {
 	if len(nums) == 0 {
 		return -1
 	}
+	var rotateIndex int
+	l, r := 0, len(nums)-1
+	if nums[l] > nums[r] {
+		for l <= r {
+			m := l + (r-l)>>1
+			if nums[m] > nums[m+1] {
+				rotateIndex = m + 1
+				break
+			}
+			if nums[m] < nums[l] {
+				r = m - 1
+			} else {
+				l = m + 1
+			}
+		}
+	}
 	binarySearch := func(l, r int) int {
 		for l <= r {
 			m := l + (r-l)>>1
@@ -25,23 +41,6 @@ func search(nums []int, target int) int {
 			}
 		}
 		return -1
-	}
-	var rotateIndex int
-	l, r := 0, len(nums)-1
-	if nums[l] > nums[r] {
-		for l <= r {
-			m := l + (r-l)>>1
-			if nums[m] > nums[m+1] {
-				rotateIndex = m + 1
-				break
-			} else {
-				if nums[m] < nums[l] {
-					r = m - 1
-				} else {
-					l = m + 1
-				}
-			}
-		}
 	}
 	if rotateIndex == 0 || target < nums[0] {
 		return binarySearch(rotateIndex, len(nums)-1)
