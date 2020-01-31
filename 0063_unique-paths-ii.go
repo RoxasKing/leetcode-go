@@ -18,7 +18,7 @@ func uniquePathsWithObstacles(obstacleGrid [][]int) int {
 		cur[i] = 1
 	}
 	for i := 1; i < len(obstacleGrid); i++ {
-		for j := 0; j < len(obstacleGrid[i]); j++ {
+		for j := range obstacleGrid[i] {
 			if obstacleGrid[i][j] == 1 {
 				cur[j] = 0
 			} else if j > 0 {
