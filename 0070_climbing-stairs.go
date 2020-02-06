@@ -7,7 +7,7 @@ package My_LeetCode_In_Go
 */
 
 func climbStairs(n int) int {
-	if n == 0 || n == 1 {
+	if n < 2 {
 		return n
 	}
 	dp := make([]int, n+1)
