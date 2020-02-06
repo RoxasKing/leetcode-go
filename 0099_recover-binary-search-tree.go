@@ -11,41 +11,41 @@ import (
 
 func recoverTree(root *TreeNode) {
 	var (
-		cur = root
-		pre *TreeNode
-		one *TreeNode
-		two *TreeNode
+		cur    = root
+		pre    *TreeNode
+		first  *TreeNode
+		second *TreeNode
 	)
 	for cur != nil {
-		if cur.Left == nil {
-			if pre != nil && pre.Val > cur.Val {
-				if one == nil {
-					one = pre
-				}
-				two = cur
+		if cur.Left != nil {
+			curPre := cur.Left
+			for curPre.Right != nil && curPre.Right != cur {
+				curPre = curPre.Right
 			}
-			pre = cur
-			cur = cur.Right
-		} else {
-			leftRight := cur.Left
-			for leftRight.Right != nil && leftRight.Right != cur {
-				leftRight = leftRight.Right
-			}
-			if leftRight.Right != cur {
-				leftRight.Right = cur
+			if curPre.Right != cur {
+				curPre.Right = cur
 				cur = cur.Left
 			} else {
-				leftRight.Right = nil
+				curPre.Right = nil
 				if pre != nil && pre.Val > cur.Val {
-					if one == nil {
-						one = pre
+					if first == nil {
+						first = pre
 					}
-					two = cur
+					second = cur
 				}
 				pre = cur
 				cur = cur.Right
 			}
+		} else {
+			if pre != nil && pre.Val > cur.Val {
+				if first == nil {
+					first = pre
+				}
+				second = cur
+			}
+			pre = cur
+			cur = cur.Right
 		}
 	}
-	one.Val, two.Val = two.Val, one.Val
+	first.Val, second.Val = second.Val, first.Val
 }
