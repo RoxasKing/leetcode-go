@@ -11,11 +11,21 @@ import (
 
 func recoverTree(root *TreeNode) {
 	var (
-		cur    = root
+		cur    *TreeNode = root
 		pre    *TreeNode
 		first  *TreeNode
 		second *TreeNode
 	)
+	handle := func() {
+		if pre != nil && pre.Val > cur.Val {
+			if first == nil {
+				first = pre
+			}
+			second = cur
+		}
+		pre = cur
+		cur = cur.Right
+	}
 	for cur != nil {
 		if cur.Left != nil {
 			curPre := cur.Left
@@ -23,28 +33,13 @@ func recoverTree(root *TreeNode) {
 				curPre = curPre.Right
 			}
 			if curPre.Right != cur {
-				curPre.Right = cur
-				cur = cur.Left
-			} else {
-				curPre.Right = nil
-				if pre != nil && pre.Val > cur.Val {
-					if first == nil {
-						first = pre
-					}
-					second = cur
-				}
-				pre = cur
-				cur = cur.Right
+				curPre.Right, cur = cur, cur.Left
+				continue
 			}
+			curPre.Right = nil
+			handle()
 		} else {
-			if pre != nil && pre.Val > cur.Val {
-				if first == nil {
-					first = pre
-				}
-				second = cur
-			}
-			pre = cur
-			cur = cur.Right
+			handle()
 		}
 	}
 	first.Val, second.Val = second.Val, first.Val

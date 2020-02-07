@@ -1,6 +1,8 @@
 package My_LeetCode_In_Go
 
 import (
+	"math"
+
 	. "My_LeetCode_In_Go/util/tree"
 )
 
@@ -23,5 +25,5 @@ func isValidBST(root *TreeNode) bool {
 		}
 		return dfs(min, root.Val, root.Left) && dfs(root.Val, max, root.Right)
 	}
-	return dfs(-1<<63, 1<<63-1, root)
+	return dfs(math.MinInt64, math.MaxInt64, root)
 }
