@@ -1,38 +1,43 @@
-package My_LeetCode_In_Go
+package leetcode
 
+// MinStack ...
 type MinStack struct {
 	stackArray []int
 	helpArray  []int
 }
 
-/** initialize your data structure here. */
+// NewMinStack ...
 func NewMinStack() MinStack {
 	return MinStack{stackArray: make([]int, 0), helpArray: make([]int, 0)}
 }
 
-func (this *MinStack) Push(x int) {
-	this.stackArray = append(this.stackArray, x)
-	if len(this.helpArray) == 0 ||
-		x <= this.helpArray[len(this.helpArray)-1] {
-		this.helpArray = append(this.helpArray, x)
+// Push ...
+func (s *MinStack) Push(x int) {
+	s.stackArray = append(s.stackArray, x)
+	if len(s.helpArray) == 0 ||
+		x <= s.helpArray[len(s.helpArray)-1] {
+		s.helpArray = append(s.helpArray, x)
 	}
 }
 
-func (this *MinStack) Pop() {
-	if this.stackArray[len(this.stackArray)-1] ==
-		this.helpArray[len(this.helpArray)-1] {
-		this.helpArray = this.helpArray[:len(this.helpArray)-1]
+// Pop ...
+func (s *MinStack) Pop() {
+	if s.stackArray[len(s.stackArray)-1] ==
+		s.helpArray[len(s.helpArray)-1] {
+		s.helpArray = s.helpArray[:len(s.helpArray)-1]
 	}
-	this.stackArray = this.stackArray[:len(this.stackArray)-1]
+	s.stackArray = s.stackArray[:len(s.stackArray)-1]
 
 }
 
-func (this *MinStack) Top() int {
-	return this.stackArray[len(this.stackArray)-1]
+// Top ...
+func (s *MinStack) Top() int {
+	return s.stackArray[len(s.stackArray)-1]
 }
 
-func (this *MinStack) GetMin() int {
-	return this.helpArray[len(this.helpArray)-1]
+// GetMin ...
+func (s *MinStack) GetMin() int {
+	return s.helpArray[len(s.helpArray)-1]
 }
 
 /**

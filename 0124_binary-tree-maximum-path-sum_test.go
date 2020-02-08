@@ -1,9 +1,7 @@
-package My_LeetCode_In_Go
+package leetcode
 
 import (
 	"testing"
-
-	. "My_LeetCode_In_Go/util/tree"
 )
 
 func Test_maxPathSum(t *testing.T) {

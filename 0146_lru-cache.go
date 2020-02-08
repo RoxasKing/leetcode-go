@@ -1,4 +1,4 @@
-package My_LeetCode_In_Go
+package leetcode
 
 /*
   运用你所掌握的数据结构，设计和实现一个  LRU (最近最少使用) 缓存机制。它应该支持以下操作： 获取数据 get 和 写入数据 put 。
@@ -7,6 +7,8 @@ package My_LeetCode_In_Go
 
   进阶: 你是否可以在 O(1) 时间复杂度内完成这两种操作？
 */
+
+// Node ...
 type Node struct {
 	Key  int
 	Val  int
@@ -14,19 +16,20 @@ type Node struct {
 	Prev *Node
 }
 
-func (this *LRUCache) insert(node *Node) {
-	tail := this.Tail
+func (l *LRUCache) insert(node *Node) {
+	tail := l.Tail
 	node.Prev = tail.Prev
 	tail.Prev.Next = node
 	node.Next = tail
 	tail.Prev = node
 }
 
-func (this *LRUCache) remove(node *Node) {
+func (l *LRUCache) remove(node *Node) {
 	node.Prev.Next = node.Next
 	node.Next.Prev = node.Prev
 }
 
+// LRUCache ...
 type LRUCache struct {
 	limit int
 	hash  map[int]*Node
@@ -34,6 +37,7 @@ type LRUCache struct {
 	Tail  *Node
 }
 
+// Constructor ...
 func Constructor(capacity int) LRUCache {
 	head, tail := new(Node), new(Node)
 	head.Next, tail.Prev = tail, head
@@ -45,30 +49,32 @@ func Constructor(capacity int) LRUCache {
 	}
 }
 
-func (this *LRUCache) Get(key int) int {
-	if v, ok := this.hash[key]; ok {
-		this.remove(v)
-		this.insert(v)
+// Get ...
+func (l *LRUCache) Get(key int) int {
+	if v, ok := l.hash[key]; ok {
+		l.remove(v)
+		l.insert(v)
 		return v.Val
 	}
 	return -1
 }
 
-func (this *LRUCache) Put(key int, value int) {
-	if v, ok := this.hash[key]; ok {
-		this.remove(v)
-		this.insert(v)
+// Put ...
+func (l *LRUCache) Put(key int, value int) {
+	if v, ok := l.hash[key]; ok {
+		l.remove(v)
+		l.insert(v)
 		v.Val = value
 		return
 	}
-	if len(this.hash) >= this.limit {
-		h := this.Head.Next
-		this.remove(h)
-		delete(this.hash, h.Key)
+	if len(l.hash) >= l.limit {
+		h := l.Head.Next
+		l.remove(h)
+		delete(l.hash, h.Key)
 	}
 	node := &Node{Key: key, Val: value}
-	this.hash[key] = node
-	this.insert(node)
+	l.hash[key] = node
+	l.insert(node)
 }
 
 /**

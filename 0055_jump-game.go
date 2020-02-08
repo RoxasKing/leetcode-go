@@ -1,4 +1,4 @@
-package My_LeetCode_In_Go
+package leetcode
 
 /*
   给定一个非负整数数组，你最初位于数组的第一个位置。

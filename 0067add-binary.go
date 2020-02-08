@@ -1,4 +1,4 @@
-package My_LeetCode_In_Go
+package leetcode
 
 /*
   给定两个二进制字符串，返回他们的和（用二进制表示）。

@@ -1,4 +1,4 @@
-package My_LeetCode_In_Go
+package leetcode
 
 /*
 给定一个字符串 (s) 和一个字符模式 (p) ，实现一个支持 '?' 和 '*' 的通配符匹配。
@@ -10,7 +10,7 @@ package My_LeetCode_In_Go
   p 可能为空，且只包含从 a-z 的小写字母，以及字符 ? 和 *。
 */
 
-func isMatch_0044(s string, p string) bool {
+func isMatch0044(s string, p string) bool {
 	dp := make([][]bool, len(s)+1)
 	for i := range dp {
 		dp[i] = make([]bool, len(p)+1)
@@ -33,7 +33,7 @@ func isMatch_0044(s string, p string) bool {
 	return dp[len(s)][len(p)]
 }
 
-func isMatch_0044_2(s string, p string) bool {
+func isMatch00442(s string, p string) bool {
 	i, j, iStar, jStar := 0, 0, -1, -1
 	for i < len(s) {
 		if j < len(p) && (s[i] == p[j] || p[j] == '?') {

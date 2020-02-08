@@ -1,4 +1,4 @@
-package My_LeetCode_In_Go
+package leetcode
 
 /*
   给定一个 n × n 的二维矩阵表示一个图像。

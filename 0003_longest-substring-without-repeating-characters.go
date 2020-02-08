@@ -1,8 +1,4 @@
-package My_LeetCode_In_Go
-
-import (
-	. "My_LeetCode_In_Go/util"
-)
+package leetcode
 
 func lengthOfLongestSubstring(s string) int {
 	var out int

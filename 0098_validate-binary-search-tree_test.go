@@ -1,7 +1,6 @@
-package My_LeetCode_In_Go
+package leetcode
 
 import (
-	. "My_LeetCode_In_Go/util/tree"
 	"testing"
 )
 

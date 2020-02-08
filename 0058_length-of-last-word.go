@@ -1,4 +1,4 @@
-package My_LeetCode_In_Go
+package leetcode
 
 /*
   给定一个仅包含大小写字母和空格 ' ' 的字符串 s，返回其最后一个单词的长度。

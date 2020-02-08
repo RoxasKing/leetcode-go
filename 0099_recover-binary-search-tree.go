@@ -1,8 +1,4 @@
-package My_LeetCode_In_Go
-
-import (
-	. "My_LeetCode_In_Go/util/tree"
-)
+package leetcode
 
 /*
   二叉搜索树中的两个节点被错误地交换。
@@ -11,7 +7,7 @@ import (
 
 func recoverTree(root *TreeNode) {
 	var (
-		cur    *TreeNode = root
+		cur    = root
 		pre    *TreeNode
 		first  *TreeNode
 		second *TreeNode

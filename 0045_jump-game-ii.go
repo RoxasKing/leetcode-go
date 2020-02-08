@@ -1,4 +1,4 @@
-package My_LeetCode_In_Go
+package leetcode
 
 /*
   给定一个非负整数数组，你最初位于数组的第一个位置。
@@ -26,7 +26,7 @@ func jump(nums []int) int {
 	return count
 }
 
-func jump_2(nums []int) int {
+func jump2(nums []int) int {
 	var totalJumps, curRange, maxSteps int
 	for i := 0; i < len(nums)-1; i++ {
 		if nums[i]+i > maxSteps {

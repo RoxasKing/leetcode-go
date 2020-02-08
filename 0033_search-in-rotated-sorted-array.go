@@ -1,4 +1,4 @@
-package My_LeetCode_In_Go
+package leetcode
 
 /*
   假设按照升序排序的数组在预先未知的某个点上进行了旋转。
@@ -44,7 +44,6 @@ func search(nums []int, target int) int {
 	}
 	if rotateIndex == 0 || target < nums[0] {
 		return binarySearch(rotateIndex, len(nums)-1)
-	} else {
-		return binarySearch(0, rotateIndex)
 	}
+	return binarySearch(0, rotateIndex)
 }

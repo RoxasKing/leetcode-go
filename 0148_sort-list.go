@@ -1,8 +1,4 @@
-package My_LeetCode_In_Go
-
-import (
-	. "My_LeetCode_In_Go/util/linkedlist"
-)
+package leetcode
 
 /*
   在 O(n log n) 时间复杂度和常数级空间复杂度下，对链表进行排序。
@@ -18,10 +14,10 @@ func sortList(head *ListNode) *ListNode {
 	}
 	mid := slow.Next
 	slow.Next = nil
-	return sortList_merge(sortList(head), sortList(mid))
+	return sortListMerge(sortList(head), sortList(mid))
 }
 
-func sortList_merge(l1, l2 *ListNode) *ListNode {
+func sortListMerge(l1, l2 *ListNode) *ListNode {
 	head := &ListNode{}
 	cur := head
 	for l1 != nil && l2 != nil {

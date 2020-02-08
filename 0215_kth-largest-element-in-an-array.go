@@ -1,8 +1,8 @@
-package My_LeetCode_In_Go
+package leetcode
 
 import "math/rand"
 
-func findKthLargest_heap(nums []int, k int) int {
+func findKthLargestInHeap(nums []int, k int) int {
 	nodeRise := func() {
 		for i := k/2 - 1; i >= 0; i-- {
 			son := i*2 + 1

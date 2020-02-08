@@ -1,8 +1,4 @@
-package My_LeetCode_In_Go
-
-import (
-	. "My_LeetCode_In_Go/util/linkedlist"
-)
+package leetcode
 
 /*
   给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。

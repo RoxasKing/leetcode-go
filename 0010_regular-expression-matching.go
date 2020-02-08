@@ -1,4 +1,4 @@
-package My_LeetCode_In_Go
+package leetcode
 
 /*
   给你一个字符串 s 和一个字符规律 p，请你来实现一个支持 '.' 和 '*' 的正则表达式匹配。
@@ -10,7 +10,7 @@ package My_LeetCode_In_Go
     p 可能为空，且只包含从 a-z 的小写字母，以及字符 . 和 *。
 */
 
-func isMatch_0010(s string, p string) bool {
+func isMatch(s string, p string) bool {
 	dp := make([][]bool, len(s)+1)
 	for i := range dp {
 		dp[i] = make([]bool, len(p)+1)

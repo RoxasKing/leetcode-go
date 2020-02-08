@@ -1,4 +1,4 @@
-package My_LeetCode_In_Go
+package leetcode
 
 /*
   判断一个 9x9 的数独是否有效。只需要根据以下规则，验证已经填入的数字是否有效即可。
@@ -22,13 +22,13 @@ func isValidSudoku(board [][]byte) bool {
 			if board[i][j] == '.' {
 				continue
 			}
-			box_index := (i/3)*3 + j/3
-			if cube[box_index][board[i][j]] ||
+			boxIndex := (i/3)*3 + j/3
+			if cube[boxIndex][board[i][j]] ||
 				rows[i][board[i][j]] ||
 				cols[j][board[i][j]] {
 				return false
 			}
-			cube[box_index][board[i][j]] = true
+			cube[boxIndex][board[i][j]] = true
 			rows[i][board[i][j]] = true
 			cols[j][board[i][j]] = true
 		}

@@ -1,8 +1,4 @@
-package My_LeetCode_In_Go
-
-import (
-	. "My_LeetCode_In_Go/util/tree"
-)
+package leetcode
 
 /*
   给定两个二叉树，编写一个函数来检验它们是否相同。
@@ -20,7 +16,8 @@ func isSameTree(p *TreeNode, q *TreeNode) bool {
 	return isSameTree(p.Left, q.Left) && isSameTree(p.Right, q.Right)
 }
 
-func isSameTree_Stack(p *TreeNode, q *TreeNode) bool {
+// In stack
+func isSameTree2(p *TreeNode, q *TreeNode) bool {
 	check := func(p, q *TreeNode) bool {
 		if p == nil && q == nil {
 			return true

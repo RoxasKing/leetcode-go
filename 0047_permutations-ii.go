@@ -1,4 +1,4 @@
-package My_LeetCode_In_Go
+package leetcode
 
 /*
   给定一个可包含重复数字的序列，返回所有不重复的全排列。

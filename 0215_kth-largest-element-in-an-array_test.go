@@ -1,4 +1,4 @@
-package My_LeetCode_In_Go
+package leetcode
 
 import (
 	"testing"
@@ -19,7 +19,7 @@ func Test_findKthLargestInHeap(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := findKthLargest_heap(tt.args.nums, tt.args.k); got != tt.want {
+			if got := findKthLargestInHeap(tt.args.nums, tt.args.k); got != tt.want {
 				t.Errorf("findKthLargestInHeap() = %v, want %v", got, tt.want)
 			}
 		})

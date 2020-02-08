@@ -1,4 +1,4 @@
-package My_LeetCode_In_Go
+package leetcode
 
 /*
   给出一个无重叠的 ，按照区间起始端点排序的区间列表。

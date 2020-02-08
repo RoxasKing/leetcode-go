@@ -1,4 +1,4 @@
-package My_LeetCode_In_Go
+package leetcode
 
 import (
 	"reflect"
@@ -38,7 +38,7 @@ func Test_maxSubArray_return_array(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := maxSubArray_return_array(tt.args.nums); !reflect.DeepEqual(got, tt.want) {
+			if got := maxSubArrayReturnArray(tt.args.nums); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("maxSubArray_return_array() = %v, want %v", got, tt.want)
 			}
 		})

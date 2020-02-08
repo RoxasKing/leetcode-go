@@ -1,9 +1,7 @@
-package My_LeetCode_In_Go
+package leetcode
 
 import (
 	"math"
-
-	. "My_LeetCode_In_Go/util/tree"
 )
 
 /*

@@ -1,8 +1,4 @@
-package My_LeetCode_In_Go
-
-import (
-	. "My_LeetCode_In_Go/util/linkedlist"
-)
+package leetcode
 
 func addTwoNumbers(l1, l2 *ListNode) *ListNode {
 	head := new(ListNode)

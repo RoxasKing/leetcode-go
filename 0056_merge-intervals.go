@@ -1,4 +1,4 @@
-package My_LeetCode_In_Go
+package leetcode
 
 /*
   给出一个区间的集合，请合并所有重叠的区间。

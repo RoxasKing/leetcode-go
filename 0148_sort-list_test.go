@@ -1,9 +1,7 @@
-package My_LeetCode_In_Go
+package leetcode
 
 import (
 	"testing"
-
-	. "My_LeetCode_In_Go/util/linkedlist"
 )
 
 func Test_sortList(t *testing.T) {
@@ -16,7 +14,7 @@ func Test_sortList(t *testing.T) {
 		want *ListNode
 	}{
 		{
-			"test 1",
+			"test",
 			args{
 				&ListNode{Val: 4, Next: &ListNode{Val: 2, Next: &ListNode{Val: 1, Next: &ListNode{Val: 3, Next: nil}}}},
 			},

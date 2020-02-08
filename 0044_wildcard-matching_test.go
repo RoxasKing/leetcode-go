@@ -1,4 +1,4 @@
-package My_LeetCode_In_Go
+package leetcode
 
 import (
 	"testing"
@@ -22,7 +22,7 @@ func Test_isMatch_0044(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := isMatch_0044(tt.args.s, tt.args.p); got != tt.want {
+			if got := isMatch0044(tt.args.s, tt.args.p); got != tt.want {
 				t.Errorf("isMatch_0044() = %v, want %v", got, tt.want)
 			}
 		})
@@ -47,7 +47,7 @@ func Test_isMatch_0044_2(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := isMatch_0044_2(tt.args.s, tt.args.p); got != tt.want {
+			if got := isMatch00442(tt.args.s, tt.args.p); got != tt.want {
 				t.Errorf("isMatch_0044_2() = %v, want %v", got, tt.want)
 			}
 		})

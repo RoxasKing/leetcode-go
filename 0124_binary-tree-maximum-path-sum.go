@@ -1,9 +1,4 @@
-package My_LeetCode_In_Go
-
-import (
-	. "My_LeetCode_In_Go/util"
-	. "My_LeetCode_In_Go/util/tree"
-)
+package leetcode
 
 /*
   给定一个非空二叉树，返回其最大路径和。
@@ -12,16 +7,16 @@ import (
 
 func maxPathSum(root *TreeNode) int {
 	max := -1 << 31
-	maxGain(root, &max)
-	return max
-}
-
-func maxGain(node *TreeNode, max_sum *int) int {
-	if node == nil {
-		return 0
+	var maxGain func(*TreeNode) int
+	maxGain = func(node *TreeNode) int {
+		if node == nil {
+			return 0
+		}
+		leftGain := Max(maxGain(node.Left), 0)
+		rightGain := Max(maxGain(node.Right), 0)
+		max = Max(max, node.Val+leftGain+rightGain)
+		return node.Val + Max(leftGain, rightGain)
 	}
-	left_gain := Max(maxGain(node.Left, max_sum), 0)
-	right_gain := Max(maxGain(node.Right, max_sum), 0)
-	*max_sum = Max(*max_sum, node.Val+left_gain+right_gain)
-	return node.Val + Max(left_gain, right_gain)
+	maxGain(root)
+	return max
 }

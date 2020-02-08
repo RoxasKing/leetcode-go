@@ -1,9 +1,4 @@
-package My_LeetCode_In_Go
-
-import (
-	. "My_LeetCode_In_Go/util"
-	. "My_LeetCode_In_Go/util/tree"
-)
+package leetcode
 
 /*
   给定一个二叉树，找出其最大深度。

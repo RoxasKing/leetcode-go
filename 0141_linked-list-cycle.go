@@ -1,8 +1,4 @@
-package My_LeetCode_In_Go
-
-import (
-	. "My_LeetCode_In_Go/util/linkedlist"
-)
+package leetcode
 
 /*
   给定一个链表，判断链表中是否有环。

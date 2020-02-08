@@ -1,8 +1,4 @@
-package My_LeetCode_In_Go
-
-import (
-	. "My_LeetCode_In_Go/util/linkedlist"
-)
+package leetcode
 
 /*
   合并 k 个排序链表，返回合并后的排序链表。请分析和描述算法的复杂度。
@@ -32,10 +28,10 @@ func mergeKLists2(lists []*ListNode) *ListNode {
 	if len(lists) == 0 {
 		return nil
 	}
-	return merge_k_lists(&lists, 0, len(lists)-1)
+	return mergeK2(&lists, 0, len(lists)-1)
 }
 
-func merge_k_lists(lists *[]*ListNode, l, r int) *ListNode {
+func mergeK2(lists *[]*ListNode, l, r int) *ListNode {
 	if l == r {
 		return (*lists)[l]
 	}
@@ -44,7 +40,7 @@ func merge_k_lists(lists *[]*ListNode, l, r int) *ListNode {
 	}
 	mid := l + ((r - l) >> 1)
 	return mergeTwoLists(
-		merge_k_lists(lists, l, mid),
-		merge_k_lists(lists, mid+1, r),
+		mergeK2(lists, l, mid),
+		mergeK2(lists, mid+1, r),
 	)
 }

@@ -1,7 +1,6 @@
-package My_LeetCode_In_Go
+package leetcode
 
 import (
-	. "My_LeetCode_In_Go/util/tree"
 	"testing"
 )
 
@@ -130,7 +129,7 @@ func Test_isSameTree_Stack(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := isSameTree_Stack(tt.args.p, tt.args.q); got != tt.want {
+			if got := isSameTree2(tt.args.p, tt.args.q); got != tt.want {
 				t.Errorf("isSameTree_Stack() = %v, want %v", got, tt.want)
 			}
 		})

@@ -1,4 +1,4 @@
-package My_LeetCode_In_Go
+package leetcode
 
 import (
 	"testing"
@@ -37,7 +37,7 @@ func Test_jump_2(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := jump_2(tt.args.nums); got != tt.want {
+			if got := jump2(tt.args.nums); got != tt.want {
 				t.Errorf("jump_2() = %v, want %v", got, tt.want)
 			}
 		})
