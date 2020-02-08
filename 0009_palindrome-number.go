@@ -12,8 +12,5 @@ func isPalindrome(x int) bool {
 	for i := x; i > 0; i /= 10 {
 		flip = flip*10 + i%10
 	}
-	if flip != x {
-		return false
-	}
-	return true
+	return flip == x
 }
