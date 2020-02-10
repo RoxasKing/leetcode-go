@@ -8,7 +8,7 @@ package leetcode
   你的算法时间复杂度必须是 O(log n) 级别。
 */
 
-func search(nums []int, target int) int {
+func search0033(nums []int, target int) int {
 	if len(nums) == 0 {
 		return -1
 	}
