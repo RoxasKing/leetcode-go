@@ -14,7 +14,7 @@ func search0081(nums []int, target int) bool {
 	for head < tail && nums[head] == nums[tail] {
 		head++
 	}
-	var rotateIndex int
+	rotateIndex := head
 	if nums[head] > nums[tail] {
 		l, r := head, tail
 		for l <= r {
@@ -44,10 +44,7 @@ func search0081(nums []int, target int) bool {
 		}
 		return false
 	}
-	if rotateIndex == 0 {
-		return binarySearch(head, tail)
-	}
-	if target < nums[head] {
+	if rotateIndex == head || target < nums[head] {
 		return binarySearch(rotateIndex, tail)
 	}
 	return binarySearch(head, rotateIndex)
