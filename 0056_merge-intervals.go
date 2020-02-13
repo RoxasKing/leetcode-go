@@ -8,7 +8,7 @@ import (
 	"sort"
 )
 
-func merge(intervals [][]int) [][]int {
+func merge0056(intervals [][]int) [][]int {
 	if len(intervals) == 0 {
 		return nil
 	}
