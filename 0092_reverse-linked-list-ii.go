@@ -20,12 +20,11 @@ func reverseBetween(head *ListNode, m int, n int) *ListNode {
 	ptr := right.Next
 	index++
 	for index <= n {
-		tmp := ptr.Next
+		right.Next = ptr.Next
 		leftPre.Next = ptr
 		ptr.Next = left
-		right.Next = tmp
 		left = ptr
-		ptr = tmp
+		ptr = right.Next
 		index++
 	}
 	return head.Next
