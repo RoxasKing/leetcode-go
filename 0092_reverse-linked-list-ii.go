@@ -17,8 +17,9 @@ func reverseBetween(head *ListNode, m int, n int) *ListNode {
 		index++
 	}
 	right := left
+	ptr := right.Next
 	index++
-	for ptr := right.Next; index <= n; {
+	for index <= n {
 		tmp := ptr.Next
 		leftPre.Next = ptr
 		ptr.Next = left
