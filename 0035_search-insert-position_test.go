@@ -14,6 +14,7 @@ func Test_searchInsert(t *testing.T) {
 	}{
 		{"", args{[]int{}, 1}, 0},
 		{"", args{[]int{1}, 0}, 0},
+		{"", args{[]int{1, 3, 5, 6}, 1}, 0},
 		{"", args{[]int{1, 3, 5, 6}, 2}, 1},
 		{"", args{[]int{1, 3, 5, 6}, 7}, 4},
 		{"", args{[]int{1, 3, 5, 6}, 5}, 2},

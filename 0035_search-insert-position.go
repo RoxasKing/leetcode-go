@@ -6,18 +6,16 @@ package leetcode
 */
 
 func searchInsert(nums []int, target int) int {
-	if len(nums) == 0 {
-		return 0
-	} else if target > nums[len(nums)-1] {
-		return len(nums)
-	}
 	l, r := 0, len(nums)-1
-	for l < r {
+	for l <= r {
 		m := l + (r-l)>>1
-		if target > nums[m] {
+		switch {
+		case nums[m] < target:
 			l = m + 1
-		} else {
-			r = m
+		case nums[m] > target:
+			r = m - 1
+		default:
+			return m
 		}
 	}
 	return l
