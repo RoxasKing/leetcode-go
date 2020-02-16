@@ -1,19 +1,19 @@
 package leetcode
 
-// ListNode ...
+// ListNode : Linked list data structure
 type ListNode struct {
 	Val  int
 	Next *ListNode
 }
 
-// TreeNode ...
+// TreeNode : Binary tree data structure
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
 	Right *TreeNode
 }
 
-// Max ...
+// Max : Returns the largest number in a and b
 func Max(a, b int) int {
 	if a > b {
 		return a
@@ -21,7 +21,7 @@ func Max(a, b int) int {
 	return b
 }
 
-// Min ...
+// Min : Returns the smallest  number in a and b
 func Min(a, b int) int {
 	if a < b {
 		return a
@@ -29,7 +29,7 @@ func Min(a, b int) int {
 	return b
 }
 
-// Abs ...
+// Abs : Returns the absolute value of n
 func Abs(n int) int {
 	if n <= 0 {
 		return 0 - n
