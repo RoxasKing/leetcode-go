@@ -5,10 +5,10 @@ import (
 	"testing"
 )
 
-func Test_buildTree(t *testing.T) {
+func Test_buildTree0106(t *testing.T) {
 	type args struct {
-		preorder []int
-		inorder  []int
+		inorder   []int
+		postorder []int
 	}
 	tests := []struct {
 		name string
@@ -18,8 +18,8 @@ func Test_buildTree(t *testing.T) {
 		{
 			"",
 			args{
-				[]int{3, 9, 20, 15, 7},
 				[]int{9, 3, 15, 20, 7},
+				[]int{9, 15, 7, 20, 3},
 			},
 			&TreeNode{
 				Val:  3,
@@ -34,8 +34,8 @@ func Test_buildTree(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := buildTree0105(tt.args.preorder, tt.args.inorder); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("buildTree() = %v, want %v", got, tt.want)
+			if got := buildTree0106(tt.args.inorder, tt.args.postorder); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("buildTree0106() = %v, want %v", got, tt.want)
 			}
 		})
 	}
