@@ -5,8 +5,9 @@ package leetcode
   本题中，路径被定义为一条从树中任意节点出发，达到任意节点的序列。该路径至少包含一个节点，且不一定经过根节点。
 */
 
+// Recursive
 func maxPathSum(root *TreeNode) int {
-	max := -1 << 31
+	maxSum := -1 << 31
 	var maxGain func(*TreeNode) int
 	maxGain = func(node *TreeNode) int {
 		if node == nil {
@@ -14,9 +15,9 @@ func maxPathSum(root *TreeNode) int {
 		}
 		leftGain := Max(maxGain(node.Left), 0)
 		rightGain := Max(maxGain(node.Right), 0)
-		max = Max(max, node.Val+leftGain+rightGain)
+		maxSum = Max(maxSum, node.Val+leftGain+rightGain)
 		return node.Val + Max(leftGain, rightGain)
 	}
 	maxGain(root)
-	return max
+	return maxSum
 }
