@@ -20,6 +20,7 @@ func ladderLength(beginWord string, endWord string, wordList []string) int {
 	if _, ok := wordDict[endWord]; !ok {
 		return 0
 	}
+	delete(wordDict, endWord)
 	src := map[string]struct{}{beginWord: struct{}{}}
 	dst := map[string]struct{}{endWord: struct{}{}}
 	out := 1
