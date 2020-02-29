@@ -35,7 +35,7 @@ func ladderLength(beginWord string, endWord string, wordList []string) int {
 		newSrc := make(map[string]struct{})
 		for w := range src {
 			bytes := []byte(w)
-			for i := 0; i < len(bytes); i++ {
+			for i := range bytes {
 				for j := 0; j < 26; j++ {
 					bytes[i] = byte(j + 'a')
 					target := string(bytes)
@@ -77,7 +77,6 @@ func ladderLength2(beginWord string, endWord string, wordList []string) int {
 	}
 	visitWordNode := func(queue *[]node, visited, visitedOther *map[string]int) int {
 		word, level := (*queue)[0].word, (*queue)[0].level
-		*queue = (*queue)[1:]
 		for i := range beginWord {
 			newWord := word[:i] + "*" + word[i+1:]
 			for _, adjacentWord := range allcomboDict[newWord] {
@@ -90,6 +89,7 @@ func ladderLength2(beginWord string, endWord string, wordList []string) int {
 				}
 			}
 		}
+		*queue = (*queue)[1:]
 		return -1
 	}
 	queueBegin := []node{{beginWord, 1}}
