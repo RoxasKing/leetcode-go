@@ -66,23 +66,57 @@ func partition01312(s string) [][]string {
 	}
 	var out [][]string
 	var cur []string
-	var backTrack func(int, int)
-	backTrack = func(left, right int) {
-		if left > right {
+	var backTrack func(int)
+	backTrack = func(left int) {
+		if left == len(s) {
 			tmp := make([]string, len(cur))
 			copy(tmp, cur)
 			out = append(out, tmp)
 			return
 		}
-		for i := left; i <= right; i++ {
-			if !dp[left][i+1] {
+		for right := left + 1; right <= len(s); right++ {
+			if !dp[left][right] {
 				continue
 			}
-			cur = append(cur, s[left:i+1])
-			backTrack(i+1, right)
+			cur = append(cur, s[left:right])
+			backTrack(right)
 			cur = cur[:len(cur)-1]
 		}
 	}
-	backTrack(0, len(s)-1)
+	backTrack(0)
+	return out
+}
+
+// Back Tracking Method && Dynamic programming
+func partition01313(s string) [][]string {
+	check := make([][]bool, len(s))
+	for r := range check {
+		check[r] = make([]bool, len(s))
+		for l := 0; l <= r; l++ {
+			if s[l] == s[r] && (r-l <= 2 || check[l+1][r-1]) {
+				check[l][r] = true
+			}
+		}
+	}
+	var out [][]string
+	var cur []string
+	var backTrack func(int)
+	backTrack = func(left int) {
+		if left == len(s) {
+			tmp := make([]string, len(cur))
+			copy(tmp, cur)
+			out = append(out, tmp)
+			return
+		}
+		for right := left; right < len(s); right++ {
+			if !check[left][right] {
+				continue
+			}
+			cur = append(cur, s[left:right+1])
+			backTrack(right + 1)
+			cur = cur[:len(cur)-1]
+		}
+	}
+	backTrack(0)
 	return out
 }

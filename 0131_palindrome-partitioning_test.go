@@ -74,3 +74,38 @@ func Test_partition01312(t *testing.T) {
 		})
 	}
 }
+
+func Test_partition01313(t *testing.T) {
+	type args struct {
+		s string
+	}
+	tests := []struct {
+		name string
+		args args
+		want [][]string
+	}{
+		{
+			"",
+			args{"efe"},
+			[][]string{
+				{"e", "f", "e"},
+				{"efe"},
+			},
+		},
+		{
+			"",
+			args{"aab"},
+			[][]string{
+				{"a", "a", "b"},
+				{"aa", "b"},
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := partition01313(tt.args.s); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("partition01313() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
