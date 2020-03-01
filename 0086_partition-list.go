@@ -5,7 +5,7 @@ package leetcode
   你应当保留两个分区中每个节点的初始相对位置。
 */
 
-func partition(head *ListNode, x int) *ListNode {
+func partition0086(head *ListNode, x int) *ListNode {
 	leftHead := &ListNode{Val: -1}
 	leftTail := leftHead
 	rightHead := &ListNode{Val: -1}
