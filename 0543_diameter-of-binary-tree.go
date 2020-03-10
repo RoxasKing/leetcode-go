@@ -14,22 +14,17 @@ package leetcode
 */
 
 func diameterOfBinaryTree(root *TreeNode) int {
-	if root == nil {
-		return 0
-	}
-	var maxPath int
+	maxNode := 1
 	var recur func(*TreeNode) int
 	recur = func(root *TreeNode) int {
-		left, right := 0, 0
-		if root.Left != nil {
-			left = recur(root.Left) + 1
+		if root == nil {
+			return 0
 		}
-		if root.Right != nil {
-			right = recur(root.Right) + 1
-		}
-		maxPath = Max(maxPath, left+right)
-		return Max(left, right)
+		l := recur(root.Left)
+		r := recur(root.Right)
+		maxNode = Max(maxNode, l+r+1)
+		return Max(l, r) + 1
 	}
 	recur(root)
-	return maxPath
+	return maxNode - 1
 }
