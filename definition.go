@@ -36,3 +36,11 @@ func Abs(n int) int {
 	}
 	return n
 }
+
+// Gdc : Returns greatest common divisor of a and b
+func Gdc(a, b int) int {
+	for b != 0 {
+		a, b = b, a%b
+	}
+	return a
+}
