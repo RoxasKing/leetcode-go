@@ -35,6 +35,7 @@ func Test_majorityElement2(t *testing.T) {
 		args args
 		want int
 	}{
+		{"", args{[]int{3, 3, 4}}, 3},
 		{"", args{[]int{6, 5, 5}}, 5},
 		{"", args{[]int{3, 2, 3}}, 3},
 		{"", args{[]int{2, 2, 1, 1, 1, 2, 2}}, 2},
