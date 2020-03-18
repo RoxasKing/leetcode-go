@@ -27,20 +27,16 @@ func countCharacters(words []string, chars string) int {
 		dict[c]++
 	}
 	var res int
-	flg := true
 	for _, word := range words {
 		tmp := make([]int, 128)
 		for _, c := range word {
 			tmp[c]++
 			if tmp[c] > dict[c] {
-				flg = false
-				break
+				goto END
 			}
 		}
-		if flg {
-			res += len(word)
-		}
-		flg = true
+		res += len(word)
+	END:
 	}
 	return res
 }
