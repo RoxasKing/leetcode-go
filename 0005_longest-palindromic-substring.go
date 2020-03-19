@@ -14,9 +14,12 @@ func longestPalindrome0005(s string) string {
 
 func palindrome(s string, l, r int) string {
 	for l >= 0 && r < len(s) && s[l] == s[r] {
-		l, r = l-1, r+1
+		l--
+		r++
 	}
-	return s[l+1 : r]
+	l++
+	r--
+	return s[l : r+1]
 }
 
 func maxStr(s1, s2 string) string {
