@@ -6,7 +6,7 @@ package leetcode
   示例 1:
     输入: [3,2,3]
     输出: 3
-  示例 2:
+  示例 2:
     输入: [2,2,1,1,1,2,2]
     输出: 2
 */
@@ -30,11 +30,13 @@ func majorityElement(nums []int) int {
 func majorityElement2(nums []int) int {
 	var count, candidate int
 	for _, num := range nums {
+		if count == 0 {
+			candidate = num
+		}
 		if candidate == num {
 			count++
 		} else {
-			candidate = num
-			count = 1
+			count--
 		}
 	}
 	return candidate
