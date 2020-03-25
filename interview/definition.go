@@ -1,4 +1,4 @@
-package leetcode
+package interview
 
 // ListNode : Linked list data structure
 type ListNode struct {

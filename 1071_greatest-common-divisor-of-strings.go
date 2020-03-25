@@ -27,7 +27,7 @@ func gcdOfStrings(str1 string, str2 string) string {
 		}
 		return true
 	}
-	sub := str1[:Gdc(len(str1), len(str2))]
+	sub := str1[:Gcd(len(str1), len(str2))]
 	if check(str1, sub) && check(str2, sub) {
 		return sub
 	}
