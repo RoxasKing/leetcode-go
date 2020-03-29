@@ -8,21 +8,21 @@ package leetcode
 
 // Dynamic Programming
 func maxDistance(grid [][]int) int {
-	dp := make([][]int, len(grid))
+	dp := make([][]int, len(grid)) // 储存当前海洋离陆地的最近距离
 	for i := range dp {
 		dp[i] = make([]int, len(grid))
 		for j := range dp[i] {
-			if grid[i][j] != 0 {
-				dp[i][j] = 0
+			if grid[i][j] == 0 {
+				dp[i][j] = 1<<31 - 1 // 海洋坐标初始化为int最大值
 			} else {
-				dp[i][j] = 1<<31 - 1
+				dp[i][j] = 0 // 陆地坐标初始化为0,代表从海洋到陆地的起点
 			}
 		}
 	}
 
 	for i := range grid {
 		for j := range grid {
-			if grid[i][j] != 0 {
+			if grid[i][j] == 1 {
 				continue
 			}
 			if i-1 >= 0 {
@@ -36,7 +36,7 @@ func maxDistance(grid [][]int) int {
 
 	for i := len(grid) - 1; i >= 0; i-- {
 		for j := len(grid) - 1; j >= 0; j-- {
-			if grid[i][j] != 0 {
+			if grid[i][j] == 1 {
 				continue
 			}
 			if i+1 < len(grid) {
