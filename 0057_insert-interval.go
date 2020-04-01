@@ -33,7 +33,8 @@ func insert2(intervals [][]int, newInterval []int) [][]int {
 	for r < len(intervals) {
 		if intervals[r][0] > newInterval[1] {
 			break
-		} else if intervals[r][1] < newInterval[0] {
+		}
+		if intervals[r][1] < newInterval[0] {
 			l++
 		} else {
 			if intervals[r][0] < newInterval[0] {
