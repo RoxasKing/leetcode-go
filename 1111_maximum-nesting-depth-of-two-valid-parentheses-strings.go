@@ -35,9 +35,9 @@ func maxDepthAfterSplit2(seq string) []int {
 	out := make([]int, len(seq))
 	for i := range seq {
 		if seq[i] == '(' {
-			out[i] = 1 - i%2
-		} else {
 			out[i] = i % 2
+		} else {
+			out[i] = 1 - i%2
 		}
 	}
 	return out

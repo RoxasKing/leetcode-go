@@ -13,10 +13,7 @@ func merge0056(intervals [][]int) [][]int {
 		return nil
 	}
 	sort.Slice(intervals, func(i, j int) bool {
-		if intervals[i][0] < intervals[j][0] {
-			return true
-		}
-		return false
+		return intervals[i][0] < intervals[j][0]
 	})
 	var index int
 	for i := 1; i < len(intervals); i++ {
@@ -28,5 +25,6 @@ func merge0056(intervals [][]int) [][]int {
 			intervals[index] = intervals[i]
 		}
 	}
-	return intervals[:index+1]
+	intervals = intervals[:index+1]
+	return intervals
 }
