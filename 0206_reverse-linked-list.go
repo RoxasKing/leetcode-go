@@ -10,12 +10,12 @@ package leetcode
 */
 
 func reverseList(head *ListNode) *ListNode {
-	var rev *ListNode
+	var revHead *ListNode
 	for head != nil {
 		next := head.Next
-		head.Next = rev
-		rev = head
+		head.Next = revHead
+		revHead = head
 		head = next
 	}
-	return rev
+	return revHead
 }
