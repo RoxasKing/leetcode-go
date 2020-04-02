@@ -10,15 +10,12 @@ package leetcode
 */
 
 func reverseList(head *ListNode) *ListNode {
-	if head == nil || head.Next == nil {
-		return head
-	}
 	var rev *ListNode
 	for head != nil {
-		tmp := head.Next // 当前头节点的后继节点指针
-		head.Next = rev  // 当前头节点插入到反转链表首部
-		rev = head       // 反转链表头部指针指向当前遍历到的头节点
-		head = tmp       // 后继节点指针变为当前头节点指针
+		next := head.Next
+		head.Next = rev
+		rev = head
+		head = next
 	}
 	return rev
 }
