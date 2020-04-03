@@ -45,3 +45,37 @@ func myAtoi(str string) int {
 	}
 	return out
 }
+
+func myAtoi2(str string) int {
+	if str == "" {
+		return 0
+	}
+	var out int
+	flg := 1
+	for str != "" && str[0] == ' ' {
+		str = str[1:]
+	}
+	if str != "" && (str[0] == '-' || str[0] == '+') {
+		if str[0] == '-' {
+			flg = -1
+		}
+		str = str[1:]
+	}
+	if str != "" && (str[0] < '0' || str[0] > '9') {
+		return 0
+	}
+	for str != "" && '0' <= str[0] && str[0] <= '9' {
+		if out > 1<<31-1 {
+			break
+		}
+		out = out*10 + int(str[0]-'0')
+		str = str[1:]
+	}
+	out *= flg
+	if out < -1<<31 {
+		return -1 << 31
+	} else if out > 1<<31-1 {
+		return 1<<31 - 1
+	}
+	return out
+}
