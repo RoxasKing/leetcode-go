@@ -27,3 +27,28 @@ func insert(intervals [][]int, newInterval []int) [][]int {
 	copy(out[left+1:], intervals[right:])
 	return out
 }
+
+func insert2(intervals [][]int, newInterval []int) [][]int {
+	var l, r int
+	for r < len(intervals) {
+		if intervals[r][0] > newInterval[1] {
+			break
+		}
+		if intervals[r][1] < newInterval[0] {
+			l++
+		} else {
+			if intervals[r][0] < newInterval[0] {
+				newInterval[0] = intervals[r][0]
+			}
+			if intervals[r][1] > newInterval[1] {
+				newInterval[1] = intervals[r][1]
+			}
+		}
+		r++
+	}
+	out := make([][]int, len(intervals)-(r-l-1))
+	copy(out[:l], intervals[:l])
+	out[l] = newInterval
+	copy(out[l+1:], intervals[r:])
+	return out
+}

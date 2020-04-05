@@ -28,7 +28,7 @@ func majorityElement(nums []int) int {
 
 // Boyer-Moore
 func majorityElement2(nums []int) int {
-	var count, candidate int
+	var candidate, count int
 	for _, num := range nums {
 		if count == 0 {
 			candidate = num
