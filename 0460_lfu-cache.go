@@ -11,7 +11,7 @@ package leetcode
 // LFUCache ...
 type LFUCache struct {
 	cacheMap  map[int]*cacheNode
-	frequency map[int]*doubleList
+	frequency map[int]*doublyLList
 	minFreq   int
 	capacity  int
 	size      int
@@ -21,7 +21,7 @@ type LFUCache struct {
 func NewLFUCache(capacity int) LFUCache {
 	return LFUCache{
 		cacheMap:  make(map[int]*cacheNode),
-		frequency: make(map[int]*doubleList),
+		frequency: make(map[int]*doublyLList),
 		capacity:  capacity,
 	}
 }
@@ -32,7 +32,7 @@ func (c *LFUCache) Get(key int) int {
 	if !ok {
 		return -1
 	}
-	c.incrementFreq(node)
+	c.increaseFreq(node)
 	return node.val
 }
 
@@ -43,7 +43,7 @@ func (c *LFUCache) Put(key int, value int) {
 	}
 	if node, ok := c.cacheMap[key]; ok {
 		c.cacheMap[key].val = value
-		c.incrementFreq(node)
+		c.increaseFreq(node)
 		return
 	}
 	if c.size == c.capacity {
@@ -56,7 +56,7 @@ func (c *LFUCache) Put(key int, value int) {
 	})
 }
 
-func (c *LFUCache) incrementFreq(node *cacheNode) {
+func (c *LFUCache) increaseFreq(node *cacheNode) {
 	c.frequency[node.freq].remove(node)
 	if node.freq == c.minFreq && c.frequency[node.freq].size == 0 {
 		c.minFreq++
@@ -96,33 +96,33 @@ type cacheNode struct {
 	next *cacheNode
 }
 
-type doubleList struct {
+type doublyLList struct {
 	head *cacheNode
 	tail *cacheNode
 	size int
 }
 
-func newDoubleList() *doubleList {
+func newDoubleList() *doublyLList {
 	head := &cacheNode{}
 	tail := &cacheNode{prev: head}
 	head.next = tail
-	return &doubleList{
+	return &doublyLList{
 		head: head,
 		tail: tail,
 	}
 }
 
-func (l *doubleList) pushBack(node *cacheNode) {
+func (l *doublyLList) pushBack(node *cacheNode) {
 	node.prev, node.next = l.tail.prev, l.tail
 	node.prev.next, node.next.prev = node, node
 	l.size++
 }
 
-func (l *doubleList) front() *cacheNode {
+func (l *doublyLList) front() *cacheNode {
 	return l.head.next
 }
 
-func (l *doubleList) remove(node *cacheNode) {
+func (l *doublyLList) remove(node *cacheNode) {
 	node.prev.next, node.next.prev = node.next, node.prev
 	l.size--
 }
