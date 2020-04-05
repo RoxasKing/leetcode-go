@@ -37,8 +37,8 @@ type LRUCache struct {
 	Tail  *Node
 }
 
-// Constructor ...
-func Constructor(capacity int) LRUCache {
+// NewLRUCache ...
+func NewLRUCache(capacity int) LRUCache {
 	head, tail := new(Node), new(Node)
 	head.Next, tail.Prev = tail, head
 	return LRUCache{
