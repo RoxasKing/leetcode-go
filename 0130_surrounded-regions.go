@@ -116,7 +116,7 @@ func solve2(board [][]byte) {
 	}
 }
 
-// bfs
+// BFS
 func solve3(board [][]byte) {
 	if len(board) == 0 {
 		return

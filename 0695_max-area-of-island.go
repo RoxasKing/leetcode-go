@@ -58,7 +58,7 @@ func maxAreaOfIsland2(grid [][]int) int {
 	return max
 }
 
-// bfs
+// BFS
 func maxAreaOfIsland3(grid [][]int) int {
 	steps := [][]int{{-1, 0}, {1, 0}, {0, -1}, {0, 1}}
 	var queue [][]int
