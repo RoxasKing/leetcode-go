@@ -4,7 +4,7 @@ package leetcode
   给定一个二叉树，返回它的中序 遍历。
 */
 
-// Recursion
+// Recursive
 func inorderTraversal(root *TreeNode) []int {
 	var out []int
 	var traversal func(*TreeNode)
