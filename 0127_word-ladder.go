@@ -21,8 +21,8 @@ func ladderLength(beginWord string, endWord string, wordList []string) int {
 		return 0
 	}
 	delete(wordDict, endWord)
-	src := map[string]struct{}{beginWord: struct{}{}}
-	dst := map[string]struct{}{endWord: struct{}{}}
+	src := map[string]struct{}{beginWord: {}}
+	dst := map[string]struct{}{endWord: {}}
 	out := 1
 	for len(src) != 0 && len(dst) != 0 {
 		out++

@@ -21,7 +21,7 @@ func findLadders(beginWord string, endWord string, wordList []string) [][]string
 		return nil
 	}
 	delete(wordDict, endWord)
-	src, dst := map[string]struct{}{beginWord: struct{}{}}, map[string]struct{}{endWord: struct{}{}}
+	src, dst := map[string]struct{}{beginWord: {}}, map[string]struct{}{endWord: {}}
 	dict := make(map[string][]string)
 	var isEnd, reverse bool
 	for len(src) != 0 && len(dst) != 0 && !isEnd {

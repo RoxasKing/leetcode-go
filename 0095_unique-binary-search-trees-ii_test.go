@@ -18,33 +18,33 @@ func Test_generateTrees(t *testing.T) {
 			"",
 			args{3},
 			[]*TreeNode{
-				&TreeNode{
+				{
 					Val: 1,
 					Right: &TreeNode{
 						Val:   2,
 						Right: &TreeNode{Val: 3},
 					},
 				},
-				&TreeNode{
+				{
 					Val: 1,
 					Right: &TreeNode{
 						Val:  3,
 						Left: &TreeNode{Val: 2},
 					},
 				},
-				&TreeNode{
+				{
 					Val:   2,
 					Left:  &TreeNode{Val: 1},
 					Right: &TreeNode{Val: 3},
 				},
-				&TreeNode{
+				{
 					Val: 3,
 					Left: &TreeNode{
 						Val:   1,
 						Right: &TreeNode{Val: 2},
 					},
 				},
-				&TreeNode{
+				{
 					Val: 3,
 					Left: &TreeNode{
 						Val:  2,

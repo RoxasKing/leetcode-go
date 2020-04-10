@@ -19,9 +19,9 @@ func Test_mergeKLists(t *testing.T) {
 			args{
 				[]*ListNode{
 					nil,
-					&ListNode{Val: -1, Next: &ListNode{Val: 5, Next: &ListNode{Val: 11, Next: nil}}},
+					{Val: -1, Next: &ListNode{Val: 5, Next: &ListNode{Val: 11, Next: nil}}},
 					nil,
-					&ListNode{Val: 6, Next: &ListNode{Val: 10, Next: nil}},
+					{Val: 6, Next: &ListNode{Val: 10, Next: nil}},
 				},
 			},
 			&ListNode{Val: -1, Next: &ListNode{Val: 5, Next: &ListNode{Val: 6, Next: &ListNode{Val: 10, Next: &ListNode{Val: 11, Next: nil}}}}},
@@ -30,9 +30,9 @@ func Test_mergeKLists(t *testing.T) {
 			"",
 			args{
 				[]*ListNode{
-					&ListNode{Val: 1, Next: &ListNode{Val: 4, Next: &ListNode{Val: 5, Next: nil}}},
-					&ListNode{Val: 1, Next: &ListNode{Val: 3, Next: &ListNode{Val: 4, Next: nil}}},
-					&ListNode{Val: 2, Next: &ListNode{Val: 6, Next: nil}},
+					{Val: 1, Next: &ListNode{Val: 4, Next: &ListNode{Val: 5, Next: nil}}},
+					{Val: 1, Next: &ListNode{Val: 3, Next: &ListNode{Val: 4, Next: nil}}},
+					{Val: 2, Next: &ListNode{Val: 6, Next: nil}},
 				},
 			},
 			&ListNode{Val: 1, Next: &ListNode{Val: 1, Next: &ListNode{Val: 2, Next: &ListNode{Val: 3, Next: &ListNode{Val: 4, Next: &ListNode{Val: 4, Next: &ListNode{Val: 5, Next: &ListNode{Val: 6, Next: nil}}}}}}}},
@@ -64,9 +64,9 @@ func Test_mergeKLists2(t *testing.T) {
 			args{
 				[]*ListNode{
 					nil,
-					&ListNode{Val: -1, Next: &ListNode{Val: 5, Next: &ListNode{Val: 11, Next: nil}}},
+					{Val: -1, Next: &ListNode{Val: 5, Next: &ListNode{Val: 11, Next: nil}}},
 					nil,
-					&ListNode{Val: 6, Next: &ListNode{Val: 10, Next: nil}},
+					{Val: 6, Next: &ListNode{Val: 10, Next: nil}},
 				},
 			},
 			&ListNode{Val: -1, Next: &ListNode{Val: 5, Next: &ListNode{Val: 6, Next: &ListNode{Val: 10, Next: &ListNode{Val: 11, Next: nil}}}}},
@@ -75,9 +75,9 @@ func Test_mergeKLists2(t *testing.T) {
 			"",
 			args{
 				[]*ListNode{
-					&ListNode{Val: 1, Next: &ListNode{Val: 4, Next: &ListNode{Val: 5, Next: nil}}},
-					&ListNode{Val: 1, Next: &ListNode{Val: 3, Next: &ListNode{Val: 4, Next: nil}}},
-					&ListNode{Val: 2, Next: &ListNode{Val: 6, Next: nil}},
+					{Val: 1, Next: &ListNode{Val: 4, Next: &ListNode{Val: 5, Next: nil}}},
+					{Val: 1, Next: &ListNode{Val: 3, Next: &ListNode{Val: 4, Next: nil}}},
+					{Val: 2, Next: &ListNode{Val: 6, Next: nil}},
 				},
 			},
 			&ListNode{Val: 1, Next: &ListNode{Val: 1, Next: &ListNode{Val: 2, Next: &ListNode{Val: 3, Next: &ListNode{Val: 4, Next: &ListNode{Val: 4, Next: &ListNode{Val: 5, Next: &ListNode{Val: 6, Next: nil}}}}}}}},
