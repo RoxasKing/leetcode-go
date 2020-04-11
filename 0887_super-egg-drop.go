@@ -11,7 +11,7 @@ package leetcode
 
 func superEggDrop(K int, N int) int {
 	if K == 1 {
-		return 0
+		return N
 	}
 	if N == 0 {
 		return 0
