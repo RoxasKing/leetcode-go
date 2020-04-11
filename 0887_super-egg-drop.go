@@ -10,6 +10,25 @@ package leetcode
 */
 
 func superEggDrop(K int, N int) int {
-
-	return 1
+	if K == 1 {
+		return 0
+	}
+	if N == 0 {
+		return 0
+	}
+	dp := make([][]int, K+1)
+	for i := range dp {
+		dp[i] = make([]int, N+1)
+	}
+	var m int
+	for dp[K][m] != N {
+		m++
+		for k := 1; k < K+1; k++ {
+			dp[k][m] = dp[k][m-1] + dp[k-1][m-1] + 1
+			if dp[k][m] > N {
+				return m
+			}
+		}
+	}
+	return m
 }

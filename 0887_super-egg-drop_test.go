@@ -15,6 +15,7 @@ func Test_superEggDrop(t *testing.T) {
 		{"1", args{1, 2}, 2},
 		{"2", args{2, 6}, 3},
 		{"3", args{3, 14}, 4},
+		{"4", args{1, 3}, 3},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
