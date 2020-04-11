@@ -11,10 +11,7 @@ package leetcode
 
 func superEggDrop(K int, N int) int {
 	F := 1
-	for {
-		if recurSuperEggDrop(F, K) >= N {
-			break
-		}
+	for recurSuperEggDrop(F, K) < N {
 		F++
 	}
 	return F
