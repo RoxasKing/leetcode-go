@@ -10,37 +10,6 @@ package leetcode
 */
 
 func superEggDrop(K int, N int) int {
-	T := 1
-	for recurSuperEggDrop(T, K) < N {
-		T++
-	}
-	return T
-}
-
-func recurSuperEggDrop(T, K int) int {
-	if T == 1 || K == 1 {
-		return T
-	}
-	return recurSuperEggDrop(T-1, K-1) + 1 + recurSuperEggDrop(T-1, K)
-}
-
-func superEggDrop2(K int, N int) int {
-	dp := make([][]int, N+1)
-	for i := range dp {
-		dp[i] = make([]int, K+1)
-	}
-	for i := 1; i < N; i++ {
-		for j := 1; j <= K; j++ {
-			dp[i][j] = dp[i-1][j-1] + 1 + dp[i-1][j]
-			if dp[i][j] >= N {
-				return i
-			}
-		}
-	}
-	return N
-}
-
-func superEggDrop3(K int, N int) int {
 	dict := make([][]int, N+1)
 	for i := range dict {
 		dict[i] = make([]int, K+1)
@@ -74,4 +43,52 @@ func dpSuperEggDrop(N, K int, dict *[][]int) int {
 	}
 	(*dict)[N][K] = res
 	return res
+}
+
+func superEggDrop2(K int, N int) int {
+	dp := make([][]int, N+1)
+	for i := range dp {
+		dp[i] = make([]int, K+1)
+	}
+	for i := 1; i < N; i++ {
+		for j := 1; j <= K; j++ {
+			dp[i][j] = dp[i-1][j-1] + 1 + dp[i-1][j]
+			if dp[i][j] >= N {
+				return i
+			}
+		}
+	}
+	return N
+}
+
+func superEggDrop3(K int, N int) int {
+	dp := make([]int, K+1)
+	for i := 1; i < N; i++ {
+		for j := K; j >= 1; j-- {
+			if j == 1 {
+				dp[j] = i
+			} else {
+				dp[j] += dp[j-1] + 1
+			}
+			if dp[j] >= N {
+				return i
+			}
+		}
+	}
+	return N
+}
+
+func superEggDrop4(K int, N int) int {
+	T := 1
+	for recurSuperEggDrop(T, K) < N {
+		T++
+	}
+	return T
+}
+
+func recurSuperEggDrop(T, K int) int {
+	if T == 1 || K == 1 {
+		return T
+	}
+	return recurSuperEggDrop(T-1, K-1) + 1 + recurSuperEggDrop(T-1, K)
 }
