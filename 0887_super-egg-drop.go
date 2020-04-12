@@ -39,3 +39,39 @@ func superEggDrop2(K int, N int) int {
 	}
 	return N
 }
+
+func superEggDrop3(K int, N int) int {
+	dict := make([][]int, N+1)
+	for i := range dict {
+		dict[i] = make([]int, K+1)
+	}
+	return dpSuperEggDrop(N, K, &dict)
+}
+
+func dpSuperEggDrop(N, K int, dict *[][]int) int {
+	if K == 1 {
+		return N
+	}
+	if N == 0 {
+		return 0
+	}
+	if val := (*dict)[N][K]; val != 0 {
+		return val
+	}
+	res := 1<<31 - 1
+	l, r := 1, N
+	for l <= r {
+		mid := (l + r) / 2
+		broken := dpSuperEggDrop(mid-1, K-1, dict)
+		notBroken := dpSuperEggDrop(N-mid, K, dict)
+		if broken > notBroken {
+			r = mid - 1
+			res = Min(res, broken+1)
+		} else {
+			l = mid + 1
+			res = Min(res, notBroken+1)
+		}
+	}
+	(*dict)[N][K] = res
+	return res
+}
