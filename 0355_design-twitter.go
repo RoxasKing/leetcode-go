@@ -96,30 +96,27 @@ func (t *Twitter) GetNewsFeed(userID int) []int {
 	}
 	news := make([]*twitter, 0, 10)
 	for i := len(t.users[userID].twitters) - 1; i >= 0; i-- {
+		news = append(news, t.users[userID].twitters[i])
 		if len(news) == 10 {
+			ajust(news)
 			break
 		}
-		news = append(news, t.users[userID].twitters[i])
 	}
-	ajust(news)
 	for fID := range t.users[userID].followees {
-		if _, ok := t.users[fID]; !ok {
-			continue
-		}
 		for i := len(t.users[fID].twitters) - 1; i >= 0; i-- {
 			if len(news) < 10 {
 				news = append(news, t.users[fID].twitters[i])
-				ajust(news)
-				continue
-			}
-			if t.users[fID].twitters[i].time > news[0].time {
+				if len(news) == 10 {
+					ajust(news)
+				}
+			} else if t.users[fID].twitters[i].time > news[0].time {
 				news[0] = t.users[fID].twitters[i]
 				ajust(news)
 			}
 		}
 	}
 	sort.Slice(news, func(i, j int) bool {
-		return news[i].time < news[j].time
+		return news[i].time > news[j].time
 	})
 	out := make([]int, 0, 10)
 	for i := range news {
