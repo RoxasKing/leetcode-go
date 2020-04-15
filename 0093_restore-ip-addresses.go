@@ -8,6 +8,7 @@ import (
   给定一个只包含数字的字符串，复原它并返回所有可能的 IP 地址格式。
 */
 
+// DFS
 func restoreIPAddresses(s string) []string {
 	if len(s) < 4 || 12 < len(s) {
 		return nil

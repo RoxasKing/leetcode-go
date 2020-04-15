@@ -12,6 +12,7 @@ import (
     所有左子树和右子树自身必须也是二叉搜索树。
 */
 
+// DFS
 func isValidBST(root *TreeNode) bool {
 	var dfs func(int, int, *TreeNode) bool
 	dfs = func(min, max int, root *TreeNode) bool {

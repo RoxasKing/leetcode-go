@@ -5,7 +5,7 @@ package leetcode
   找到给定的二维数组中最大的岛屿面积。(如果没有岛屿，则返回面积为0。)
 */
 
-// dfs
+// DFS
 func maxAreaOfIsland(grid [][]int) int {
 	steps := [][]int{{-1, 0}, {1, 0}, {0, -1}, {0, 1}}
 	var dfs func(int, int) int
@@ -29,7 +29,7 @@ func maxAreaOfIsland(grid [][]int) int {
 	return max
 }
 
-// dfs + stack
+// DFS + Stack
 func maxAreaOfIsland2(grid [][]int) int {
 	steps := [][]int{{-1, 0}, {1, 0}, {0, -1}, {0, 1}}
 	var stack [][]int
