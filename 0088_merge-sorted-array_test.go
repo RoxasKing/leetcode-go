@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func Test_merge0088(t *testing.T) {
+func Test_mergeII(t *testing.T) {
 	type args struct {
 		nums1 []int
 		m     int
@@ -30,7 +30,7 @@ func Test_merge0088(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			merge0088(tt.args.nums1, tt.args.m, tt.args.nums2, tt.args.n)
+			mergeII(tt.args.nums1, tt.args.m, tt.args.nums2, tt.args.n)
 			if !reflect.DeepEqual(tt.args.nums1, tt.want) {
 				t.Errorf("merge() = %v, want %v", tt.args.nums1, tt.want)
 			}

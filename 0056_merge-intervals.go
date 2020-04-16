@@ -8,7 +8,7 @@ import (
 	"sort"
 )
 
-func merge0056(intervals [][]int) [][]int {
+func merge(intervals [][]int) [][]int {
 	if len(intervals) == 0 {
 		return nil
 	}
@@ -17,12 +17,11 @@ func merge0056(intervals [][]int) [][]int {
 	})
 	var index int
 	for i := 1; i < len(intervals); i++ {
-		if intervals[i][0] <= intervals[index][1] &&
-			intervals[i][1] > intervals[index][1] {
-			intervals[index][1] = intervals[i][1]
-		} else if intervals[i][0] > intervals[index][1] {
+		if intervals[i][0] > intervals[index][1] {
 			index++
 			intervals[index] = intervals[i]
+		} else if intervals[i][1] > intervals[index][1] {
+			intervals[index][1] = intervals[i][1]
 		}
 	}
 	intervals = intervals[:index+1]

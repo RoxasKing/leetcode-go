@@ -12,10 +12,10 @@ func sortArray(nums []int) []int {
 		return nums
 	}
 	mid := len(nums) / 2
-	return merge(sortArray(nums[:mid]), sortArray(nums[mid:]))
+	return mergeSortArray(sortArray(nums[:mid]), sortArray(nums[mid:]))
 }
 
-func merge(l, r []int) []int {
+func mergeSortArray(l, r []int) []int {
 	out := make([]int, 0, len(l)+len(r))
 	for len(l) != 0 && len(r) != 0 {
 		if l[0] < r[0] {

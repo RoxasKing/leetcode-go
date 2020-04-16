@@ -7,7 +7,7 @@ package leetcode
     你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。
 */
 
-func merge0088(nums1 []int, m int, nums2 []int, n int) {
+func mergeII(nums1 []int, m int, nums2 []int, n int) {
 	idx1, idx2, ptr := m-1, n-1, m+n-1
 	for idx1 >= 0 && idx2 >= 0 {
 		if nums1[idx1] > nums2[idx2] {
