@@ -20,8 +20,8 @@ func merge(intervals [][]int) [][]int {
 		if intervals[i][0] > intervals[index][1] {
 			index++
 			intervals[index] = intervals[i]
-		} else if intervals[i][1] > intervals[index][1] {
-			intervals[index][1] = intervals[i][1]
+		} else {
+			intervals[index][1] = Max(intervals[index][1], intervals[i][1])
 		}
 	}
 	intervals = intervals[:index+1]
