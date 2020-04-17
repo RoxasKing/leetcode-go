@@ -15,3 +15,11 @@ func canJump(nums []int) bool {
 	}
 	return lastPos == 0
 }
+
+func canJump2(nums []int) bool {
+	var lastPos int
+	for i := 0; i < len(nums)-1 && i <= lastPos; i++ {
+		lastPos = Max(lastPos, nums[i]+i)
+	}
+	return lastPos >= len(nums)-1
+}
