@@ -14,29 +14,25 @@ package leetcode
 */
 
 func reverseKGroup(head *ListNode, k int) *ListNode {
-	pre := &ListNode{}
-	tail := pre
-	for {
-		stack := make([]*ListNode, 0, k)
+	tail := new(ListNode)
+	pre := tail
+	save := make([]*ListNode, k)
+	for head != nil {
 		var i int
-		for ; i < k && head != nil; i++ {
-			stack = append(stack, head)
+		for i < k && head != nil {
+			save[i] = head
 			head = head.Next
+			i++
 		}
 		if i == k {
-			for j := 0; j < i; j++ {
-				node := stack[len(stack)-1]
-				tail.Next = node
+			for j := k - 1; j >= 0; j-- {
+				tail.Next = save[j]
 				tail = tail.Next
-				stack = stack[:len(stack)-1]
 			}
 			tail.Next = nil
 		} else {
-			for _, node := range stack {
-				tail.Next = node
-				tail = tail.Next
-			}
-			return pre.Next
+			tail.Next = save[0]
 		}
 	}
+	return pre.Next
 }
