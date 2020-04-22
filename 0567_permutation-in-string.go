@@ -31,3 +31,43 @@ func checkInclusion(s1 string, s2 string) bool {
 	}
 	return false
 }
+
+func checkInclusion2(s1 string, s2 string) bool {
+	have, need := [26]int{}, [26]int{}
+	for _, c := range s1 {
+		need[c-97]++
+	}
+	var l, r int
+	for r < len(s2) {
+		have[s2[r]-97]++
+		for l <= r && have[s2[r]-97] > need[s2[r]-97] {
+			have[s2[l]-97]--
+			l++
+		}
+		if r+1-l == len(s1) {
+			return true
+		}
+		r++
+	}
+	return false
+}
+
+func checkInclusion3(s1 string, s2 string) bool {
+	save := [26]int{}
+	for _, c := range s1 {
+		save[c-97]++
+	}
+	var l, r int
+	for r < len(s2) {
+		save[s2[r]-97]--
+		for l <= r && save[s2[r]-97] < 0 {
+			save[s2[l]-97]++
+			l++
+		}
+		if r+1-l == len(s1) {
+			return true
+		}
+		r++
+	}
+	return false
+}
