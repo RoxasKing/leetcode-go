@@ -6,22 +6,24 @@ package leetcode
 
 func minWindow(s string, t string) string {
 	have, need := [128]int{}, [128]int{}
-	for i := range t {
-		need[t[i]]++
+	for _, c := range t {
+		need[c]++
 	}
 	var out string
-	for i, j, count := 0, 0, 0; j < len(s); j++ {
-		if have[s[j]] < need[s[j]] {
+	var l, r, count int
+	for r < len(s) {
+		if have[s[r]] < need[s[r]] {
 			count++
 		}
-		have[s[j]]++
-		for i <= j && have[s[i]] > need[s[i]] {
-			have[s[i]]--
-			i++
+		have[s[r]]++
+		for l <= r && have[s[l]] > need[s[l]] {
+			have[s[l]]--
+			l++
 		}
-		if count == len(t) && (len(out) == 0 || j+1-i < len(out)) {
-			out = s[i : j+1]
+		if count == len(t) && (len(out) == 0 || r+1-l < len(out)) {
+			out = s[l : r+1]
 		}
+		r++
 	}
 	return out
 }
