@@ -34,7 +34,7 @@ func Test_buildTree(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := buildTree0105(tt.args.preorder, tt.args.inorder); !reflect.DeepEqual(got, tt.want) {
+			if got := buildTree(tt.args.preorder, tt.args.inorder); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("buildTree() = %v, want %v", got, tt.want)
 			}
 		})
