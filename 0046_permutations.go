@@ -20,3 +20,22 @@ func permute(nums []int) [][]int {
 	backtrack(append([]int{}, nums...), 0)
 	return out
 }
+
+func permute2(nums []int) [][]int {
+	var out [][]int
+	permuteBacktrack(nums, 0, &out)
+	return out
+}
+
+func permuteBacktrack(nums []int, index int, out *[][]int) {
+	if index == len(nums) {
+		*out = append(*out, nums)
+	}
+	for i := index; i < len(nums); i++ {
+		nums[i], nums[index] = nums[index], nums[i]
+		newNums := make([]int, len(nums))
+		copy(newNums, nums)
+		permuteBacktrack(newNums, index+1, out)
+		nums[i], nums[index] = nums[index], nums[i]
+	}
+}
