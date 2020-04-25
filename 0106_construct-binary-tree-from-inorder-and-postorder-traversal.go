@@ -15,7 +15,7 @@ package leetcode
        15   7
 */
 
-func buildTree0106(inorder []int, postorder []int) *TreeNode {
+func buildTree2(inorder []int, postorder []int) *TreeNode {
 	dict := make(map[int]int, len(inorder))
 	for i := range inorder {
 		dict[inorder[i]] = i

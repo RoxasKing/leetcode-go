@@ -15,25 +15,25 @@ package leetcode
        15   7
 */
 
-func buildTree0105(preorder []int, inorder []int) *TreeNode {
-	dict := make(map[int]int, len(inorder))
-	for i := range inorder {
-		dict[inorder[i]] = i
+func buildTree(preorder []int, inorder []int) *TreeNode {
+	inorderDict := make(map[int]int, len(inorder))
+	for i, v := range inorder {
+		inorderDict[v] = i
 	}
-	var preIndex int
+	var preOrderIndex int
 	var helper func(int, int) *TreeNode
-	helper = func(left, right int) *TreeNode {
-		if left == right {
+	helper = func(l, r int) *TreeNode {
+		if l > r {
 			return nil
 		}
-		rootVal := preorder[preIndex]
-		index := dict[rootVal]
-		preIndex++
+		val := preorder[preOrderIndex]
+		inorderIndex := inorderDict[val]
+		preOrderIndex++
 		return &TreeNode{
-			Val:   rootVal,
-			Left:  helper(left, index),
-			Right: helper(index+1, right),
+			Val:   val,
+			Left:  helper(l, inorderIndex-1),
+			Right: helper(inorderIndex+1, r),
 		}
 	}
-	return helper(0, len(inorder))
+	return helper(0, len(preorder)-1)
 }
