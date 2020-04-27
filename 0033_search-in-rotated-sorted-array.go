@@ -8,13 +8,13 @@ package leetcode
   你的算法时间复杂度必须是 O(log n) 级别。
 */
 
-func search0033(nums []int, target int) int {
+func search(nums []int, target int) int {
 	if len(nums) == 0 {
 		return -1
 	}
 	var rotateIndex int
 	l, r := 0, len(nums)-1
-	if nums[l] > nums[r] {
+	if nums[l] > nums[r] { // find rotate index
 		for l <= r {
 			m := l + (r-l)>>1
 			if nums[m] > nums[m+1] {

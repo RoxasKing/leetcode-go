@@ -1,6 +1,8 @@
 package leetcode
 
-import "testing"
+import (
+	"testing"
+)
 
 func Test_search0081(t *testing.T) {
 	type args struct {
@@ -27,7 +29,7 @@ func Test_search0081(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := search0081(tt.args.nums, tt.args.target); got != tt.want {
+			if got := searchII(tt.args.nums, tt.args.target); got != tt.want {
 				t.Errorf("search0081() = %v, want %v", got, tt.want)
 			}
 		})

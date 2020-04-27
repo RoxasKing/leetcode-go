@@ -6,46 +6,50 @@ package leetcode
   编写一个函数来判断给定的目标值是否存在于数组中。若存在返回 true，否则返回 false。
 */
 
-func search0081(nums []int, target int) bool {
+func searchII(nums []int, target int) bool {
 	if len(nums) == 0 {
 		return false
 	}
-	head, tail := 0, len(nums)-1
-	for head < tail && nums[head] == nums[tail] {
-		head++
+	l, r := 0, len(nums)-1
+	for l < r && nums[l] == nums[r] {
+		l++
 	}
-	rotateIndex := head
-	if nums[head] > nums[tail] {
-		l, r := head, tail
-		for l <= r {
-			m := l + (r-l)>>1
-			if nums[m] > nums[m+1] {
-				rotateIndex = m + 1
-				break
-			}
-			if nums[m] < nums[l] {
-				r = m - 1
-			} else {
-				l = m + 1
-			}
+	rotateIndex := l
+	if nums[l] > nums[r] {
+		rotateIndex = findRoutateIndex(&nums, l, r)
+	}
+	if rotateIndex == l || target < nums[0] {
+		return binarySearch(&nums, rotateIndex, r, target)
+	}
+	return binarySearch(&nums, 0, rotateIndex, target)
+}
+
+func findRoutateIndex(nums *[]int, l, r int) int {
+	for l <= r {
+		m := l + (r-l)>>1
+		if (*nums)[m] > (*nums)[m+1] {
+			return m + 1
+		}
+		if (*nums)[m] >= (*nums)[l] {
+			l = m + 1
+		} else {
+			r = m - 1
 		}
 	}
-	binarySearch := func(l, r int) bool {
-		for l <= r {
-			m := l + (r-l)>>1
-			switch {
-			case target < nums[m]:
-				r = m - 1
-			case target > nums[m]:
-				l = m + 1
-			default:
-				return true
-			}
+	return -1
+}
+
+func binarySearch(nums *[]int, l, r, target int) bool {
+	for l <= r {
+		m := l + (r-l)>>1
+		switch {
+		case (*nums)[m] < target:
+			l = m + 1
+		case (*nums)[m] > target:
+			r = m - 1
+		default:
+			return true
 		}
-		return false
 	}
-	if rotateIndex == head || target < nums[head] {
-		return binarySearch(rotateIndex, tail)
-	}
-	return binarySearch(head, rotateIndex)
+	return false
 }
