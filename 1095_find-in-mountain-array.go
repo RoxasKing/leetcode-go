@@ -50,20 +50,18 @@ func (m *MountainArray) length() int       { return len(m.nums) }
 func findInMountainArray(target int, mountainArr *MountainArray) int {
 	l, r := 0, mountainArr.length()-1
 	var top int
-	for l <= r {
+	for {
 		m := l + (r-l)>>1
-		if m-1 >= 0 && m+1 <= mountainArr.length()-1 {
-			mLeftVal := mountainArr.get(m - 1)
-			mRightVal := mountainArr.get(m + 1)
-			mVal := mountainArr.get(m)
-			if mLeftVal < mVal && mVal > mRightVal {
-				top = m
-				break
-			} else if mLeftVal > mVal {
-				r = m
-			} else if mVal < mRightVal {
-				l = m
-			}
+		mLeftVal := mountainArr.get(m - 1)
+		mVal := mountainArr.get(m)
+		mRightVal := mountainArr.get(m + 1)
+		if mLeftVal < mVal && mVal > mRightVal {
+			top = m
+			break
+		} else if mLeftVal > mVal {
+			r = m
+		} else if mVal < mRightVal {
+			l = m
 		}
 	}
 	binarySearchA := func(l, r int) int {
