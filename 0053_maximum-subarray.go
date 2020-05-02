@@ -6,15 +6,9 @@ package leetcode
 
 func maxSubArray(nums []int) int {
 	sum, maxSum := -1<<31, -1<<31
-	max := func(a, b int) int {
-		if a < b {
-			return b
-		}
-		return a
-	}
 	for _, num := range nums {
-		sum = max(sum+num, num)
-		maxSum = max(maxSum, sum)
+		sum = Max(sum+num, num)
+		maxSum = Max(maxSum, sum)
 	}
 	return maxSum
 }
