@@ -1,25 +1,29 @@
 package leetcode
 
 func lengthOfLongestSubstring(s string) int {
-	var out int
-	dict := make([]int, 128)
-	for i, j := 0, 0; len(s)-i >= out && j < len(s); j++ {
-		i = Max(i, dict[s[j]])
-		out = Max(out, j-i+1)
-		dict[s[j]] = j + 1
+	save := make([]int, 128)
+	var max int
+	l, r := 0, 1
+	for max <= len(s)-l && r <= len(s) {
+		l = Max(l, save[s[r-1]])
+		max = Max(max, r-l)
+		save[s[r-1]] = r
+		r++
 	}
-	return out
+	return max
 }
 
 func longestSubstring(s string) string {
-	var out string
-	dict := make([]int, 128)
-	for i, j := 0, 0; len(s)-i >= len(out) && j < len(s); j++ {
-		i = Max(i, dict[s[j]])
-		if len(out) < j-i+1 {
-			out = s[i : j+1]
+	save := make([]int, 128)
+	var str string
+	l, r := 0, 1
+	for len(str) <= len(s)-l && r <= len(s) {
+		l = Max(l, save[s[r-1]])
+		if r-l > len(str) {
+			str = s[l:r]
 		}
-		dict[s[j]] = j + 1
+		save[s[r-1]] = r
+		r++
 	}
-	return out
+	return str
 }
