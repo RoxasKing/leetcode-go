@@ -7,6 +7,18 @@ package leetcode
 */
 
 func jump(nums []int) int {
+	var steps, cur, max int
+	for i := 0; i < len(nums)-1; i++ {
+		max = Max(max, nums[i]+i)
+		if i == cur {
+			steps++
+			cur = max
+		}
+	}
+	return steps
+}
+
+func jump2(nums []int) int {
 	if len(nums) < 2 {
 		return 0
 	}
@@ -21,23 +33,6 @@ func jump(nums []int) int {
 			if j+nums[i+j] > max {
 				max = j + nums[i+j]
 				nextPace = j
-			}
-		}
-	}
-	return steps
-}
-
-func jump2(nums []int) int {
-	var steps, cur, max int
-	for i := 0; i < len(nums)-1; i++ {
-		if nums[i]+i > max {
-			max = nums[i] + i
-		}
-		if i == cur {
-			steps++
-			cur = max
-			if cur >= len(nums)-1 {
-				break
 			}
 		}
 	}
