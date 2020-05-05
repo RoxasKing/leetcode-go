@@ -53,9 +53,6 @@ func isHappy2(n int) bool {
 			newN += (n % 10) * (n % 10)
 			n /= 10
 		}
-		for newN%10 == 0 {
-			newN /= 10
-		}
 		n = newN
 	}
 }
