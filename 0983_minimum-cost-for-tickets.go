@@ -71,6 +71,30 @@ func dpMincostTickets2(index int, days, costs, daysMap, memo *[]int) int {
 	return (*memo)[index]
 }
 
+func mincostTickets22(days []int, costs []int) int {
+	daysMap := []int{1, 7, 30}
+	memo := make([]int, len(days)+1)
+	var dp func(int) int
+	dp = func(index int) int {
+		if index >= len(days) {
+			return 0
+		}
+		if memo[index] > 0 {
+			return memo[index]
+		}
+		memo[index] = 1<<31 - 1
+		for i := 0; i < 3; i++ {
+			j := index
+			for j < len(days) && days[j] < days[index]+daysMap[i] {
+				j++
+			}
+			memo[index] = Min(memo[index], dp(j)+costs[i])
+		}
+		return memo[index]
+	}
+	return dp(0)
+}
+
 func mincostTickets3(days []int, costs []int) int {
 	daysMap := []int{1, 7, 30}
 	dict := make(map[int]struct{}, len(days))
@@ -95,7 +119,7 @@ func mincostTickets3(days []int, costs []int) int {
 	return dp[days[len(days)-1]]
 }
 
-func mincostTickets4(days []int, costs []int) int {
+func mincostTickets33(days []int, costs []int) int {
 	daysMap := []int{1, 7, 30}
 	newDays := make([]int, len(days))
 	for i := range days {
