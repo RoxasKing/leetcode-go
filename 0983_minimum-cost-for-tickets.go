@@ -45,9 +45,9 @@ func dpMincostTickets(day int, costs, memo *[]int, dict *map[int]bool) int {
 }
 
 func dpMincostTickets11(days []int, costs []int) int {
-	dayMap := []int{1, 7, 30}
+	daysMap := []int{1, 7, 30}
 	memo := make([]int, days[len(days)-1]+1)
-	exists := make(map[int]struct{})
+	exists := make(map[int]struct{}, len(days))
 	for _, day := range days {
 		exists[day] = struct{}{}
 	}
@@ -61,8 +61,8 @@ func dpMincostTickets11(days []int, costs []int) int {
 		}
 		if _, ok := exists[day]; ok {
 			memo[day] = 1<<31 - 1
-			for i := range costs {
-				memo[day] = Min(memo[day], dp(day+dayMap[i])+costs[i])
+			for i := 0; i < 3; i++ {
+				memo[day] = Min(memo[day], dp(day+daysMap[i])+costs[i])
 			}
 		} else {
 			memo[day] = dp(day + 1)
