@@ -23,7 +23,9 @@ func movingCount(m int, n int, k int) int {
 	for i := range used {
 		used[i] = make([]bool, n)
 	}
-	var max, cur int
+	used[0][0] = true
+	var max int
+	cur := 1
 	var bfs func(int, int)
 	bfs = func(x, y int) {
 		max = Max(max, cur)
@@ -37,23 +39,14 @@ func movingCount(m int, n int, k int) int {
 			bfs(nx, ny)
 		}
 	}
-	for i := 0; i < m; i++ {
-		for j := 0; j < n; j++ {
-			if isValid(i, j) {
-				cur = 1
-				used[i][j] = true
-				bfs(i, j)
-				used[i][j] = false
-			}
-		}
-	}
+	bfs(0, 0)
 	return max
 }
 
-// BFS + Stack
+// BFS + Queue
 func movingCount2(m int, n int, k int) int {
 	steps := [][]int{{1, 0}, {0, 1}}
-	check := func(x, y int) bool {
+	isValid := func(x, y int) bool {
 		var sum int
 		for x != 0 {
 			sum += x % 10
@@ -65,30 +58,27 @@ func movingCount2(m int, n int, k int) int {
 		}
 		return sum <= k
 	}
-	dict := make([][]bool, m)
-	for i := range dict {
-		dict[i] = make([]bool, n)
+	used := make([][]bool, m)
+	for i := range used {
+		used[i] = make([]bool, n)
 	}
-	var max, cur int
-	var queue [][]int
-	cur = 1
-	dict[0][0] = true
-	queue = append(queue, []int{0, 0})
+	used[0][0] = true
+	cur := 1
+	queue := [][]int{{0, 0}}
 	for len(queue) != 0 {
-		max = Max(max, cur)
 		x, y := queue[0][0], queue[0][1]
-		for _, step := range steps {
-			nx, ny := x+step[0], y+step[1]
-			if nx < 0 || nx > m-1 || ny < 0 || ny > n-1 || dict[nx][ny] || !check(nx, ny) {
+		queue = queue[1:]
+		for _, s := range steps {
+			nx, ny := x+s[0], y+s[1]
+			if nx < 0 || nx > m-1 || ny < 0 || ny > n-1 || used[nx][ny] || !isValid(nx, ny) {
 				continue
 			}
 			cur++
-			dict[nx][ny] = true
+			used[nx][ny] = true
 			queue = append(queue, []int{nx, ny})
 		}
-		queue = queue[1:]
 	}
-	return max
+	return cur
 }
 
 //
