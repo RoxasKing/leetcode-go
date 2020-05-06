@@ -103,10 +103,7 @@ func movingCount3(m int, n int, k int) int {
 	count := 1
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
-			if !isValid(i, j) {
-				continue
-			}
-			if i-1 >= 0 && used[i-1][j] || j-1 >= 0 && used[i][j-1] {
+			if isValid(i, j) && (i-1 >= 0 && used[i-1][j] || j-1 >= 0 && used[i][j-1]) {
 				used[i][j] = true
 				count++
 			}
