@@ -7,7 +7,7 @@ package interview
 // BFS + Recursive
 func movingCount(m int, n int, k int) int {
 	steps := [][]int{{1, 0}, {0, 1}}
-	check := func(x, y int) bool {
+	isValid := func(x, y int) bool {
 		var sum int
 		for x != 0 {
 			sum += x % 10
@@ -19,33 +19,32 @@ func movingCount(m int, n int, k int) int {
 		}
 		return sum <= k
 	}
-	dict := make([][]bool, m)
-	for i := range dict {
-		dict[i] = make([]bool, n)
+	used := make([][]bool, m)
+	for i := range used {
+		used[i] = make([]bool, n)
 	}
 	var max, cur int
 	var bfs func(int, int)
 	bfs = func(x, y int) {
 		max = Max(max, cur)
-		for _, step := range steps {
-			nx, ny := x+step[0], y+step[1]
-			if nx < 0 || nx > m-1 || ny < 0 || ny > n-1 || dict[nx][ny] || !check(nx, ny) {
+		for _, s := range steps {
+			nx, ny := x+s[0], y+s[1]
+			if nx < 0 || nx > m-1 || ny < 0 || ny > n-1 || used[nx][ny] || !isValid(nx, ny) {
 				continue
 			}
 			cur++
-			dict[nx][ny] = true
+			used[nx][ny] = true
 			bfs(nx, ny)
 		}
 	}
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
-			if !check(i, j) {
-				continue
+			if isValid(i, j) {
+				cur = 1
+				used[i][j] = true
+				bfs(i, j)
+				used[i][j] = false
 			}
-			cur = 1
-			dict[i][j] = true
-			bfs(i, j)
-			dict[i][j] = false
 		}
 	}
 	return max
