@@ -16,11 +16,11 @@ package leetcode
 
 func mincostTickets(days []int, costs []int) int {
 	memo := make([]int, 366)
-	dict := make(map[int]bool)
+	exists := make(map[int]bool)
 	for _, day := range days {
-		dict[day] = true
+		exists[day] = true
 	}
-	return dpMincostTickets(1, &costs, &memo, &dict)
+	return dpMincostTickets(1, &costs, &memo, &exists)
 }
 
 func dpMincostTickets(day int, costs, memo *[]int, dict *map[int]bool) int {
@@ -42,6 +42,34 @@ func dpMincostTickets(day int, costs, memo *[]int, dict *map[int]bool) int {
 		(*memo)[day] = dpMincostTickets(day+1, costs, memo, dict)
 	}
 	return (*memo)[day]
+}
+
+func dpMincostTickets11(days []int, costs []int) int {
+	dayMap := []int{1, 7, 30}
+	memo := make([]int, days[len(days)-1]+1)
+	exists := make(map[int]struct{})
+	for _, day := range days {
+		exists[day] = struct{}{}
+	}
+	var dp func(int) int
+	dp = func(day int) int {
+		if day > days[len(days)-1] {
+			return 0
+		}
+		if memo[day] > 0 {
+			return memo[day]
+		}
+		if _, ok := exists[day]; ok {
+			memo[day] = 1<<31 - 1
+			for i := range costs {
+				memo[day] = Min(memo[day], dp(day+dayMap[i])+costs[i])
+			}
+		} else {
+			memo[day] = dp(day + 1)
+		}
+		return memo[day]
+	}
+	return dp(1)
 }
 
 func mincostTickets2(days []int, costs []int) int {
@@ -97,13 +125,13 @@ func mincostTickets22(days []int, costs []int) int {
 
 func mincostTickets3(days []int, costs []int) int {
 	daysMap := []int{1, 7, 30}
-	dict := make(map[int]struct{}, len(days))
+	exists := make(map[int]struct{}, len(days))
 	for _, day := range days {
-		dict[day] = struct{}{}
+		exists[day] = struct{}{}
 	}
 	dp := make([]int, days[len(days)-1]+1)
 	for i := 1; i <= days[len(days)-1]; i++ {
-		if _, ok := dict[i]; ok {
+		if _, ok := exists[i]; ok {
 			dp[i] = dp[i-1] + costs[0]
 			for j := 1; j < 3; j++ {
 				curCosts := costs[j]
@@ -125,9 +153,9 @@ func mincostTickets33(days []int, costs []int) int {
 	for i := range days {
 		newDays[i] = days[i] - days[0] + 1
 	}
-	dict := make(map[int]int, len(days))
+	exists := make(map[int]int, len(days))
 	for i := range newDays {
-		dict[newDays[i]] = i + 1
+		exists[newDays[i]] = i + 1
 	}
 	dp := make([]int, len(days)+1)
 	for i := 1; i < len(dp); i++ {
@@ -136,7 +164,7 @@ func mincostTickets33(days []int, costs []int) int {
 			curCost := costs[j]
 			if newDays[i-1] > daysMap[j] {
 				for k := newDays[i-1] - daysMap[j]; k >= 1; k-- {
-					if index, ok := dict[k]; ok {
+					if index, ok := exists[k]; ok {
 						curCost += dp[index]
 						break
 					}
