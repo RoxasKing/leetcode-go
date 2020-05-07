@@ -53,15 +53,15 @@ func checkInclusion2(s1 string, s2 string) bool {
 }
 
 func checkInclusion3(s1 string, s2 string) bool {
-	need := [26]int{}
+	count := [26]int{}
 	for _, c := range s1 {
-		need[c-97]++
+		count[c-97]++
 	}
 	var l, r int
 	for r < len(s2) {
-		need[s2[r]-97]--
-		for l <= r && need[s2[r]-97] < 0 {
-			need[s2[l]-97]++
+		count[s2[r]-97]--
+		for l <= r && count[s2[r]-97] < 0 {
+			count[s2[l]-97]++
 			l++
 		}
 		if r+1-l == len(s1) {
