@@ -1,4 +1,4 @@
-package interview
+package coding_interview
 
 /*
   找出数组中重复的数字。

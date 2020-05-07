@@ -1,4 +1,4 @@
-package interview
+package crackingthecodingintervew
 
 // ListNode : Linked list data structure
 type ListNode struct {

@@ -1,4 +1,4 @@
-package interview
+package coding_interview
 
 import (
 	"testing"

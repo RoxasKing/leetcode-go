@@ -1,4 +1,4 @@
-package interview
+package crackingthecodingintervew
 
 import "math"
 
