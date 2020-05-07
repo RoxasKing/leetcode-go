@@ -11,6 +11,7 @@ package leetcode
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+// Sliding Window
 func findAnagrams(s string, p string) []int {
 	count := [26]int{}
 	for _, c := range p {
