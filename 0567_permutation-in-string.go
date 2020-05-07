@@ -5,6 +5,7 @@ package leetcode
   换句话说，第一个字符串的排列之一是第二个字符串的子串。
 */
 
+// Sliding Window
 func checkInclusion(s1 string, s2 string) bool {
 	have, need := [26]int{}, [26]int{}
 	for _, c := range s1 {
@@ -32,6 +33,7 @@ func checkInclusion(s1 string, s2 string) bool {
 	return false
 }
 
+// Sliding Window
 func checkInclusion2(s1 string, s2 string) bool {
 	have, need := [26]int{}, [26]int{}
 	for _, c := range s1 {
@@ -52,16 +54,17 @@ func checkInclusion2(s1 string, s2 string) bool {
 	return false
 }
 
+// Sliding Window
 func checkInclusion3(s1 string, s2 string) bool {
-	save := [26]int{}
+	count := [26]int{}
 	for _, c := range s1 {
-		save[c-97]++
+		count[c-97]++
 	}
 	var l, r int
 	for r < len(s2) {
-		save[s2[r]-97]--
-		for l <= r && save[s2[r]-97] < 0 {
-			save[s2[l]-97]++
+		count[s2[r]-97]--
+		for l <= r && count[s2[r]-97] < 0 {
+			count[s2[l]-97]++
 			l++
 		}
 		if r+1-l == len(s1) {

@@ -125,26 +125,27 @@ func mincostTickets22(days []int, costs []int) int {
 
 func mincostTickets3(days []int, costs []int) int {
 	daysMap := []int{1, 7, 30}
-	exists := make(map[int]struct{}, len(days))
+	maxDay := days[len(days)-1]
+	exists := make([]bool, maxDay+1)
 	for _, day := range days {
-		exists[day] = struct{}{}
+		exists[day] = true
 	}
-	dp := make([]int, days[len(days)-1]+1)
-	for i := 1; i <= days[len(days)-1]; i++ {
-		if _, ok := exists[i]; ok {
-			dp[i] = dp[i-1] + costs[0]
-			for j := 1; j < 3; j++ {
-				curCosts := costs[j]
-				if i > daysMap[j] {
-					curCosts += dp[i-daysMap[j]]
+	dp := make([]int, maxDay+1)
+	for i := 1; i <= maxDay; i++ {
+		if exists[i] {
+			dp[i] = 1<<31 - 1
+			for j := 0; j < 3; j++ {
+				cur := costs[j]
+				if i-daysMap[j] > 0 {
+					cur += dp[i-daysMap[j]]
 				}
-				dp[i] = Min(dp[i], curCosts)
+				dp[i] = Min(dp[i], cur)
 			}
 		} else {
 			dp[i] = dp[i-1]
 		}
 	}
-	return dp[days[len(days)-1]]
+	return dp[maxDay]
 }
 
 func mincostTickets33(days []int, costs []int) int {

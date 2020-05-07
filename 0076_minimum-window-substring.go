@@ -4,6 +4,7 @@ package leetcode
   给你一个字符串 S、一个字符串 T，请在字符串 S 里面找出：包含 T 所有字母的最小子串。
 */
 
+// Sliding Window
 func minWindow(s string, t string) string {
 	have, need := [128]int{}, [128]int{}
 	for _, c := range t {
