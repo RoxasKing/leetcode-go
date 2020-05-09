@@ -9,31 +9,21 @@ package codinginterviews
 */
 
 func myPow(x float64, n int) float64 {
-	if x == 0.0 && n < 0 {
-		return 0.0
-	}
-	absN := uint32(n)
 	if n < 0 {
-		absN = uint32(-n)
+		x = 1 / x
+		n = -n
 	}
-	out := pow(x, absN)
-	if n < 0 {
-		out = 1.0 / out
-	}
-	return out
+	return pow(x, n)
 }
 
-func pow(base float64, exponent uint32) float64 {
-	if exponent == 0 {
-		return 1
+func pow(x float64, n int) float64 {
+	if n == 0 {
+		return 1.0
 	}
-	if exponent == 1 {
-		return base
-	}
-	res := pow(base, exponent>>1)
-	res *= res
-	if exponent&0x1 == 1 {
-		res *= base
+	half := pow(x, n>>1)
+	res := half * half
+	if n%2 != 0 {
+		res *= x
 	}
 	return res
 }

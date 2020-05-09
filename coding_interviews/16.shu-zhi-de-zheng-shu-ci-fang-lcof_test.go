@@ -1,6 +1,9 @@
 package codinginterviews
 
-import "testing"
+import (
+	"math"
+	"testing"
+)
 
 func Test_myPow(t *testing.T) {
 	type args struct {
@@ -19,7 +22,7 @@ func Test_myPow(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := myPow(tt.args.x, tt.args.n); got != tt.want {
+			if got := myPow(tt.args.x, tt.args.n); math.Abs(got-tt.want) > 1e-9 {
 				t.Errorf("myPow() = %v, want %v", got, tt.want)
 			}
 		})
