@@ -1,4 +1,4 @@
-package coding_interview
+package codinginterviews
 
 import (
 	"reflect"
