@@ -22,7 +22,7 @@ func pow(x float64, n int) float64 {
 	}
 	half := pow(x, n>>1)
 	res := half * half
-	if n%2 != 0 {
+	if n&1 == 1 {
 		res *= x
 	}
 	return res
