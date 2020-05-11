@@ -10,20 +10,20 @@ package codinginterviews
 
 func myPow(x float64, n int) float64 {
 	if n < 0 {
-		x = 1 / x
 		n = -n
+		x = 1 / x
 	}
 	return pow(x, n)
 }
 
-func pow(x float64, n int) float64 {
-	if n == 0 {
+func pow(base float64, exponent int) float64 {
+	if exponent == 0 {
 		return 1.0
 	}
-	half := pow(x, n>>1)
-	res := half * half
-	if n%2 != 0 {
-		res *= x
+	half := pow(base, exponent>>1)
+	out := half * half
+	if exponent&1 == 1 {
+		out *= base
 	}
-	return res
+	return out
 }

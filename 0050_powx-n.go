@@ -6,19 +6,20 @@ package leetcode
 
 func myPow(x float64, n int) float64 {
 	if n < 0 {
-		x = 1 / x
 		n = -n
-	}
-	var pow func(float64, int) float64
-	pow = func(x float64, n int) float64 {
-		if n == 0 {
-			return 1.0
-		}
-		half := pow(x, n/2)
-		if n%2 == 0 {
-			return half * half
-		}
-		return half * half * x
+		x = 1 / x
 	}
 	return pow(x, n)
+}
+
+func pow(base float64, exponent int) float64 {
+	if exponent == 0 {
+		return 1
+	}
+	half := pow(base, exponent>>1)
+	out := half * half
+	if exponent&1 == 1 {
+		out *= base
+	}
+	return out
 }
