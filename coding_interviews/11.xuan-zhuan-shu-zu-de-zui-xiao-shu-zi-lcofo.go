@@ -12,12 +12,12 @@ func minArray(numbers []int) int {
 	if len(numbers) == 0 {
 		return -1
 	}
-	left, right := 0, len(numbers)-1
-	for left < len(numbers)-1 && numbers[left] == numbers[right] {
-		left++
+	head, tail := 0, len(numbers)-1
+	for head < tail && numbers[head] == numbers[tail] {
+		head++
 	}
-	if numbers[left] > numbers[right] {
-		l, r := left, right
+	if numbers[head] > numbers[tail] {
+		l, r := head, tail
 		for l <= r {
 			m := l + (r-l)>>1
 			if numbers[m] > numbers[m+1] {
@@ -30,5 +30,5 @@ func minArray(numbers []int) int {
 			}
 		}
 	}
-	return numbers[left]
+	return numbers[head]
 }
