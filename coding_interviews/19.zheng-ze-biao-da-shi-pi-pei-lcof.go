@@ -14,19 +14,19 @@ func isMatch(s string, p string) bool {
 		dp[i] = make([]bool, len(p)+1)
 	}
 	dp[0][0] = true
-	for i := 1; i < len(p) && dp[0][i-1]; i += 2 {
-		if p[i] == '*' {
-			dp[0][i+1] = true
+	for j := 1; j < len(p) && dp[0][j-1]; j++ {
+		if p[j] == '*' {
+			dp[0][j+1] = true
 		}
 	}
 	for i := range s {
 		for j := range p {
-			if s[i] == p[j] || p[j] == '.' {
+			if s[i] == p[j] || '.' == p[j] {
 				dp[i+1][j+1] = dp[i][j]
-			} else if p[j] == '*' {
-				dp[i+1][j+1] = dp[i+1][j-1]          // 0 times
-				if p[j-1] == s[i] || p[j-1] == '.' { // 1 times || more than 1 times
-					dp[i+1][j+1] = dp[i+1][j+1] || dp[i+1][j] || dp[i][j+1]
+			} else if '*' == p[j] {
+				dp[i+1][j+1] = dp[i+1][j-1]
+				if !dp[i+1][j+1] && (s[i] == p[j-1] || '.' == p[j-1]) {
+					dp[i+1][j+1] = dp[i+1][j] || dp[i][j+1]
 				}
 			}
 		}
