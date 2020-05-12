@@ -2,42 +2,39 @@ package leetcode
 
 // MinStack ...
 type MinStack struct {
-	stackArray []int
-	helpArray  []int
+	stack []int
+	help  []int
 }
 
 // NewMinStack ...
 func NewMinStack() MinStack {
-	return MinStack{stackArray: make([]int, 0), helpArray: make([]int, 0)}
+	return MinStack{stack: []int{}, help: []int{}}
 }
 
 // Push ...
 func (s *MinStack) Push(x int) {
-	s.stackArray = append(s.stackArray, x)
-	if len(s.helpArray) == 0 ||
-		x <= s.helpArray[len(s.helpArray)-1] {
-		s.helpArray = append(s.helpArray, x)
+	s.stack = append(s.stack, x)
+	if len(s.help) == 0 || x <= s.help[len(s.help)-1] {
+		s.help = append(s.help, x)
 	}
 }
 
 // Pop ...
 func (s *MinStack) Pop() {
-	if s.stackArray[len(s.stackArray)-1] ==
-		s.helpArray[len(s.helpArray)-1] {
-		s.helpArray = s.helpArray[:len(s.helpArray)-1]
+	if s.stack[len(s.stack)-1] == s.help[len(s.help)-1] {
+		s.help = s.help[:len(s.help)-1]
 	}
-	s.stackArray = s.stackArray[:len(s.stackArray)-1]
-
+	s.stack = s.stack[:len(s.stack)-1]
 }
 
 // Top ...
 func (s *MinStack) Top() int {
-	return s.stackArray[len(s.stackArray)-1]
+	return s.stack[len(s.stack)-1]
 }
 
 // GetMin ...
 func (s *MinStack) GetMin() int {
-	return s.helpArray[len(s.helpArray)-1]
+	return s.help[len(s.help)-1]
 }
 
 /**
