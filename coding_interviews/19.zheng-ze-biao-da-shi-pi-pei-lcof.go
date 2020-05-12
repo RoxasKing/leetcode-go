@@ -14,7 +14,7 @@ func isMatch(s string, p string) bool {
 		dp[i] = make([]bool, len(p)+1)
 	}
 	dp[0][0] = true
-	for j := 1; j < len(p) && dp[0][j-1]; j++ {
+	for j := 1; j < len(p) && dp[0][j-1]; j += 2 {
 		if p[j] == '*' {
 			dp[0][j+1] = true
 		}
@@ -32,4 +32,29 @@ func isMatch(s string, p string) bool {
 		}
 	}
 	return dp[len(s)][len(p)]
+}
+
+func isMatch2(s string, p string) bool { // too slow !!
+	return recurIsMath(s, p, 0, 0)
+}
+
+func recurIsMath(s, p string, sp, pp int) bool {
+	if sp > len(s)-1 && pp > len(p)-1 {
+		return true
+	}
+	if sp <= len(s)-1 && pp > len(p)-1 {
+		return false
+	}
+	if pp+1 < len(p) && p[pp+1] == '*' {
+		if sp < len(s) && p[pp] == s[sp] || sp < len(s) && p[pp] == '.' {
+			return recurIsMath(s, p, sp+1, pp+2) ||
+				recurIsMath(s, p, sp+1, pp) ||
+				recurIsMath(s, p, sp, pp+2)
+		}
+		return recurIsMath(s, p, sp, pp+2)
+	}
+	if sp < len(s) && pp < len(p) && (s[sp] == p[pp] || p[pp] == '.') {
+		return recurIsMath(s, p, sp+1, pp+1)
+	}
+	return false
 }
