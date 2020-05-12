@@ -25,7 +25,7 @@ func isMatch(s string, p string) bool {
 				dp[i+1][j+1] = dp[i][j]
 			} else if p[j] == '*' {
 				dp[i+1][j+1] = dp[i+1][j-1]          // 0 times
-				if p[j-1] == s[i] || p[j-1] == '.' { // more than 1 times || 1 times
+				if p[j-1] == s[i] || p[j-1] == '.' { // 1 times || more than 1 times
 					dp[i+1][j+1] = dp[i+1][j+1] || dp[i+1][j] || dp[i][j+1]
 				}
 			}
