@@ -22,6 +22,11 @@ func Test_isNumber(t *testing.T) {
 		{"9", args{"+-5"}, false},
 		{"10", args{"-1E-16"}, false},
 		{"11", args{"12e+5.4"}, false},
+		{"12", args{"."}, false},
+		{"13", args{".5"}, true},
+		{"14", args{"5."}, true},
+		{"15", args{" "}, false},
+		{"16", args{".1."}, false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

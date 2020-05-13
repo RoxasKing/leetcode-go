@@ -9,11 +9,54 @@ package codinginterviews
 */
 
 func isNumber(s string) bool {
-
-	return true
+	s = trimSpace(s)
+	if s == "" {
+		return false
+	}
+	if !scanInteger(&s) {
+		if s[0] != '.' {
+			return false
+		}
+		s = s[1:]
+		if !scanPureNumber(&s) {
+			return false
+		}
+	} else {
+		if s != "" && s[0] == '.' {
+			s = s[1:]
+		}
+		scanPureNumber(&s)
+	}
+	if s != "" && s[0] == 'e' {
+		s = s[1:]
+		if !scanInteger(&s) {
+			return false
+		}
+	}
+	return s == ""
 }
 
-func isPureNumber(s string) bool {
+func trimSpace(s string) string {
+	for s != "" && s[0] == ' ' {
+		s = s[1:]
+	}
+	for s != "" && s[len(s)-1] == ' ' {
+		s = s[:len(s)-1]
+	}
+	return s
+}
 
-	return true
+func scanInteger(s *string) bool {
+	if *s != "" && ((*s)[0] == '+' || (*s)[0] == '-') {
+		*s = (*s)[1:]
+	}
+	return scanPureNumber(s)
+}
+
+func scanPureNumber(s *string) bool {
+	before := len(*s)
+	for *s != "" && '0' <= (*s)[0] && (*s)[0] <= '9' {
+		*s = (*s)[1:]
+	}
+	return len(*s) < before
 }
