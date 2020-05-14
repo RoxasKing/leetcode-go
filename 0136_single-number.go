@@ -5,10 +5,10 @@ package leetcode
   说明：你的算法应该具有线性时间复杂度。 你可以不使用额外空间来实现吗？
 */
 
-func singleNumber0136(nums []int) int {
-	var num int
-	for i := range nums {
-		num ^= nums[i]
+func singleNumber(nums []int) int {
+	var out int
+	for _, num := range nums {
+		out ^= num
 	}
-	return num
+	return out
 }

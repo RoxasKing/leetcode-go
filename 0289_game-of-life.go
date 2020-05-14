@@ -37,8 +37,5 @@ func gameOfLife(board [][]int) {
 			getNewStatus(i, j)
 		}
 	}
-	for i := range board {
-		board[i] = next[i]
-	}
-	return
+	copy(board, next)
 }
