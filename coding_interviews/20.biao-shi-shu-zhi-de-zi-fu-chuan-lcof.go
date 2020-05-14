@@ -17,18 +17,16 @@ func isNumber(s string) bool {
 		if s[0] != '.' {
 			return false
 		}
-		s = s[1:]
+		moveRight(&s)
 		if !scanPureNumber(&s) {
 			return false
 		}
-	} else {
-		if s != "" && s[0] == '.' {
-			s = s[1:]
-			scanPureNumber(&s)
-		}
+	} else if s != "" && s[0] == '.' {
+		moveRight(&s)
+		scanPureNumber(&s)
 	}
 	if s != "" && s[0] == 'e' {
-		s = s[1:]
+		moveRight(&s)
 		if !scanInteger(&s) {
 			return false
 		}
@@ -44,6 +42,10 @@ func trimSpace(s string) string {
 		s = s[:len(s)-1]
 	}
 	return s
+}
+
+func moveRight(s *string) {
+	*s = (*s)[1:]
 }
 
 func scanInteger(s *string) bool {
