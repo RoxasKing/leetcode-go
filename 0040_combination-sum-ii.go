@@ -21,11 +21,9 @@ func combinationSum2(candidates []int, target int) [][]int {
 				out = append(out, []int{candidates[i]})
 			} else if target-candidates[i] >= candidates[i] {
 				temp := combination(candidates[i+1:], target-candidates[i])
-				if temp != nil {
-					for j := range temp {
-						out = append(out,
-							append([]int{candidates[i]}, temp[j]...))
-					}
+				for j := range temp {
+					out = append(out,
+						append([]int{candidates[i]}, temp[j]...))
 				}
 			}
 			for i+1 < len(candidates) && candidates[i+1] == candidates[i] {

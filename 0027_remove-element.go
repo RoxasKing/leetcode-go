@@ -17,6 +17,5 @@ func removeElement(nums []int, val int) int {
 			out++
 		}
 	}
-	nums = nums[:out]
 	return out
 }
