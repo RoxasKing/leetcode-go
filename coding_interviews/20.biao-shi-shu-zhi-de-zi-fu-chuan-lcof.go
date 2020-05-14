@@ -24,8 +24,8 @@ func isNumber(s string) bool {
 	} else {
 		if s != "" && s[0] == '.' {
 			s = s[1:]
+			scanPureNumber(&s)
 		}
-		scanPureNumber(&s)
 	}
 	if s != "" && s[0] == 'e' {
 		s = s[1:]
@@ -54,9 +54,9 @@ func scanInteger(s *string) bool {
 }
 
 func scanPureNumber(s *string) bool {
-	before := len(*s)
+	old := len(*s)
 	for *s != "" && '0' <= (*s)[0] && (*s)[0] <= '9' {
 		*s = (*s)[1:]
 	}
-	return len(*s) < before
+	return len(*s) < old
 }
