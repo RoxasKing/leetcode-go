@@ -2,7 +2,7 @@ package leetcode
 
 import "testing"
 
-func Test_singleNumber0137(t *testing.T) {
+func Test_singleNumberII(t *testing.T) {
 	type args struct {
 		nums []int
 	}
@@ -15,8 +15,8 @@ func Test_singleNumber0137(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := singleNumber0137(tt.args.nums); got != tt.want {
-				t.Errorf("singleNumber0137() = %v, want %v", got, tt.want)
+			if got := singleNumberII(tt.args.nums); got != tt.want {
+				t.Errorf("singleNumberII() = %v, want %v", got, tt.want)
 			}
 		})
 	}

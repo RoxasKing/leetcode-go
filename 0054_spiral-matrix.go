@@ -13,9 +13,7 @@ func spiralOrder(matrix [][]int) []int {
 	for len(matrix) != 0 && len(matrix[0]) != 0 {
 		switch state {
 		case 0:
-			for _, elem := range matrix[0] {
-				out = append(out, elem)
-			}
+			out = append(out, matrix[0]...)
 			matrix = matrix[1:]
 			state = 1
 		case 1:

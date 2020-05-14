@@ -6,7 +6,7 @@ package leetcode
   你的算法应该具有线性时间复杂度。 你可以不使用额外空间来实现吗？
 */
 
-func singleNumber0137(nums []int) int {
+func singleNumberII(nums []int) int {
 	var seenOnce, seenTwice int
 	for _, num := range nums {
 		seenOnce = ^seenTwice & (seenOnce ^ num)

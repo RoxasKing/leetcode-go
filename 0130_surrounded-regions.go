@@ -66,8 +66,7 @@ func solve2(board [][]byte) {
 		row int
 		col int
 	}
-	var dfs func(int, int)
-	dfs = func(row, col int) {
+	dfs := func(row, col int) {
 		var stack []coordinate
 		stack = append(stack, coordinate{row, col})
 		board[row][col] = '#'
@@ -125,8 +124,7 @@ func solve3(board [][]byte) {
 		row int
 		col int
 	}
-	var bfs func(int, int)
-	bfs = func(row, col int) {
+	bfs := func(row, col int) {
 		var queue []coordinate
 		queue = append(queue, coordinate{row, col})
 		board[row][col] = '#'

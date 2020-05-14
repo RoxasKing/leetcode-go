@@ -1,9 +1,5 @@
 package leetcode
 
-var (
-	steps = [][]int{{-1, 0}, {1, 0}, {0, -1}, {0, 1}}
-)
-
 // ListNode : Linked list data structure
 type ListNode struct {
 	Val  int

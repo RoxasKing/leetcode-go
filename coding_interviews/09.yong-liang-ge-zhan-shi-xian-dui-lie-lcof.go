@@ -73,10 +73,3 @@ func (s *stack) pop() int {
 	s.elems = s.elems[:len(s.elems)-1]
 	return value
 }
-
-func (s *stack) peek() int {
-	if s.size() == 0 {
-		return -1
-	}
-	return s.elems[len(s.elems)-1]
-}
