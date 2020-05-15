@@ -33,6 +33,7 @@ func Test_reverseList(t *testing.T) {
 		want *ListNode
 	}{
 		{"1", args{a}, f},
+		{"2", args{nil}, nil},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
