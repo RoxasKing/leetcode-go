@@ -19,3 +19,21 @@ func getKthFromEnd(head *ListNode, k int) *ListNode {
 	}
 	return stack[len(stack)-k]
 }
+
+func getKthFromEnd2(head *ListNode, k int) *ListNode {
+	var count int
+	pre := head
+	for count < k && pre != nil {
+		count++
+		pre = pre.Next
+	}
+	if count < k {
+		return nil
+	}
+	cur := head
+	for pre != nil {
+		pre = pre.Next
+		cur = cur.Next
+	}
+	return cur
+}
