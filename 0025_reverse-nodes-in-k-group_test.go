@@ -15,12 +15,12 @@ func Test_reverseKGroup(t *testing.T) {
 		want *ListNode
 	}{
 		{
-			"",
+			"1",
 			args{&ListNode{Val: 1, Next: &ListNode{Val: 2, Next: nil}}, 2},
 			&ListNode{Val: 2, Next: &ListNode{Val: 1, Next: nil}},
 		},
 		{
-			"",
+			"2",
 			args{
 				&ListNode{Val: 1, Next: &ListNode{Val: 2, Next: &ListNode{Val: 3, Next: &ListNode{Val: 4, Next: &ListNode{Val: 5, Next: nil}}}}},
 				2,
@@ -28,12 +28,20 @@ func Test_reverseKGroup(t *testing.T) {
 			&ListNode{Val: 2, Next: &ListNode{Val: 1, Next: &ListNode{Val: 4, Next: &ListNode{Val: 3, Next: &ListNode{Val: 5, Next: nil}}}}},
 		},
 		{
-			"",
+			"3",
 			args{
 				&ListNode{Val: 1, Next: &ListNode{Val: 2, Next: &ListNode{Val: 3, Next: &ListNode{Val: 4, Next: &ListNode{Val: 5, Next: nil}}}}},
 				3,
 			},
 			&ListNode{Val: 3, Next: &ListNode{Val: 2, Next: &ListNode{Val: 1, Next: &ListNode{Val: 4, Next: &ListNode{Val: 5, Next: nil}}}}},
+		},
+		{
+			"4",
+			args{
+				&ListNode{Val: 1, Next: &ListNode{Val: 2, Next: &ListNode{Val: 3, Next: &ListNode{Val: 4, Next: &ListNode{Val: 5}}}}},
+				1,
+			},
+			&ListNode{Val: 1, Next: &ListNode{Val: 2, Next: &ListNode{Val: 3, Next: &ListNode{Val: 4, Next: &ListNode{Val: 5}}}}},
 		},
 	}
 	for _, tt := range tests {
