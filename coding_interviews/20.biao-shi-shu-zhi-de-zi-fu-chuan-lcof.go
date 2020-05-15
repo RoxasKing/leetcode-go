@@ -9,7 +9,7 @@ package codinginterviews
 */
 
 func isNumber(s string) bool {
-	s = trimSpace(s)
+	trimSpace(&s)
 	if s == "" {
 		return false
 	}
@@ -17,16 +17,16 @@ func isNumber(s string) bool {
 		if s[0] != '.' {
 			return false
 		}
-		moveRight(&s)
+		s = s[1:]
 		if !scanPureNumber(&s) {
 			return false
 		}
 	} else if s != "" && s[0] == '.' {
-		moveRight(&s)
+		s = s[1:]
 		scanPureNumber(&s)
 	}
 	if s != "" && s[0] == 'e' {
-		moveRight(&s)
+		s = s[1:]
 		if !scanInteger(&s) {
 			return false
 		}
@@ -34,18 +34,13 @@ func isNumber(s string) bool {
 	return s == ""
 }
 
-func trimSpace(s string) string {
-	for s != "" && s[0] == ' ' {
-		s = s[1:]
+func trimSpace(s *string) {
+	for *s != "" && (*s)[0] == ' ' {
+		*s = (*s)[1:]
 	}
-	for s != "" && s[len(s)-1] == ' ' {
-		s = s[:len(s)-1]
+	for *s != "" && (*s)[len(*s)-1] == ' ' {
+		*s = (*s)[:len(*s)-1]
 	}
-	return s
-}
-
-func moveRight(s *string) {
-	*s = (*s)[1:]
 }
 
 func scanInteger(s *string) bool {
