@@ -10,7 +10,7 @@ package codinginterviews
 func exchange(nums []int) []int {
 	var index int
 	for i := range nums {
-		if nums[i]&1 == 1 {
+		if isOdd(nums[i]) {
 			nums[i], nums[index] = nums[index], nums[i]
 			index++
 		}
@@ -18,13 +18,17 @@ func exchange(nums []int) []int {
 	return nums
 }
 
+func isOdd(num int) bool {
+	return num&1 == 1
+}
+
 func exchange2(nums []int) []int {
 	l, r := 0, len(nums)-1
 	for l < r {
-		for l < r && nums[l]&1 == 1 {
+		for l < r && isOdd(nums[l]) {
 			l++
 		}
-		for l < r && nums[r]&1 == 0 {
+		for l < r && !isOdd(nums[r]) {
 			r--
 		}
 		nums[l], nums[r] = nums[r], nums[l]
