@@ -11,9 +11,9 @@ func spiralOrder(matrix [][]int) []int {
 	if len(matrix) == 0 {
 		return nil
 	}
-	var out []int
-	var action int
+	out := make([]int, 0, len(matrix)*len(matrix[0]))
 	left, right, top, bottom := 0, len(matrix[0])-1, 0, len(matrix)-1
+	var action int
 	for left <= right && top <= bottom {
 		switch action {
 		case 0: // walk top border
