@@ -12,29 +12,32 @@ func spiralOrder(matrix [][]int) []int {
 		return nil
 	}
 	var out []int
-	var cur int
-	for len(matrix) > cur<<1 && len(matrix[0]) > cur<<1 {
-		endRow := len(matrix) - 1 - cur
-		endCol := len(matrix[0]) - 1 - cur
-		for i := cur; i <= endCol; i++ {
-			out = append(out, matrix[cur][i])
-		}
-		if cur < endRow {
-			for i := cur + 1; i <= endRow; i++ {
-				out = append(out, matrix[i][endCol])
+	var action int
+	left, right, top, bottom := 0, len(matrix[0])-1, 0, len(matrix)-1
+	for left <= right && top <= bottom {
+		switch action {
+		case 0: // walk top border
+			for y := left; y <= right; y++ {
+				out = append(out, matrix[top][y])
 			}
-		}
-		if cur < endRow && cur < endCol {
-			for i := endCol - 1; i >= cur; i-- {
-				out = append(out, matrix[endRow][i])
+			top++
+		case 1: // walk right border
+			for x := top; x <= bottom; x++ {
+				out = append(out, matrix[x][right])
 			}
-		}
-		if cur < endRow-1 && cur < endCol {
-			for i := endRow - 1; i >= cur+1; i-- {
-				out = append(out, matrix[i][cur])
+			right--
+		case 2: // walk bottom border
+			for y := right; y >= left; y-- {
+				out = append(out, matrix[bottom][y])
 			}
+			bottom--
+		case 3: // walk right border
+			for x := bottom; x >= top; x-- {
+				out = append(out, matrix[x][left])
+			}
+			left++
 		}
-		cur++
+		action = (action + 1) % 4
 	}
 	return out
 }
