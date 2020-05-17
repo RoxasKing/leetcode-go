@@ -14,8 +14,8 @@ type CQueue struct {
 	stackB *stack
 }
 
-// Constructor ...
-func Constructor() CQueue {
+// NewCQueue ...
+func NewCQueue() CQueue {
 	return CQueue{
 		stackA: newStack(),
 		stackB: newStack(),

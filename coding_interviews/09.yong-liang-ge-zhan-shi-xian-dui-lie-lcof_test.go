@@ -6,7 +6,7 @@ import (
 )
 
 func TestCQueue(t *testing.T) {
-	cq := Constructor()
+	cq := NewCQueue()
 	cq.AppendTail(3)
 	v := cq.DeleteHead()
 	fmt.Println(v)
