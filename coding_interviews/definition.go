@@ -53,3 +53,37 @@ func Pow(a, b int) int {
 	}
 	return res
 }
+
+type Stack struct {
+	elems []int
+}
+
+func NewStack() *Stack {
+	return &Stack{
+		elems: []int{},
+	}
+}
+
+func (s *Stack) Size() int {
+	return len(s.elems)
+}
+
+func (s *Stack) Push(value int) {
+	s.elems = append(s.elems, value)
+}
+
+func (s *Stack) Peek() int {
+	if s.Size() == 0 {
+		return -1
+	}
+	return s.elems[len(s.elems)-1]
+}
+
+func (s *Stack) Pop() int {
+	if s.Size() == 0 {
+		return -1
+	}
+	value := s.elems[len(s.elems)-1]
+	s.elems = s.elems[:len(s.elems)-1]
+	return value
+}

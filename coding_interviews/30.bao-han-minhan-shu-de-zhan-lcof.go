@@ -22,49 +22,41 @@ package codinginterviews
 */
 
 type MinStack struct {
-	stack []int
-	help  []int
+	stack *Stack
+	help  *Stack
 }
 
 /** initialize your data structure here. */
 func NewMinStack() MinStack {
 	return MinStack{
-		stack: []int{},
-		help:  []int{},
+		stack: NewStack(),
+		help:  NewStack(),
 	}
 }
 
 func (this *MinStack) Push(x int) {
-	this.stack = append(this.stack, x)
-	if len(this.help) > 0 && this.help[len(this.help)-1] < x {
-		return
+	this.stack.Push(x)
+	if this.help.Size() == 0 || this.help.Peek() >= x {
+		this.help.Push(x)
 	}
-	this.help = append(this.help, x)
 }
 
 func (this *MinStack) Pop() {
-	if len(this.stack) == 0 {
+	if this.stack.Size() == 0 {
 		return
 	}
-	val := this.stack[len(this.stack)-1]
-	this.stack = this.stack[:len(this.stack)-1]
-	if this.help[len(this.help)-1] == val {
-		this.help = this.help[:len(this.help)-1]
+	val := this.stack.Pop()
+	if this.help.Peek() == val {
+		this.help.Pop()
 	}
 }
 
 func (this *MinStack) Top() int {
-	if len(this.stack) == 0 {
-		return -1
-	}
-	return this.stack[len(this.stack)-1]
+	return this.stack.Peek()
 }
 
 func (this *MinStack) Min() int {
-	if len(this.help) == 0 {
-		return -1
-	}
-	return this.help[len(this.help)-1]
+	return this.help.Peek()
 }
 
 /**

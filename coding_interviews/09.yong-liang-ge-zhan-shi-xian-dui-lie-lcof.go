@@ -8,36 +8,32 @@ package codinginterviews
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// CQueue ...
 type CQueue struct {
-	stackA *stack
-	stackB *stack
+	stackA *Stack
+	stackB *Stack
 }
 
-// NewCQueue ...
 func NewCQueue() CQueue {
 	return CQueue{
-		stackA: newStack(),
-		stackB: newStack(),
+		stackA: NewStack(),
+		stackB: NewStack(),
 	}
 }
 
-// AppendTail ...
 func (c *CQueue) AppendTail(value int) {
-	for c.stackB.size() != 0 {
-		value := c.stackB.pop()
-		c.stackA.push(value)
+	for c.stackB.Size() != 0 {
+		value := c.stackB.Pop()
+		c.stackA.Push(value)
 	}
-	c.stackA.push(value)
+	c.stackA.Push(value)
 }
 
-// DeleteHead ...
 func (c *CQueue) DeleteHead() int {
-	for c.stackA.size() != 0 {
-		value := c.stackA.pop()
-		c.stackB.push(value)
+	for c.stackA.Size() != 0 {
+		value := c.stackA.Pop()
+		c.stackB.Push(value)
 	}
-	return c.stackB.pop()
+	return c.stackB.Pop()
 }
 
 /**
@@ -46,30 +42,3 @@ func (c *CQueue) DeleteHead() int {
  * obj.AppendTail(value);
  * param_2 := obj.DeleteHead();
  */
-
-type stack struct {
-	elems []int
-}
-
-func newStack() *stack {
-	return &stack{
-		elems: []int{},
-	}
-}
-
-func (s *stack) size() int {
-	return len(s.elems)
-}
-
-func (s *stack) push(value int) {
-	s.elems = append(s.elems, value)
-}
-
-func (s *stack) pop() int {
-	if s.size() == 0 {
-		return -1
-	}
-	value := s.elems[len(s.elems)-1]
-	s.elems = s.elems[:len(s.elems)-1]
-	return value
-}

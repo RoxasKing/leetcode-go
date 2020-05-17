@@ -2,7 +2,7 @@ package codinginterviews
 
 import "testing"
 
-func TestMinStack(t *testing.T) {
+func TestMinStack1(t *testing.T) {
 	minStack := NewMinStack()
 	minStack.Push(-2)
 	minStack.Push(0)
@@ -16,5 +16,19 @@ func TestMinStack(t *testing.T) {
 	}
 	if minStack.Min() != -2 {
 		t.Errorf("minStack.Min() = %v, want %v", minStack.Min(), -2)
+	}
+}
+
+func TestMinStack2(t *testing.T) {
+	minStack := NewMinStack()
+	minStack.Push(0)
+	minStack.Push(1)
+	minStack.Push(0)
+	if minStack.Min() != 0 {
+		t.Errorf("minStack.Min() = %v, want %v", minStack.Min(), 0)
+	}
+	minStack.Pop()
+	if minStack.Min() != 0 {
+		t.Errorf("minStack.Min() = %v, want %v", minStack.Min(), 0)
 	}
 }
