@@ -73,20 +73,14 @@ func findOrder2(numCourses int, prerequisites [][]int) []int {
 			queue = append(queue, i)
 		}
 	}
-	if len(queue) == 0 {
-		return nil
-	}
-	var index int
-	out := make([]int, numCourses)
+	out := make([]int, 0, numCourses)
 	for len(queue) > 0 {
 		course := queue[0]
 		queue = queue[1:]
-		if index < numCourses {
-			out[index] = course
-			index++
-		} else {
+		if len(out) == numCourses {
 			return nil
 		}
+		out = append(out, course)
 		for _, c := range edges[course] {
 			indeg[c]--
 			if indeg[c] == 0 {
@@ -94,7 +88,7 @@ func findOrder2(numCourses int, prerequisites [][]int) []int {
 			}
 		}
 	}
-	if index < numCourses {
+	if len(out) < numCourses {
 		return nil
 	}
 	return out

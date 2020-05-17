@@ -41,6 +41,7 @@ func Test_findOrder2(t *testing.T) {
 		{"2", args{4, [][]int{{1, 0}, {2, 0}, {3, 1}, {3, 2}}}, []int{0, 1, 2, 3}},
 		{"3", args{3, [][]int{{1, 0}, {1, 2}, {0, 1}}}, nil},
 		{"4", args{4, [][]int{{1, 0}, {2, 0}, {1, 3}, {2, 3}}}, []int{0, 3, 1, 2}},
+		{"5", args{3, [][]int{{0, 1}, {1, 2}, {2, 0}}}, nil},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
