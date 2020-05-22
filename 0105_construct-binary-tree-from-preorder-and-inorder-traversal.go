@@ -21,19 +21,19 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
 		inorderDict[v] = i
 	}
 	var preOrderIndex int
-	var helper func(int, int) *TreeNode
-	helper = func(l, r int) *TreeNode {
+	var build func(int, int) *TreeNode
+	build = func(l, r int) *TreeNode {
 		if l > r {
 			return nil
 		}
-		val := preorder[preOrderIndex]
-		inorderIndex := inorderDict[val]
+		rootVal := preorder[preOrderIndex]
+		inorderIndex := inorderDict[rootVal]
 		preOrderIndex++
 		return &TreeNode{
-			Val:   val,
-			Left:  helper(l, inorderIndex-1),
-			Right: helper(inorderIndex+1, r),
+			Val:   rootVal,
+			Left:  build(l, inorderIndex-1),
+			Right: build(inorderIndex+1, r),
 		}
 	}
-	return helper(0, len(preorder)-1)
+	return build(0, len(preorder)-1)
 }
