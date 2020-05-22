@@ -7,33 +7,47 @@ package codinginterviews
     节点总数 <= 10000
 */
 
+// DFS + Backtrack
 func pathSum(root *TreeNode, sum int) [][]int {
 	if root == nil {
 		return nil
 	}
 	var (
-		out    [][]int
+		res    [][]int
 		cur    []int
 		curSum int
 		dfs    func(*TreeNode)
 	)
-	dfs = func(root *TreeNode) {
-		cur = append(cur, root.Val)
-		curSum += root.Val
-		if root.Left == nil && root.Right == nil && curSum == sum {
-			tmp := make([]int, len(cur))
-			copy(tmp, cur)
-			out = append(out, tmp)
-		}
-		if root.Left != nil {
-			dfs(root.Left)
-		}
-		if root.Right != nil {
-			dfs(root.Right)
-		}
-		curSum -= root.Val
+	addNode := func(node *TreeNode) {
+		curSum += node.Val
+		cur = append(cur, node.Val)
+	}
+	delNode := func(node *TreeNode) {
+		curSum -= node.Val
 		cur = cur[:len(cur)-1]
 	}
+	appendToResult := func() {
+		tmp := make([]int, len(cur))
+		copy(tmp, cur)
+		res = append(res, tmp)
+	}
+	dfs = func(node *TreeNode) {
+		addNode(node)
+		if curSum == sum && isLeaf(node) {
+			appendToResult()
+		}
+		if node.Left != nil {
+			dfs(node.Left)
+		}
+		if node.Right != nil {
+			dfs(node.Right)
+		}
+		delNode(node)
+	}
 	dfs(root)
-	return out
+	return res
+}
+
+func isLeaf(node *TreeNode) bool {
+	return node.Left == nil && node.Right == nil
 }
