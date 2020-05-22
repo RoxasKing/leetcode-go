@@ -8,25 +8,22 @@ func verifyPostorder(postorder []int) bool {
 	if len(postorder) == 0 {
 		return true
 	}
-	root := postorder[len(postorder)-1]
-	var l int
-	for l < len(postorder)-1 {
-		if postorder[l] > root {
-			break
+	var verify func(int, int) bool
+	verify = func(l, r int) bool {
+		if l >= r {
+			return true
 		}
-		l++
-	}
-	for r := l; r < len(postorder)-1; r++ {
-		if postorder[r] < root {
-			return false
+		rootVal := postorder[r]
+		index := l
+		for index < r && postorder[index] <= rootVal {
+			index++
 		}
+		for i := index; i < r; i++ {
+			if postorder[i] < rootVal {
+				return false
+			}
+		}
+		return verify(l, index-1) && verify(index, r-1)
 	}
-	out := true
-	if l > 0 {
-		out = out && verifyPostorder(postorder[:l])
-	}
-	if l < len(postorder)-1 {
-		out = out && verifyPostorder(postorder[l:len(postorder)-1])
-	}
-	return out
+	return verify(0, len(postorder)-1)
 }
