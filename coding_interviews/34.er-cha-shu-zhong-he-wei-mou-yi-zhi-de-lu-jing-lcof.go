@@ -18,23 +18,23 @@ func pathSum(root *TreeNode, sum int) [][]int {
 		curSum int
 		dfs    func(*TreeNode)
 	)
-	addNode := func(node *TreeNode) {
+	pushNode := func(node *TreeNode) {
 		curSum += node.Val
 		cur = append(cur, node.Val)
 	}
-	delNode := func(node *TreeNode) {
+	popNode := func(node *TreeNode) {
 		curSum -= node.Val
 		cur = cur[:len(cur)-1]
 	}
-	appendToResult := func() {
+	addToResult := func() {
 		tmp := make([]int, len(cur))
 		copy(tmp, cur)
 		res = append(res, tmp)
 	}
 	dfs = func(node *TreeNode) {
-		addNode(node)
+		pushNode(node)
 		if curSum == sum && isLeaf(node) {
-			appendToResult()
+			addToResult()
 		}
 		if node.Left != nil {
 			dfs(node.Left)
@@ -42,7 +42,7 @@ func pathSum(root *TreeNode, sum int) [][]int {
 		if node.Right != nil {
 			dfs(node.Right)
 		}
-		delNode(node)
+		popNode(node)
 	}
 	dfs(root)
 	return res
