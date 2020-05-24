@@ -10,40 +10,36 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 	if len(nums1) > len(nums2) {
 		nums1, nums2 = nums2, nums1
 	}
-	l, r, m := 0, len(nums1), len(nums1)+(len(nums2)+1-len(nums1))>>1
-	var i, j int
+	l, r, m := 0, len(nums1), (len(nums2)+len(nums1)+1)>>1
+	var m1, m2 int
 	for l <= r {
-		i = l + (r-l)>>1
-		j = m - i
-		if i < r && nums1[i] < nums2[j-1] {
-			l = i + 1
-		} else if i > l && nums1[i-1] > nums2[j] {
-			r = i - 1
+		m1 = (l + r) >> 1
+		m2 = m - m1
+		if m1 < r && nums1[m1] < nums2[m2-1] {
+			l = m1 + 1
+		} else if m1 > l && nums1[m1-1] > nums2[m2] {
+			r = m1 - 1
 		} else {
 			break
 		}
 	}
-	var maxLeft int
-	if i == 0 {
-		maxLeft = nums2[j-1]
-	} else if j == 0 {
-		maxLeft = nums1[i-1]
+	var maxL, minR int
+	if m1 == 0 {
+		maxL = nums2[m2-1]
+	} else if m2 == 0 {
+		maxL = nums1[m1-1]
 	} else {
-		maxLeft = Max(nums1[i-1], nums2[j-1])
+		maxL = Max(nums1[m1-1], nums2[m2-1])
 	}
-
+	if m1 == len(nums1) {
+		minR = nums2[m2]
+	} else if m2 == len(nums2) {
+		minR = nums1[m1]
+	} else {
+		minR = Min(nums1[m1], nums2[m2])
+	}
 	if (len(nums1)+len(nums2))&1 == 1 {
-		return float64(maxLeft)
+		return float64(maxL)
 	}
-
-	var minRight int
-	if i == len(nums1) {
-		minRight = nums2[j]
-	} else if j == len(nums2) {
-		minRight = nums1[i]
-	} else {
-		minRight = Min(nums1[i], nums2[j])
-	}
-
-	return float64(maxLeft+minRight) / 2
+	return float64(maxL+minR) / 2
 }
