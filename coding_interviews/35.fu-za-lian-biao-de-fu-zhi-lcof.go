@@ -15,8 +15,8 @@ package codinginterviews
 
 func copyRandomList(head *Node) *Node {
 	cloneNodes(head)
-	radomLinks(head)
-	return splitList(head)
+	cloneRadomLinks(head)
+	return splitAndReorganize(head)
 }
 
 func cloneNodes(head *Node) {
@@ -27,7 +27,7 @@ func cloneNodes(head *Node) {
 	}
 }
 
-func radomLinks(head *Node) {
+func cloneRadomLinks(head *Node) {
 	for n := head; n != nil; n = n.Next.Next {
 		if n.Random != nil {
 			n.Next.Random = n.Random.Next
@@ -35,7 +35,7 @@ func radomLinks(head *Node) {
 	}
 }
 
-func splitList(head *Node) *Node {
+func splitAndReorganize(head *Node) *Node {
 	pre := &Node{}
 	cur := pre
 	for n := head; n != nil; n = n.Next {
