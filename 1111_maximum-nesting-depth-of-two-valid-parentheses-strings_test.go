@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func Test_maxDepthAfterSplit(t *testing.T) {
+func Test_maxDepthexp1afterSplit(t *testing.T) {
 	type args struct {
 		seq string
 	}
@@ -20,14 +20,14 @@ func Test_maxDepthAfterSplit(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := maxDepthAfterSplit(tt.args.seq); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("maxDepthAfterSplit() = %v, want %v", got, tt.want)
+			if got := maxDepthexp1afterSplit(tt.args.seq); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("maxDepthexp1afterSplit() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func Test_maxDepthAfterSplit2(t *testing.T) {
+func Test_maxDepthexp1afterSplit2(t *testing.T) {
 	type args struct {
 		seq string
 	}
@@ -42,8 +42,8 @@ func Test_maxDepthAfterSplit2(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := maxDepthAfterSplit2(tt.args.seq); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("maxDepthAfterSplit2() = %v, want %v", got, tt.want)
+			if got := maxDepthexp1afterSplit2(tt.args.seq); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("maxDepthexp1afterSplit2() = %v, want %v", got, tt.want)
 			}
 		})
 	}

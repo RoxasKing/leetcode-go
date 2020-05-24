@@ -15,7 +15,7 @@ package leetcode
   返回长度为 seq.length 答案数组 answer ，选择 A 还是 B 的编码规则是：如果 seq[i] 是 A 的一部分，那么 answer[i] = 0。否则，answer[i] = 1。即便有多个满足要求的答案存在，你也只需返回 一个。
 */
 
-func maxDepthAfterSplit(seq string) []int {
+func maxDepthexp1afterSplit(seq string) []int {
 	out := make([]int, len(seq))
 	depth := 0
 	for i := range seq {
@@ -31,7 +31,7 @@ func maxDepthAfterSplit(seq string) []int {
 	return out
 }
 
-func maxDepthAfterSplit2(seq string) []int {
+func maxDepthexp1afterSplit2(seq string) []int {
 	out := make([]int, len(seq))
 	for i := range seq {
 		if seq[i] == '(' {
