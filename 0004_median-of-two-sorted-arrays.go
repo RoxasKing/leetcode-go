@@ -11,38 +11,39 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 		nums1, nums2 = nums2, nums1
 	}
 	l, r, m := 0, len(nums1), len(nums1)+(len(nums2)+1-len(nums1))>>1
+	var i, j int
 	for l <= r {
-		i := l + (r-l)>>1
-		j := m - i
+		i = l + (r-l)>>1
+		j = m - i
 		if i < r && nums1[i] < nums2[j-1] {
 			l = i + 1
 		} else if i > l && nums1[i-1] > nums2[j] {
 			r = i - 1
 		} else {
-			var maxLeft int
-			if i == 0 {
-				maxLeft = nums2[j-1]
-			} else if j == 0 {
-				maxLeft = nums1[i-1]
-			} else {
-				maxLeft = Max(nums1[i-1], nums2[j-1])
-			}
-
-			if (len(nums1)+len(nums2))&1 == 1 {
-				return float64(maxLeft)
-			}
-
-			var minRight int
-			if i == len(nums1) {
-				minRight = nums2[j]
-			} else if j == len(nums2) {
-				minRight = nums1[i]
-			} else {
-				minRight = Min(nums1[i], nums2[j])
-			}
-
-			return float64(maxLeft+minRight) / 2
+			break
 		}
 	}
-	return 0
+	var maxLeft int
+	if i == 0 {
+		maxLeft = nums2[j-1]
+	} else if j == 0 {
+		maxLeft = nums1[i-1]
+	} else {
+		maxLeft = Max(nums1[i-1], nums2[j-1])
+	}
+
+	if (len(nums1)+len(nums2))&1 == 1 {
+		return float64(maxLeft)
+	}
+
+	var minRight int
+	if i == len(nums1) {
+		minRight = nums2[j]
+	} else if j == len(nums2) {
+		minRight = nums1[i]
+	} else {
+		minRight = Min(nums1[i], nums2[j])
+	}
+
+	return float64(maxLeft+minRight) / 2
 }
