@@ -18,11 +18,8 @@ func superEggDrop(K int, N int) int {
 }
 
 func dpSuperEggDrop(N, K int, dict *[][]int) int {
-	if K == 1 {
+	if N == 0 || K == 1 {
 		return N
-	}
-	if N == 0 {
-		return 0
 	}
 	if val := (*dict)[N][K]; val != 0 {
 		return val
