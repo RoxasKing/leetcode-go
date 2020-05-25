@@ -31,8 +31,8 @@ func (this *Codec) deserialize(data string) *TreeNode {
 	}
 	bytes := strings.Split(data, ",")
 	var index int
-	var dfs func() *TreeNode
-	dfs = func() *TreeNode {
+	var buildTree func() *TreeNode
+	buildTree = func() *TreeNode {
 		if index == len(bytes)-1 {
 			return nil
 		}
@@ -42,12 +42,13 @@ func (this *Codec) deserialize(data string) *TreeNode {
 		}
 		rootVal, _ := strconv.Atoi(bytes[index])
 		index++
-		root := &TreeNode{Val: rootVal}
-		root.Left = dfs()
-		root.Right = dfs()
-		return root
+		return &TreeNode{
+			Val:   rootVal,
+			Left:  buildTree(),
+			Right: buildTree(),
+		}
 	}
-	return dfs()
+	return buildTree()
 }
 
 /**
