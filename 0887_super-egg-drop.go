@@ -60,15 +60,15 @@ func superEggDrop2(K int, N int) int {
 
 func superEggDrop3(K int, N int) int {
 	dp := make([]int, K+1)
-	for i := 1; i < N; i++ {
-		for j := K; j >= 1; j-- {
-			if j == 1 {
-				dp[j] = i
+	for n := 1; n < N; n++ {
+		for k := K; k >= 1; k-- {
+			if k != 1 {
+				dp[k] += dp[k-1] + 1
 			} else {
-				dp[j] += dp[j-1] + 1
+				dp[k] = n
 			}
-			if dp[j] >= N {
-				return i
+			if dp[k] >= N {
+				return n
 			}
 		}
 	}
