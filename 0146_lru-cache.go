@@ -8,7 +8,6 @@ package leetcode
   进阶: 你是否可以在 O(1) 时间复杂度内完成这两种操作？
 */
 
-// Node ...
 type Node struct {
 	Key  int
 	Val  int
@@ -29,7 +28,6 @@ func (l *LRUCache) remove(node *Node) {
 	node.Next.Prev = node.Prev
 }
 
-// LRUCache ...
 type LRUCache struct {
 	limit int
 	hash  map[int]*Node
@@ -37,7 +35,6 @@ type LRUCache struct {
 	Tail  *Node
 }
 
-// NewLRUCache ...
 func NewLRUCache(capacity int) LRUCache {
 	head, tail := new(Node), new(Node)
 	head.Next, tail.Prev = tail, head
@@ -49,7 +46,6 @@ func NewLRUCache(capacity int) LRUCache {
 	}
 }
 
-// Get ...
 func (l *LRUCache) Get(key int) int {
 	if v, ok := l.hash[key]; ok {
 		l.remove(v)
@@ -59,7 +55,6 @@ func (l *LRUCache) Get(key int) int {
 	return -1
 }
 
-// Put ...
 func (l *LRUCache) Put(key int, value int) {
 	if v, ok := l.hash[key]; ok {
 		l.remove(v)
