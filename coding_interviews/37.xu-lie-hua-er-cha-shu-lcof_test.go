@@ -26,10 +26,3 @@ func TestCodec1(t *testing.T) {
 	}
 	fmt.Println("deserialize success!")
 }
-
-// func TestCodec2(t *testing.T) {
-// 	c:=Constructor()
-// 	root:=&TreeNode{
-// 		Val: ,
-// 	}
-// }
