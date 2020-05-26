@@ -12,7 +12,7 @@ import (
 type Codec struct {
 }
 
-func Constructor() Codec {
+func NewCodec() Codec {
 	return Codec{}
 }
 

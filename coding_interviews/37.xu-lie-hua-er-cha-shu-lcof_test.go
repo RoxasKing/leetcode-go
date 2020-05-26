@@ -7,7 +7,7 @@ import (
 )
 
 func TestCodec1(t *testing.T) {
-	c := Constructor()
+	c := NewCodec()
 	root := &TreeNode{
 		Val:  1,
 		Left: &TreeNode{Val: 2},
