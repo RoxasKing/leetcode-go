@@ -6,14 +6,13 @@ package leetcode
 */
 
 func largestRectangleArea(heights []int) int {
-	stack := make([]int, 0, len(heights)+1)
-	stack = append(stack, -1)
-	var maxArea int
+	stack := append(make([]int, 0, len(heights)+1), -1)
+	var out int
 	for i := range heights {
 		for stack[len(stack)-1] != -1 &&
 			heights[stack[len(stack)-1]] >= heights[i] {
-			maxArea = Max(
-				maxArea,
+			out = Max(
+				out,
 				heights[stack[len(stack)-1]]*(i-1-stack[len(stack)-2]),
 			)
 			stack = stack[:len(stack)-1]
@@ -21,11 +20,11 @@ func largestRectangleArea(heights []int) int {
 		stack = append(stack, i)
 	}
 	for stack[len(stack)-1] != -1 {
-		maxArea = Max(
-			maxArea,
+		out = Max(
+			out,
 			heights[stack[len(stack)-1]]*(len(heights)-1-stack[len(stack)-2]),
 		)
 		stack = stack[:len(stack)-1]
 	}
-	return maxArea
+	return out
 }
