@@ -67,6 +67,11 @@ func (this *MedianFinder) AddNum(num int) {
 		if num < this.maxHeap[0] {
 			num, this.maxHeap[0] = this.maxHeap[0], num
 			maxHeapAjust(this.maxHeap)
+			if len(this.minHeap) > 0 {
+				num, this.minHeap[0] = this.minHeap[0], num
+				this.minHeap = append(this.minHeap, num)
+				return
+			}
 		}
 		this.minHeap = append(this.minHeap, num)
 		minHeapAjust(this.minHeap)
@@ -74,6 +79,9 @@ func (this *MedianFinder) AddNum(num int) {
 		if len(this.minHeap) > 0 && num > this.minHeap[0] {
 			num, this.minHeap[0] = this.minHeap[0], num
 			minHeapAjust(this.minHeap)
+			num, this.maxHeap[0] = this.maxHeap[0], num
+			this.maxHeap = append(this.maxHeap, num)
+			return
 		}
 		this.maxHeap = append(this.maxHeap, num)
 		maxHeapAjust(this.maxHeap)

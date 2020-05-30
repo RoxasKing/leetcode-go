@@ -14,4 +14,6 @@ func TestMedianFinder(t *testing.T) {
 	fmt.Println(m.FindMedian())
 	m.AddNum(5)
 	fmt.Println(m.FindMedian())
+	m.AddNum(6)
+	fmt.Println(m.FindMedian())
 }
