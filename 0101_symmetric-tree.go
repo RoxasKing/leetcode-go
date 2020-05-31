@@ -16,8 +16,28 @@ package leetcode
        3    3
 */
 
-// Recursion
+// Iteration
 func isSymmetric(root *TreeNode) bool {
+	if root == nil {
+		return true
+	}
+	stack := []*TreeNode{root.Left, root.Right}
+	for len(stack) != 0 {
+		l, r := stack[0], stack[1]
+		stack = stack[2:]
+		switch {
+		case l == nil && r == nil:
+		case l == nil || r == nil || l.Val != r.Val:
+			return false
+		default:
+			stack = append(stack, l.Left, r.Right, l.Right, r.Left)
+		}
+	}
+	return true
+}
+
+// Recursion
+func isSymmetric2(root *TreeNode) bool {
 	if root == nil {
 		return true
 	}
@@ -33,24 +53,4 @@ func isSymmetric(root *TreeNode) bool {
 		return compare(a.Left, b.Right) && compare(a.Right, b.Left)
 	}
 	return compare(root.Left, root.Right)
-}
-
-// Iteration
-func isSymmetric2(root *TreeNode) bool {
-	var stack []*TreeNode
-	var l, r *TreeNode
-	stack = append(stack, root, root)
-	for len(stack) != 0 {
-		l, stack = stack[0], stack[1:]
-		r, stack = stack[0], stack[1:]
-		if l == nil && r == nil {
-			continue
-		} else if l == nil || r == nil {
-			return false
-		} else if l.Val != r.Val {
-			return false
-		}
-		stack = append(stack, l.Left, r.Right, l.Right, r.Left)
-	}
-	return true
 }
