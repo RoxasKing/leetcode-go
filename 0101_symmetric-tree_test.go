@@ -14,7 +14,7 @@ func Test_isSymmetric(t *testing.T) {
 		want bool
 	}{
 		{
-			"",
+			"1",
 			args{
 				&TreeNode{
 					Val: 1,
@@ -33,7 +33,7 @@ func Test_isSymmetric(t *testing.T) {
 			true,
 		},
 		{
-			"",
+			"2",
 			args{
 				&TreeNode{
 					Val: 1,
@@ -69,7 +69,7 @@ func Test_isSymmetric2(t *testing.T) {
 		want bool
 	}{
 		{
-			"",
+			"1",
 			args{
 				&TreeNode{
 					Val: 1,
@@ -88,7 +88,7 @@ func Test_isSymmetric2(t *testing.T) {
 			true,
 		},
 		{
-			"",
+			"2",
 			args{
 				&TreeNode{
 					Val: 1,

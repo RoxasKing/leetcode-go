@@ -41,19 +41,23 @@ func getLeastNumbers2(arr []int, k int) []int {
 		m := l
 		for i := l; i < r; i++ {
 			if arr[i] < arr[r] {
-				arr[i], arr[m] = arr[m], arr[i]
+				if arr[i] != arr[m] {
+					arr[i], arr[m] = arr[m], arr[i]
+				}
 				m++
 			}
 		}
 		arr[m], arr[r] = arr[r], arr[m]
-		if m+1-l < k {
-			copy(out[index:index+1+m+1-l], arr[l:m+1])
-			index += m + 1 - l
-			qSortK(m+1, r, k-(m+1-l))
-		} else if m+1-l > k {
+		leftCount := m + 1 - l
+		switch {
+		case leftCount > k:
 			qSortK(l, m, k)
-		} else {
-			copy(out[index:index+m+1-l], arr[l:m+1])
+		case leftCount < k:
+			copy(out[index:index+leftCount], arr[l:m+1])
+			index += leftCount
+			qSortK(m+1, r, k-leftCount)
+		default:
+			copy(out[index:], arr[l:])
 		}
 	}
 	qSortK(0, len(arr)-1, k)
