@@ -15,7 +15,7 @@ func sumNums(n int) int {
 	return sumNums(n-1) + n
 }
 
-//
+// Russian peasant multiplication
 func sumNums2(n int) int {
 	ans, A, B := 0, n, n+1
 	addGreatZero := func() bool {
