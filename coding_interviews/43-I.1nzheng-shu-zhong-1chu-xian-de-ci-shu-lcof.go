@@ -20,3 +20,29 @@ func countDigitOne(n int) int {
 	}
 	return out
 }
+
+// https://leetcode-cn.com/problems/1nzheng-shu-zhong-1chu-xian-de-ci-shu-lcof/solution/zhao-gui-lu-by-yhemin/
+func countDigitOne2(n int) int {
+	var (
+		out  = 0
+		low  = 0
+		cur  = n % 10
+		high = n / 10
+		mod  = 1
+	)
+	for cur != 0 || high != 0 {
+		switch cur {
+		case 0:
+			out += high * mod
+		case 1:
+			out += high*mod + 1 + low
+		default:
+			out += (high + 1) * mod
+		}
+		low += cur * mod
+		cur = high % 10
+		high /= 10
+		mod *= 10
+	}
+	return out
+}
