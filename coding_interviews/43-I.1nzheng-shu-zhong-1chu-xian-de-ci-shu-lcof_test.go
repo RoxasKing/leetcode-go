@@ -13,6 +13,7 @@ func Test_countDigitOne(t *testing.T) {
 	}{
 		{"1", args{12}, 5},
 		{"2", args{13}, 6},
+		{"3", args{100}, 21},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

@@ -14,7 +14,9 @@ package codinginterviews
 
 func countDigitOne(n int) int {
 	var out int
-	for i := 1; i <= n; i++ {
+	for i := 1; i <= n; i *= 10 {
+		divider := i * 10
+		out += (n/divider)*i + Min(Max(n%divider-i+1, 0), i)
 	}
 	return out
 }
