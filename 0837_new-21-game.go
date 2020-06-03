@@ -32,3 +32,20 @@ func new21Game(N int, K int, W int) float64 {
 	}
 	return dp[0]
 }
+
+func new21Game2(N int, K int, W int) float64 {
+	if K == 0 || N >= K+W {
+		return 1
+	}
+	sum := make([]float64, K+W)
+	sum[0] = 1
+	for i := 1; i <= W; i++ {
+		t := Min(i-1, K-1)
+		sum[i] = sum[i-1] + sum[t]/float64(W)
+	}
+	for i := W + 1; i < len(sum); i++ {
+		t := Min(i-1, K-1)
+		sum[i] = sum[i-1] + (sum[t]-sum[i-W-1])/float64(W)
+	}
+	return (sum[N] - sum[K-1]) / (sum[K+W-1] - sum[K-1])
+}
