@@ -34,7 +34,7 @@ func countOfIntegers(digits int) int {
 }
 
 func digitAtIndex(index, digits int) int {
-	number := beginNuber(digits) + index/digits
+	number := beginNumber(digits) + index/digits
 	indexFromRight := digits - index%digits
 	for i := 1; i < indexFromRight; i++ {
 		number /= 10
@@ -42,7 +42,7 @@ func digitAtIndex(index, digits int) int {
 	return number % 10
 }
 
-func beginNuber(digits int) int {
+func beginNumber(digits int) int {
 	if digits == 1 {
 		return 10
 	}
