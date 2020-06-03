@@ -28,7 +28,7 @@ func new21Game(N int, K int, W int) float64 {
 	}
 	dp[K-1] = float64(Min(N-K+1, W)) / float64(W)
 	for i := K - 2; i >= 0; i-- {
-		dp[i] = dp[i+1] - (dp[i+1+W]-dp[i+1])/float64(W)
+		dp[i] = dp[i+1] + (dp[i+1+W]-dp[i+1])/float64(W)
 	}
 	return dp[0]
 }
