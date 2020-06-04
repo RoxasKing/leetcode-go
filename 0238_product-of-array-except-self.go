@@ -24,6 +24,9 @@ func productExceptSelf(nums []int) []int {
 		} else {
 			zeroCount++
 		}
+		if zeroCount == 2 {
+			break
+		}
 	}
 	out := make([]int, len(nums))
 	if zeroCount >= 2 {
