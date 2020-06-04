@@ -35,7 +35,7 @@ func countDigitOne2(n int) int {
 		case 0:
 			out += high * mod
 		case 1:
-			out += high*mod + 1 + low
+			out += high*mod + low + 1
 		default:
 			out += (high + 1) * mod
 		}
