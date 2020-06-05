@@ -41,7 +41,7 @@ func updateMatrix(matrix [][]int) [][]int {
 	return dist
 }
 
-// Dynamic Programing
+// Dynamic Programming
 func updateMatrix2(matrix [][]int) [][]int {
 	if len(matrix) == 0 {
 		return nil

@@ -13,6 +13,7 @@ import "strconv"
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+// Recursive
 func translateNum(num int) int {
 	numStr := strconv.Itoa(num)
 	var count int
@@ -30,4 +31,21 @@ func translateNum(num int) int {
 	}
 	recur(0)
 	return count
+}
+
+// Dynamic Programming
+func translateNum2(num int) int {
+	numStr := strconv.Itoa(num)
+	if len(numStr) == 1 {
+		return 1
+	}
+	dp1, dp2 := 1, 1
+	for i := len(numStr) - 2; i >= 0; i-- {
+		if numStr[i] == '1' || numStr[i] == '2' && numStr[i+1] <= '5' {
+			dp1, dp2 = dp1+dp2, dp1
+		} else {
+			dp2 = dp1
+		}
+	}
+	return dp1
 }
