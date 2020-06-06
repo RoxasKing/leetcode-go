@@ -12,21 +12,19 @@ func longestConsecutive(nums []int) int {
 	}
 	var out int
 	for num := range numSet {
-		if _, ok := numSet[num-1]; !ok {
-			curNum := num
-			cur := 1
-			for {
-				if _, ok := numSet[curNum+1]; ok {
-					curNum++
-					cur++
-				} else {
-					break
-				}
-			}
-			if cur > out {
-				out = cur
-			}
+		if _, ok := numSet[num-1]; ok {
+			continue
 		}
+		curNum, count := num, 1
+		for {
+			if _, ok := numSet[curNum+1]; ok {
+				curNum++
+				count++
+				continue
+			}
+			break
+		}
+		out = Max(out, count)
 	}
 	return out
 }
