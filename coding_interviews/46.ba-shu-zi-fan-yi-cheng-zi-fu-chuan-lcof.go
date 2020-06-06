@@ -40,12 +40,12 @@ func translateNum2(num int) int {
 		return 1
 	}
 	dp1, dp2 := 1, 1
-	for i := len(numStr) - 2; i >= 0; i-- {
-		if numStr[i] == '1' || numStr[i] == '2' && numStr[i+1] <= '5' {
-			dp1, dp2 = dp1+dp2, dp1
+	for i := 1; i < len(numStr); i++ {
+		if numStr[i-1] == '1' || numStr[i-1] == '2' && numStr[i] <= '5' {
+			dp1, dp2 = dp2, dp1+dp2
 		} else {
-			dp2 = dp1
+			dp1 = dp2
 		}
 	}
-	return dp1
+	return dp2
 }
