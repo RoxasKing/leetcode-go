@@ -17,11 +17,7 @@ func maxValue(grid [][]int) int {
 		return 0
 	}
 	dp := make([]int, len(grid[0]))
-	dp[0] = grid[0][0]
-	for i := 1; i < len(grid[0]); i++ {
-		dp[i] = dp[i-1] + grid[0][i]
-	}
-	for i := 1; i < len(grid); i++ {
+	for i := range grid {
 		for j := range grid[0] {
 			if j != 0 {
 				dp[j] = Max(dp[j-1], dp[j]) + grid[i][j]
