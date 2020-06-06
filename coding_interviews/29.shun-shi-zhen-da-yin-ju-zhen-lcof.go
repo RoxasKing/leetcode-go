@@ -31,7 +31,7 @@ func spiralOrder(matrix [][]int) []int {
 				out = append(out, matrix[bottom][y])
 			}
 			bottom--
-		case 3: // walk right border
+		case 3: // walk left border
 			for x := bottom; x >= top; x-- {
 				out = append(out, matrix[x][left])
 			}

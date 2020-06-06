@@ -6,27 +6,21 @@ package leetcode
 */
 
 func longestConsecutive(nums []int) int {
-	numSet := make(map[int]struct{})
+	numSet := make(map[int]bool)
 	for _, num := range nums {
-		numSet[num] = struct{}{}
+		numSet[num] = true
 	}
 	var out int
 	for num := range numSet {
-		if _, ok := numSet[num-1]; !ok {
-			curNum := num
-			cur := 1
-			for {
-				if _, ok := numSet[curNum+1]; ok {
-					curNum++
-					cur++
-				} else {
-					break
-				}
-			}
-			if cur > out {
-				out = cur
-			}
+		if numSet[num-1] {
+			continue
 		}
+		cur, count := num, 1
+		for numSet[cur+1] {
+			cur++
+			count++
+		}
+		out = Max(out, count)
 	}
 	return out
 }
