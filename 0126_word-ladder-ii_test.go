@@ -17,7 +17,7 @@ func Test_findLadders(t *testing.T) {
 		want [][]string
 	}{
 		{
-			"",
+			"1",
 			args{
 				"red",
 				"tax",
@@ -30,7 +30,7 @@ func Test_findLadders(t *testing.T) {
 			},
 		},
 		{
-			"",
+			"2",
 			args{
 				"hit",
 				"cog",
@@ -42,7 +42,7 @@ func Test_findLadders(t *testing.T) {
 			},
 		},
 		{
-			"",
+			"3",
 			args{
 				"hit",
 				"cog",

@@ -46,9 +46,7 @@ func findLadders(beginWord string, endWord string, wordList []string) [][]string
 							dict[w] = append(dict[w], target)
 						}
 						isEnd = true
-						continue
-					}
-					if _, ok := wordDict[target]; ok {
+					} else if _, ok := wordDict[target]; ok {
 						newSrc[target] = struct{}{}
 						if reverse {
 							dict[target] = append(dict[target], w)
@@ -75,8 +73,9 @@ func findLadders(beginWord string, endWord string, wordList []string) [][]string
 				tmp := make([]string, len(cur))
 				copy(tmp, cur)
 				out = append(out, tmp)
+			} else {
+				recur(dict[next])
 			}
-			recur(dict[next])
 			cur = cur[:len(cur)-1]
 		}
 	}
