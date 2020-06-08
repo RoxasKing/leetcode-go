@@ -13,49 +13,49 @@ package leetcode
 */
 
 func findLadders(beginWord string, endWord string, wordList []string) [][]string {
-	wordDict := make(map[string]struct{})
-	for _, w := range wordList {
-		wordDict[w] = struct{}{}
+	wordMark := make(map[string]bool)
+	for _, word := range wordList {
+		wordMark[word] = true
 	}
-	if _, ok := wordDict[endWord]; !ok {
+	if !wordMark[endWord] {
 		return nil
 	}
-	delete(wordDict, endWord)
-	src, dst := map[string]struct{}{beginWord: {}}, map[string]struct{}{endWord: {}}
+	delete(wordMark, endWord)
+	src, dst := map[string]bool{beginWord: true}, map[string]bool{endWord: true}
 	dict := make(map[string][]string)
-	var isEnd, reverse bool
+	var reverse, isEnd bool
 	for len(src) != 0 && len(dst) != 0 && !isEnd {
 		if len(src) > len(dst) {
 			src, dst = dst, src
 			reverse = !reverse
 		}
-		for w := range src {
-			delete(wordDict, w)
+		for word := range src {
+			delete(wordMark, word)
 		}
-		newSrc := make(map[string]struct{})
-		for w := range src {
-			bytes := []byte(w)
+		newSrc := make(map[string]bool)
+		for word := range src {
+			bytes := []byte(word)
 			for i := range bytes {
 				for j := 'a'; j <= 'z'; j++ {
 					bytes[i] = byte(j)
 					target := string(bytes)
-					if _, ok := dst[target]; ok {
+					if dst[target] {
 						if reverse {
-							dict[target] = append(dict[target], w)
+							dict[target] = append(dict[target], word)
 						} else {
-							dict[w] = append(dict[w], target)
+							dict[word] = append(dict[word], target)
 						}
 						isEnd = true
-					} else if _, ok := wordDict[target]; ok {
-						newSrc[target] = struct{}{}
+					} else if wordMark[target] {
+						newSrc[target] = true
 						if reverse {
-							dict[target] = append(dict[target], w)
+							dict[target] = append(dict[target], word)
 						} else {
-							dict[w] = append(dict[w], target)
+							dict[word] = append(dict[word], target)
 						}
 					}
 				}
-				bytes[i] = w[i]
+				bytes[i] = word[i]
 			}
 		}
 		src = newSrc
@@ -63,18 +63,18 @@ func findLadders(beginWord string, endWord string, wordList []string) [][]string
 	var out [][]string
 	cur := []string{beginWord}
 	var recur func([]string)
-	recur = func(nexts []string) {
-		if len(nexts) == 0 {
+	recur = func(words []string) {
+		if len(words) == 0 {
 			return
 		}
-		for _, next := range nexts {
-			cur = append(cur, next)
-			if next == endWord {
+		for _, word := range words {
+			cur = append(cur, word)
+			if word == endWord {
 				tmp := make([]string, len(cur))
 				copy(tmp, cur)
 				out = append(out, tmp)
 			} else {
-				recur(dict[next])
+				recur(dict[word])
 			}
 			cur = cur[:len(cur)-1]
 		}
