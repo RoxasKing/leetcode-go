@@ -21,3 +21,22 @@ func lengthOfLongestSubstring(s string) int {
 	}
 	return max
 }
+
+func lengthOfLongestSubstring2(s string) int {
+	var max, cur int
+	position := [128]int{}
+	for i := range position {
+		position[i] = -1
+	}
+	for i := range s {
+		if position[s[i]] < 0 || i-position[s[i]] > cur {
+			cur++
+		} else {
+			max = Max(max, cur)
+			cur = i - position[s[i]]
+		}
+		position[s[i]] = i
+	}
+	max = Max(max, cur)
+	return max
+}
