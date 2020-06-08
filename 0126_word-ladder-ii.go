@@ -13,14 +13,14 @@ package leetcode
 */
 
 func findLadders(beginWord string, endWord string, wordList []string) [][]string {
-	wordMark := make(map[string]bool)
+	wordSet := make(map[string]bool)
 	for _, word := range wordList {
-		wordMark[word] = true
+		wordSet[word] = true
 	}
-	if !wordMark[endWord] {
+	if !wordSet[endWord] {
 		return nil
 	}
-	delete(wordMark, endWord)
+	delete(wordSet, endWord)
 	src, dst := map[string]bool{beginWord: true}, map[string]bool{endWord: true}
 	dict := make(map[string][]string)
 	var reverse, isEnd bool
@@ -30,7 +30,7 @@ func findLadders(beginWord string, endWord string, wordList []string) [][]string
 			reverse = !reverse
 		}
 		for word := range src {
-			delete(wordMark, word)
+			delete(wordSet, word)
 		}
 		newSrc := make(map[string]bool)
 		for word := range src {
@@ -38,20 +38,20 @@ func findLadders(beginWord string, endWord string, wordList []string) [][]string
 			for i := range bytes {
 				for j := 'a'; j <= 'z'; j++ {
 					bytes[i] = byte(j)
-					target := string(bytes)
-					if dst[target] {
+					targetWord := string(bytes)
+					if dst[targetWord] {
 						if reverse {
-							dict[target] = append(dict[target], word)
+							dict[targetWord] = append(dict[targetWord], word)
 						} else {
-							dict[word] = append(dict[word], target)
+							dict[word] = append(dict[word], targetWord)
 						}
 						isEnd = true
-					} else if wordMark[target] {
-						newSrc[target] = true
+					} else if wordSet[targetWord] {
+						newSrc[targetWord] = true
 						if reverse {
-							dict[target] = append(dict[target], word)
+							dict[targetWord] = append(dict[targetWord], word)
 						} else {
-							dict[word] = append(dict[word], target)
+							dict[word] = append(dict[word], targetWord)
 						}
 					}
 				}
