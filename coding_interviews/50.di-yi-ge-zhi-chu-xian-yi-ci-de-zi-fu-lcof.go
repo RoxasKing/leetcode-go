@@ -8,9 +8,6 @@ package codinginterviews
 */
 
 func firstUniqChar(s string) byte {
-	if s == "" {
-		return ' '
-	}
 	hash := [128]int{}
 	for _, c := range s {
 		hash[c]++
