@@ -17,38 +17,38 @@ func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 	}
 	var signal int
 	mark := func(node *TreeNode) {
-		if node == p {
+		switch node {
+		case p:
 			signal |= 1
-		}
-		if node == q {
+		case q:
 			signal |= 2
 		}
 	}
-	link := make(map[*TreeNode]*TreeNode)
+	graph := make(map[*TreeNode]*TreeNode)
 	queue := []*TreeNode{root}
 	for len(queue) != 0 && signal != 3 {
-		if queue[0].Left != nil {
-			link[queue[0].Left] = queue[0]
-			mark(queue[0].Left)
-			queue = append(queue, queue[0].Left)
+		root, queue = queue[0], queue[1:]
+		if root.Left != nil {
+			graph[root.Left] = root
+			mark(root.Left)
+			queue = append(queue, root.Left)
 		}
-		if queue[0].Right != nil {
-			link[queue[0].Right] = queue[0]
-			mark(queue[0].Right)
-			queue = append(queue, queue[0].Right)
+		if root.Right != nil {
+			graph[root.Right] = root
+			mark(root.Right)
+			queue = append(queue, root.Right)
 		}
-		queue = queue[1:]
 	}
 	exists := make(map[*TreeNode]struct{})
 	for p != nil {
 		exists[p] = struct{}{}
-		p = link[p]
+		p = graph[p]
 	}
 	for q != nil {
 		if _, ok := exists[q]; ok {
 			return q
 		}
-		q = link[q]
+		q = graph[q]
 	}
 	return nil
 }
