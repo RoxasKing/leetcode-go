@@ -10,8 +10,25 @@ package leetcode
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// BFS + Hash
+// DFS + Recursive
 func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
+	if root == nil {
+		return nil
+	} else if root == p || root == q {
+		return root
+	}
+	l := lowestCommonAncestor(root.Left, p, q)
+	r := lowestCommonAncestor(root.Right, p, q)
+	if l != nil && r != nil {
+		return root
+	} else if l == nil {
+		return r
+	}
+	return l
+}
+
+// BFS + Hash
+func lowestCommonAncestor2(root, p, q *TreeNode) *TreeNode {
 	if root == nil {
 		return nil
 	}
@@ -51,25 +68,4 @@ func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 		q = graph[q]
 	}
 	return nil
-}
-
-// DFS + Recursive
-func lowestCommonAncestor2(root, p, q *TreeNode) *TreeNode {
-	var dfs func(*TreeNode) *TreeNode
-	dfs = func(node *TreeNode) *TreeNode {
-		if node == nil {
-			return nil
-		} else if node == p || node == q {
-			return node
-		}
-		l := dfs(node.Left)
-		r := dfs(node.Right)
-		if l != nil && r != nil {
-			return node
-		} else if l == nil {
-			return r
-		}
-		return l
-	}
-	return dfs(root)
 }
