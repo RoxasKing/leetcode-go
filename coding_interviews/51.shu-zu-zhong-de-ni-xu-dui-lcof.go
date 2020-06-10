@@ -14,29 +14,32 @@ func mergeSortCount(nums []int, l, r int) int {
 	}
 	m := l + (r-l)>>1
 	count := mergeSortCount(nums, l, m) + mergeSortCount(nums, m+1, r)
-	var tmp []int
+	tmp := make([]int, r+1-l)
+	var index int
 	i, j := l, m+1
 	for i <= m && j <= r {
 		if nums[i] <= nums[j] {
-			tmp = append(tmp, nums[i])
-			count += j - (m + 1)
+			count += j - 1 - m
+			tmp[index] = nums[i]
+			index++
 			i++
 		} else {
-			tmp = append(tmp, nums[j])
+			tmp[index] = nums[j]
+			index++
 			j++
 		}
 	}
 	for i <= m {
-		tmp = append(tmp, nums[i])
-		count += r - (m + 1) + 1
+		count += r - m
+		tmp[index] = nums[i]
+		index++
 		i++
 	}
 	for j <= r {
-		tmp = append(tmp, nums[j])
+		tmp[index] = nums[j]
+		index++
 		j++
 	}
-	for i := l; i <= r; i++ {
-		nums[i] = tmp[i-l]
-	}
+	copy(nums[l:r+1], tmp)
 	return count
 }
