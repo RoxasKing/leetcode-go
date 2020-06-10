@@ -5,7 +5,7 @@ package leetcode
   说明：本题中，我们将空字符串定义为有效的回文串。
 */
 
-func isPalindrome0125(s string) bool {
+func isPalindromeII(s string) bool {
 	array := []byte(s)
 	var index int
 	for i := range array {
