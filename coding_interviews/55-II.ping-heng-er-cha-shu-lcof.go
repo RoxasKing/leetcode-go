@@ -8,13 +8,21 @@ package codinginterviews
 */
 
 func isBalanced(root *TreeNode) bool {
+	_, ok := dfsIsBalanced(root)
+	return ok
+}
+
+func dfsIsBalanced(root *TreeNode) (int, bool) {
 	if root == nil {
-		return true
+		return 0, true
 	}
-	l := maxDepth(root.Left)
-	r := maxDepth(root.Right)
-	if Abs(l-r) > 1 {
-		return false
+	hL, bL := dfsIsBalanced(root.Left)
+	if !bL {
+		return hL, false
 	}
-	return isBalanced(root.Left) && isBalanced(root.Right)
+	hR, bR := dfsIsBalanced(root.Right)
+	if !bR {
+		return hR, false
+	}
+	return Max(hL, hR) + 1, Abs(hL-hR) < 2
 }
