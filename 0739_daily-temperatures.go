@@ -18,8 +18,8 @@ func dailyTemperatures(T []int) []int {
 		return nil
 	}
 	out := make([]int, len(T))
-	stack := []int{0}
-	for i := 1; i < len(T); i++ {
+	var stack []int
+	for i := range T {
 		for len(stack) != 0 && T[i] > T[stack[len(stack)-1]] {
 			out[stack[len(stack)-1]] = i - stack[len(stack)-1]
 			stack = stack[:len(stack)-1]
