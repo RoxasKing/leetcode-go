@@ -10,40 +10,37 @@ import "sort"
 func threeSum(nums []int) [][]int {
 	sort.Ints(nums)
 	var out [][]int
-	var i int
-	for i <= len(nums)-3 {
-		if nums[i] > 0 {
-			break
-		}
-		head, tail := i+1, len(nums)-1
-		for head < tail {
-			sum := nums[i] + nums[head] + nums[tail]
-			if sum == 0 {
-				out = append(out, []int{nums[i], nums[head], nums[tail]})
-				for head < tail && nums[head] == nums[head+1] {
-					head++
+	var l, r int
+	for i := 0; i < len(nums)-2 && nums[i] <= 0; i++ {
+		l, r = i+1, len(nums)-1
+		for l < r {
+			sum := nums[i] + nums[l] + nums[r]
+			switch {
+			case sum < 0:
+				for l < r && nums[l] == nums[l+1] {
+					l++
 				}
-				for head < tail && nums[tail] == nums[tail-1] {
-					tail--
+				l++
+			case sum > 0:
+				for l < r && nums[r] == nums[r-1] {
+					r--
 				}
-				head++
-				tail--
-			} else if sum < 0 {
-				for head < tail && nums[head] == nums[head+1] {
-					head++
+				r--
+			default:
+				out = append(out, []int{nums[i], nums[l], nums[r]})
+				for l < r && nums[l] == nums[l+1] {
+					l++
 				}
-				head++
-			} else {
-				for head < tail && nums[tail] == nums[tail-1] {
-					tail--
+				l++
+				for l < r && nums[r] == nums[r-1] {
+					r--
 				}
-				tail--
+				r--
 			}
 		}
 		for i < len(nums)-3 && nums[i] == nums[i+1] {
 			i++
 		}
-		i++
 	}
 	return out
 }
