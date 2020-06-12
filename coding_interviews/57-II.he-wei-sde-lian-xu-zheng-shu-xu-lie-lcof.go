@@ -17,7 +17,7 @@ func findContinuousSequence(target int) [][]int {
 	var out [][]int
 	l, r := 1, 2
 	for l < r {
-		sum := (l + r) * (r + 1 - l) >> 1
+		sum := (r + 1 - l) * (l + r) >> 1
 		switch {
 		case sum < target:
 			r++
