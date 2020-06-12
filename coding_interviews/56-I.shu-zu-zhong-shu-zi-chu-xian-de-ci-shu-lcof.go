@@ -5,21 +5,21 @@ package codinginterviews
 */
 
 func singleNumbers(nums []int) []int {
-	var ret int
+	var xor int
 	for _, num := range nums {
-		ret ^= num
+		xor ^= num
 	}
-	div := 1
-	for div&ret == 0 {
-		div <<= 1
+	flag := 1
+	for flag&xor == 0 {
+		flag <<= 1
 	}
-	var a, b int
+	out := make([]int, 2)
 	for _, num := range nums {
-		if div&num == 0 {
-			a ^= num
+		if num&flag == flag {
+			out[0] ^= num
 		} else {
-			b ^= num
+			out[1] ^= num
 		}
 	}
-	return []int{a, b}
+	return out
 }
