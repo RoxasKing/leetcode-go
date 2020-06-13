@@ -11,9 +11,9 @@ func Test_climbStairs(t *testing.T) {
 		args args
 		want int
 	}{
-		{"", args{2}, 2},
-		{"", args{3}, 3},
-		{"", args{4}, 5},
+		{"1", args{2}, 2},
+		{"2", args{3}, 3},
+		{"3", args{4}, 5},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
