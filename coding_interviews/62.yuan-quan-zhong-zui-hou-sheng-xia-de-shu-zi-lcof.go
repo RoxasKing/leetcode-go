@@ -7,8 +7,8 @@ package codinginterviews
 
 func lastRemaining(n int, m int) int {
 	var f int
-	for i := 2; i != n+1; i++ {
-		f = (m + f) % i
+	for i := 2; i <= n; i++ {
+		f = (f + m) % i
 	}
 	return f
 }
@@ -20,7 +20,7 @@ func lastRemaining2(n int, m int) int {
 			return 0
 		}
 		x := f(n - 1)
-		return (m + x) % n
+		return (x + m) % n
 	}
 	return f(n)
 }
