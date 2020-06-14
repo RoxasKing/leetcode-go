@@ -24,27 +24,6 @@ func findBestValue(arr []int, target int) int {
 	for i := 1; i < len(prefix); i++ {
 		prefix[i] = prefix[i-1] + arr[i-1]
 	}
-	out, diff := 0, target
-	for i := 1; i <= arr[len(arr)-1]; i++ {
-		index := sort.SearchInts(arr, i)
-		if index < 0 {
-			index = 0
-		}
-		cur := prefix[index] + i*(len(arr)-index)
-		newDiff := Abs(cur - target)
-		if newDiff < diff {
-			out, diff = i, newDiff
-		}
-	}
-	return out
-}
-
-func findBestValue2(arr []int, target int) int {
-	sort.Ints(arr)
-	prefix := make([]int, len(arr)+1)
-	for i := 1; i < len(prefix); i++ {
-		prefix[i] = prefix[i-1] + arr[i-1]
-	}
 	out, diff := 1<<31-1, target
 	l, r := 0, arr[len(arr)-1]
 	for l <= r {
@@ -80,5 +59,5 @@ func findFirstNotLessIndex(nums []int, target int) int {
 			l = m + 1
 		}
 	}
-	return -1
+	return l
 }
