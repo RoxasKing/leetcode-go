@@ -11,7 +11,7 @@ func maxProfit(prices []int) int {
 	if len(prices) < 2 {
 		return 0
 	}
-	min, out := 1<<31-1, -1<<31
+	out, min := -1<<31, 1<<31-1
 	for _, price := range prices {
 		out = Max(out, price-min)
 		min = Min(min, price)
