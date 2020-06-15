@@ -6,7 +6,7 @@ package leetcode
   由于返回类型是整数，结果只保留整数的部分，小数部分将被舍去。
 */
 
-// Dichotomy
+// Binary Search
 func mySqrt(x int) int {
 	l, r := 0, x
 	for l <= r {

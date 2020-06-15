@@ -14,7 +14,7 @@ package leetcode
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// dichotomy
+// Binary Search
 func findDuplicate(nums []int) int {
 	l, r := 1, len(nums)-1
 	var out int
