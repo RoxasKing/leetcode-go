@@ -1,6 +1,8 @@
 package leetcode
 
-import "testing"
+import (
+	"testing"
+)
 
 func Test_longestCommonPrefix(t *testing.T) {
 	type args struct {
@@ -11,10 +13,11 @@ func Test_longestCommonPrefix(t *testing.T) {
 		args args
 		want string
 	}{
-		{"", args{[]string{"aa", "a"}}, "a"},
-		{"", args{[]string{"", ""}}, ""},
-		{"", args{[]string{"flower", "flow", "flight"}}, "fl"},
-		{"", args{[]string{"dog", "racecar", "car"}}, ""},
+		{"1", args{[]string{"aa", "a"}}, "a"},
+		{"2", args{[]string{"", ""}}, ""},
+		{"3", args{[]string{"flower", "flow", "flight"}}, "fl"},
+		{"4", args{[]string{"dog", "racecar", "car"}}, ""},
+		{"5", args{[]string{"c", "c"}}, "c"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

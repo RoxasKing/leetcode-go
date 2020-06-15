@@ -6,24 +6,17 @@ package leetcode
 */
 
 func longestCommonPrefix(strs []string) string {
-	switch len(strs) {
-	case 0:
+	if len(strs) == 0 {
 		return ""
-	case 1:
-		return strs[0]
 	}
-	for i := range strs {
-		if len(strs[i]) == 0 {
-			return ""
-		}
-	}
-	var index int
-	for index = range strs[0] {
-		for i := range strs {
-			if index > len(strs[i])-1 || strs[0][index] != strs[i][index] {
-				return strs[0][:index]
+	ptr, ref := 0, strs[0]
+Loop:
+	for ptr = 0; ptr < len(ref); ptr++ {
+		for _, str := range strs {
+			if ptr > len(str)-1 || ref[ptr] != str[ptr] {
+				break Loop
 			}
 		}
 	}
-	return strs[0][:index+1]
+	return ref[:ptr]
 }
