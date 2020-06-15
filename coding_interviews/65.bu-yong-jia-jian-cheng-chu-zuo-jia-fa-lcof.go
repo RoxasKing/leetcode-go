@@ -8,6 +8,7 @@ package codinginterviews
     结果不会溢出 32 位整数
 */
 
+// Bit operation
 func add(a int, b int) int {
 	var sum, carry int
 	for b != 0 {

@@ -7,6 +7,7 @@ package codinginterviews
     1 <= n <= 10000
 */
 
+// Bit operation
 func sumNums(n int) int {
 	ans, A, B := 0, n, n+1
 	addGreatZero := func() bool {
