@@ -36,7 +36,7 @@ func findDuplicate(nums []int) int {
 	return out
 }
 
-// binary
+// Bit operation
 func findDuplicate2(nums []int) int {
 	var out int
 	bitMax := 31
