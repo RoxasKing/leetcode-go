@@ -13,26 +13,20 @@ package codinginterviews
 */
 
 func constructArr(a []int) []int {
-	out := make([]int, len(a))
-	var countZero, zeroIndex int
-	product := 1
-	for i, num := range a {
-		if num != 0 {
-			product *= num
-			continue
-		}
-		countZero++
-		if countZero > 1 {
-			return out
-		}
-		zeroIndex = i
+	if len(a) < 2 {
+		return nil
 	}
-	if countZero == 1 {
-		out[zeroIndex] = product
-	} else {
-		for i := range a {
-			out[i] = product / a[i]
-		}
+	l, r := make([]int, len(a)), make([]int, len(a))
+	l[0], r[len(a)-1] = 1, 1
+	for i := 1; i < len(a); i++ {
+		l[i] = l[i-1] * a[i-1]
+	}
+	for i := len(a) - 2; i >= 0; i-- {
+		r[i] = r[i+1] * a[i+1]
+	}
+	out := make([]int, len(a))
+	for i := range out {
+		out[i] = l[i] * r[i]
 	}
 	return out
 }
