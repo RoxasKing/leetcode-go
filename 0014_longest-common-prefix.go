@@ -3,27 +3,97 @@ package leetcode
 /*
   编写一个函数来查找字符串数组中的最长公共前缀。
   如果不存在公共前缀，返回空字符串 ""。
+
+  说明:
+    所有输入只包含小写字母 a-z 。
 */
 
 func longestCommonPrefix(strs []string) string {
-	switch len(strs) {
-	case 0:
+	if len(strs) == 0 {
 		return ""
-	case 1:
-		return strs[0]
 	}
-	for i := range strs {
-		if len(strs[i]) == 0 {
-			return ""
-		}
-	}
-	var index int
-	for index = range strs[0] {
-		for i := range strs {
-			if index > len(strs[i])-1 || strs[0][index] != strs[i][index] {
-				return strs[0][:index]
+	for i := range strs[0] {
+		for j := 1; j < len(strs); j++ {
+			if i > len(strs[j])-1 || strs[j][i] != strs[0][i] {
+				return strs[0][:i]
 			}
 		}
 	}
-	return strs[0][:index+1]
+	return strs[0]
+}
+
+func longestCommonPrefix2(strs []string) string {
+	if len(strs) == 0 {
+		return ""
+	}
+	lcp := func(str1, str2 string) string {
+		if len(str1) > len(str2) {
+			str1, str2 = str2, str1
+		}
+		for i := range str1 {
+			if str1[i] != str2[i] {
+				return str1[:i]
+			}
+		}
+		return str1
+	}
+	prefix := strs[0]
+	for i := 1; i < len(strs); i++ {
+		prefix = lcp(prefix, strs[i])
+	}
+	return prefix
+}
+
+// Divide And Conquer
+func longestCommonPrefix3(strs []string) string {
+	if len(strs) == 0 {
+		return ""
+	}
+	var lcp func(int, int) string
+	lcp = func(l, r int) string {
+		if l == r {
+			return strs[l]
+		}
+		m := l + (r-l)>>1
+		lPrefix, rPrefix := lcp(l, m), lcp(m+1, r)
+		if len(lPrefix) > len(rPrefix) {
+			lPrefix, rPrefix = rPrefix, lPrefix
+		}
+		for i := range lPrefix {
+			if lPrefix[i] != rPrefix[i] {
+				return lPrefix[:i]
+			}
+		}
+		return lPrefix
+	}
+	return lcp(0, len(strs)-1)
+}
+
+// Binary Search
+func longestCommonPrefix4(strs []string) string {
+	if len(strs) == 0 {
+		return ""
+	}
+	isCommonPrefix := func(r int) bool {
+		for i := 1; i < len(strs); i++ {
+			if strs[0][:r] != strs[i][:r] {
+				return false
+			}
+		}
+		return true
+	}
+	minLen := len(strs[0])
+	for i := 1; i < len(strs); i++ {
+		minLen = Min(minLen, len(strs[i]))
+	}
+	l, r := 0, minLen-1
+	for l <= r {
+		m := l + (r-l)>>1
+		if isCommonPrefix(m + 1) {
+			l = m + 1
+		} else {
+			r = m - 1
+		}
+	}
+	return strs[0][:l]
 }
