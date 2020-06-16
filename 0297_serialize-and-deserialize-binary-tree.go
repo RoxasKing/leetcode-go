@@ -61,6 +61,9 @@ func (c *Codec) deserialize(data string) *TreeNode {
 }
 
 func (c *Codec) serialize2(root *TreeNode) string {
+	if root == nil {
+		return "$"
+	}
 	stack := []*TreeNode{root}
 	var strs []string
 	for len(stack) != 0 {
