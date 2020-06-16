@@ -59,3 +59,47 @@ func (c *Codec) deserialize(data string) *TreeNode {
 	}
 	return build()
 }
+
+func (c *Codec) serialize2(root *TreeNode) string {
+	stack := []*TreeNode{root}
+	var strs []string
+	for len(stack) != 0 {
+		root, stack = stack[0], stack[1:]
+		if root == nil {
+			strs = append(strs, "$")
+		} else {
+			strs = append(strs, strconv.Itoa(root.Val))
+			stack = append(stack, root.Left, root.Right)
+		}
+	}
+	return strings.Join(strs, ",")
+}
+
+func (c *Codec) deserialize2(data string) *TreeNode {
+	if data == "" {
+		return nil
+	}
+	var index int
+	strs := strings.Split(data, ",")
+	rootVal, _ := strconv.Atoi(strs[index])
+	root := &TreeNode{Val: rootVal}
+	queue := []*TreeNode{root}
+	for len(queue) != 0 {
+		node := queue[0]
+		queue = queue[1:]
+		if strs[index+1] != "$" {
+			val, _ := strconv.Atoi(strs[index+1])
+			l := &TreeNode{Val: val}
+			node.Left = l
+			queue = append(queue, l)
+		}
+		if strs[index+2] != "$" {
+			val, _ := strconv.Atoi(strs[index+2])
+			r := &TreeNode{Val: val}
+			node.Right = r
+			queue = append(queue, r)
+		}
+		index += 2
+	}
+	return root
+}
