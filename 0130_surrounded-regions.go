@@ -17,7 +17,7 @@ package leetcode
   被围绕的区间不会存在于边界上，换句话说，任何边界上的 'O' 都不会被填充为 'X'。 任何不在边界上，或不与边界上的 'O' 相连的 'O' 最终都会被填充为 'X'。如果两个元素在水平或垂直方向相邻，则称它们是“相连”的。
 */
 
-// DFS & Recursive
+// DFS + Recursive
 func solve(board [][]byte) {
 	if len(board) == 0 {
 		return
@@ -57,7 +57,7 @@ func solve(board [][]byte) {
 	}
 }
 
-// DFS & stack
+// DFS + stack
 func solve2(board [][]byte) {
 	if len(board) == 0 {
 		return
