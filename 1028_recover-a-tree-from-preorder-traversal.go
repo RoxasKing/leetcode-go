@@ -44,3 +44,29 @@ func recoverFromPreorder(S string) *TreeNode {
 	}
 	return dfs(0)
 }
+
+// DFS + Iteration
+func recoverFromPreorder2(S string) *TreeNode {
+	var t []*TreeNode
+	for S != "" {
+		var level int
+		for S[0] == '-' {
+			level++
+			S = S[1:]
+		}
+		var rootVal int
+		for S != "" && S[0] != '-' {
+			rootVal = rootVal*10 + int(S[0]-'0')
+			S = S[1:]
+		}
+		node := &TreeNode{Val: rootVal}
+		if level < len(t) {
+			t = t[:level]
+			t[len(t)-1].Right = node
+		} else if len(t) > 0 {
+			t[len(t)-1].Left = node
+		}
+		t = append(t, node)
+	}
+	return t[0]
+}
