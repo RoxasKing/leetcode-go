@@ -6,21 +6,21 @@ package leetcode
 */
 
 func isPalindromeII(s string) bool {
-	array := []byte(s)
+	bytes := []byte(s)
 	var index int
-	for i := range array {
-		if 'a' <= array[i] && array[i] <= 'z' ||
-			'0' <= array[i] && array[i] <= '9' {
-			array[index] = array[i]
+	for i := range bytes {
+		if 'a' <= bytes[i] && bytes[i] <= 'z' ||
+			'0' <= bytes[i] && bytes[i] <= '9' {
+			bytes[index] = bytes[i]
 			index++
-		} else if 'A' <= array[i] && array[i] <= 'Z' {
-			array[index] = array[i] - 'A' + 'a'
+		} else if 'A' <= bytes[i] && bytes[i] <= 'Z' {
+			bytes[index] = bytes[i] - 'A' + 'a'
 			index++
 		}
 	}
-	array = array[:index]
-	for i := 0; i < len(array)/2; i++ {
-		if array[i] != array[len(array)-1-i] {
+	bytes = bytes[:index]
+	for i := 0; i < len(bytes)>>1; i++ {
+		if bytes[i] != bytes[len(bytes)-1-i] {
 			return false
 		}
 	}
