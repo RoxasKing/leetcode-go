@@ -12,9 +12,11 @@ func Test_isMatch(t *testing.T) {
 		args args
 		want bool
 	}{
-		{"", args{"aa", "b"}, false},
-		{"", args{"aa", "a*"}, true},
-		{"", args{"aa", "a*"}, true},
+		{"1", args{"aa", "b"}, false},
+		{"2", args{"aa", "a*"}, true},
+		{"3", args{"ab", ".*"}, true},
+		{"4", args{"aab", "c*a*b"}, true},
+		{"5", args{"mississippi", "mis*is*p*."}, false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

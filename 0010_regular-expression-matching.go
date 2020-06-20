@@ -21,15 +21,14 @@ func isMatch(s string, p string) bool {
 			dp[0][j+1] = true
 		}
 	}
-	for i := 0; i < len(s); i++ {
-		for j := 0; j < len(p); j++ {
-			if s[i] == p[j] || p[j] == '.' {
+	for i := range s {
+		for j := range p {
+			if s[i] == p[j] || '.' == p[j] {
 				dp[i+1][j+1] = dp[i][j]
-			} else if p[j] == '*' {
-				if p[j-1] != s[i] && p[j-1] != '.' {
-					dp[i+1][j+1] = dp[i+1][j-1]
-				} else {
-					dp[i+1][j+1] = dp[i+1][j-1] || dp[i+1][j] || dp[i][j+1]
+			} else if '*' == p[j] {
+				dp[i+1][j+1] = dp[i+1][j-1] // repeat == 0
+				if s[i] == p[j-1] || '.' == p[j-1] {
+					dp[i+1][j+1] = dp[i+1][j+1] || dp[i+1][j] || dp[i][j+1] // repeat > 1 || ==1
 				}
 			}
 		}
