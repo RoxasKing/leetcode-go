@@ -9,22 +9,22 @@ func addBinary(a string, b string) string {
 	out := make([]byte, 0, len(a)+len(b)+1)
 	var cur byte
 	for a != "" && b != "" {
-		sum := a[len(a)-1] + b[len(b)-1] - 2*'0' + cur
+		sum := a[len(a)-1] - '0' + b[len(b)-1] - '0' + cur
 		out = append(out, sum%2+'0')
-		cur = sum / 2
+		cur = sum >> 1
 		a = a[:len(a)-1]
 		b = b[:len(b)-1]
 	}
 	for a != "" {
 		sum := a[len(a)-1] - '0' + cur
 		out = append(out, sum%2+'0')
-		cur = sum / 2
+		cur = sum >> 1
 		a = a[:len(a)-1]
 	}
 	for b != "" {
 		sum := b[len(b)-1] - '0' + cur
 		out = append(out, sum%2+'0')
-		cur = sum / 2
+		cur = sum >> 1
 		b = b[:len(b)-1]
 	}
 	if cur != 0 {
