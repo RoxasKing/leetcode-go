@@ -8,14 +8,26 @@ package leetcode
 */
 
 func wordBreak(s string, wordDict []string) bool {
+	dp := make([]bool, len(s))
+	for i := range s {
+		for _, w := range wordDict {
+			if i < len(w)-1 {
+				continue
+			}
+			if string(s[i-len(w)+1:i+1]) == w && (i == len(w)-1 || dp[i-len(w)]) {
+				dp[i] = true
+			}
+		}
+	}
+	return dp[len(s)-1]
+}
+
+func wordBreak2(s string, wordDict []string) bool {
 	dict := make(map[string]bool)
 	for _, word := range wordDict {
 		dict[word] = true
 	}
 	dp := make([]int, len(s))
-	for i := range dp {
-		dp[i] = len(s)
-	}
 	for i := range s {
 		dp[i] = len(s)
 		if dict[s[0:i+1]] {
@@ -29,20 +41,4 @@ func wordBreak(s string, wordDict []string) bool {
 		}
 	}
 	return dp[len(s)-1] < len(s)
-}
-
-func wordBreak2(s string, wordDict []string) bool {
-	dp := make([]bool, len(s))
-	for i := range s {
-		for _, w := range wordDict {
-			if i < len(w)-1 {
-				continue
-			}
-			if string(s[i-len(w)+1:i+1]) == w &&
-				(i == len(w)-1 || dp[i-len(w)]) {
-				dp[i] = true
-			}
-		}
-	}
-	return dp[len(s)-1]
 }
