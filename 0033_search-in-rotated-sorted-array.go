@@ -31,19 +31,18 @@ func search(nums []int, target int) int {
 	binarySearch := func(l, r int) int {
 		for l <= r {
 			m := l + (r-l)>>1
-			switch {
-			case target < nums[m]:
-				r = m - 1
-			case target > nums[m]:
+			if nums[m] < target {
 				l = m + 1
-			default:
+			} else if nums[m] > target {
+				r = m - 1
+			} else {
 				return m
 			}
 		}
 		return -1
 	}
-	if rotateIndex == 0 || target < nums[0] {
+	if rotateIndex == 0 || nums[0] > target {
 		return binarySearch(rotateIndex, len(nums)-1)
 	}
-	return binarySearch(0, rotateIndex)
+	return binarySearch(0, rotateIndex-1)
 }
