@@ -16,26 +16,17 @@ package leetcode
 */
 
 func findMinII(nums []int) int {
-	if len(nums) == 0 {
-		return -1
+	for len(nums) > 1 && nums[0] == nums[len(nums)-1] {
+		nums = nums[1:]
 	}
-	head, tail := 0, len(nums)-1
-	for head < tail && nums[head] == nums[tail] {
-		head++
-	}
-	if nums[head] > nums[tail] {
-		l, r := head, tail
-		for l <= r {
-			m := l + (r-l)>>1
-			if nums[m] > nums[m+1] {
-				return nums[m+1]
-			}
-			if nums[m] < nums[l] {
-				r = m - 1
-			} else {
-				l = m + 1
-			}
+	l, r := 0, len(nums)-1
+	for l < r {
+		m := l + (r-l)>>1
+		if nums[m] > nums[r] {
+			l = m + 1
+		} else {
+			r = m
 		}
 	}
-	return nums[head]
+	return nums[l]
 }
