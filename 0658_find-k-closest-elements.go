@@ -30,19 +30,19 @@ func findClosestElements(arr []int, k int, x int) []int {
 			r = m - 1
 		}
 	}
-	l, r = index, index
-	for r+1-l < k {
+	l, r = index, index+1
+	for r-l < k {
 		if l == 0 {
-			r++
-		} else if r == len(arr)-1 {
-			l--
+			return arr[:k]
+		} else if r == len(arr) {
+			return arr[len(arr)-k:]
 		} else {
-			if Abs(arr[l-1]-x) > Abs(arr[r+1]-x) {
+			if Abs(arr[l-1]-x) > Abs(arr[r]-x) {
 				r++
 			} else {
 				l--
 			}
 		}
 	}
-	return arr[l : r+1]
+	return arr[l:r]
 }
