@@ -9,17 +9,40 @@ func myPow(x float64, n int) float64 {
 		n = -n
 		x = 1 / x
 	}
-	return pow(x, n)
+	return quickMul(x, n)
 }
 
-func pow(base float64, exponent int) float64 {
-	if exponent == 0 {
+func myPow2(x float64, n int) float64 {
+	if n < 0 {
+		n = -n
+		x = 1 / x
+	}
+	return quickMul2(x, n)
+}
+
+// Binary Exponentiation + Iterate
+func quickMul(x float64, N int) float64 {
+	out := 1.0
+	base := x
+	for N > 0 {
+		if N%2 == 1 {
+			out *= base
+		}
+		base *= base
+		N /= 2
+	}
+	return out
+}
+
+// Binary Exponentiation + Recursive
+func quickMul2(x float64, N int) float64 {
+	if N == 0 {
 		return 1
 	}
-	half := pow(base, exponent>>1)
+	half := quickMul2(x, N>>1)
 	out := half * half
-	if exponent&1 == 1 {
-		out *= base
+	if N&1 == 1 {
+		out *= x
 	}
 	return out
 }
