@@ -15,20 +15,17 @@ func findMin(nums []int) int {
 	if len(nums) == 0 {
 		return 0
 	}
-	for len(nums) > 1 && nums[0] == nums[len(nums)-1] {
-		nums = nums[1:]
-	}
 	l, r := 0, len(nums)-1
-	if nums[l] <= nums[r] {
+	if nums[l] < nums[r] {
 		return nums[l]
 	}
-	for l <= r {
+	for l < r {
 		m := l + (r-l)>>1
 		if nums[m] > nums[m+1] {
 			return nums[m+1]
 		}
 		if nums[m] < nums[l] {
-			r = m - 1
+			r = m
 		} else {
 			l = m + 1
 		}
