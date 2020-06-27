@@ -5,6 +5,22 @@ package leetcode
 */
 
 func firstMissingPositive(nums []int) int {
+	for i := 0; i < len(nums); i++ {
+		num := nums[i] - 1
+		for 0 <= num && num < len(nums) && num != i && nums[num] != nums[i] {
+			nums[i], nums[num] = nums[num], nums[i]
+			num = nums[i] - 1
+		}
+	}
+	for i := range nums {
+		if nums[i] != i+1 {
+			return i + 1
+		}
+	}
+	return len(nums) + 1
+}
+
+func firstMissingPositive2(nums []int) int {
 	var containOne bool
 	for i := range nums {
 		if nums[i] == 1 {
