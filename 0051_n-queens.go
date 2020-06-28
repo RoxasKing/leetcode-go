@@ -38,11 +38,14 @@ func solveNQueens(n int) [][]string {
 		mainDiagonal[row+col] = false
 		subDiagonal[row-col+n-1] = false
 	}
+	addRes := func() {
+		cur := make([]string, n)
+		copy(cur, track)
+		out = append(out, cur)
+	}
 	backtrack = func(row int) {
 		if row == n {
-			cur := make([]string, n)
-			copy(cur, track)
-			out = append(out, cur)
+			addRes()
 			return
 		}
 		for col := 0; col < n; col++ {
