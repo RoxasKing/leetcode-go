@@ -1,7 +1,5 @@
 package leetcode
 
-import "strings"
-
 /*
   n 皇后问题研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。
   给定一个整数 n，返回所有不同的 n 皇后问题的解决方案。
@@ -10,6 +8,7 @@ import "strings"
 
 func solveNQueens(n int) [][]string {
 	var (
+		strs         string
 		out          [][]string
 		track        = make([]string, n)
 		cols         = make([]bool, n)
@@ -17,8 +16,11 @@ func solveNQueens(n int) [][]string {
 		mainDiagonal = make([]bool, 2*n-1)
 		backtrack    func(int)
 	)
+	for i := 0; i < n; i++ {
+		strs += "."
+	}
 	for i := range track {
-		track[i] = strings.Repeat(".", n)
+		track[i] = strs
 	}
 	place := func(row, col int) {
 		tmp := []byte(track[row])
