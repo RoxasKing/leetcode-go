@@ -15,7 +15,7 @@ func Test_solveNQueens(t *testing.T) {
 		want [][]string
 	}{
 		{
-			"",
+			"1",
 			args{4},
 			[][]string{
 				{".Q..", "...Q", "Q...", "..Q."},

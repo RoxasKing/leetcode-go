@@ -22,7 +22,9 @@ func solveNQueens(n int) [][]string {
 	}
 	backtrack = func(row int) {
 		if row == n {
-			out = append(out, append(make([]string, 0, n), track...))
+			cur := make([]string, n)
+			copy(cur, track)
+			out = append(out, cur)
 			return
 		}
 		for col := 0; col < n; col++ {
@@ -31,21 +33,20 @@ func solveNQueens(n int) [][]string {
 			}
 
 			tmp := []byte(track[row])
+
 			tmp[col] = 'Q'
 			track[row] = string(tmp)
-
 			cols[col] = true
 			dales[row+col] = true
 			hills[row-col+n-1] = true
 
 			backtrack(row + 1)
 
+			tmp[col] = '.'
+			track[row] = string(tmp)
 			cols[col] = false
 			dales[row+col] = false
 			hills[row-col+n-1] = false
-
-			tmp[col] = '.'
-			track[row] = string(tmp)
 		}
 	}
 	backtrack(0)
