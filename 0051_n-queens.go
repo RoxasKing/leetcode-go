@@ -20,6 +20,22 @@ func solveNQueens(n int) [][]string {
 	for i := range track {
 		track[i] = strings.Repeat(".", n)
 	}
+	place := func(row, col int) {
+		tmp := []byte(track[row])
+		tmp[col] = 'Q'
+		track[row] = string(tmp)
+		cols[col] = true
+		mainDiagonal[row+col] = true
+		subDiagonal[row-col+n-1] = true
+	}
+	unplace := func(row, col int) {
+		tmp := []byte(track[row])
+		tmp[col] = '.'
+		track[row] = string(tmp)
+		cols[col] = false
+		mainDiagonal[row+col] = false
+		subDiagonal[row-col+n-1] = false
+	}
 	backtrack = func(row int) {
 		if row == n {
 			cur := make([]string, n)
@@ -31,22 +47,9 @@ func solveNQueens(n int) [][]string {
 			if cols[col] || subDiagonal[row-col+n-1] || mainDiagonal[row+col] {
 				continue
 			}
-
-			tmp := []byte(track[row])
-
-			tmp[col] = 'Q'
-			track[row] = string(tmp)
-			cols[col] = true
-			mainDiagonal[row+col] = true
-			subDiagonal[row-col+n-1] = true
-
+			place(row, col)
 			backtrack(row + 1)
-
-			tmp[col] = '.'
-			track[row] = string(tmp)
-			cols[col] = false
-			mainDiagonal[row+col] = false
-			subDiagonal[row-col+n-1] = false
+			unplace(row, col)
 		}
 	}
 	backtrack(0)
