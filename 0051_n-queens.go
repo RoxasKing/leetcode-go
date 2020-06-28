@@ -10,12 +10,12 @@ import "strings"
 
 func solveNQueens(n int) [][]string {
 	var (
-		out       [][]string
-		track     = make([]string, n)
-		cols      = make([]bool, n)
-		hills     = make([]bool, 2*n-1)
-		dales     = make([]bool, 2*n-1)
-		backtrack func(int)
+		out          [][]string
+		track        = make([]string, n)
+		cols         = make([]bool, n)
+		subDiagonal  = make([]bool, 2*n-1)
+		mainDiagonal = make([]bool, 2*n-1)
+		backtrack    func(int)
 	)
 	for i := range track {
 		track[i] = strings.Repeat(".", n)
@@ -28,7 +28,7 @@ func solveNQueens(n int) [][]string {
 			return
 		}
 		for col := 0; col < n; col++ {
-			if cols[col] || hills[row-col+n-1] || dales[row+col] {
+			if cols[col] || subDiagonal[row-col+n-1] || mainDiagonal[row+col] {
 				continue
 			}
 
@@ -37,16 +37,16 @@ func solveNQueens(n int) [][]string {
 			tmp[col] = 'Q'
 			track[row] = string(tmp)
 			cols[col] = true
-			dales[row+col] = true
-			hills[row-col+n-1] = true
+			mainDiagonal[row+col] = true
+			subDiagonal[row-col+n-1] = true
 
 			backtrack(row + 1)
 
 			tmp[col] = '.'
 			track[row] = string(tmp)
 			cols[col] = false
-			dales[row+col] = false
-			hills[row-col+n-1] = false
+			mainDiagonal[row+col] = false
+			subDiagonal[row-col+n-1] = false
 		}
 	}
 	backtrack(0)
