@@ -13,9 +13,6 @@ import "math/rand"
 func findKthLargest(nums []int, k int) int {
 	var quickSort func(int, int) int
 	quickSort = func(l, r int) int {
-		if l == r {
-			return nums[l]
-		}
 		pivortIndex := l + rand.Intn(r+1-l)
 		nums[pivortIndex], nums[r] = nums[r], nums[pivortIndex]
 		index := l
