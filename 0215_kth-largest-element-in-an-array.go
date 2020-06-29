@@ -40,8 +40,8 @@ func findKthLargest(nums []int, k int) int {
 
 // Heap Sort
 func findKthLargest2(nums []int, k int) int {
-	nodeRise := func() {
-		for i := k/2 - 1; i >= 0; i-- {
+	ajust := func() {
+		for i := k>>1 - 1; i >= 0; i-- {
 			son := i*2 + 1
 			if son > k-1 {
 				return
@@ -54,11 +54,11 @@ func findKthLargest2(nums []int, k int) int {
 			}
 		}
 	}
-	nodeRise()
+	ajust()
 	for i := k; i < len(nums); i++ {
 		if nums[i] > nums[0] {
 			nums[0], nums[i] = nums[i], nums[0]
-			nodeRise()
+			ajust()
 		}
 	}
 	return nums[0]
