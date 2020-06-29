@@ -4,6 +4,7 @@ package leetcode
   给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
 */
 
+// Double Pointer
 func trap(height []int) int {
 	if len(height) == 0 {
 		return 0
@@ -28,16 +29,16 @@ func trap(height []int) int {
 // Stack
 func trap2(height []int) int {
 	var out int
-	stack := make([]int, 0, len(height))
+	var stack []int
 	for i := 0; i < len(height); i++ {
 		for len(stack) != 0 && height[i] > height[stack[len(stack)-1]] {
-			top := stack[len(stack)-1]
+			bottomHeight := height[stack[len(stack)-1]]
 			stack = stack[:len(stack)-1]
 			if len(stack) == 0 {
 				break
 			}
-			distance := i - stack[len(stack)-1] - 1
-			boundedHeight := Min(height[i], height[stack[len(stack)-1]]) - height[top]
+			distance := i - 1 - stack[len(stack)-1]
+			boundedHeight := Min(height[i], height[stack[len(stack)-1]]) - bottomHeight
 			out += distance * boundedHeight
 		}
 		stack = append(stack, i)
