@@ -20,7 +20,7 @@ func findKthLargest(nums []int, k int) int {
 		nums[pivortIndex], nums[r] = nums[r], nums[pivortIndex]
 		index := l
 		for i := l; i < r; i++ {
-			if nums[i] < nums[r] {
+			if nums[i] > nums[r] {
 				if nums[i] != nums[index] {
 					nums[i], nums[index] = nums[index], nums[i]
 				}
@@ -28,10 +28,10 @@ func findKthLargest(nums []int, k int) int {
 			}
 		}
 		nums[index], nums[r] = nums[r], nums[index]
-		if k < len(nums)-index {
-			return quickSort(index+1, r)
-		} else if k > len(nums)-index {
+		if k < index+1 {
 			return quickSort(l, index)
+		} else if k > index+1 {
+			return quickSort(index+1, r)
 		}
 		return nums[index]
 	}
