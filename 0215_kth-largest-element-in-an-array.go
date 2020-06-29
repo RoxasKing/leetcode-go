@@ -46,7 +46,7 @@ func findKthLargest2(nums []int, k int) int {
 			if son > k-1 {
 				return
 			}
-			if son < k-1 && nums[son+1] < nums[son] {
+			if son+1 < k && nums[son+1] < nums[son] {
 				son++
 			}
 			if nums[son] < nums[i] {
