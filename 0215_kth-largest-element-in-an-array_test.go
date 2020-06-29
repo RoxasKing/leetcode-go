@@ -14,8 +14,9 @@ func Test_findKthLargest(t *testing.T) {
 		args args
 		want int
 	}{
-		{"", args{[]int{3, 2, 1, 5, 6, 4}, 2}, 5},
-		{"", args{[]int{3, 2, 3, 1, 2, 4, 5, 5, 6}, 4}, 4},
+		{"1", args{[]int{3, 2, 1, 5, 6, 4}, 2}, 5},
+		{"2", args{[]int{3, 2, 3, 1, 2, 4, 5, 5, 6}, 4}, 4},
+		{"3", args{[]int{99, 99}, 1}, 99},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -36,8 +37,8 @@ func Test_findKthLargest2(t *testing.T) {
 		args args
 		want int
 	}{
-		{"", args{[]int{3, 2, 1, 5, 6, 4}, 2}, 5},
-		{"", args{[]int{3, 2, 3, 1, 2, 4, 5, 5, 6}, 4}, 4},
+		{"1", args{[]int{3, 2, 1, 5, 6, 4}, 2}, 5},
+		{"2", args{[]int{3, 2, 3, 1, 2, 4, 5, 5, 6}, 4}, 4},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

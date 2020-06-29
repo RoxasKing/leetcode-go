@@ -11,26 +11,31 @@ import "math/rand"
 
 // Quick Sort
 func findKthLargest(nums []int, k int) int {
-	if len(nums) == 1 {
-		return nums[0]
-	}
-	pivotIndex := rand.Intn(len(nums))
-	pivot := nums[pivotIndex]
-	nums[len(nums)-1], nums[pivotIndex] = nums[pivotIndex], nums[len(nums)-1]
-	var index int
-	for i := 0; i < len(nums)-1; i++ {
-		if nums[i] < pivot {
-			nums[i], nums[index] = nums[index], nums[i]
-			index++
+	var quickSort func(int, int) int
+	quickSort = func(l, r int) int {
+		if l == r {
+			return nums[l]
 		}
+		pivortIndex := l + rand.Intn(r+1-l)
+		nums[pivortIndex], nums[r] = nums[r], nums[pivortIndex]
+		index := l
+		for i := l; i < r; i++ {
+			if nums[i] < nums[r] {
+				if nums[i] != nums[index] {
+					nums[i], nums[index] = nums[index], nums[i]
+				}
+				index++
+			}
+		}
+		nums[index], nums[r] = nums[r], nums[index]
+		if k < len(nums)-index {
+			return quickSort(index+1, r)
+		} else if k > len(nums)-index {
+			return quickSort(l, index)
+		}
+		return nums[index]
 	}
-	nums[index], nums[len(nums)-1] = nums[len(nums)-1], nums[index]
-	if k < len(nums)-index {
-		return findKthLargest(nums[index+1:], k)
-	} else if k > len(nums)-index {
-		return findKthLargest(nums[:index], k-(len(nums)-index))
-	}
-	return pivot
+	return quickSort(0, len(nums)-1)
 }
 
 // Heap Sort
