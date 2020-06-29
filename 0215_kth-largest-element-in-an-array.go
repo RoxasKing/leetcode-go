@@ -2,7 +2,39 @@ package leetcode
 
 import "math/rand"
 
-func findKthLargestInHeap(nums []int, k int) int {
+/*
+  在未排序的数组中找到第 k 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。
+
+  说明:
+    你可以假设 k 总是有效的，且 1 ≤ k ≤ 数组的长度。
+*/
+
+// Quick Sort
+func findKthLargest(nums []int, k int) int {
+	if len(nums) == 1 {
+		return nums[0]
+	}
+	pivotIndex := rand.Intn(len(nums))
+	pivot := nums[pivotIndex]
+	nums[len(nums)-1], nums[pivotIndex] = nums[pivotIndex], nums[len(nums)-1]
+	var index int
+	for i := 0; i < len(nums)-1; i++ {
+		if nums[i] < pivot {
+			nums[i], nums[index] = nums[index], nums[i]
+			index++
+		}
+	}
+	nums[index], nums[len(nums)-1] = nums[len(nums)-1], nums[index]
+	if k < len(nums)-index {
+		return findKthLargest(nums[index+1:], k)
+	} else if k > len(nums)-index {
+		return findKthLargest(nums[:index], k-(len(nums)-index))
+	}
+	return pivot
+}
+
+// Heap Sort
+func findKthLargest2(nums []int, k int) int {
 	nodeRise := func() {
 		for i := k/2 - 1; i >= 0; i-- {
 			son := i*2 + 1
@@ -25,27 +57,4 @@ func findKthLargestInHeap(nums []int, k int) int {
 		}
 	}
 	return nums[0]
-}
-
-func findKthLargest(nums []int, k int) int {
-	if len(nums) < 2 {
-		return nums[0]
-	}
-	pivotIndex := rand.Intn(len(nums))
-	pivot := nums[pivotIndex]
-	nums[len(nums)-1], nums[pivotIndex] = nums[pivotIndex], nums[len(nums)-1]
-	var mid int
-	for i := 0; i < len(nums)-1; i++ {
-		if nums[i] < pivot {
-			nums[i], nums[mid] = nums[mid], nums[i]
-			mid++
-		}
-	}
-	nums[mid], nums[len(nums)-1] = nums[len(nums)-1], nums[mid]
-	if k < len(nums)-mid {
-		return findKthLargest(nums[mid+1:], k)
-	} else if k > len(nums)-mid {
-		return findKthLargest(nums[:mid], k-(len(nums)-mid))
-	}
-	return pivot
 }
