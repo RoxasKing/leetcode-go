@@ -31,3 +31,23 @@ func findLength(A []int, B []int) int {
 	}
 	return out
 }
+
+// Dynamic Programming
+func findLength2(A []int, B []int) int {
+	dp := make([][]int, len(A)+1)
+	for i := range dp {
+		dp[i] = make([]int, len(B)+1)
+	}
+	var out int
+	for i := len(A) - 1; i >= 0; i-- {
+		for j := len(B) - 1; j >= 0; j-- {
+			if A[i] == B[j] {
+				dp[i][j] = dp[i+1][j+1] + 1
+			} else {
+				dp[i][j] = 0
+			}
+			out = Max(out, dp[i][j])
+		}
+	}
+	return out
+}
