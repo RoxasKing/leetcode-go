@@ -39,11 +39,6 @@ func Abs(n int) int {
 
 // Gcd : Returns greatest common divisor of a and b
 func Gcd(a, b int) int {
-	// if a == 0 {
-	// 	return b
-	// } else {
-	// 	return Gcd(b%a, a)
-	// }
 	for b != 0 {
 		a, b = b, a%b
 	}
