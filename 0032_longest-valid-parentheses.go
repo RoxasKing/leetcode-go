@@ -31,7 +31,7 @@ func longestValidParentheses(s string) int {
 // Stack
 func longestValidParentheses2(s string) int {
 	var max int
-	stack := make([]int, 0, len(s)/2)
+	stack := make([]int, 0, len(s)>>1)
 	stack = append(stack, -1)
 	for i, c := range s {
 		if c == '(' {
@@ -40,8 +40,8 @@ func longestValidParentheses2(s string) int {
 			stack = stack[:len(stack)-1]
 			if len(stack) == 0 {
 				stack = append(stack, i)
-			} else if i-stack[len(stack)-1] > max {
-				max = i - stack[len(stack)-1]
+			} else {
+				max = Max(max, i-stack[len(stack)-1])
 			}
 		}
 	}
