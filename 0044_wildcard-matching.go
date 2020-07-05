@@ -18,7 +18,7 @@ func isMatchII(s string, p string) bool {
 	}
 	dp[0][0] = true
 	for i := 1; i <= len(p) && p[i-1] == '*'; i++ {
-		dp[0][i] = dp[0][i-1]
+		dp[0][i] = true
 	}
 	for i := range s {
 		for j := range p {
