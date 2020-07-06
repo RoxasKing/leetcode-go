@@ -10,16 +10,15 @@ package leetcode
   p 可能为空，且只包含从 a-z 的小写字母，以及字符 ? 和 *。
 */
 
-func isMatch0044(s string, p string) bool {
+// Dynamic Programming
+func isMatchII(s string, p string) bool {
 	dp := make([][]bool, len(s)+1)
 	for i := range dp {
 		dp[i] = make([]bool, len(p)+1)
 	}
 	dp[0][0] = true
-	for i := 1; i <= len(p); i++ {
-		if p[i-1] == '*' {
-			dp[0][i] = dp[0][i-1]
-		}
+	for i := 1; i <= len(p) && p[i-1] == '*'; i++ {
+		dp[0][i] = true
 	}
 	for i := range s {
 		for j := range p {
@@ -33,23 +32,40 @@ func isMatch0044(s string, p string) bool {
 	return dp[len(s)][len(p)]
 }
 
-func isMatch00442(s string, p string) bool {
-	i, j, iStar, jStar := 0, 0, -1, -1
-	for i < len(s) {
-		if j < len(p) && (s[i] == p[j] || p[j] == '?') {
-			i, j = i+1, j+1
-		} else if j < len(p) && p[j] == '*' {
-			iStar, jStar = i, j
-			j++
-		} else if iStar >= 0 {
-			iStar++
-			i, j = iStar, jStar+1
+// Greedy algorithm
+func isMatchII2(s string, p string) bool {
+	for len(s) > 0 && len(p) > 0 && p[len(p)-1] != '*' {
+		if s[len(s)-1] == p[len(p)-1] || '?' == p[len(p)-1] {
+			s = s[:len(s)-1]
+			p = p[:len(p)-1]
 		} else {
 			return false
 		}
 	}
-	for j < len(p) && p[j] == '*' {
-		j++
+	if s != "" && p == "" {
+		return false
 	}
-	return j == len(p)
+	sIndex, pIndex := 0, 0
+	sRecord, pRecord := -1, -1
+	for sIndex < len(s) && pIndex < len(p) {
+		if s[sIndex] == p[pIndex] || '?' == p[pIndex] {
+			sIndex++
+			pIndex++
+		} else if '*' == p[pIndex] {
+			pIndex++
+			sRecord, pRecord = sIndex, pIndex
+		} else if sRecord != -1 && sRecord+1 < len(s) {
+			sRecord++
+			sIndex, pIndex = sRecord, pRecord
+		} else {
+			return false
+		}
+	}
+	for pIndex < len(p) {
+		if p[pIndex] != '*' {
+			return false
+		}
+		pIndex++
+	}
+	return true
 }
