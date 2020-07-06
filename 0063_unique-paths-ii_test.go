@@ -11,8 +11,8 @@ func Test_uniquePathsWithObstacles(t *testing.T) {
 		args args
 		want int
 	}{
-		{"", args{[][]int{{0, 0, 0}, {0, 1, 0}, {0, 0, 0}}}, 2},
-		{"", args{[][]int{{0}, {1}}}, 0},
+		{"1", args{[][]int{{0, 0, 0}, {0, 1, 0}, {0, 0, 0}}}, 2},
+		{"2", args{[][]int{{0}, {1}}}, 0},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
