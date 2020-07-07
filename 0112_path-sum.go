@@ -15,48 +15,44 @@ package leetcode
   返回 true, 因为存在目标和为 22 的根节点到叶子节点的路径 5->4->11->2。
 */
 
-// Stack
+// Queue
 func hasPathSum(root *TreeNode, sum int) bool {
 	if root == nil {
 		return false
 	}
-	type elem struct {
-		node *TreeNode
-		sum  int
+	type node struct {
+		t *TreeNode
+		s int
 	}
-	stack := []*elem{{root, root.Val}}
-	for len(stack) != 0 {
-		index := len(stack)
-		for i := range stack {
-			if stack[i].node.Left == nil && stack[i].node.Right == nil && stack[i].sum == sum {
-				return true
-			}
-			if stack[i].node.Left != nil {
-				stack = append(
-					stack,
-					&elem{stack[i].node.Left, stack[i].sum + stack[i].node.Left.Val},
-				)
-			}
-			if stack[i].node.Right != nil {
-				stack = append(
-					stack,
-					&elem{stack[i].node.Right, stack[i].sum + stack[i].node.Right.Val},
-				)
-			}
+	queue := []node{{root, root.Val}}
+	for len(queue) != 0 {
+		cur := queue[0]
+		queue = queue[1:]
+		if cur.t.Left == nil && cur.t.Right == nil && cur.s == sum {
+			return true
 		}
-		stack = stack[index:]
+		if cur.t.Left != nil {
+			queue = append(queue, node{t: cur.t.Left, s: cur.s + cur.t.Left.Val})
+		}
+		if cur.t.Right != nil {
+			queue = append(queue, node{t: cur.t.Right, s: cur.s + cur.t.Right.Val})
+		}
 	}
 	return false
 }
 
 // Recursive
 func hasPathSum2(root *TreeNode, sum int) bool {
-	if root == nil {
-		return false
+	var help func(*TreeNode, int) bool
+	help = func(root *TreeNode, sum int) bool {
+		if root == nil {
+			return false
+		}
+		sum -= root.Val
+		if root.Left == nil && root.Right == nil {
+			return sum == 0
+		}
+		return help(root.Left, sum) || help(root.Right, sum)
 	}
-	sum -= root.Val
-	if root.Left == nil && root.Right == nil {
-		return sum == 0
-	}
-	return hasPathSum2(root.Left, sum) || hasPathSum2(root.Right, sum)
+	return help(root, sum)
 }
