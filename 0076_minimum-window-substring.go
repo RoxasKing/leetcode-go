@@ -10,7 +10,7 @@ func minWindow(s string, t string) string {
 	for _, c := range t {
 		need[c]++
 	}
-	var out string
+	out := s
 	var l, r, count int
 	for r < len(s) {
 		if have[s[r]] < need[s[r]] {
@@ -21,10 +21,13 @@ func minWindow(s string, t string) string {
 			have[s[l]]--
 			l++
 		}
-		if count == len(t) && (len(out) == 0 || r+1-l < len(out)) {
+		if count == len(t) && r+1-l < len(out) {
 			out = s[l : r+1]
 		}
 		r++
+	}
+	if count < len(t) {
+		return ""
 	}
 	return out
 }
