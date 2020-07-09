@@ -17,7 +17,7 @@ func minWindow(s string, t string) string {
 			count++
 		}
 		have[s[r]]++
-		for l <= r && have[s[l]] > need[s[l]] {
+		for l < r && have[s[l]] > need[s[l]] {
 			have[s[l]]--
 			l++
 		}
