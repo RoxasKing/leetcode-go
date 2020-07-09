@@ -10,17 +10,17 @@ package leetcode
 
 // Sliding Window
 func findLength(A []int, B []int) int {
-	maxLen := func(indexA, indexB, limit int) int {
-		var res, k int
+	maxLen := func(pA, pB, limit int) int {
+		var max, count int
 		for i := 0; i < limit; i++ {
-			if A[indexA+i] == B[indexB+i] {
-				k++
-			} else {
-				k = 0
+			if A[pA+i] != B[pB+i] {
+				count = 0
+				continue
 			}
-			res = Max(res, k)
+			count++
+			max = Max(max, count)
 		}
-		return res
+		return max
 	}
 	var out int
 	for i := range A {
@@ -39,14 +39,14 @@ func findLength2(A []int, B []int) int {
 		dp[i] = make([]int, len(B)+1)
 	}
 	var out int
-	for i := len(A) - 1; i >= 0; i-- {
-		for j := len(B) - 1; j >= 0; j-- {
+	for i := range A {
+		for j := range B {
 			if A[i] == B[j] {
-				dp[i][j] = dp[i+1][j+1] + 1
+				dp[i+1][j+1] = dp[i][j] + 1
 			} else {
-				dp[i][j] = 0
+				dp[i+1][j+1] = 0
 			}
-			out = Max(out, dp[i][j])
+			out = Max(out, dp[i+1][j+1])
 		}
 	}
 	return out
