@@ -15,22 +15,20 @@ package leetcode
 func findAnagrams(s string, p string) []int {
 	count := [26]int{}
 	for _, c := range p {
-		count[c-97]++
+		count[c-'a']++
 	}
 	var out []int
-	var l, r int
-	for r < len(s) {
-		count[s[r]-97]--
-		for l <= r && count[s[r]-97] < 0 {
-			count[s[l]-97]++
+	for l, r := 0, 0; r < len(s); r++ {
+		count[s[r]-'a']--
+		for l <= r && count[s[r]-'a'] < 0 {
+			count[s[l]-'a']++
 			l++
 		}
 		if r+1-l == len(p) {
 			out = append(out, l)
-			count[s[l]-97]++
+			count[s[l]-'a']++
 			l++
 		}
-		r++
 	}
 	return out
 }
