@@ -22,7 +22,7 @@ func lengthOfLongestSubstring(s string) int {
 }
 
 func lengthOfLongestSubstring2(s string) int {
-	save := make([]int, 128)
+	var save [128]int
 	var max int
 	l, r := 0, 1
 	for max < len(s)-l && r <= len(s) {
@@ -35,16 +35,14 @@ func lengthOfLongestSubstring2(s string) int {
 }
 
 func longestSubstring(s string) string {
-	save := make([]int, 128)
+	var save [128]int
 	var str string
-	l, r := 0, 1
-	for len(str) <= len(s)-l && r <= len(s) {
-		l = Max(l, save[s[r-1]])
-		if r-l > len(str) {
-			str = s[l:r]
+	for l, r := 0, 0; l < len(s)-len(str) && r < len(s); r++ {
+		l = Max(l, save[s[r]])
+		if r+1-l > len(str) {
+			str = s[l : r+1]
 		}
-		save[s[r-1]] = r
-		r++
+		save[s[r]] = r + 1
 	}
 	return str
 }
