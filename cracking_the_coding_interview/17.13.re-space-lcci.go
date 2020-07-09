@@ -42,12 +42,12 @@ func respace(dictionary []string, sentence string) int {
 	for i := 1; i <= len(sentence); i++ {
 		cur := trie
 		dp[i] = dp[i-1] + 1
-		for j := i; j >= 1; j-- {
-			index := sentence[j-1] - 'a'
+		for j := i - 1; j >= 0; j-- {
+			index := sentence[j] - 'a'
 			if cur.next[index] == nil {
 				break
 			} else if cur.next[index].isEnd {
-				dp[i] = Min(dp[i], dp[j-1])
+				dp[i] = Min(dp[i], dp[j])
 			}
 			if dp[i] == 0 {
 				break
