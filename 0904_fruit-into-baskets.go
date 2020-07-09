@@ -31,11 +31,12 @@ func totalFruit(tree []int) int {
 	}
 	p1 = p2 - 1
 	for i := p2 + 1; i < len(tree); i++ {
-		if tree[i] == tree[p1] {
+		switch tree[i] {
+		case tree[p1]:
 			p1 = i
-		} else if tree[i] == tree[p2] {
+		case tree[p2]:
 			p2 = i
-		} else {
+		default:
 			out = Max(out, Max(p1, p2)+1-start)
 			start = Min(p1, p2) + 1
 			p1, p2 = i-1, i
@@ -47,9 +48,8 @@ func totalFruit(tree []int) int {
 
 // Sliding Window
 func totalFruit2(tree []int) int {
-	var out int
+	var out, l, r int
 	count := make(map[int]int)
-	var l, r int
 	for r = range tree {
 		count[tree[r]]++
 		for len(count) > 2 {
