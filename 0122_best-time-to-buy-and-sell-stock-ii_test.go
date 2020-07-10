@@ -2,7 +2,7 @@ package leetcode
 
 import "testing"
 
-func Test_maxProfit(t *testing.T) {
+func Test_maxProfitII(t *testing.T) {
 	type args struct {
 		prices []int
 	}
@@ -21,7 +21,7 @@ func Test_maxProfit(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := maxProfit0122(tt.args.prices); got != tt.want {
+			if got := maxProfitII(tt.args.prices); got != tt.want {
 				t.Errorf("maxProfit() = %v, want %v", got, tt.want)
 			}
 		})

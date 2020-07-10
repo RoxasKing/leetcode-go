@@ -15,7 +15,7 @@ package leetcode
     解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
 */
 
-func maxProfit0121(prices []int) int {
+func maxProfit(prices []int) int {
 	sel, buy := 0, -1<<31
 	for _, price := range prices {
 		sel = Max(sel, buy+price)
