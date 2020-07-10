@@ -11,10 +11,20 @@ package leetcode
 */
 
 func maxProfitIV(k int, prices []int) int {
-	// dp := make([][2]int, k)
-	// for _, price := range prices {
-	// 	for i := len(dp) - 1; i >= 1; i-- {
-	// 	}
-	// }
-	return 0
+	if k == 0 || len(prices) < 2 {
+		return 0
+	} else if k >= len(prices)>>1 {
+		return maxProfitII(prices)
+	}
+	dp := make([][2]int, k+1)
+	for i := range dp {
+		dp[i][1] = -1 << 31
+	}
+	for _, price := range prices {
+		for i := k; i >= 1; i-- {
+			dp[i][0] = Max(dp[i][0], dp[i][1]+price)
+			dp[i][1] = Max(dp[i][1], dp[i-1][0]-price)
+		}
+	}
+	return dp[k][0]
 }
