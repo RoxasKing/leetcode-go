@@ -8,16 +8,10 @@ package codinginterviews
 */
 
 func maxProfit(prices []int) int {
-	if len(prices) < 2 {
-		return 0
-	}
-	out, min := -1<<31, 1<<31-1
+	profit, buyPrice := 0, -1<<31
 	for _, price := range prices {
-		out = Max(out, price-min)
-		min = Min(min, price)
+		profit = Max(profit, price+buyPrice)
+		buyPrice = Max(buyPrice, -price)
 	}
-	if out < 0 {
-		return 0
-	}
-	return out
+	return profit
 }

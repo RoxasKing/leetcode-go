@@ -17,27 +17,24 @@ func maxProfitV(prices []int) int {
 	if len(prices) == 0 {
 		return 0
 	}
-	dp := make([][3]int, len(prices))
-	dp[0][0] = -prices[0]
+	dp := [2][3]int{{-prices[0]}}
 	for i := 1; i < len(prices); i++ {
-		dp[i][0] = Max(dp[i-1][0], dp[i-1][2]-prices[i]) // 持有股票
-		dp[i][1] = dp[i-1][0] + prices[i]                // 不持有股票，冷冻期
-		dp[i][2] = Max(dp[i-1][1], dp[i-1][2])           // 不持有股票，非冷冻期
+		dp[1][0] = Max(dp[0][0], dp[0][2]-prices[i]) // 持有股票
+		dp[1][1] = dp[0][0] + prices[i]              // 不持有股票，冷冻期
+		dp[1][2] = Max(dp[0][1], dp[0][2])           // 不持有股票，非冷冻期
+		dp[0] = dp[1]
 	}
-	return Max(dp[len(prices)-1][1], dp[len(prices)-1][2])
+	return Max(dp[1][1], dp[1][2])
 }
 
 // Dynamic Programming
 func maxProfitV2(prices []int) int {
-	if len(prices) == 0 {
-		return 0
+	dp0, dp1, dpp0 := 0, -1<<31, 0
+	for i := range prices {
+		tmp := dp0
+		dp0 = Max(dp0, dp1+prices[i])
+		dp1 = Max(dp1, dpp0-prices[i])
+		dpp0 = tmp
 	}
-	dp := [2][3]int{{-prices[0]}}
-	for i := 1; i < len(prices); i++ {
-		dp[1][0] = Max(dp[0][0], dp[0][2]-prices[i])
-		dp[1][1] = dp[0][0] + prices[i]
-		dp[1][2] = Max(dp[0][1], dp[0][2])
-		dp[0] = dp[1]
-	}
-	return Max(dp[1][1], dp[1][2])
+	return dp0
 }
