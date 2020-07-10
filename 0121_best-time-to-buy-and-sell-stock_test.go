@@ -11,7 +11,8 @@ func Test_maxProfit(t *testing.T) {
 		args args
 		want int
 	}{
-		{"", args{[]int{7, 1, 5, 3, 6, 4}}, 5},
+		{"1", args{[]int{7, 1, 5, 3, 6, 4}}, 5},
+		{"2", args{nil}, 0},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
