@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func Test_maxProfitVI(t *testing.T) {
+func Test_maxProfitV(t *testing.T) {
 	type args struct {
 		prices []int
 	}
@@ -18,14 +18,14 @@ func Test_maxProfitVI(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := maxProfitVI(tt.args.prices); got != tt.want {
+			if got := maxProfitV(tt.args.prices); got != tt.want {
 				t.Errorf("maxProfit() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func Test_maxProfitVI2(t *testing.T) {
+func Test_maxProfitV2(t *testing.T) {
 	type args struct {
 		prices []int
 	}
@@ -39,7 +39,7 @@ func Test_maxProfitVI2(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := maxProfitVI2(tt.args.prices); got != tt.want {
+			if got := maxProfitV2(tt.args.prices); got != tt.want {
 				t.Errorf("maxProfitIII2() = %v, want %v", got, tt.want)
 			}
 		})
