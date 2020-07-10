@@ -13,7 +13,7 @@ package leetcode
 */
 
 // Dynamic Programming
-func maxProfitIII(prices []int) int {
+func maxProfitVI(prices []int) int {
 	if len(prices) == 0 {
 		return 0
 	}
@@ -28,7 +28,7 @@ func maxProfitIII(prices []int) int {
 }
 
 // Dynamic Programming
-func maxProfitIII2(prices []int) int {
+func maxProfitVI2(prices []int) int {
 	if len(prices) == 0 {
 		return 0
 	}
