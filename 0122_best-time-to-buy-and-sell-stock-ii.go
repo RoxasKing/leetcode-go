@@ -7,11 +7,11 @@ package leetcode
 */
 
 func maxProfitII(prices []int) int {
-	var out int
-	for i := 1; i < len(prices); i++ {
-		if prices[i] > prices[i-1] {
-			out += prices[i] - prices[i-1]
-		}
+	sell, buy := 0, -1<<31
+	for _, price := range prices {
+		preSell := sell
+		sell = Max(sell, buy+price)
+		buy = Max(buy, preSell-price)
 	}
-	return out
+	return sell
 }

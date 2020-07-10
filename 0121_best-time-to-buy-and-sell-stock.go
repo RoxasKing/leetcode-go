@@ -16,10 +16,10 @@ package leetcode
 */
 
 func maxProfit(prices []int) int {
-	profit, buyPrice := 0, 1<<31-1
+	profit, buyPrice := 0, -1<<31
 	for _, price := range prices {
-		profit = Max(profit, price-buyPrice)
-		buyPrice = Min(buyPrice, price)
+		profit = Max(profit, buyPrice+price)
+		buyPrice = Max(buyPrice, -price)
 	}
 	return profit
 }

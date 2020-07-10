@@ -11,13 +11,12 @@ package leetcode
 */
 
 func maxProfitIII(prices []int) int {
-	dp10, dp11 := 0, -1<<31 // 第一次卖出、买入
-	dp20, dp21 := 0, -1<<31 // 第二次卖出、买入
+	dp := [3][2]int{{0, 0}, {0, -1 << 31}, {0, -1 << 31}}
 	for _, price := range prices {
-		dp20 = Max(dp20, dp21+price)
-		dp21 = Max(dp21, dp10-price)
-		dp10 = Max(dp10, dp11+price)
-		dp11 = Max(dp11, -price)
+		for i := 2; i >= 1; i-- {
+			dp[i][0] = Max(dp[i][0], dp[i][1]+price)
+			dp[i][1] = Max(dp[i][1], dp[i-1][0]-price)
+		}
 	}
-	return dp20
+	return dp[2][0]
 }
