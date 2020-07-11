@@ -30,24 +30,28 @@ func countSmaller(nums []int) []int {
 			return
 		}
 		copy(tmpIdxs[l:r+1], indexes[l:r+1])
-		i, j := l, m+1
-		for k := l; k <= r; k++ {
-			switch {
-			case i > m:
-				indexes[k] = tmpIdxs[j]
-				j++
-			case j > r:
+		i, j, k := l, m+1, l
+		for i <= m && j <= r { // 前后有序数组都没用完时
+			if nums[tmpIdxs[i]] <= nums[tmpIdxs[j]] { // 前有序数组出列时计算逆序数
+				counter[tmpIdxs[i]] += j - (m + 1)
 				indexes[k] = tmpIdxs[i]
 				i++
-				counter[indexes[k]] += r - m
-			case nums[tmpIdxs[i]] <= nums[tmpIdxs[j]]:
-				indexes[k] = tmpIdxs[i]
-				i++
-				counter[indexes[k]] += j - m - 1
-			default:
+			} else {
 				indexes[k] = tmpIdxs[j]
 				j++
 			}
+			k++
+		}
+		for i <= m { // 前有序数组没用完时
+			counter[tmpIdxs[i]] += r - m // 逆序数就是后有序数组的总长度
+			indexes[k] = tmpIdxs[i]
+			i++
+			k++
+		}
+		for j <= r { // 后有序数组用完时
+			indexes[k] = tmpIdxs[j]
+			j++
+			k++
 		}
 	}
 	merge(0, len(nums)-1)
