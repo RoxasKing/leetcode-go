@@ -36,9 +36,6 @@ func respace(dictionary []string, sentence string) int {
 		cur.isEnd = true
 	}
 	dp := make([]int, len(sentence)+1)
-	for i := 1; i < len(dp); i++ {
-		dp[i] = len(sentence)
-	}
 	for i := 1; i <= len(sentence); i++ {
 		cur := trie
 		dp[i] = dp[i-1] + 1
@@ -48,9 +45,6 @@ func respace(dictionary []string, sentence string) int {
 				break
 			} else if cur.next[index].isEnd {
 				dp[i] = Min(dp[i], dp[j])
-			}
-			if dp[i] == 0 {
-				break
 			}
 			cur = cur.next[index]
 		}
