@@ -77,11 +77,11 @@ func respace2(dictionary []string, sentence string) int {
 	for i := 1; i <= len(sentence); i++ {
 		var hashVal int
 		dp[i] = dp[i-1] + 1
-		for j := i; j >= 1; j-- {
-			index := int(sentence[j-1]-'a') + 1
+		for j := i - 1; j >= 0; j-- {
+			index := int(sentence[j]-'a') + 1
 			hashVal = (hashVal*BASE + index) % P
 			if hashVals[hashVal] {
-				dp[i] = Min(dp[i], dp[j-1])
+				dp[i] = Min(dp[i], dp[j])
 			}
 		}
 	}
