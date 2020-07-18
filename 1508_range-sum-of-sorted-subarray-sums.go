@@ -1,7 +1,6 @@
 package leetcode
 
 import (
-	"math"
 	"sort"
 )
 
@@ -31,7 +30,6 @@ func rangeSum(nums []int, n int, left int, right int) int {
 	for i := 1; i <= n; i++ {
 		ssums[i] = ssums[i-1] + sums[i]
 	}
-	mod := int(math.Pow(10, 9) + 7)
 	countNoBiggerSum := func(sum int) int {
 		var count int
 		for i, j := 0, 1; i < len(sums); i++ {
@@ -67,6 +65,7 @@ func rangeSum(nums []int, n int, left int, right int) int {
 		}
 		return preSum + (k-preCount)*num
 	}
+	mod := int(1e9 + 7)
 	return (theKthSum(right) - theKthSum(left-1) + mod) % mod
 }
 
