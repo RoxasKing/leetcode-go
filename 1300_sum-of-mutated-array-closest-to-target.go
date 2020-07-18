@@ -22,8 +22,8 @@ import "sort"
 func findBestValue(arr []int, target int) int {
 	sort.Ints(arr)
 	prefix := make([]int, len(arr)+1)
-	for i := 1; i < len(prefix); i++ {
-		prefix[i] = prefix[i-1] + arr[i-1]
+	for i := range arr {
+		prefix[i+1] = prefix[i] + arr[i]
 	}
 	out, diff := 1<<31-1, target
 	l, r := 0, arr[len(arr)-1]
@@ -31,14 +31,14 @@ func findBestValue(arr []int, target int) int {
 		m := l + (r-l)>>1
 		// index := sort.SearchInts(arr, m)
 		index := findFirstNotLessIndex(arr, m)
-		cur := prefix[index] + m*(len(arr)-index)
-		newDiff := Abs(cur - target)
+		sum := prefix[index] + m*(len(arr)-index)
+		newDiff := Abs(sum - target)
 		if newDiff < diff {
 			out, diff = m, newDiff
 		} else if newDiff == diff {
 			out = Min(out, m)
 		}
-		if cur < target {
+		if sum < target {
 			l = m + 1
 		} else {
 			r = m - 1
@@ -48,16 +48,13 @@ func findBestValue(arr []int, target int) int {
 }
 
 func findFirstNotLessIndex(nums []int, target int) int {
-	l, r := 0, len(nums)-1
-	for l <= r {
+	l, r := 0, len(nums)
+	for l < r {
 		m := l + (r-l)>>1
-		if nums[m] >= target {
-			if m == 0 || nums[m-1] < target {
-				return m
-			}
-			r = m - 1
-		} else {
+		if nums[m] < target {
 			l = m + 1
+		} else {
+			r = m
 		}
 	}
 	return l
