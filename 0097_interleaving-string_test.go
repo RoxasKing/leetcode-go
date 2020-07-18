@@ -1,6 +1,8 @@
 package leetcode
 
-import "testing"
+import (
+	"testing"
+)
 
 func Test_isInterleave(t *testing.T) {
 	type args struct {
@@ -13,7 +15,7 @@ func Test_isInterleave(t *testing.T) {
 		args args
 		want bool
 	}{
-		{"", args{"aabcc", "dbbca", "aadbbcbcac"}, true},
+		{"1", args{"aabcc", "dbbca", "aadbbcbcac"}, true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
