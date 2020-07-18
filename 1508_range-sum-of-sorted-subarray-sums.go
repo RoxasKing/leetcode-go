@@ -22,15 +22,15 @@ import (
 
 // Binary Search + Double Pointer
 func rangeSum(nums []int, n int, left int, right int) int {
-	sums := make([]int, n+1)
+	sums := make([]int, n+1) // 前缀和
 	for i := 1; i <= n; i++ {
 		sums[i] = sums[i-1] + nums[i-1]
 	}
-	ssums := make([]int, n+1)
+	ssums := make([]int, n+1) // 前缀和的前缀和
 	for i := 1; i <= n; i++ {
 		ssums[i] = ssums[i-1] + sums[i]
 	}
-	countNoBiggerSum := func(sum int) int {
+	countNoBiggerSum := func(sum int) int { // 统计不大于指定和的数量
 		var count int
 		for i, j := 0, 1; i < len(sums); i++ {
 			for j < len(sums) && sums[j]-sums[i] <= sum {
@@ -40,7 +40,7 @@ func rangeSum(nums []int, n int, left int, right int) int {
 		}
 		return count
 	}
-	binarySearchTheKNum := func(k int) int {
+	binarySearchTheKSum := func(k int) int { // 找到排在第K位的和
 		l, r := 0, sums[len(sums)-1]
 		for l < r {
 			m := l + (r-l)>>1
@@ -53,17 +53,17 @@ func rangeSum(nums []int, n int, left int, right int) int {
 		}
 		return l
 	}
-	theKthSum := func(k int) int {
-		num := binarySearchTheKNum(k)
+	theKthSum := func(k int) int { // 前K位的子数组的和
+		sum := binarySearchTheKSum(k)
 		var preSum, preCount int
 		for i, j := 0, 1; i < len(sums); i++ {
-			for j < len(sums) && sums[j]-sums[i] < num {
+			for j < len(sums) && sums[j]-sums[i] < sum {
 				j++
 			}
 			preSum += ssums[j-1] - ssums[i] - sums[i]*(j-1-i)
 			preCount += j - 1 - i
 		}
-		return preSum + (k-preCount)*num
+		return preSum + (k-preCount)*sum
 	}
 	mod := int(1e9 + 7)
 	return (theKthSum(right) - theKthSum(left-1) + mod) % mod
