@@ -5,6 +5,7 @@ package leetcode
   请在不改变其结构的情况下，恢复这棵树。
 */
 
+// Morris Traversal
 func recoverTree(root *TreeNode) {
 	var (
 		cur    = root

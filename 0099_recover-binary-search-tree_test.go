@@ -15,7 +15,7 @@ func Test_recoverTree(t *testing.T) {
 		want *TreeNode
 	}{
 		{
-			"",
+			"1",
 			args{
 				&TreeNode{
 					Val:  1,
@@ -28,7 +28,7 @@ func Test_recoverTree(t *testing.T) {
 			},
 		},
 		{
-			"",
+			"2",
 			args{
 				&TreeNode{
 					Val:   3,
