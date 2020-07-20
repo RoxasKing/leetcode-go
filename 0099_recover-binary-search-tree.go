@@ -41,3 +41,33 @@ func recoverTree(root *TreeNode) {
 	}
 	first.Val, second.Val = second.Val, first.Val
 }
+
+// Stack
+func recoverTree2(root *TreeNode) {
+	var (
+		node       = root
+		stack      []*TreeNode
+		preNode    *TreeNode
+		curNode    *TreeNode
+		firstNode  *TreeNode
+		secondNode *TreeNode
+	)
+	for node != nil || len(stack) != 0 {
+		for node != nil {
+			stack = append(stack, node)
+			node = node.Left
+		}
+		if len(stack) != 0 {
+			preNode, curNode = curNode, stack[len(stack)-1]
+			if preNode != nil && preNode.Val > curNode.Val {
+				if firstNode == nil {
+					firstNode = preNode
+				}
+				secondNode = curNode
+			}
+			node = stack[len(stack)-1].Right
+			stack = stack[:len(stack)-1]
+		}
+	}
+	firstNode.Val, secondNode.Val = secondNode.Val, firstNode.Val
+}
