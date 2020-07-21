@@ -9,27 +9,20 @@ func generateTrees(n int) []*TreeNode {
 		return nil
 	}
 	var generate func(int, int) []*TreeNode
-	generate = func(l, r int) []*TreeNode {
-		var out []*TreeNode
+	generate = func(l, r int) (res []*TreeNode) {
 		if l > r {
-			out = append(out, nil)
-			return out
+			res = append(res, nil)
 		}
 		for i := l; i <= r; i++ {
-			leftTrees := generate(l, i-1)
-			rightTrees := generate(i+1, r)
-			for _, leftTree := range leftTrees {
-				for _, rightTree := range rightTrees {
-					curTree := &TreeNode{
-						Val:   i,
-						Left:  leftTree,
-						Right: rightTree,
-					}
-					out = append(out, curTree)
+			genL := generate(l, i-1)
+			genR := generate(i+1, r)
+			for _, l := range genL {
+				for _, r := range genR {
+					res = append(res, &TreeNode{Val: i, Left: l, Right: r})
 				}
 			}
 		}
-		return out
+		return
 	}
 	return generate(1, n)
 }

@@ -15,7 +15,7 @@ func Test_generateTrees(t *testing.T) {
 		want []*TreeNode
 	}{
 		{
-			"",
+			"1",
 			args{3},
 			[]*TreeNode{
 				{
