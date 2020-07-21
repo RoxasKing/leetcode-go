@@ -29,47 +29,47 @@ func (l *LRUCache) remove(node *Node) {
 }
 
 type LRUCache struct {
-	limit int
-	hash  map[int]*Node
-	Head  *Node
-	Tail  *Node
+	capacity int
+	Head     *Node
+	Tail     *Node
+	dict     map[int]*Node
 }
 
 func NewLRUCache(capacity int) LRUCache {
 	head, tail := new(Node), new(Node)
 	head.Next, tail.Prev = tail, head
 	return LRUCache{
-		limit: capacity,
-		hash:  make(map[int]*Node, capacity),
-		Head:  head,
-		Tail:  tail,
+		capacity: capacity,
+		Head:     head,
+		Tail:     tail,
+		dict:     make(map[int]*Node, capacity),
 	}
 }
 
-func (l *LRUCache) Get(key int) int {
-	if v, ok := l.hash[key]; ok {
-		l.remove(v)
-		l.insert(v)
+func (this *LRUCache) Get(key int) int {
+	if v, ok := this.dict[key]; ok {
+		this.remove(v)
+		this.insert(v)
 		return v.Val
 	}
 	return -1
 }
 
-func (l *LRUCache) Put(key int, value int) {
-	if v, ok := l.hash[key]; ok {
-		l.remove(v)
-		l.insert(v)
+func (this *LRUCache) Put(key int, value int) {
+	if v, ok := this.dict[key]; ok {
+		this.remove(v)
+		this.insert(v)
 		v.Val = value
 		return
 	}
-	if len(l.hash) >= l.limit {
-		h := l.Head.Next
-		l.remove(h)
-		delete(l.hash, h.Key)
+	if len(this.dict) >= this.capacity {
+		h := this.Head.Next
+		this.remove(h)
+		delete(this.dict, h.Key)
 	}
 	node := &Node{Key: key, Val: value}
-	l.hash[key] = node
-	l.insert(node)
+	this.dict[key] = node
+	this.insert(node)
 }
 
 /**
