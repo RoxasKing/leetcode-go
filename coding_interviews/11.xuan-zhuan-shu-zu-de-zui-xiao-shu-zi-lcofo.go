@@ -9,26 +9,16 @@ package codinginterviews
 */
 
 func minArray(numbers []int) int {
-	if len(numbers) == 0 {
-		return -1
-	}
-	head, tail := 0, len(numbers)-1
-	for head < tail && numbers[head] == numbers[tail] {
-		head++
-	}
-	if numbers[head] > numbers[tail] {
-		l, r := head, tail
-		for l <= r {
-			m := l + (r-l)>>1
-			if numbers[m] > numbers[m+1] {
-				return numbers[m+1]
-			}
-			if numbers[m] < numbers[l] {
-				r = m - 1
-			} else {
-				l = m + 1
-			}
+	l, r := 0, len(numbers)-1
+	for l < r {
+		m := l + (r-l)>>1
+		if numbers[m] < numbers[r] {
+			r = m
+		} else if numbers[m] > numbers[r] {
+			l = m + 1
+		} else {
+			r--
 		}
 	}
-	return numbers[head]
+	return numbers[l]
 }
