@@ -8,26 +8,6 @@ package leetcode
   进阶: 你是否可以在 O(1) 时间复杂度内完成这两种操作？
 */
 
-type Node struct {
-	Key  int
-	Val  int
-	Next *Node
-	Prev *Node
-}
-
-func (l *LRUCache) insert(node *Node) {
-	tail := l.Tail
-	node.Prev = tail.Prev
-	tail.Prev.Next = node
-	node.Next = tail
-	tail.Prev = node
-}
-
-func (l *LRUCache) remove(node *Node) {
-	node.Prev.Next = node.Next
-	node.Next.Prev = node.Prev
-}
-
 type LRUCache struct {
 	capacity int
 	Head     *Node
@@ -46,30 +26,50 @@ func NewLRUCache(capacity int) LRUCache {
 	}
 }
 
-func (this *LRUCache) Get(key int) int {
-	if v, ok := this.dict[key]; ok {
-		this.remove(v)
-		this.insert(v)
+func (l *LRUCache) Get(key int) int {
+	if v, ok := l.dict[key]; ok {
+		l.remove(v)
+		l.insert(v)
 		return v.Val
 	}
 	return -1
 }
 
-func (this *LRUCache) Put(key int, value int) {
-	if v, ok := this.dict[key]; ok {
-		this.remove(v)
-		this.insert(v)
+func (l *LRUCache) Put(key int, value int) {
+	if v, ok := l.dict[key]; ok {
+		l.remove(v)
+		l.insert(v)
 		v.Val = value
 		return
 	}
-	if len(this.dict) >= this.capacity {
-		h := this.Head.Next
-		this.remove(h)
-		delete(this.dict, h.Key)
+	if len(l.dict) >= l.capacity {
+		h := l.Head.Next
+		l.remove(h)
+		delete(l.dict, h.Key)
 	}
 	node := &Node{Key: key, Val: value}
-	this.dict[key] = node
-	this.insert(node)
+	l.dict[key] = node
+	l.insert(node)
+}
+
+type Node struct {
+	Key  int
+	Val  int
+	Next *Node
+	Prev *Node
+}
+
+func (l *LRUCache) insert(node *Node) {
+	tail := l.Tail
+	node.Prev = tail.Prev
+	tail.Prev.Next = node
+	node.Next = tail
+	tail.Prev = node
+}
+
+func (l *LRUCache) remove(node *Node) {
+	node.Prev.Next = node.Next
+	node.Next.Prev = node.Prev
 }
 
 /**
