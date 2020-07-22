@@ -44,10 +44,12 @@ func (this *TopVotedCandidate) Q(t int) int {
 	l, r := 0, len(this.times)-1
 	for l <= r {
 		m := l + (r-l)>>1
-		if this.times[m] <= t {
+		if this.times[m] < t {
 			l = m + 1
-		} else {
+		} else if this.times[m] > t {
 			r = m - 1
+		} else {
+			return this.candicate[m]
 		}
 	}
 	return this.candicate[l-1]
