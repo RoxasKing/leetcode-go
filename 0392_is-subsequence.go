@@ -13,6 +13,7 @@ package leetcode
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+// Double Pointer
 func isSubsequence(s string, t string) bool {
 	for s != "" && t != "" {
 		if s[0] == t[0] {
@@ -21,4 +22,29 @@ func isSubsequence(s string, t string) bool {
 		t = t[1:]
 	}
 	return s == ""
+}
+
+// Dynamic Programming
+func isSubsequence2(s string, t string) bool {
+	dp := make([][26]int, len(t)+1)
+	for i := 0; i < 26; i++ {
+		dp[len(t)][i] = len(t)
+	}
+	for i := len(t) - 1; i >= 0; i-- {
+		for j := 0; j < 26; j++ {
+			if t[i] == byte(j+'a') {
+				dp[i][j] = i
+			} else {
+				dp[i][j] = dp[i+1][j]
+			}
+		}
+	}
+	var index int
+	for i := 0; i < len(s); i++ {
+		if dp[index][int(s[i]-'a')] == len(t) {
+			return false
+		}
+		index = dp[index][int(s[i]-'a')] + 1
+	}
+	return true
 }
