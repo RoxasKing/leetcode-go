@@ -15,7 +15,7 @@ func Test_flatten(t *testing.T) {
 		want *TreeNode
 	}{
 		{
-			"",
+			"1",
 			args{
 				&TreeNode{
 					Val: 1,

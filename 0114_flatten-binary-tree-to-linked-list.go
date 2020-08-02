@@ -22,26 +22,19 @@ package leetcode
               6
 */
 
-// Recursive
+// Preorder Traversal (VLR)
 func flatten(root *TreeNode) {
-	if root == nil {
-		return
-	}
-	if root.Left != nil {
-		cur := root.Left
-		for cur.Right != nil {
-			cur = cur.Right
+	for cur := root; cur != nil; cur = cur.Right {
+		if cur.Left != nil {
+			pre := cur.Left
+			for pre.Right != nil {
+				pre = pre.Right
+			}
+			pre.Right = cur.Right
+			cur.Right = cur.Left
+			cur.Left = nil
 		}
-		right := root.Right
-		root.Right = root.Left
-		cur.Right = right
-		root.Left = nil
 	}
-	next := root.Right
-	for next != nil && next.Left == nil {
-		next = next.Right
-	}
-	flatten(next)
 }
 
 // Morris Traversal

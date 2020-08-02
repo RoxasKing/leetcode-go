@@ -7,7 +7,7 @@ package codinginterviews
     节点总数 <= 1000
 */
 
-// Preorder traversal + BFS
+// Preorder traversal (VLR) + BFS
 func levelOrder(root *TreeNode) []int {
 	if root == nil {
 		return nil
