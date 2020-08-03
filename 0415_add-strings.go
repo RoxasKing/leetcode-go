@@ -17,26 +17,18 @@ package leetcode
 func addStrings(num1 string, num2 string) string {
 	nums := make([]byte, 0, Max(len(num1), len(num2)))
 	var temp int
-	for num1 != "" && num2 != "" {
+	for num1 != "" || num2 != "" {
 		sum := temp
-		sum += int(num1[len(num1)-1]-'0') + int(num2[len(num2)-1]-'0')
+		if num1 != "" {
+			sum += int(num1[len(num1)-1] - '0')
+			num1 = num1[:len(num1)-1]
+		}
+		if num2 != "" {
+			sum += int(num2[len(num2)-1] - '0')
+			num2 = num2[:len(num2)-1]
+		}
 		nums = append(nums, byte(sum%10)+'0')
 		temp = sum / 10
-		num1, num2 = num1[:len(num1)-1], num2[:len(num2)-1]
-	}
-	for num1 != "" {
-		sum := temp
-		sum += int(num1[len(num1)-1] - '0')
-		nums = append(nums, byte(sum%10)+'0')
-		temp = sum / 10
-		num1 = num1[:len(num1)-1]
-	}
-	for num2 != "" {
-		sum := temp
-		sum += int(num2[len(num2)-1] - '0')
-		nums = append(nums, byte(sum%10)+'0')
-		temp = sum / 10
-		num2 = num2[:len(num2)-1]
 	}
 	if temp > 0 {
 		nums = append(nums, byte(temp)+'0')
