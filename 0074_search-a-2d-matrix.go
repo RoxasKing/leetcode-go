@@ -6,21 +6,21 @@ package leetcode
     每行的第一个整数大于前一行的最后一个整数。
 */
 
+// Binary Search
 func searchMatrix(matrix [][]int, target int) bool {
 	if len(matrix) == 0 || len(matrix[0]) == 0 {
 		return false
 	}
-	left, right := 0, len(matrix)*len(matrix[0])-1
-	for left <= right {
-		mid := left + (right-left)>>1
-		row := mid / len(matrix[0])
-		col := mid % len(matrix[0])
-		switch {
-		case target < matrix[row][col]:
-			right = mid - 1
-		case target > matrix[row][col]:
-			left = mid + 1
-		default:
+	L, R := 0, len(matrix)*len(matrix[0])-1
+	for L <= R {
+		M := L + (R-L)>>1
+		row := M / len(matrix[0])
+		col := M % len(matrix[0])
+		if matrix[row][col] < target {
+			L = M + 1
+		} else if matrix[row][col] > target {
+			R = M - 1
+		} else {
 			return true
 		}
 	}

@@ -12,9 +12,17 @@ func Test_searchMatrix(t *testing.T) {
 		args args
 		want bool
 	}{
-		{"", args{[][]int{{1, 1}}, 2}, false},
+		{"1",
+			args{
+				[][]int{
+					{1, 1},
+				},
+				2,
+			},
+			false,
+		},
 		{
-			"",
+			"2",
 			args{
 				[][]int{
 					{1, 3, 5, 7},
@@ -26,7 +34,7 @@ func Test_searchMatrix(t *testing.T) {
 			true,
 		},
 		{
-			"",
+			"3",
 			args{
 				[][]int{
 					{1, 3, 5, 7},
