@@ -31,7 +31,7 @@ func Test_restoreIPAddresses(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := restoreIPAddresses(tt.args.s); !reflect.DeepEqual(got, tt.want) {
+			if got := restoreIpAddresses(tt.args.s); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("restoreIPAddresses() = %v, want %v", got, tt.want)
 			}
 		})
