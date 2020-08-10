@@ -20,28 +20,30 @@ func restoreIpAddresses(s string) []string {
 		}
 		return true
 	}
+	cur := make([]string, 0, 4)
 	var out []string
-	var dfs func([]string, int)
-	dfs = func(ip []string, l int) {
-		if len(ip) == 3 {
-			if valid(s[l:]) {
-				ip = append(ip, s[l:])
-				out = append(out, strings.Join(ip, "."))
+	var dfs func(int)
+	dfs = func(L int) {
+		if len(cur) == 3 {
+			if valid(s[L:]) {
+				cur = append(cur, s[L:])
+				out = append(out, strings.Join(cur, "."))
+				cur = cur[:len(cur)-1]
 			}
 			return
 		}
-		maxRemain := 3 * (3 - len(ip))
-		for r := l + 1; r <= l+3 && r < len(s); r++ {
-			if r+maxRemain < len(s) {
+		maxRemain := 3 * (3 - len(cur))
+		for R := L + 1; R <= L+3 && R < len(s); R++ {
+			if R+maxRemain < len(s) {
 				continue
 			}
-			if valid(s[l:r]) {
-				ip = append(ip, s[l:r])
-				dfs(ip, r)
-				ip = ip[:len(ip)-1]
+			if valid(s[L:R]) {
+				cur = append(cur, s[L:R])
+				dfs(R)
+				cur = cur[:len(cur)-1]
 			}
 		}
 	}
-	dfs(make([]string, 0, 4), 0)
+	dfs(0)
 	return out
 }
