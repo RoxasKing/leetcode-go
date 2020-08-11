@@ -15,7 +15,20 @@ func Test_solve(t *testing.T) {
 		want [][]byte
 	}{
 		{
-			"",
+			"1",
+			args{
+				[][]byte{
+					{'O', 'O'},
+					{'O', 'O'},
+				},
+			},
+			[][]byte{
+				{'O', 'O'},
+				{'O', 'O'},
+			},
+		},
+		{
+			"2",
 			args{
 				[][]byte{
 					{'X', 'X', 'X', 'X'},
@@ -52,7 +65,7 @@ func Test_solve2(t *testing.T) {
 		want [][]byte
 	}{
 		{
-			"",
+			"1",
 			args{
 				[][]byte{
 					{'O', 'O'},
@@ -65,7 +78,7 @@ func Test_solve2(t *testing.T) {
 			},
 		},
 		{
-			"",
+			"2",
 			args{
 				[][]byte{
 					{'X', 'X', 'X', 'X'},
@@ -152,7 +165,7 @@ func Test_solve4(t *testing.T) {
 		want [][]byte
 	}{
 		{
-			"",
+			"1",
 			args{
 				[][]byte{
 					{'O', 'O'},
@@ -165,7 +178,7 @@ func Test_solve4(t *testing.T) {
 			},
 		},
 		{
-			"",
+			"2",
 			args{
 				[][]byte{
 					{'X', 'X', 'X', 'X'},
