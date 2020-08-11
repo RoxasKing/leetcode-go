@@ -17,8 +17,58 @@ package leetcode
   被围绕的区间不会存在于边界上，换句话说，任何边界上的 'O' 都不会被填充为 'X'。 任何不在边界上，或不与边界上的 'O' 相连的 'O' 最终都会被填充为 'X'。如果两个元素在水平或垂直方向相邻，则称它们是“相连”的。
 */
 
-// DFS + Recursive
+// BFS + Stack
 func solve(board [][]byte) {
+	if len(board) == 0 || len(board[0]) == 0 {
+		return
+	}
+
+	var queue [][]int
+
+	checkIfAppend := func(row, col int) {
+		if 0 <= row && row < len(board) &&
+			0 <= col && col < len(board[0]) &&
+			board[row][col] == 'O' {
+			queue = append(queue, []int{row, col})
+			board[row][col] = '#'
+		}
+	}
+
+	isEdge := func(row, col int) bool {
+		return row == 0 || row == len(board)-1 || col == 0 || col == len(board[0])-1
+	}
+
+	for i := range board {
+		for j := range board[0] {
+			if isEdge(i, j) && board[i][j] == 'O' {
+				queue = append(queue, []int{i, j})
+				board[i][j] = '#'
+			}
+		}
+	}
+
+	for len(queue) != 0 {
+		row, col := queue[0][0], queue[0][1]
+		queue = queue[1:]
+		checkIfAppend(row-1, col)
+		checkIfAppend(row+1, col)
+		checkIfAppend(row, col-1)
+		checkIfAppend(row, col+1)
+	}
+
+	for i := range board {
+		for j := range board[0] {
+			if board[i][j] == 'O' {
+				board[i][j] = 'X'
+			} else if board[i][j] == '#' {
+				board[i][j] = 'O'
+			}
+		}
+	}
+}
+
+// DFS + Recursive
+func solve2(board [][]byte) {
 	if len(board) == 0 {
 		return
 	}
@@ -58,7 +108,7 @@ func solve(board [][]byte) {
 }
 
 // DFS + stack
-func solve2(board [][]byte) {
+func solve3(board [][]byte) {
 	if len(board) == 0 {
 		return
 	}
@@ -100,60 +150,6 @@ func solve2(board [][]byte) {
 			isEdge := i == 0 || j == 0 || i == len(board)-1 || j == len(board[0])-1
 			if isEdge && board[i][j] == 'O' {
 				dfs(i, j)
-			}
-		}
-	}
-	for i := range board {
-		for j := range board[0] {
-			if board[i][j] == 'O' {
-				board[i][j] = 'X'
-			}
-			if board[i][j] == '#' {
-				board[i][j] = 'O'
-			}
-		}
-	}
-}
-
-// BFS
-func solve3(board [][]byte) {
-	if len(board) == 0 {
-		return
-	}
-	type coordinate struct {
-		row int
-		col int
-	}
-	bfs := func(row, col int) {
-		var queue []coordinate
-		queue = append(queue, coordinate{row, col})
-		board[row][col] = '#'
-		for len(queue) != 0 {
-			cur := queue[0]
-			queue = queue[1:]
-			if cur.row-1 >= 0 && board[cur.row-1][cur.col] == 'O' {
-				queue = append(queue, coordinate{cur.row - 1, cur.col})
-				board[cur.row-1][cur.col] = '#'
-			}
-			if cur.row+1 <= len(board)-1 && board[cur.row+1][cur.col] == 'O' {
-				queue = append(queue, coordinate{cur.row + 1, cur.col})
-				board[cur.row+1][cur.col] = '#'
-			}
-			if cur.col-1 >= 0 && board[cur.row][cur.col-1] == 'O' {
-				queue = append(queue, coordinate{cur.row, cur.col - 1})
-				board[cur.row][cur.col-1] = '#'
-			}
-			if cur.col+1 <= len(board[0])-1 && board[cur.row][cur.col+1] == 'O' {
-				queue = append(queue, coordinate{cur.row, cur.col + 1})
-				board[cur.row][cur.col+1] = '#'
-			}
-		}
-	}
-	for i := range board {
-		for j := range board[0] {
-			isEdge := i == 0 || j == 0 || i == len(board)-1 || j == len(board[0])-1
-			if isEdge && board[i][j] == 'O' {
-				bfs(i, j)
 			}
 		}
 	}

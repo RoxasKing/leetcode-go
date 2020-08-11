@@ -102,7 +102,7 @@ func Test_solve3(t *testing.T) {
 		want [][]byte
 	}{
 		{
-			"",
+			"1",
 			args{
 				[][]byte{
 					{'O', 'O'},
@@ -115,7 +115,7 @@ func Test_solve3(t *testing.T) {
 			},
 		},
 		{
-			"",
+			"2",
 			args{
 				[][]byte{
 					{'X', 'X', 'X', 'X'},
