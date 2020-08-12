@@ -27,18 +27,19 @@ package leetcode
  * }
  */
 
+// Hash + BFS
 func cloneGraph(node *Node) *Node {
 	if node == nil {
 		return nil
 	}
 	newN := &Node{Val: node.Val}
-	queue := []*Node{node}
-	clone := []*Node{newN}
+	srcQ := []*Node{node}
+	dstQ := []*Node{newN}
 	mark := make(map[int]*Node)
 	mark[newN.Val] = newN
-	for len(queue) != 0 {
-		srcN, dstN := queue[0], clone[0]
-		queue, clone = queue[1:], clone[1:]
+	for len(srcQ) != 0 {
+		srcN, dstN := srcQ[0], dstQ[0]
+		srcQ, dstQ = srcQ[1:], dstQ[1:]
 		if len(dstN.Neighbors) != 0 {
 			continue
 		}
@@ -49,13 +50,35 @@ func cloneGraph(node *Node) *Node {
 			} else {
 				dstn = &Node{Val: srcn.Val}
 				mark[dstn.Val] = dstn
+				srcQ = append(srcQ, srcn)
+				dstQ = append(dstQ, dstn)
 			}
 			dstN.Neighbors = append(dstN.Neighbors, dstn)
-			queue = append(queue, srcn)
-			clone = append(clone, dstn)
 		}
 	}
 	return newN
+}
+
+// Hash + BFS
+func cloneGraph2(node *Node) *Node {
+	if node == nil {
+		return nil
+	}
+	queue := []*Node{node}
+	mark := make(map[*Node]*Node)
+	mark[node] = &Node{Val: node.Val}
+	for len(queue) != 0 {
+		N := queue[0]
+		queue = queue[1:]
+		for _, n := range N.Neighbors {
+			if _, ok := mark[n]; !ok {
+				mark[n] = &Node{Val: n.Val}
+				queue = append(queue, n)
+			}
+			mark[N].Neighbors = append(mark[N].Neighbors, mark[n])
+		}
+	}
+	return mark[node]
 }
 
 type Node struct {
