@@ -40,9 +40,6 @@ func cloneGraph(node *Node) *Node {
 	for len(srcQ) != 0 {
 		srcN, dstN := srcQ[0], dstQ[0]
 		srcQ, dstQ = srcQ[1:], dstQ[1:]
-		if len(dstN.Neighbors) != 0 {
-			continue
-		}
 		for _, srcn := range srcN.Neighbors {
 			var dstn *Node
 			if n, ok := mark[srcn.Val]; ok {
