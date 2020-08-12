@@ -33,18 +33,16 @@ func cloneGraph(node *Node) *Node {
 		return nil
 	}
 	mark := map[int]*Node{node.Val: {Val: node.Val}}
-	srcQ := []*Node{node}
-	dstQ := []*Node{mark[node.Val]}
-	for len(srcQ) != 0 {
-		srcN, dstN := srcQ[0], dstQ[0]
-		srcQ, dstQ = srcQ[1:], dstQ[1:]
-		for _, srcn := range srcN.Neighbors {
-			if _, ok := mark[srcn.Val]; !ok {
-				mark[srcn.Val] = &Node{Val: srcn.Val}
-				srcQ = append(srcQ, srcn)
-				dstQ = append(dstQ, mark[srcn.Val])
+	queue := []*Node{node}
+	for len(queue) != 0 {
+		N := queue[0]
+		queue = queue[1:]
+		for _, n := range N.Neighbors {
+			if _, ok := mark[n.Val]; !ok {
+				mark[n.Val] = &Node{Val: n.Val}
+				queue = append(queue, n)
 			}
-			dstN.Neighbors = append(dstN.Neighbors, mark[srcn.Val])
+			mark[N.Val].Neighbors = append(mark[N.Val].Neighbors, mark[n.Val])
 		}
 	}
 	return mark[node.Val]
