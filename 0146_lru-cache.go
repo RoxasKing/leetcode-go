@@ -10,19 +10,19 @@ package leetcode
 
 type LRUCache struct {
 	capacity int
-	Head     *Node
-	Tail     *Node
-	dict     map[int]*Node
+	Head     *elem
+	Tail     *elem
+	dict     map[int]*elem
 }
 
 func NewLRUCache(capacity int) LRUCache {
-	head, tail := new(Node), new(Node)
+	head, tail := new(elem), new(elem)
 	head.Next, tail.Prev = tail, head
 	return LRUCache{
 		capacity: capacity,
 		Head:     head,
 		Tail:     tail,
-		dict:     make(map[int]*Node, capacity),
+		dict:     make(map[int]*elem, capacity),
 	}
 }
 
@@ -47,29 +47,29 @@ func (l *LRUCache) Put(key int, value int) {
 		l.remove(h)
 		delete(l.dict, h.Key)
 	}
-	node := &Node{Key: key, Val: value}
-	l.dict[key] = node
-	l.insert(node)
+	e := &elem{Key: key, Val: value}
+	l.dict[key] = e
+	l.insert(e)
 }
 
-type Node struct {
+type elem struct {
 	Key  int
 	Val  int
-	Next *Node
-	Prev *Node
+	Next *elem
+	Prev *elem
 }
 
-func (l *LRUCache) insert(node *Node) {
+func (l *LRUCache) insert(e *elem) {
 	tail := l.Tail
-	node.Prev = tail.Prev
-	tail.Prev.Next = node
-	node.Next = tail
-	tail.Prev = node
+	e.Prev = tail.Prev
+	tail.Prev.Next = e
+	e.Next = tail
+	tail.Prev = e
 }
 
-func (l *LRUCache) remove(node *Node) {
-	node.Prev.Next = node.Next
-	node.Next.Prev = node.Prev
+func (l *LRUCache) remove(e *elem) {
+	e.Prev.Next = e.Next
+	e.Next.Prev = e.Prev
 }
 
 /**
