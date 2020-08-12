@@ -32,28 +32,22 @@ func cloneGraph(node *Node) *Node {
 	if node == nil {
 		return nil
 	}
-	newN := &Node{Val: node.Val}
+	mark := map[int]*Node{node.Val: {Val: node.Val}}
 	srcQ := []*Node{node}
-	dstQ := []*Node{newN}
-	mark := make(map[int]*Node)
-	mark[newN.Val] = newN
+	dstQ := []*Node{mark[node.Val]}
 	for len(srcQ) != 0 {
 		srcN, dstN := srcQ[0], dstQ[0]
 		srcQ, dstQ = srcQ[1:], dstQ[1:]
 		for _, srcn := range srcN.Neighbors {
-			var dstn *Node
-			if n, ok := mark[srcn.Val]; ok {
-				dstn = n
-			} else {
-				dstn = &Node{Val: srcn.Val}
-				mark[dstn.Val] = dstn
+			if _, ok := mark[srcn.Val]; !ok {
+				mark[srcn.Val] = &Node{Val: srcn.Val}
 				srcQ = append(srcQ, srcn)
-				dstQ = append(dstQ, dstn)
+				dstQ = append(dstQ, mark[srcn.Val])
 			}
-			dstN.Neighbors = append(dstN.Neighbors, dstn)
+			dstN.Neighbors = append(dstN.Neighbors, mark[srcn.Val])
 		}
 	}
-	return newN
+	return mark[node.Val]
 }
 
 // Hash + BFS
@@ -62,8 +56,7 @@ func cloneGraph2(node *Node) *Node {
 		return nil
 	}
 	queue := []*Node{node}
-	mark := make(map[*Node]*Node)
-	mark[node] = &Node{Val: node.Val}
+	mark := map[*Node]*Node{node: {Val: node.Val}}
 	for len(queue) != 0 {
 		N := queue[0]
 		queue = queue[1:]
