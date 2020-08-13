@@ -1,5 +1,7 @@
 package leetcode
 
+import "strings"
+
 /*
   给定两个以字符串形式表示的非负整数 num1 和 num2，返回 num1 和 num2 的乘积，它们的乘积也表示为字符串形式。
   说明：
@@ -21,12 +23,12 @@ func multiply(num1 string, num2 string) string {
 			result[i+j] += sum / 10
 		}
 	}
-	out := make([]rune, 0, len(result))
-	for i := range result {
-		if i == 0 && result[i] == 0 {
-			continue
-		}
-		out = append(out, rune(result[i]+'0'))
+	var out strings.Builder
+	if result[0] != 0 {
+		out.WriteByte(byte(result[0] + '0'))
 	}
-	return string(out)
+	for i := 1; i < len(result); i++ {
+		out.WriteByte(byte(result[i] + '0'))
+	}
+	return out.String()
 }

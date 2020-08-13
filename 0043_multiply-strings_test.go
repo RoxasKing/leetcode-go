@@ -12,7 +12,7 @@ func Test_multiply(t *testing.T) {
 		args args
 		want string
 	}{
-		{"", args{"123", "456"}, "56088"},
+		{"1", args{"123", "456"}, "56088"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
