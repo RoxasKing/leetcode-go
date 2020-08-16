@@ -8,18 +8,13 @@ package leetcode
 */
 
 func rotate(matrix [][]int) {
-	head, tail := 0, len(matrix)-1
-	for head < tail {
-		for i := head; i < tail; i++ {
-			matrix[head][i],
-				matrix[i][tail],
-				matrix[len(matrix)-1-head][len(matrix)-1-i],
-				matrix[len(matrix)-1-i][head] =
-				matrix[len(matrix)-1-i][head],
-				matrix[head][i],
-				matrix[i][tail],
-				matrix[len(matrix)-1-head][len(matrix)-1-i]
+	l, r := 0, len(matrix)-1
+	for l < r {
+		for i := l; i < r; i++ {
+			matrix[l][i], matrix[i][r], matrix[r][len(matrix)-1-i], matrix[len(matrix)-1-i][l] =
+				matrix[len(matrix)-1-i][l], matrix[l][i], matrix[i][r], matrix[r][len(matrix)-1-i]
 		}
-		head, tail = head+1, tail-1
+		l++
+		r--
 	}
 }

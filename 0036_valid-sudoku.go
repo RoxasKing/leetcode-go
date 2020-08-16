@@ -35,3 +35,25 @@ func isValidSudoku(board [][]byte) bool {
 	}
 	return true
 }
+
+func isValidSudoku2(board [][]byte) bool {
+	rows := [9][9]bool{}
+	cols := [9][9]bool{}
+	boxs := [9][9]bool{}
+	for i := range board {
+		for j := range board[0] {
+			if board[i][j] == '.' {
+				continue
+			}
+			k := (i/3)*3 + j/3
+			index := int(board[i][j] - '1')
+			if rows[i][index] || cols[j][index] || boxs[k][index] {
+				return false
+			}
+			rows[i][index] = true
+			cols[j][index] = true
+			boxs[k][index] = true
+		}
+	}
+	return true
+}
