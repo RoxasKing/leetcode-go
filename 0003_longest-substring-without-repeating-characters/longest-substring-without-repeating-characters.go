@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
@@ -45,4 +45,11 @@ func longestSubstring(s string) string {
 		save[s[r]] = r + 1
 	}
 	return str
+}
+
+func Max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
 }

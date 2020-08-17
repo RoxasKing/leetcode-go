@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 import (
 	"reflect"
@@ -16,7 +16,7 @@ func Test_twoSum(t *testing.T) {
 		want []int
 	}{
 		{
-			"",
+			"1",
 			args{
 				[]int{1, 2, 3, 4, 5, 6, 7},
 				7,
@@ -24,7 +24,7 @@ func Test_twoSum(t *testing.T) {
 			[]int{2, 3},
 		},
 		{
-			"",
+			"2",
 			args{
 				[]int{1, 2, 3, 4, 5, 6, 7, 8},
 				8,

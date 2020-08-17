@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 import (
 	"testing"
@@ -13,9 +13,9 @@ func Test_lengthOfLongestSubstring(t *testing.T) {
 		args args
 		want int
 	}{
-		{"", args{"abcabcbb"}, 3},
-		{"", args{"bbbbbbbb"}, 1},
-		{"", args{"pwwkew"}, 3},
+		{"1", args{"abcabcbb"}, 3},
+		{"2", args{"bbbbbbbb"}, 1},
+		{"3", args{"pwwkew"}, 3},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -35,9 +35,9 @@ func Test_lengthOfLongestSubstring2(t *testing.T) {
 		args args
 		want int
 	}{
-		{"", args{"abcabcbb"}, 3},
-		{"", args{"bbbbbbbb"}, 1},
-		{"", args{"pwwkew"}, 3},
+		{"1", args{"abcabcbb"}, 3},
+		{"2", args{"bbbbbbbb"}, 1},
+		{"3", args{"pwwkew"}, 3},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -57,9 +57,9 @@ func Test_longestSubstring(t *testing.T) {
 		args args
 		want string
 	}{
-		{"test 1", args{"abcabcbb"}, "abc"},
-		{"test 2", args{"bbbbbbbb"}, "b"},
-		{"test 3", args{"pwwkew"}, "wke"},
+		{"1", args{"abcabcbb"}, "abc"},
+		{"2", args{"bbbbbbbb"}, "b"},
+		{"3", args{"pwwkew"}, "wke"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

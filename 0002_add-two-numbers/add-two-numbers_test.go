@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 import (
 	"testing"
@@ -15,12 +15,30 @@ func Test_addTwoNumbers(t *testing.T) {
 		want *ListNode
 	}{
 		{
-			"",
+			"1",
 			args{
-				&ListNode{Val: 2, Next: &ListNode{Val: 4, Next: &ListNode{Val: 3, Next: nil}}},
-				&ListNode{Val: 5, Next: &ListNode{Val: 6, Next: &ListNode{Val: 4, Next: nil}}},
+				&ListNode{
+					Val: 2,
+					Next: &ListNode{
+						Val:  4,
+						Next: &ListNode{Val: 3},
+					},
+				},
+				&ListNode{
+					Val: 5,
+					Next: &ListNode{
+						Val:  6,
+						Next: &ListNode{Val: 4},
+					},
+				},
 			},
-			&ListNode{Val: 7, Next: &ListNode{Val: 0, Next: &ListNode{Val: 8, Next: nil}}},
+			&ListNode{
+				Val: 7,
+				Next: &ListNode{
+					Val:  0,
+					Next: &ListNode{Val: 8},
+				},
+			},
 		},
 	}
 	for _, tt := range tests {
