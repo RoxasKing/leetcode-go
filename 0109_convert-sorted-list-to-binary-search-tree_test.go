@@ -15,7 +15,7 @@ func Test_sortedListToBST(t *testing.T) {
 		want *TreeNode
 	}{
 		{
-			"",
+			"1",
 			args{
 				&ListNode{
 					Val: -10,
@@ -63,7 +63,7 @@ func Test_sortedListToBST2(t *testing.T) {
 		want *TreeNode
 	}{
 		{
-			"",
+			"1",
 			args{
 				&ListNode{
 					Val: -10,
@@ -111,7 +111,7 @@ func Test_sortedListToBST3(t *testing.T) {
 		want *TreeNode
 	}{
 		{
-			"",
+			"1",
 			args{
 				&ListNode{
 					Val: -10,

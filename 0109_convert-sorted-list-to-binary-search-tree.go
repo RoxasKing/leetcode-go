@@ -18,15 +18,14 @@ func sortedListToBST(head *ListNode) *TreeNode {
 	buildBST = func(head *ListNode) *TreeNode {
 		if head == nil {
 			return nil
-		}
-		if head.Next == nil {
+		} else if head.Next == nil {
 			return &TreeNode{Val: head.Val}
 		}
 		slowPre := &ListNode{Val: -1, Next: head}
 		slow, fast := head, head
 		for fast != nil && fast.Next != nil {
-			slow, fast = slow.Next, fast.Next.Next
 			slowPre = slowPre.Next
+			slow, fast = slow.Next, fast.Next.Next
 		}
 		slowPre.Next = nil
 		return &TreeNode{
