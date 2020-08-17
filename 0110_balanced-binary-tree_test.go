@@ -14,7 +14,7 @@ func Test_isBalanced(t *testing.T) {
 		want bool
 	}{
 		{
-			"",
+			"1",
 			args{
 				&TreeNode{
 					Val:  3,
@@ -29,7 +29,7 @@ func Test_isBalanced(t *testing.T) {
 			true,
 		},
 		{
-			"",
+			"2",
 			args{
 				&TreeNode{
 					Val: 1,
@@ -46,6 +46,41 @@ func Test_isBalanced(t *testing.T) {
 				},
 			},
 			false,
+		},
+		{
+			"3",
+			args{
+				&TreeNode{
+					Val: 1,
+					Left: &TreeNode{
+						Val: 2,
+						Left: &TreeNode{
+							Val: 3,
+							Left: &TreeNode{
+								Val:   4,
+								Left:  &TreeNode{Val: 5},
+								Right: &TreeNode{Val: 5},
+							},
+							Right: &TreeNode{Val: 4},
+						},
+						Right: &TreeNode{
+							Val:   3,
+							Left:  &TreeNode{Val: 4},
+							Right: &TreeNode{Val: 4},
+						},
+					},
+					Right: &TreeNode{
+						Val: 2,
+						Left: &TreeNode{
+							Val:   3,
+							Left:  &TreeNode{Val: 4},
+							Right: &TreeNode{Val: 4},
+						},
+						Right: &TreeNode{Val: 3},
+					},
+				},
+			},
+			true,
 		},
 	}
 	for _, tt := range tests {
@@ -67,7 +102,7 @@ func Test_isBalanced2(t *testing.T) {
 		want bool
 	}{
 		{
-			"",
+			"1",
 			args{
 				&TreeNode{
 					Val:  3,
@@ -82,7 +117,7 @@ func Test_isBalanced2(t *testing.T) {
 			true,
 		},
 		{
-			"",
+			"2",
 			args{
 				&TreeNode{
 					Val: 1,
@@ -99,6 +134,41 @@ func Test_isBalanced2(t *testing.T) {
 				},
 			},
 			false,
+		},
+		{
+			"3",
+			args{
+				&TreeNode{
+					Val: 1,
+					Left: &TreeNode{
+						Val: 2,
+						Left: &TreeNode{
+							Val: 3,
+							Left: &TreeNode{
+								Val:   4,
+								Left:  &TreeNode{Val: 5},
+								Right: &TreeNode{Val: 5},
+							},
+							Right: &TreeNode{Val: 4},
+						},
+						Right: &TreeNode{
+							Val:   3,
+							Left:  &TreeNode{Val: 4},
+							Right: &TreeNode{Val: 4},
+						},
+					},
+					Right: &TreeNode{
+						Val: 2,
+						Left: &TreeNode{
+							Val:   3,
+							Left:  &TreeNode{Val: 4},
+							Right: &TreeNode{Val: 4},
+						},
+						Right: &TreeNode{Val: 3},
+					},
+				},
+			},
+			true,
 		},
 	}
 	for _, tt := range tests {
