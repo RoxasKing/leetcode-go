@@ -7,11 +7,27 @@ package leetcode
 */
 
 func maxProfitII(prices []int) int {
-	sell, buy := 0, -1<<31
+	sel, buy := 0, -1<<31
 	for _, price := range prices {
-		preSell := sell
-		sell = Max(sell, buy+price)
-		buy = Max(buy, preSell-price)
+		preSel := sel
+		sel = Max(sel, buy+price)
+		buy = Max(buy, preSel-price)
 	}
-	return sell
+	return sel
+}
+
+/*
+	sel > buy+price --> sel-price > buy --> buy < sel-price
+		because preSell == sel --> preSel-price == sel-price
+	sel < buy+price --> sel-price < buy --> buy > sel-price
+		because preSel < sel --> sel-price > preSel-price --> buy > preSel-price
+*/
+
+func maxProfitII2(prices []int) int {
+	sel, buy := 0, -1<<31
+	for _, price := range prices {
+		sel = Max(sel, buy+price)
+		buy = Max(buy, sel-price)
+	}
+	return sel
 }
