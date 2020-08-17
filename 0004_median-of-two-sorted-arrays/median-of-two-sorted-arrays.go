@@ -30,25 +30,25 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 		}
 	}
 
-	var maxL int
-	if m1 == 0 {
-		maxL = nums2[m2-1]
-	} else if m2 == 0 { // len(nums1) == len(nums2)
-		maxL = nums1[len(nums1)-1]
-	} else {
-		maxL = Max(nums1[m1-1], nums2[m2-1])
+	if len(nums1) == len(nums2) {
+		if m1 == 0 {
+			return float64(nums1[0]+nums2[len(nums2)-1]) / 2
+		} else if m2 == 0 {
+			return float64(nums1[len(nums1)-1]+nums2[0]) / 2
+		}
+		return float64(Max(nums1[m1-1], nums2[m2-1])+Min(nums1[m1], nums2[m2])) / 2
+	}
+
+	maxL := nums2[m2-1]
+	if m1 > 0 {
+		maxL = Max(maxL, nums1[m1-1])
 	}
 	if (len(nums1)+len(nums2))&1 == 1 {
 		return float64(maxL)
 	}
-
-	var minR int
-	if m1 == len(nums1) {
-		minR = nums2[m2]
-	} else if m2 == len(nums2) { // len(nums1) == len(nums2)
-		minR = nums1[0]
-	} else {
-		minR = Min(nums1[m1], nums2[m2])
+	minR := nums2[m2]
+	if m1 < len(nums1) {
+		minR = Min(minR, nums1[m1])
 	}
 	return float64(maxL+minR) / 2
 }
