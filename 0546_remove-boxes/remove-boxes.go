@@ -10,6 +10,7 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+// Dynamic Programming
 func removeBoxes(boxes []int) int {
 	dp := [100][100][100]int{}
 	var cal func(int, int, int) int
@@ -33,6 +34,32 @@ func removeBoxes(boxes []int) int {
 		return dp[l][r][k]
 	}
 	return cal(0, len(boxes)-1, 0)
+}
+
+// Backtracking (time out)
+func removeBoxes2(boxes []int) int {
+	var max int
+	var backTrack func([]int, int)
+	backTrack = func(boxes []int, cur int) {
+		if len(boxes) == 0 {
+			max = Max(max, cur)
+			return
+		}
+		var l, r int
+		for l < len(boxes) {
+			r = l
+			for r+1 < len(boxes) && boxes[r+1] == boxes[r] {
+				r++
+			}
+			newBoxes := make([]int, len(boxes)-(r+1-l))
+			copy(newBoxes[:l], boxes[:l])
+			copy(newBoxes[l:], boxes[r+1:])
+			backTrack(newBoxes, cur+(r+1-l)*(r+1-l))
+			l = r + 1
+		}
+	}
+	backTrack(boxes, 0)
+	return max
 }
 
 func Max(a, b int) int {

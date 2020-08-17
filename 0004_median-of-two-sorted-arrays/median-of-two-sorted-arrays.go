@@ -10,8 +10,9 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+// Binary Search
 func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
-	if len(nums1) > len(nums2) {
+	if len(nums1) > len(nums2) { // make len(nums1) < len(nums2)
 		nums1, nums2 = nums2, nums1
 	}
 
@@ -32,8 +33,8 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 	var maxL int
 	if m1 == 0 {
 		maxL = nums2[m2-1]
-	} else if m2 == 0 {
-		maxL = nums1[m1-1]
+	} else if m2 == 0 { // len(nums1) == len(nums2)
+		maxL = nums1[len(nums1)-1]
 	} else {
 		maxL = Max(nums1[m1-1], nums2[m2-1])
 	}
@@ -44,8 +45,8 @@ func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 	var minR int
 	if m1 == len(nums1) {
 		minR = nums2[m2]
-	} else if m2 == len(nums2) {
-		minR = nums1[m1]
+	} else if m2 == len(nums2) { // len(nums1) == len(nums2)
+		minR = nums1[0]
 	} else {
 		minR = Min(nums1[m1], nums2[m2])
 	}
