@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   给定一个单链表，其中的元素按升序排序，将其转换为高度平衡的二叉搜索树。
@@ -78,4 +78,15 @@ func sortedListToBST3(head *ListNode) *TreeNode {
 		return node
 	}
 	return buildBST(0, size)
+}
+
+type ListNode struct {
+	Val  int
+	Next *ListNode
+}
+
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
 }
