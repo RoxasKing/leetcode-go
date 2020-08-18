@@ -1,7 +1,8 @@
-package leetcode
+package main
 
 import (
 	"strconv"
+	"strings"
 )
 
 /*
@@ -19,28 +20,49 @@ import (
 */
 
 func countAndSay(n int) string {
-	var (
-		out   string
-		tmp   string
-		count int
-		pre   string
-	)
+	var out string
 	for i := 0; i < n; i++ {
 		if i == 0 {
 			out = "1"
 			continue
 		}
-		tmp, count, pre = "", 1, out[0:1]
+		var tmp string
+		cur, count := out[0:1], 1
 		for j := 1; j < len(out); j++ {
-			if out[j:j+1] == pre {
+			if out[j:j+1] == cur {
+				count++
+			} else {
+				tmp += strconv.Itoa(count) + cur
+				cur, count = out[j:j+1], 1
+			}
+		}
+		out = tmp + strconv.Itoa(count) + cur
+	}
+	return out
+}
+
+// Use strings.Builder
+func countAndSay2(n int) string {
+	var out string
+	for i := 0; i < n; i++ {
+		if i == 0 {
+			out = "1"
+			continue
+		}
+		var tmp strings.Builder
+		cur, count := out[0], 1
+		for j := 1; j < len(out); j++ {
+			if out[j] == cur {
 				count++
 				continue
 			}
-			tmp += strconv.Itoa(count) + pre
-			pre = out[j : j+1]
-			count = 1
+			tmp.WriteByte(byte(count) + '0')
+			tmp.WriteByte(cur)
+			cur, count = out[j], 1
 		}
-		out = tmp + strconv.Itoa(count) + pre
+		tmp.WriteByte(byte(count) + '0')
+		tmp.WriteByte(cur)
+		out = tmp.String()
 	}
 	return out
 }
