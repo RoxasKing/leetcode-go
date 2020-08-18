@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   编写一个函数来查找字符串数组中的最长公共前缀。
@@ -12,10 +12,10 @@ func longestCommonPrefix(strs []string) string {
 	if len(strs) == 0 {
 		return ""
 	}
-	for i := range strs[0] {
-		for j := 1; j < len(strs); j++ {
-			if i > len(strs[j])-1 || strs[j][i] != strs[0][i] {
-				return strs[0][:i]
+	for j := range strs[0] {
+		for i := 1; i < len(strs); i++ {
+			if j == len(strs[i]) || strs[i][j] != strs[0][j] {
+				return strs[0][:j]
 			}
 		}
 	}
@@ -96,4 +96,11 @@ func longestCommonPrefix4(strs []string) string {
 		}
 	}
 	return strs[0][:l]
+}
+
+func Min(a, b int) int {
+	if a > b {
+		return b
+	}
+	return a
 }
