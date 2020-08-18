@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 import "testing"
 
@@ -12,10 +12,8 @@ func Test_strStr(t *testing.T) {
 		args args
 		want int
 	}{
-		{"", args{"", ""}, 0},
-		{"", args{"a", "a"}, 0},
-		{"", args{"hello", "ll"}, 2},
-		{"", args{"aaaaa", "bba"}, -1},
+		{"1", args{"hello", "ll"}, 2},
+		{"2", args{"aaaaa", "bba"}, -1},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
