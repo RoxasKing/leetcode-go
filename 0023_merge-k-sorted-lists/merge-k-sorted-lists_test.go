@@ -93,27 +93,60 @@ func Test_mergeKLists2(t *testing.T) {
 		want *ListNode
 	}{
 		{
-			"",
+			"1",
 			args{
 				[]*ListNode{
 					nil,
-					{Val: -1, Next: &ListNode{Val: 5, Next: &ListNode{Val: 11, Next: nil}}},
+					{Val: -1, Next: &ListNode{Val: 5, Next: &ListNode{Val: 11}}},
 					nil,
-					{Val: 6, Next: &ListNode{Val: 10, Next: nil}},
+					{Val: 6, Next: &ListNode{Val: 10}},
 				},
 			},
-			&ListNode{Val: -1, Next: &ListNode{Val: 5, Next: &ListNode{Val: 6, Next: &ListNode{Val: 10, Next: &ListNode{Val: 11, Next: nil}}}}},
+			&ListNode{
+				Val: -1,
+				Next: &ListNode{
+					Val: 5,
+					Next: &ListNode{
+						Val: 6,
+						Next: &ListNode{
+							Val:  10,
+							Next: &ListNode{Val: 11},
+						},
+					},
+				},
+			},
 		},
 		{
-			"",
+			"1",
 			args{
 				[]*ListNode{
-					{Val: 1, Next: &ListNode{Val: 4, Next: &ListNode{Val: 5, Next: nil}}},
-					{Val: 1, Next: &ListNode{Val: 3, Next: &ListNode{Val: 4, Next: nil}}},
-					{Val: 2, Next: &ListNode{Val: 6, Next: nil}},
+					{Val: 1, Next: &ListNode{Val: 4, Next: &ListNode{Val: 5}}},
+					{Val: 1, Next: &ListNode{Val: 3, Next: &ListNode{Val: 4}}},
+					{Val: 2, Next: &ListNode{Val: 6}},
 				},
 			},
-			&ListNode{Val: 1, Next: &ListNode{Val: 1, Next: &ListNode{Val: 2, Next: &ListNode{Val: 3, Next: &ListNode{Val: 4, Next: &ListNode{Val: 4, Next: &ListNode{Val: 5, Next: &ListNode{Val: 6, Next: nil}}}}}}}},
+			&ListNode{
+				Val: 1,
+				Next: &ListNode{
+					Val: 1,
+					Next: &ListNode{
+						Val: 2,
+						Next: &ListNode{
+							Val: 3,
+							Next: &ListNode{
+								Val: 4,
+								Next: &ListNode{
+									Val: 4,
+									Next: &ListNode{
+										Val:  5,
+										Next: &ListNode{Val: 6},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
 		},
 	}
 	for _, tt := range tests {
