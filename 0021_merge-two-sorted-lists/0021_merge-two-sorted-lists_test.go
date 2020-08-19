@@ -15,12 +15,28 @@ func Test_mergeTwoLists(t *testing.T) {
 		want *ListNode
 	}{
 		{
-			"",
+			"1",
 			args{
 				&ListNode{Val: 1, Next: &ListNode{Val: 2, Next: &ListNode{Val: 4, Next: nil}}},
 				&ListNode{Val: 1, Next: &ListNode{Val: 3, Next: &ListNode{Val: 4, Next: nil}}},
 			},
-			&ListNode{Val: 1, Next: &ListNode{Val: 1, Next: &ListNode{Val: 2, Next: &ListNode{Val: 3, Next: &ListNode{Val: 4, Next: &ListNode{Val: 4, Next: nil}}}}}},
+			&ListNode{
+				Val: 1,
+				Next: &ListNode{
+					Val: 1,
+					Next: &ListNode{
+						Val: 2,
+						Next: &ListNode{
+							Val: 3,
+							Next: &ListNode{
+								Val: 4,
+								Next: &ListNode{
+									Val: 4, Next: nil},
+							},
+						},
+					},
+				},
+			},
 		},
 	}
 	for _, tt := range tests {
