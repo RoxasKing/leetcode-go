@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 import (
 	"testing"
@@ -14,22 +14,21 @@ func Test_maxDepth(t *testing.T) {
 		want int
 	}{
 		{
-			"test 1",
+			"1",
 			args{
 				&TreeNode{
 					Val: 2,
 					Left: &TreeNode{
 						Val:   3,
-						Left:  &TreeNode{Val: 4, Left: nil, Right: nil},
-						Right: &TreeNode{Val: 5, Left: nil, Right: nil},
+						Left:  &TreeNode{Val: 4},
+						Right: &TreeNode{Val: 5},
 					},
 					Right: &TreeNode{
 						Val:  6,
-						Left: &TreeNode{Val: 7, Left: nil, Right: nil},
+						Left: &TreeNode{Val: 7},
 						Right: &TreeNode{
 							Val:   8,
-							Left:  nil,
-							Right: &TreeNode{Val: 9, Left: nil, Right: nil},
+							Right: &TreeNode{Val: 9},
 						},
 					},
 				},

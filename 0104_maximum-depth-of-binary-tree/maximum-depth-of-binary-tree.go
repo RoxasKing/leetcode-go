@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   给定一个二叉树，找出其最大深度。
@@ -11,4 +11,17 @@ func maxDepth(root *TreeNode) int {
 		return 0
 	}
 	return Max(maxDepth(root.Left), maxDepth(root.Right)) + 1
+}
+
+func Max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
 }
