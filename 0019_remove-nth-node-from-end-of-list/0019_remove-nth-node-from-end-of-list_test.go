@@ -14,13 +14,42 @@ func Test_removeNthFromEnd(t *testing.T) {
 		args args
 		want *ListNode
 	}{
-		{"", args{&ListNode{Val: 1, Next: nil}, 1}, nil},
 		{
-			"",
+			"1",
 			args{
-				&ListNode{Val: 1, Next: &ListNode{Val: 2, Next: &ListNode{Val: 3, Next: &ListNode{Val: 4, Next: &ListNode{Val: 5, Next: nil}}}}}, 2,
+				&ListNode{Val: 1},
+				1,
 			},
-			&ListNode{Val: 1, Next: &ListNode{Val: 2, Next: &ListNode{Val: 3, Next: &ListNode{Val: 5, Next: nil}}}},
+			nil,
+		},
+		{
+			"2",
+			args{
+				&ListNode{
+					Val: 1,
+					Next: &ListNode{
+						Val: 2,
+						Next: &ListNode{
+							Val: 3,
+							Next: &ListNode{
+								Val:  4,
+								Next: &ListNode{Val: 5},
+							},
+						},
+					},
+				},
+				2,
+			},
+			&ListNode{
+				Val: 1,
+				Next: &ListNode{
+					Val: 2,
+					Next: &ListNode{
+						Val:  3,
+						Next: &ListNode{Val: 5},
+					},
+				},
+			},
 		},
 	}
 	for _, tt := range tests {
