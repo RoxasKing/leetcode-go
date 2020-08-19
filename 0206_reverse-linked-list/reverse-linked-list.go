@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   反转一个单链表。

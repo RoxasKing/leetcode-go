@@ -18,3 +18,8 @@ func hasCycle(head *ListNode) bool {
 	}
 	return false
 }
+
+type ListNode struct {
+	Val  int
+	Next *ListNode
+}

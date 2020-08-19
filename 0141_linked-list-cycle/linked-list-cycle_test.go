@@ -19,8 +19,8 @@ func Test_hasCycle(t *testing.T) {
 		args args
 		want bool
 	}{
-		{"", args{node1}, true},
-		{"", args{node2}, false},
+		{"1", args{node1}, true},
+		{"2", args{node2}, false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
