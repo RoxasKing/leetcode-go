@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 import (
 	"testing"
@@ -14,40 +14,40 @@ func Test_isValidBST(t *testing.T) {
 		want bool
 	}{
 		{
-			"",
+			"1",
 			args{
 				&TreeNode{
 					Val:   2,
-					Left:  &TreeNode{Val: 1, Left: nil, Right: nil},
-					Right: &TreeNode{Val: 3, Left: nil, Right: nil}},
+					Left:  &TreeNode{Val: 1},
+					Right: &TreeNode{Val: 3}},
 			},
 			true,
 		},
 		{
-			"",
+			"1",
 			args{
 				&TreeNode{
 					Val:  5,
-					Left: &TreeNode{Val: 1, Left: nil, Right: nil},
+					Left: &TreeNode{Val: 1},
 					Right: &TreeNode{
 						Val:   4,
-						Left:  &TreeNode{Val: 3, Left: nil, Right: nil},
-						Right: &TreeNode{Val: 6, Left: nil, Right: nil},
+						Left:  &TreeNode{Val: 3},
+						Right: &TreeNode{Val: 6},
 					},
 				},
 			},
 			false,
 		},
 		{
-			"",
+			"2",
 			args{
 				&TreeNode{
 					Val:  10,
-					Left: &TreeNode{Val: 5, Left: nil, Right: nil},
+					Left: &TreeNode{Val: 5},
 					Right: &TreeNode{
 						Val:   15,
-						Left:  &TreeNode{Val: 6, Left: nil, Right: nil},
-						Right: &TreeNode{Val: 20, Left: nil, Right: nil},
+						Left:  &TreeNode{Val: 6},
+						Right: &TreeNode{Val: 20},
 					},
 				},
 			},
