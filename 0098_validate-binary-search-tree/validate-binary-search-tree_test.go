@@ -73,40 +73,40 @@ func Test_isValidBST2(t *testing.T) {
 		want bool
 	}{
 		{
-			"",
+			"1",
 			args{
 				&TreeNode{
 					Val:   2,
-					Left:  &TreeNode{Val: 1, Left: nil, Right: nil},
-					Right: &TreeNode{Val: 3, Left: nil, Right: nil}},
+					Left:  &TreeNode{Val: 1},
+					Right: &TreeNode{Val: 3}},
 			},
 			true,
 		},
 		{
-			"",
+			"2",
 			args{
 				&TreeNode{
 					Val:  5,
-					Left: &TreeNode{Val: 1, Left: nil, Right: nil},
+					Left: &TreeNode{Val: 1},
 					Right: &TreeNode{
 						Val:   4,
-						Left:  &TreeNode{Val: 3, Left: nil, Right: nil},
-						Right: &TreeNode{Val: 6, Left: nil, Right: nil},
+						Left:  &TreeNode{Val: 3},
+						Right: &TreeNode{Val: 6},
 					},
 				},
 			},
 			false,
 		},
 		{
-			"",
+			"3",
 			args{
 				&TreeNode{
 					Val:  10,
-					Left: &TreeNode{Val: 5, Left: nil, Right: nil},
+					Left: &TreeNode{Val: 5},
 					Right: &TreeNode{
 						Val:   15,
-						Left:  &TreeNode{Val: 6, Left: nil, Right: nil},
-						Right: &TreeNode{Val: 20, Left: nil, Right: nil},
+						Left:  &TreeNode{Val: 6},
+						Right: &TreeNode{Val: 20},
 					},
 				},
 			},
@@ -132,50 +132,40 @@ func Test_isValidBST3(t *testing.T) {
 		want bool
 	}{
 		{
-			"",
-			args{
-				&TreeNode{
-					Val:  1,
-					Left: &TreeNode{Val: 1},
-				},
-			},
-			false,
-		},
-		{
-			"",
+			"1",
 			args{
 				&TreeNode{
 					Val:   2,
-					Left:  &TreeNode{Val: 1, Left: nil, Right: nil},
-					Right: &TreeNode{Val: 3, Left: nil, Right: nil}},
+					Left:  &TreeNode{Val: 1},
+					Right: &TreeNode{Val: 3}},
 			},
 			true,
 		},
 		{
-			"",
+			"2",
 			args{
 				&TreeNode{
 					Val:  5,
-					Left: &TreeNode{Val: 1, Left: nil, Right: nil},
+					Left: &TreeNode{Val: 1},
 					Right: &TreeNode{
 						Val:   4,
-						Left:  &TreeNode{Val: 3, Left: nil, Right: nil},
-						Right: &TreeNode{Val: 6, Left: nil, Right: nil},
+						Left:  &TreeNode{Val: 3},
+						Right: &TreeNode{Val: 6},
 					},
 				},
 			},
 			false,
 		},
 		{
-			"",
+			"3",
 			args{
 				&TreeNode{
 					Val:  10,
-					Left: &TreeNode{Val: 5, Left: nil, Right: nil},
+					Left: &TreeNode{Val: 5},
 					Right: &TreeNode{
 						Val:   15,
-						Left:  &TreeNode{Val: 6, Left: nil, Right: nil},
-						Right: &TreeNode{Val: 20, Left: nil, Right: nil},
+						Left:  &TreeNode{Val: 6},
+						Right: &TreeNode{Val: 20},
 					},
 				},
 			},

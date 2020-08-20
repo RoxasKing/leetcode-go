@@ -34,7 +34,7 @@ func quickMul(x float64, N int) float64 {
 	return out
 }
 
-// Binary Exponentiation + Recursive
+// Binary Exponentiation + Recursion
 func quickMul2(x float64, N int) float64 {
 	if N == 0 {
 		return 1

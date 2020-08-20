@@ -40,7 +40,7 @@ func numIslands(grid [][]byte) int {
 	return count
 }
 
-// DFS + Recursive
+// DFS + Recursion
 func numIslands2(grid [][]byte) int {
 	if len(grid) == 0 {
 		return 0

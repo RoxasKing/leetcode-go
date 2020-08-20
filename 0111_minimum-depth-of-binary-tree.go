@@ -14,7 +14,7 @@ package leetcode
   返回它的最小深度  2.
 */
 
-// Recursive
+// Recursion
 func minDepth(root *TreeNode) int {
 	if root == nil {
 		return 0

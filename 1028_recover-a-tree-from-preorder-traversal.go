@@ -17,7 +17,7 @@ import "strconv"
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// DFS + Recursive
+// DFS + Recursion
 func recoverFromPreorder(S string) *TreeNode {
 	var dfs func(int) *TreeNode
 	dfs = func(depth int) *TreeNode {

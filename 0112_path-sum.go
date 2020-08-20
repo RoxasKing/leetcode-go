@@ -41,7 +41,7 @@ func hasPathSum(root *TreeNode, sum int) bool {
 	return false
 }
 
-// Recursive
+// Recursion
 func hasPathSum2(root *TreeNode, sum int) bool {
 	var help func(*TreeNode, int) bool
 	help = func(root *TreeNode, sum int) bool {

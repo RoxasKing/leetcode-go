@@ -35,20 +35,20 @@ func generateParenthesisBackTrack(str string, l, r int, out *[]string) {
 	}
 }
 
-// Recursive
+// Recursion
 func generateParenthesis2(n int) []string {
 	dict := make([][]string, n+1)
 	dict[0] = []string{""}
-	return generateParenthesisRecursive(n, &dict)
+	return generateParenthesisRecursion(n, &dict)
 }
 
-func generateParenthesisRecursive(n int, dict *[][]string) []string {
+func generateParenthesisRecursion(n int, dict *[][]string) []string {
 	if len((*dict)[n]) != 0 {
 		return (*dict)[n]
 	}
 	for i := 0; i < n; i++ {
-		for _, l := range generateParenthesisRecursive(n-1-i, dict) {
-			for _, r := range generateParenthesisRecursive(i, dict) {
+		for _, l := range generateParenthesisRecursion(n-1-i, dict) {
+			for _, r := range generateParenthesisRecursion(i, dict) {
 				(*dict)[n] = append((*dict)[n], "("+l+")"+r)
 			}
 		}

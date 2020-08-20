@@ -24,7 +24,7 @@ package leetcode
   返回 false 。
 */
 
-// Recursive : top down
+// Recursion : top down
 func isBalanced(root *TreeNode) bool {
 	if root == nil {
 		return true
@@ -40,7 +40,7 @@ func isBalanced(root *TreeNode) bool {
 		Abs(height(root.Left)-height(root.Right)) < 2
 }
 
-// Recursive : bottom up
+// Recursion : bottom up
 func isBalanced2(root *TreeNode) bool {
 	var helper func(*TreeNode) (int, bool)
 	helper = func(root *TreeNode) (height int, isBalanced bool) {

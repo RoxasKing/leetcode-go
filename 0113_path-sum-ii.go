@@ -19,7 +19,7 @@ package leetcode
     ]
 */
 
-// Recursive
+// Recursion
 func pathSum(root *TreeNode, sum int) [][]int {
 	if root == nil {
 		return nil

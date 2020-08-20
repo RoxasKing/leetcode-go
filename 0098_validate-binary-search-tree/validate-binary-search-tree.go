@@ -13,62 +13,59 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// DFS
+// DFS + Recursion
 func isValidBST(root *TreeNode) bool {
-	return dfsIsValidBST(-1<<63, 1<<63-1, root)
+	return dfs(-1<<63, 1<<63-1, root)
 }
 
-func dfsIsValidBST(min, max int, root *TreeNode) bool {
+func dfs(min, max int, root *TreeNode) bool {
 	if root == nil {
 		return true
-	}
-	if root.Val <= min || root.Val >= max {
+	} else if root.Val <= min || root.Val >= max {
 		return false
 	}
-	return dfsIsValidBST(min, root.Val, root.Left) && dfsIsValidBST(root.Val, max, root.Right)
+	return dfs(min, root.Val, root.Left) && dfs(root.Val, max, root.Right)
 }
 
-// Stack
+// DFS + Stack
 func isValidBST2(root *TreeNode) bool {
 	var stack []*TreeNode
-	inorder := -1 << 63
-	for len(stack) > 0 || root != nil {
-		for root != nil {
-			stack = append(stack, root)
-			root = root.Left
+	cur := root
+	preVal := -1 << 63
+	for len(stack) != 0 || cur != nil {
+		for cur != nil {
+			stack = append(stack, cur)
+			cur = cur.Left
 		}
-		root = stack[len(stack)-1]
-		stack = stack[:len(stack)-1]
-		if root.Val <= inorder {
+		cur, stack = stack[len(stack)-1], stack[:len(stack)-1]
+		if preVal >= cur.Val {
 			return false
 		}
-		inorder = root.Val
-		root = root.Right
+		preVal, cur = cur.Val, cur.Right
 	}
 	return true
 }
 
 // Morris Traversal
 func isValidBST3(root *TreeNode) bool {
-	inorder := -1 << 63
-	for root != nil {
-		if root.Left != nil {
-			pre := root.Left
-			for pre.Right != nil && pre.Right != root {
-				pre = pre.Right
+	cur := root
+	preVal := -1 << 31
+	for cur != nil {
+		if cur.Left != nil {
+			curPre := cur.Left
+			for curPre.Right != nil && curPre.Right != cur {
+				curPre = curPre.Right
 			}
-			if pre.Right != root {
-				pre.Right = root
-				root = root.Left
+			if curPre.Right != cur {
+				curPre.Right, cur = cur, cur.Left
 				continue
 			}
-			pre.Right = nil
+			curPre.Right = nil
 		}
-		if root.Val <= inorder {
+		if preVal >= cur.Val {
 			return false
 		}
-		inorder = root.Val
-		root = root.Right
+		preVal, cur = cur.Val, cur.Right
 	}
 	return true
 }

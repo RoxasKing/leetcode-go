@@ -21,7 +21,7 @@ func mergeKLists(lists []*ListNode) *ListNode {
 	return newLists[0]
 }
 
-// Recursive
+// Recursion
 func mergeKLists2(lists []*ListNode) *ListNode {
 	if len(lists) == 0 {
 		return nil

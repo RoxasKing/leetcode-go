@@ -67,7 +67,7 @@ func solve(board [][]byte) {
 	}
 }
 
-// DFS + Recursive
+// DFS + Recursion
 func solve2(board [][]byte) {
 	if len(board) == 0 {
 		return

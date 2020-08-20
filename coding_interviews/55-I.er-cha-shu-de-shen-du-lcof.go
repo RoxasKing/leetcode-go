@@ -7,7 +7,7 @@ package codinginterviews
     节点总数 <= 10000
 */
 
-// BFS + Recursive
+// BFS + Recursion
 func maxDepth(root *TreeNode) int {
 	if root == nil {
 		return 0
