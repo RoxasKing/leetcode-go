@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   给定一个二叉树，找出其最小深度。
@@ -21,34 +21,47 @@ func minDepth(root *TreeNode) int {
 	}
 	if root.Left != nil && root.Right == nil {
 		return minDepth(root.Left) + 1
-	}
-	if root.Left == nil && root.Right != nil {
+	} else if root.Left == nil && root.Right != nil {
 		return minDepth(root.Right) + 1
 	}
 	return Min(minDepth(root.Left), minDepth(root.Right)) + 1
 }
 
-// Stack : width first
+func Min(a, b int) int {
+	if a > b {
+		return b
+	}
+	return a
+}
+
+// BFS + Recursion
 func minDepth2(root *TreeNode) int {
 	if root == nil {
 		return 0
 	}
-	type stack struct {
-		node  *TreeNode
-		depth int
+	var depth int
+	queue := []*TreeNode{root}
+	for len(queue) != 0 {
+		depth++
+		curSize := len(queue)
+		for _, node := range queue {
+			if node.Left == nil && node.Right == nil {
+				return depth
+			}
+			if node.Left != nil {
+				queue = append(queue, node.Left)
+			}
+			if node.Right != nil {
+				queue = append(queue, node.Right)
+			}
+		}
+		queue = queue[curSize:]
 	}
-	stacks := []*stack{{root, 1}}
-	for len(stacks) != 0 {
-		if stacks[0].node.Left == nil && stacks[0].node.Right == nil {
-			break
-		}
-		if stacks[0].node.Left != nil {
-			stacks = append(stacks, &stack{stacks[0].node.Left, stacks[0].depth + 1})
-		}
-		if stacks[0].node.Right != nil {
-			stacks = append(stacks, &stack{stacks[0].node.Right, stacks[0].depth + 1})
-		}
-		stacks = stacks[1:]
-	}
-	return stacks[0].depth
+	return depth
+}
+
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
 }

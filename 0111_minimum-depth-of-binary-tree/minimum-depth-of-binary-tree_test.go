@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 import (
 	"testing"
@@ -14,7 +14,7 @@ func Test_minDepth(t *testing.T) {
 		want int
 	}{
 		{
-			"",
+			"1",
 			args{
 				&TreeNode{
 					Val:  3,
@@ -48,7 +48,7 @@ func Test_minDepth2(t *testing.T) {
 		want int
 	}{
 		{
-			"",
+			"1",
 			args{
 				&TreeNode{
 					Val:  3,
