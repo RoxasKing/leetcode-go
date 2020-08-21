@@ -44,7 +44,7 @@ func longestCommonPrefix2(strs []string) string {
 	return prefix
 }
 
-// Divide And Conquer
+// Divide-and-conquer
 func longestCommonPrefix3(strs []string) string {
 	if len(strs) == 0 {
 		return ""

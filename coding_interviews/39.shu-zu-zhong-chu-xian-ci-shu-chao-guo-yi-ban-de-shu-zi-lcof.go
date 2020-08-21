@@ -23,7 +23,7 @@ func majorityElement(nums []int) int {
 	return cur
 }
 
-// Divide and conquer
+// Divide-and-conquer
 func majorityElement2(nums []int) int {
 	count := func(l, r, num int) int {
 		var count int
