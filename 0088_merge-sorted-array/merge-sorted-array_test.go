@@ -1,11 +1,11 @@
-package leetcode
+package main
 
 import (
 	"reflect"
 	"testing"
 )
 
-func Test_mergeII(t *testing.T) {
+func Test_merge(t *testing.T) {
 	type args struct {
 		nums1 []int
 		m     int
@@ -18,7 +18,7 @@ func Test_mergeII(t *testing.T) {
 		want []int
 	}{
 		{
-			"",
+			"1",
 			args{
 				nums1: []int{1, 2, 3, 0, 0, 0},
 				m:     3,
@@ -30,7 +30,7 @@ func Test_mergeII(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			mergeII(tt.args.nums1, tt.args.m, tt.args.nums2, tt.args.n)
+			merge(tt.args.nums1, tt.args.m, tt.args.nums2, tt.args.n)
 			if !reflect.DeepEqual(tt.args.nums1, tt.want) {
 				t.Errorf("merge() = %v, want %v", tt.args.nums1, tt.want)
 			}
