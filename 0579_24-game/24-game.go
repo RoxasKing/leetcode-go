@@ -1,6 +1,8 @@
 package main
 
-import "math"
+import (
+	"math"
+)
 
 /*
   你有 4 张写有 1 到 9 数字的牌。你需要判断是否能通过 *，/，+，-，(，) 的运算得到 24。
@@ -21,16 +23,66 @@ func judgePoint24(nums []int) bool {
 	for i := range newNums {
 		newNums[i] = float64(nums[i])
 	}
-	return backTrack(newNums, 0)
+	return backTrack(newNums)
 }
 
-func backTrack(nums []float64, start int) bool {
+func backTrack(nums []float64) bool {
+	if len(nums) == 1 {
+		return math.Abs(nums[0]-24) < 1e-9
+	}
+	for i := 0; i < len(nums); i++ {
+		for j := 0; j < len(nums); j++ {
+			if i == j {
+				continue
+			}
+			newNums := make([]float64, 0, len(nums)-1)
+			for k := 0; k < len(nums); k++ {
+				if k != i && k != j {
+					newNums = append(newNums, nums[k])
+				}
+			}
+			for op := 0; op < 4; op++ {
+				if i > j && op < 2 || nums[j] == 0 && op == 3 {
+					continue
+				}
+				var res float64
+				switch op {
+				case 0: // +
+					res = nums[i] + nums[j]
+				case 1: // *
+					res = nums[i] * nums[j]
+				case 2: // -
+					res = nums[i] - nums[j]
+				case 3: // /
+					res = nums[i] / nums[j]
+				}
+				newNums = append(newNums, res)
+				if backTrack(newNums) {
+					return true
+				}
+				newNums = newNums[:len(newNums)-1]
+			}
+		}
+	}
+	return false
+}
+
+// Backtracking
+func judgePoint24_2(nums []int) bool {
+	newNums := make([]float64, len(nums))
+	for i := range newNums {
+		newNums[i] = float64(nums[i])
+	}
+	return backTrack2(newNums, 0)
+}
+
+func backTrack2(nums []float64, start int) bool {
 	if start == len(nums) {
 		return check(nums)
 	}
 	for i := start; i < len(nums); i++ {
 		nums[i], nums[start] = nums[start], nums[i]
-		if backTrack(nums, start+1) {
+		if backTrack2(nums, start+1) {
 			return true
 		}
 		nums[i], nums[start] = nums[start], nums[i]
