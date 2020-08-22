@@ -12,7 +12,7 @@ package leetcode
     ]
 */
 
-// BackTrack
+// Backtracking
 func generateParenthesis(n int) []string {
 	if n == 0 {
 		return nil

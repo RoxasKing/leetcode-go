@@ -12,7 +12,7 @@ package leetcode
     ]
 */
 
-// Back Tracking Method
+// Backtracking
 func partition0131(s string) [][]string {
 	isPalindrome := func(s string) bool {
 		for i := 0; i < len(s)/2; i++ {
@@ -45,7 +45,7 @@ func partition0131(s string) [][]string {
 	return out
 }
 
-// Back Tracking Method && Dynamic Programming
+// Backtracking && Dynamic Programming
 func partition01312(s string) [][]string {
 	isPalindrome := func(s string) bool {
 		for i := 0; i < len(s)/2; i++ {
@@ -87,7 +87,7 @@ func partition01312(s string) [][]string {
 	return out
 }
 
-// Back Tracking Method && Dynamic Programming
+// Backtracking && Dynamic Programming
 func partition01313(s string) [][]string {
 	check := make([][]bool, len(s))
 	for r := range check {
