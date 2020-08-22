@@ -17,10 +17,14 @@ import "math"
 
 // Backtracking
 func judgePoint24(nums []int) bool {
-	return backTrack(nums, 0)
+	newNums := make([]float64, len(nums))
+	for i := range newNums {
+		newNums[i] = float64(nums[i])
+	}
+	return backTrack(newNums, 0)
 }
 
-func backTrack(nums []int, start int) bool {
+func backTrack(nums []float64, start int) bool {
 	if start == len(nums) {
 		return check(nums)
 	}
@@ -34,9 +38,7 @@ func backTrack(nums []int, start int) bool {
 	return false
 }
 
-var ops = []byte{'+', '-', '*', '/'}
-
-func check(nums []int) bool {
+func check(nums []float64) bool {
 	var (
 		res        float64
 		isValid    bool
@@ -44,16 +46,16 @@ func check(nums []int) bool {
 	)
 
 	// (a op1 b) op3 (c op2 d)
-	for i := range ops {
-		if exp1, isValid = cal(float64(nums[0]), float64(nums[1]), ops[i]); !isValid {
+	for i := 0; i < 4; i++ {
+		if exp1, isValid = cal(nums[0], nums[1], i); !isValid {
 			continue
 		}
-		for j := range ops {
-			if exp2, isValid = cal(float64(nums[2]), float64(nums[3]), ops[j]); !isValid {
+		for j := 0; j < 4; j++ {
+			if exp2, isValid = cal(nums[2], nums[3], j); !isValid {
 				continue
 			}
-			for k := range ops {
-				if res, isValid = cal(exp1, exp2, ops[k]); !isValid {
+			for k := 0; k < 4; k++ {
+				if res, isValid = cal(exp1, exp2, k); !isValid {
 					continue
 				}
 				if math.Abs(res-24) <= 1e-9 {
@@ -64,16 +66,16 @@ func check(nums []int) bool {
 	}
 
 	// ((a op1 b) op2 c) op3 d
-	for i := range ops {
-		if exp1, isValid = cal(float64(nums[0]), float64(nums[1]), ops[i]); !isValid {
+	for i := 0; i < 4; i++ {
+		if exp1, isValid = cal(nums[0], nums[1], i); !isValid {
 			continue
 		}
-		for j := range ops {
-			if exp2, isValid = cal(exp1, float64(nums[2]), ops[j]); !isValid {
+		for j := 0; j < 4; j++ {
+			if exp2, isValid = cal(exp1, nums[2], j); !isValid {
 				continue
 			}
-			for k := range ops {
-				if res, isValid = cal(exp2, float64(nums[3]), ops[k]); !isValid {
+			for k := 0; k < 4; k++ {
+				if res, isValid = cal(exp2, nums[3], k); !isValid {
 					continue
 				}
 				if math.Abs(res-24) <= 1e-9 {
@@ -84,16 +86,16 @@ func check(nums []int) bool {
 	}
 
 	// (a op1 (b op2 c)) op3 d
-	for i := range ops {
-		if exp1, isValid = cal(float64(nums[1]), float64(nums[2]), ops[i]); !isValid {
+	for i := 0; i < 4; i++ {
+		if exp1, isValid = cal(nums[1], nums[2], i); !isValid {
 			continue
 		}
-		for j := range ops {
-			if exp2, isValid = cal(float64(nums[0]), exp1, ops[j]); !isValid {
+		for j := 0; j < 4; j++ {
+			if exp2, isValid = cal(nums[0], exp1, j); !isValid {
 				continue
 			}
-			for k := range ops {
-				if res, isValid = cal(exp2, float64(nums[3]), ops[k]); !isValid {
+			for k := 0; k < 4; k++ {
+				if res, isValid = cal(exp2, nums[3], k); !isValid {
 					continue
 				}
 				if math.Abs(res-24) <= 1e-9 {
@@ -104,16 +106,16 @@ func check(nums []int) bool {
 	}
 
 	// a op1 ((b op2 c) op3 d)
-	for i := range ops {
-		if exp1, isValid = cal(float64(nums[1]), float64(nums[2]), ops[i]); !isValid {
+	for i := 0; i < 4; i++ {
+		if exp1, isValid = cal(nums[1], nums[2], i); !isValid {
 			continue
 		}
-		for j := range ops {
-			if exp2, isValid = cal(exp1, float64(nums[3]), ops[j]); !isValid {
+		for j := 0; j < 4; j++ {
+			if exp2, isValid = cal(exp1, nums[3], j); !isValid {
 				continue
 			}
-			for k := range ops {
-				if res, isValid = cal(float64(nums[0]), exp2, ops[k]); !isValid {
+			for k := 0; k < 4; k++ {
+				if res, isValid = cal(nums[0], exp2, k); !isValid {
 					continue
 				}
 				if math.Abs(res-24) <= 1e-9 {
@@ -124,16 +126,16 @@ func check(nums []int) bool {
 	}
 
 	// a op1 (b op2 (c op3 d))
-	for i := range ops {
-		if exp1, isValid = cal(float64(nums[2]), float64(nums[3]), ops[i]); !isValid {
+	for i := 0; i < 4; i++ {
+		if exp1, isValid = cal(nums[2], nums[3], i); !isValid {
 			continue
 		}
-		for j := range ops {
-			if exp2, isValid = cal(float64(nums[1]), exp1, ops[j]); !isValid {
+		for j := 0; j < 4; j++ {
+			if exp2, isValid = cal(nums[1], exp1, j); !isValid {
 				continue
 			}
-			for k := range ops {
-				if res, isValid = cal(float64(nums[0]), exp2, ops[k]); !isValid {
+			for k := 0; k < 4; k++ {
+				if res, isValid = cal(nums[0], exp2, k); !isValid {
 					continue
 				}
 				if math.Abs(res-24) <= 1e-9 {
@@ -145,15 +147,18 @@ func check(nums []int) bool {
 	return false
 }
 
-func cal(a, b float64, op byte) (res float64, isValid bool) {
+func cal(a, b float64, op int) (res float64, isValid bool) {
+	if a < b && op < 2 { // a+b == b+a and a*b == b*a, so cal once
+		return 0, false
+	}
 	switch op {
-	case '+':
+	case 0: // +
 		return a + b, true
-	case '-':
-		return a - b, true
-	case '*':
+	case 1: // *
 		return a * b, true
-	case '/':
+	case 2: // -
+		return a - b, true
+	case 3: // /
 		if b == 0 {
 			return 0, false
 		}
