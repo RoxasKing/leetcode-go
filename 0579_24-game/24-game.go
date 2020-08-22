@@ -55,12 +55,10 @@ func check(nums []float64) bool {
 				continue
 			}
 			for k := 0; k < 4; k++ {
-				if res, isValid = cal(exp1, exp2, k); !isValid {
+				if res, isValid = cal(exp1, exp2, k); !isValid || math.Abs(res-24) > 1e-9 {
 					continue
 				}
-				if math.Abs(res-24) <= 1e-9 {
-					return true
-				}
+				return true
 			}
 		}
 	}
@@ -75,12 +73,10 @@ func check(nums []float64) bool {
 				continue
 			}
 			for k := 0; k < 4; k++ {
-				if res, isValid = cal(exp2, nums[3], k); !isValid {
+				if res, isValid = cal(exp2, nums[3], k); !isValid || math.Abs(res-24) > 1e-9 {
 					continue
 				}
-				if math.Abs(res-24) <= 1e-9 {
-					return true
-				}
+				return true
 			}
 		}
 	}
@@ -95,12 +91,10 @@ func check(nums []float64) bool {
 				continue
 			}
 			for k := 0; k < 4; k++ {
-				if res, isValid = cal(exp2, nums[3], k); !isValid {
+				if res, isValid = cal(exp2, nums[3], k); !isValid || math.Abs(res-24) > 1e-9 {
 					continue
 				}
-				if math.Abs(res-24) <= 1e-9 {
-					return true
-				}
+				return true
 			}
 		}
 	}
@@ -115,12 +109,10 @@ func check(nums []float64) bool {
 				continue
 			}
 			for k := 0; k < 4; k++ {
-				if res, isValid = cal(nums[0], exp2, k); !isValid {
+				if res, isValid = cal(nums[0], exp2, k); !isValid || math.Abs(res-24) > 1e-9 {
 					continue
 				}
-				if math.Abs(res-24) <= 1e-9 {
-					return true
-				}
+				return true
 			}
 		}
 	}
@@ -135,12 +127,10 @@ func check(nums []float64) bool {
 				continue
 			}
 			for k := 0; k < 4; k++ {
-				if res, isValid = cal(nums[0], exp2, k); !isValid {
+				if res, isValid = cal(nums[0], exp2, k); !isValid || math.Abs(res-24) > 1e-9 {
 					continue
 				}
-				if math.Abs(res-24) <= 1e-9 {
-					return true
-				}
+				return true
 			}
 		}
 	}
@@ -148,7 +138,7 @@ func check(nums []float64) bool {
 }
 
 func cal(a, b float64, op int) (res float64, isValid bool) {
-	if a < b && op < 2 { // a+b == b+a and a*b == b*a, so cal once
+	if a < b && op < 2 || b == 0 && op == 3 { // a+b == b+a and a*b == b*a, so cal once
 		return 0, false
 	}
 	switch op {
@@ -159,9 +149,6 @@ func cal(a, b float64, op int) (res float64, isValid bool) {
 	case 2: // -
 		return a - b, true
 	case 3: // /
-		if b == 0 {
-			return 0, false
-		}
 		return a / b, true
 	}
 	return
