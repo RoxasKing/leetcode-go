@@ -1,5 +1,7 @@
 package main
 
+import "strconv"
+
 /*
   写一个程序，输出从 1 到 n 数字的字符串表示。
     1. 如果 n 是3的倍数，输出“Fizz”；
@@ -14,22 +16,17 @@ package main
 func fizzBuzz(n int) []string {
 	var out []string
 	for i := 1; i <= n; i++ {
-		if i%3 == 0 && i%5 == 0 {
-			out = append(out, "FizzBuzz")
-		} else if i%3 == 0 {
-			out = append(out, "Fizz")
-		} else if i%5 == 0 {
-			out = append(out, "Buzz")
-		} else {
-			var tmp []byte
-			for j := i; j != 0; j /= 10 {
-				tmp = append(tmp, byte(j%10)+'0')
-			}
-			for i := 0; i < len(tmp)>>1; i++ {
-				tmp[i], tmp[len(tmp)-1-i] = tmp[len(tmp)-1-i], tmp[i]
-			}
-			out = append(out, string(tmp))
+		var tmp string
+		if i%3 == 0 {
+			tmp += "Fizz"
 		}
+		if i%5 == 0 {
+			tmp += "Buzz"
+		}
+		if tmp == "" {
+			tmp = strconv.Itoa(i)
+		}
+		out = append(out, tmp)
 	}
 	return out
 }
