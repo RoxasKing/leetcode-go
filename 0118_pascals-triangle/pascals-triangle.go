@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   给定一个非负整数 numRows，生成杨辉三角的前 numRows 行。
@@ -6,16 +6,13 @@ package leetcode
 */
 
 func generate(numRows int) [][]int {
-	index := -1
 	out := make([][]int, numRows)
 	for i := 0; i < numRows; i++ {
-		tmp := make([]int, i+1)
-		tmp[0], tmp[i] = 1, 1
+		out[i] = make([]int, i+1)
+		out[i][0], out[i][i] = 1, 1
 		for j := 1; j < i; j++ {
-			tmp[j] = out[index][j-1] + out[index][j]
+			out[i][j] = out[i-1][j-1] + out[i-1][j]
 		}
-		index++
-		out[index] = tmp
 	}
 	return out
 }

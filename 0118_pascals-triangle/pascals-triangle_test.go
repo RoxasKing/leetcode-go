@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 import (
 	"reflect"
@@ -15,7 +15,7 @@ func Test_generate(t *testing.T) {
 		want [][]int
 	}{
 		{
-			"",
+			"1",
 			args{5},
 			[][]int{
 				{1},
