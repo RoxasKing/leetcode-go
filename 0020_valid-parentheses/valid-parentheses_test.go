@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 import "testing"
 
@@ -11,12 +11,12 @@ func Test_isValid(t *testing.T) {
 		args args
 		want bool
 	}{
-		{"", args{"()"}, true},
-		{"", args{"()[]{}"}, true},
-		{"", args{"(]"}, false},
-		{"", args{"([)]"}, false},
-		{"", args{"{[]}"}, true},
-		{"", args{"}"}, false},
+		{"1", args{"()"}, true},
+		{"2", args{"()[]{}"}, true},
+		{"3", args{"(]"}, false},
+		{"4", args{"([)]"}, false},
+		{"5", args{"{[]}"}, true},
+		{"6", args{"}"}, false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
