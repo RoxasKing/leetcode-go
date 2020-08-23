@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 import "testing"
 
@@ -11,11 +11,12 @@ func Test_romanToInt(t *testing.T) {
 		args args
 		want int
 	}{
-		{"", args{"III"}, 3},
-		{"", args{"IV"}, 4},
-		{"", args{"IX"}, 9},
-		{"", args{"LVIII"}, 58},
-		{"", args{"MCMXCIV"}, 1994},
+		{"1", args{"III"}, 3},
+		{"2", args{"IV"}, 4},
+		{"3", args{"IX"}, 9},
+		{"4", args{"LVIII"}, 58},
+		{"5", args{"MCMXCIV"}, 1994},
+		{"6", args{""}, 0},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
