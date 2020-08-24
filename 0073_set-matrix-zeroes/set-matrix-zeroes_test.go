@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 import (
 	"reflect"
@@ -15,7 +15,7 @@ func Test_setZeroes(t *testing.T) {
 		want [][]int
 	}{
 		{
-			"",
+			"1",
 			args{
 				[][]int{
 					{0, 0, 0, 5},
@@ -34,12 +34,12 @@ func Test_setZeroes(t *testing.T) {
 			},
 		},
 		{
-			"",
+			"2",
 			args{[][]int{{1, 1, 1}, {1, 0, 1}, {1, 1, 1}}},
 			[][]int{{1, 0, 1}, {0, 0, 0}, {1, 0, 1}},
 		},
 		{
-			"",
+			"3",
 			args{[][]int{{0, 1, 2, 0}, {3, 4, 5, 2}, {1, 3, 1, 5}}},
 			[][]int{{0, 0, 0, 0}, {0, 4, 5, 0}, {0, 3, 1, 0}},
 		},
