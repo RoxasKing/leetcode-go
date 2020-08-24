@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 import "sort"
 
@@ -8,7 +8,7 @@ import "sort"
 
 func groupAnagrams(strs []string) [][]string {
 	dict := make(map[string][]string)
-	sortStr := func(str string) string {
+	soredtStr := func(str string) string {
 		bytes := []byte(str)
 		sort.Slice(bytes, func(i, j int) bool {
 			return bytes[i] < bytes[j]
@@ -16,7 +16,7 @@ func groupAnagrams(strs []string) [][]string {
 		return string(bytes)
 	}
 	for _, str := range strs {
-		key := sortStr(str)
+		key := soredtStr(str)
 		dict[key] = append(dict[key], str)
 	}
 	out := make([][]string, 0, len(dict))
@@ -34,8 +34,8 @@ func groupAnagrams2(strs []string) [][]string {
 		for _, b := range str {
 			key[b-'a']++
 		}
-		if j, ok := mark[key]; ok {
-			out[j] = append(out[j], str)
+		if i, ok := mark[key]; ok {
+			out[i] = append(out[i], str)
 		} else {
 			out = append(out, []string{str})
 			mark[key] = len(mark)
