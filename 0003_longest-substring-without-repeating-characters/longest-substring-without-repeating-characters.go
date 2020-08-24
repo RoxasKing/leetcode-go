@@ -6,30 +6,15 @@ package main
 
 // Sliding Window
 func lengthOfLongestSubstring(s string) int {
-	count := [128]int{}
 	var max int
-	var l, r int
-	for r < len(s) {
+	count := [128]int{}
+	for l, r := 0, 0; r < len(s) && max < len(s)-l; r++ {
 		count[s[r]]++
-		for l <= r && count[s[r]] > 1 {
+		for count[s[r]] > 1 {
 			count[s[l]]--
 			l++
 		}
 		max = Max(max, r+1-l)
-		r++
-	}
-	return max
-}
-
-func lengthOfLongestSubstring2(s string) int {
-	var save [128]int
-	var max int
-	l, r := 0, 1
-	for max < len(s)-l && r <= len(s) {
-		l = Max(l, save[s[r-1]])
-		max = Max(max, r-l)
-		save[s[r-1]] = r
-		r++
 	}
 	return max
 }
