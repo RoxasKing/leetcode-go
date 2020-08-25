@@ -66,8 +66,8 @@ func partition01312(s string) [][]string {
 	}
 	var out [][]string
 	var cur []string
-	var backTrack func(int)
-	backTrack = func(left int) {
+	var backtrack func(int)
+	backtrack = func(left int) {
 		if left == len(s) {
 			tmp := make([]string, len(cur))
 			copy(tmp, cur)
@@ -79,11 +79,11 @@ func partition01312(s string) [][]string {
 				continue
 			}
 			cur = append(cur, s[left:right])
-			backTrack(right)
+			backtrack(right)
 			cur = cur[:len(cur)-1]
 		}
 	}
-	backTrack(0)
+	backtrack(0)
 	return out
 }
 
@@ -100,8 +100,8 @@ func partition01313(s string) [][]string {
 	}
 	var out [][]string
 	var cur []string
-	var backTrack func(int)
-	backTrack = func(left int) {
+	var backtrack func(int)
+	backtrack = func(left int) {
 		if left == len(s) {
 			tmp := make([]string, len(cur))
 			copy(tmp, cur)
@@ -113,10 +113,10 @@ func partition01313(s string) [][]string {
 				continue
 			}
 			cur = append(cur, s[left:right+1])
-			backTrack(right + 1)
+			backtrack(right + 1)
 			cur = cur[:len(cur)-1]
 		}
 	}
-	backTrack(0)
+	backtrack(0)
 	return out
 }

@@ -39,8 +39,8 @@ func removeBoxes(boxes []int) int {
 // Backtracking (time out)
 func removeBoxes2(boxes []int) int {
 	var max int
-	var backTrack func([]int, int)
-	backTrack = func(boxes []int, cur int) {
+	var backtrack func([]int, int)
+	backtrack = func(boxes []int, cur int) {
 		if len(boxes) == 0 {
 			max = Max(max, cur)
 			return
@@ -54,11 +54,11 @@ func removeBoxes2(boxes []int) int {
 			newBoxes := make([]int, len(boxes)-(r+1-l))
 			copy(newBoxes[:l], boxes[:l])
 			copy(newBoxes[l:], boxes[r+1:])
-			backTrack(newBoxes, cur+(r+1-l)*(r+1-l))
+			backtrack(newBoxes, cur+(r+1-l)*(r+1-l))
 			l = r + 1
 		}
 	}
-	backTrack(boxes, 0)
+	backtrack(boxes, 0)
 	return max
 }
 

@@ -23,10 +23,10 @@ func judgePoint24(nums []int) bool {
 	for i := range newNums {
 		newNums[i] = float64(nums[i])
 	}
-	return backTrack(newNums)
+	return backtrack(newNums)
 }
 
-func backTrack(nums []float64) bool {
+func backtrack(nums []float64) bool {
 	if len(nums) == 1 {
 		return math.Abs(nums[0]-24) < 1e-9
 	}
@@ -57,7 +57,7 @@ func backTrack(nums []float64) bool {
 					res = nums[i] / nums[j]
 				}
 				newNums = append(newNums, res)
-				if backTrack(newNums) {
+				if backtrack(newNums) {
 					return true
 				}
 				newNums = newNums[:len(newNums)-1]
@@ -73,16 +73,16 @@ func judgePoint24_2(nums []int) bool {
 	for i := range newNums {
 		newNums[i] = float64(nums[i])
 	}
-	return backTrack2(newNums, 0)
+	return backtrack2(newNums, 0)
 }
 
-func backTrack2(nums []float64, start int) bool {
+func backtrack2(nums []float64, start int) bool {
 	if start == len(nums) {
 		return check(nums)
 	}
 	for i := start; i < len(nums); i++ {
 		nums[i], nums[start] = nums[start], nums[i]
-		if backTrack2(nums, start+1) {
+		if backtrack2(nums, start+1) {
 			return true
 		}
 		nums[i], nums[start] = nums[start], nums[i]
