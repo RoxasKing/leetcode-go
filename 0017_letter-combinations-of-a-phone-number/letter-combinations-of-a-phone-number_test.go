@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 import (
 	"reflect"
@@ -15,7 +15,7 @@ func Test_letterCombinations(t *testing.T) {
 		want []string
 	}{
 		{
-			"",
+			"1",
 			args{"23"},
 			[]string{"ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"},
 		},
