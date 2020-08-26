@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 import (
 	"reflect"
@@ -15,7 +15,7 @@ func Test_inorderTraversal(t *testing.T) {
 		want []int
 	}{
 		{
-			"",
+			"1",
 			args{
 				&TreeNode{
 					Val: 1,
@@ -47,7 +47,7 @@ func Test_inorderTraversal2(t *testing.T) {
 		want []int
 	}{
 		{
-			"",
+			"1",
 			args{
 				&TreeNode{
 					Val: 1,
@@ -79,7 +79,7 @@ func Test_inorderTraversal3(t *testing.T) {
 		want []int
 	}{
 		{
-			"",
+			"1",
 			args{
 				&TreeNode{
 					Val: 1,
