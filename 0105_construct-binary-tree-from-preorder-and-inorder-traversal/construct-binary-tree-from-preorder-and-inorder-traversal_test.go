@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 import (
 	"reflect"
@@ -16,7 +16,7 @@ func Test_buildTree(t *testing.T) {
 		want *TreeNode
 	}{
 		{
-			"",
+			"1",
 			args{
 				[]int{3, 9, 20, 15, 7},
 				[]int{9, 3, 15, 20, 7},

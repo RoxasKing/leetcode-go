@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   根据一棵树的前序遍历与中序遍历构造二叉树。
@@ -36,4 +36,10 @@ func buildTree(preorder []int, inorder []int) *TreeNode {
 		}
 	}
 	return build(0, len(preorder)-1)
+}
+
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
 }
