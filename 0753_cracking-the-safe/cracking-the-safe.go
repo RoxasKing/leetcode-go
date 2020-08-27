@@ -69,18 +69,19 @@ func crackSafe(n int, k int) string {
 	return string(bytes) + last[1:]
 }
 
+// Hash
 func crackSafe2(n int, k int) string {
 	out := strings.Repeat("0", n)
-	m := map[string]bool{out: true}
-	ie := int(math.Pow(float64(k), float64(n)))
-	for i := 0; i < ie; i++ {
-		sp := out[len(out)-n+1:]
+	dict := map[string]bool{out: true}
+	times := int(math.Pow(float64(k), float64(n)))
+	for i := 0; i < times; i++ {
+		prefix := out[len(out)-n+1:]
 		for j := k - 1; j >= 0; j-- {
-			sj := strconv.Itoa(j)
-			s := sp + sj
-			if !m[s] {
-				m[s] = true
-				out += sj
+			lastNum := strconv.Itoa(j)
+			password := prefix + lastNum
+			if !dict[password] {
+				dict[password] = true
+				out += lastNum
 				break
 			}
 		}
