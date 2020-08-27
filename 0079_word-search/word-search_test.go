@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 import "testing"
 
@@ -13,7 +13,7 @@ func Test_exist(t *testing.T) {
 		want bool
 	}{
 		{
-			"",
+			"1",
 			args{
 				[][]byte{
 					{'A', 'B', 'C', 'E'},
@@ -25,7 +25,7 @@ func Test_exist(t *testing.T) {
 			true,
 		},
 		{
-			"",
+			"2",
 			args{
 				[][]byte{
 					{'A', 'B', 'C', 'E'},
@@ -37,7 +37,7 @@ func Test_exist(t *testing.T) {
 			false,
 		},
 		{
-			"",
+			"3",
 			args{
 				[][]byte{
 					{'A', 'B', 'C', 'E'},
