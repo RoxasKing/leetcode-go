@@ -4,6 +4,7 @@ package main
   给定一个没有重复数字的序列，返回其所有可能的全排列。
 */
 
+// Backtracking
 func permute(nums []int) [][]int {
 	var out [][]int
 	var backtrack func(int)
