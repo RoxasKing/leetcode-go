@@ -66,3 +66,55 @@ func (p *PriorityQueue) Pop() interface{} {
 	*p = (*p)[:len(*p)-1]
 	return e
 }
+
+// Heap Sort + Min Heap
+func topKFrequent2(nums []int, k int) []int {
+	count := make(map[int]int)
+	for _, num := range nums {
+		count[num]++
+	}
+	var heap []int
+	for key := range count {
+		heap = append(heap, key)
+		up(heap, count)
+	}
+	out := make([]int, 0, k)
+	for len(out) < k {
+		last := len(heap) - 1
+		heap[0], heap[last] = heap[last], heap[0]
+		out = append(out, heap[last])
+		heap = heap[:last]
+		down(heap, count)
+	}
+	return out
+}
+
+func up(nums []int, count map[int]int) {
+	son := len(nums) - 1
+	for son > 0 {
+		parent := (son - 1) >> 1
+		if count[nums[parent]] >= count[nums[son]] {
+			return
+		}
+		nums[parent], nums[son] = nums[son], nums[parent]
+		son = parent
+	}
+}
+
+func down(nums []int, count map[int]int) {
+	var parent int
+	for parent < len(nums)>>1 {
+		son := parent*2 + 1
+		if son > len(nums)-1 {
+			return
+		}
+		if son+1 < len(nums) && count[nums[son+1]] > count[nums[son]] {
+			son++
+		}
+		if count[nums[son]] <= count[nums[parent]] {
+			return
+		}
+		nums[parent], nums[son] = nums[son], nums[parent]
+		parent = son
+	}
+}
