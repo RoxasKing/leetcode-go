@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   给定一个整数数组，其中第 i 个元素代表了第 i 天的股票价格 。​

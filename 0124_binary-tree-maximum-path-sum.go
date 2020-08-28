@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   给定一个非空二叉树，返回其最大路径和。

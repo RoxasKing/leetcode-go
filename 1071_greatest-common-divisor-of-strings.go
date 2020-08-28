@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   对于字符串 S 和 T，只有在 S = T + ... + T（T 与自身连接 1 次或多次）时，我们才认定 “T 能除尽 S”。

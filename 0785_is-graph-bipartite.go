@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   给定一个无向图graph，当这个图为二分图时返回true。

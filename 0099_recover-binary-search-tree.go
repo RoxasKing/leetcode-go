@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   二叉搜索树中的两个节点被错误地交换。

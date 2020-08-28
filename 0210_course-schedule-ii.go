@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   现在你总共有 n 门课需要选，记为 0 到 n-1。

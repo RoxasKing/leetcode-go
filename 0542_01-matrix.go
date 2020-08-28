@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   给定一个由 0 和 1 组成的矩阵，找出每个元素到最近的 0 的距离。

@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   给定一个字符串 s1，我们可以把它递归地分割成两个非空子字符串，从而将其表示为二叉树。

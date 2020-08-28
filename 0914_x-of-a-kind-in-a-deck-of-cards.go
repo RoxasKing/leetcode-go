@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   给定一副牌，每张牌上都写着一个整数。

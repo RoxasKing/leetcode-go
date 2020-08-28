@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   根据一棵树的中序遍历与后序遍历构造二叉树。

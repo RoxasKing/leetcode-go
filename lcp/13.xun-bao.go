@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   我们得到了一副藏宝图，藏宝图显示，在一个迷宫中存在着未被世人发现的宝藏。

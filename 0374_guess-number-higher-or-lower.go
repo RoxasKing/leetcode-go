@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   我们正在玩一个猜数字游戏。 游戏规则如下：

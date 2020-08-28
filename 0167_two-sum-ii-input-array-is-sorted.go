@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   给定一个已按照升序排列 的有序数组，找到两个数使得它们相加之和等于目标数。

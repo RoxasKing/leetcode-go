@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   编写一个程序，通过已填充的空格来解决数独问题。

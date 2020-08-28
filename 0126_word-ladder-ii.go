@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   给定两个单词（beginWord 和 endWord）和一个字典 wordList，找出所有从 beginWord 到 endWord 的最短转换序列。转换需遵循如下规则：

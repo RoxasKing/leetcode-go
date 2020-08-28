@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   给出一个无重叠的 ，按照区间起始端点排序的区间列表。

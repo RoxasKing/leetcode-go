@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   爱丽丝和鲍勃一起玩游戏，他们轮流行动。爱丽丝先手开局。

@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   你这个学期必须选修 numCourse 门课程，记为 0 到 numCourse-1 。

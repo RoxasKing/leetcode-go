@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   在给定的网格中，每个单元格可以有以下三个值之一：

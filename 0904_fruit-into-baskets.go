@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   在一排树中，第 i 棵树产生 tree[i] 型的水果。

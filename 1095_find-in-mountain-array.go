@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   （这是一个 交互式问题 ）

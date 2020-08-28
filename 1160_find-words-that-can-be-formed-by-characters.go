@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   给你一份『词汇表』（字符串数组） words 和一张『字母表』（字符串） chars。

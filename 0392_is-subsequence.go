@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   给定字符串 s 和 t ，判断 s 是否为 t 的子序列。

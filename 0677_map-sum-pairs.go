@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   实现一个 MapSum 类里的两个方法，insert 和 sum。

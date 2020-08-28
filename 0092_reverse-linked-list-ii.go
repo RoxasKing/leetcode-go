@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   反转从位置 m 到 n 的链表。请使用一趟扫描完成反转。

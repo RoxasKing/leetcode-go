@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   实现 int sqrt(int x) 函数。

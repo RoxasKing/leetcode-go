@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   有 N 个网络节点，标记为 1 到 N。

@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   由 n 个连接的字符串 s 组成字符串 S，记作 S = [s,n]。例如，["abc",3]=“abcabcabc”。

@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   在选举中，第 i 张票是在时间为 times[i] 时投给 persons[i] 的。

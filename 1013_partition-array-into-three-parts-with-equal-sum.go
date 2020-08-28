@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   给你一个整数数组 A，只有可以将其划分为三个和相等的非空部分时才返回 true，否则返回 false。

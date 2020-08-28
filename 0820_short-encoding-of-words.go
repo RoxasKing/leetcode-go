@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   给定一个单词列表，我们将这个列表编码成一个索引字符串 S 与一个索引列表 A。

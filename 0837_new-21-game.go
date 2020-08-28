@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   爱丽丝参与一个大致基于纸牌游戏 “21点” 规则的游戏，描述如下：

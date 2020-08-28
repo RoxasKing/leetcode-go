@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   排排坐，分糖果。

@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   设计并实现最不经常使用（LFU）缓存的数据结构。它应该支持以下操作：get 和 put。

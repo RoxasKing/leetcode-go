@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   老师想给孩子们分发糖果，有 N 个孩子站成了一条直线，老师会根据每个孩子的表现，预先给他们评分。

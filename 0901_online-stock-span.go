@@ -1,4 +1,4 @@
-package leetcode
+package main
 
 /*
   编写一个 StockSpanner 类，它收集某些股票的每日报价，并返回该股票当日价格的跨度。
