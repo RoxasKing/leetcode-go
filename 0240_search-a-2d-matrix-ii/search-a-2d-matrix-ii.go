@@ -10,7 +10,6 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Binary Search
 func searchMatrix(matrix [][]int, target int) bool {
 	row, col := len(matrix)-1, 0
 	for row >= 0 && col < len(matrix[0]) {
