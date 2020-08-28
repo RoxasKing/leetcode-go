@@ -8,41 +8,43 @@ package main
   你的算法时间复杂度必须是 O(log n) 级别。
 */
 
+// Binary Search
 func search(nums []int, target int) int {
-	if len(nums) == 0 {
-		return -1
+	rotateIndex := binarySearchRotateIndex(nums)
+	if rotateIndex == 0 || nums[0] > target {
+		return binarySearchTargetIndex(nums, rotateIndex, len(nums)-1, target)
 	}
-	var rotateIndex int
+	return binarySearchTargetIndex(nums, 0, rotateIndex, target)
+}
+
+func binarySearchRotateIndex(nums []int) int {
 	l, r := 0, len(nums)-1
-	if nums[l] > nums[r] { // find rotate index
-		for l <= r {
+	if nums[l] > nums[r] {
+		for l < r {
 			m := l + (r-l)>>1
 			if nums[m] > nums[m+1] {
-				rotateIndex = m + 1
-				break
+				return m + 1
 			}
 			if nums[m] < nums[l] {
-				r = m - 1
+				r = m
 			} else {
 				l = m + 1
 			}
 		}
 	}
-	binarySearch := func(l, r int) int {
-		for l <= r {
-			m := l + (r-l)>>1
-			if nums[m] < target {
-				l = m + 1
-			} else if nums[m] > target {
-				r = m - 1
-			} else {
-				return m
-			}
+	return 0
+}
+
+func binarySearchTargetIndex(nums []int, l, r, target int) int {
+	for l <= r {
+		m := l + (r-l)>>1
+		if nums[m] < target {
+			l = m + 1
+		} else if nums[m] > target {
+			r = m - 1
+		} else {
+			return m
 		}
-		return -1
 	}
-	if rotateIndex == 0 || nums[0] > target {
-		return binarySearch(rotateIndex, len(nums)-1)
-	}
-	return binarySearch(0, rotateIndex-1)
+	return -1
 }
