@@ -2,6 +2,7 @@ package main
 
 import (
 	"container/heap"
+	"math/rand"
 )
 
 /*
@@ -20,6 +21,7 @@ import (
 
 // Heap Sort + Min Heap + Use Container
 func topKFrequent(nums []int, k int) []int {
+	rand.Intn(len(nums))
 	count := make(map[int]int)
 	for _, num := range nums {
 		count[num]++
