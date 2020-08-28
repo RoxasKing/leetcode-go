@@ -2,6 +2,9 @@ package main
 
 /*
   给出一个区间的集合，请合并所有重叠的区间。
+
+  提示：
+    intervals[i][0] <= intervals[i][1]
 */
 
 import (
@@ -9,7 +12,7 @@ import (
 )
 
 func merge(intervals [][]int) [][]int {
-	if len(intervals) == 0 {
+	if len(intervals) == 0 || len(intervals[0]) == 0 {
 		return nil
 	}
 	sort.Slice(intervals, func(i, j int) bool {
@@ -20,10 +23,9 @@ func merge(intervals [][]int) [][]int {
 		if intervals[i][0] > intervals[index][1] {
 			index++
 			intervals[index] = intervals[i]
-		} else {
-			intervals[index][1] = Max(intervals[index][1], intervals[i][1])
+		} else if intervals[i][1] > intervals[index][1] {
+			intervals[index][1] = intervals[i][1]
 		}
 	}
-	intervals = intervals[:index+1]
-	return intervals
+	return intervals[:index+1]
 }
