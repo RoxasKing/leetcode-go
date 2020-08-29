@@ -6,15 +6,16 @@ package main
   问总共有多少条不同的路径？
 */
 
+// Dynamic Programming
 func uniquePaths(m int, n int) int {
-	cur := make([]int, n) // Save the number of paths for each layer
-	for i := range cur {
-		cur[i] = 1
+	dp := make([]int, n)
+	for i := range dp {
+		dp[i] = 1
 	}
 	for i := 1; i < m; i++ {
 		for j := 1; j < n; j++ {
-			cur[j] += cur[j-1]
+			dp[j] += dp[j-1]
 		}
 	}
-	return cur[n-1]
+	return dp[n-1]
 }

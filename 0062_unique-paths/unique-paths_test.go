@@ -12,9 +12,9 @@ func Test_uniquePaths(t *testing.T) {
 		args args
 		want int
 	}{
-		{"", args{3, 2}, 3},
-		{"", args{7, 3}, 28},
-		{"", args{7, 1}, 1},
+		{"1", args{3, 2}, 3},
+		{"2", args{7, 3}, 28},
+		{"3", args{7, 1}, 1},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
