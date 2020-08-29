@@ -13,20 +13,28 @@ package main
   你可以认为每种硬币的数量是无限的。
 */
 
+// Dynamic Programming
 func coinChange(coins []int, amount int) int {
 	dp := make([]int, amount+1)
-	for i := 1; i < len(dp); i++ {
+	for i := 1; i <= amount; i++ {
 		dp[i] = amount + 1
 	}
-	for _, coin := range coins {
-		for i := 1; i < len(dp); i++ {
-			if i >= coin {
-				dp[i] = Min(dp[i-coin]+1, dp[i])
+	for i := 1; i <= amount; i++ {
+		for _, coin := range coins {
+			if coin <= i {
+				dp[i] = Min(dp[i], dp[i-coin]+1)
 			}
 		}
 	}
-	if dp[amount] < amount+1 {
-		return dp[amount]
+	if dp[amount] == amount+1 {
+		return -1
 	}
-	return -1
+	return dp[amount]
+}
+
+func Min(a, b int) int {
+	if a > b {
+		return b
+	}
+	return a
 }
