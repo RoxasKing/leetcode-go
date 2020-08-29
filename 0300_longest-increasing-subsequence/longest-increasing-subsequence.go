@@ -12,26 +12,42 @@ package main
   进阶: 你能将算法的时间复杂度降低到 O(n log n) 吗?
 */
 
+// Dynamic Programming
 func lengthOfLIS(nums []int) int {
-	if len(nums) <= 0 {
+	n := len(nums)
+	if n == 0 {
 		return 0
 	}
-	binarySearch := func(nums []int, target int) int {
-		l, r := 0, len(nums)-1
-		for l <= r {
-			m := l + (r-l)>>1
-			if nums[m] >= target {
-				if m == 0 || nums[m-1] < target {
-					return m
-				}
-				r = m - 1
-			} else {
-				l = m + 1
+	dp := make([]int, n)
+	for i := 0; i < n; i++ {
+		dp[i] = 1
+	}
+	max := dp[0]
+	for i := 1; i < n; i++ {
+		for j := i - 1; j >= 0; j-- {
+			if nums[j] < nums[i] {
+				dp[i] = Max(dp[i], dp[j]+1)
 			}
 		}
-		return -1
+		max = Max(max, dp[i])
 	}
-	mins := append(make([]int, 0, len(nums)), nums[1])
+	return max
+}
+
+func Max(a, b int) int {
+	if a < b {
+		return b
+	}
+	return a
+}
+
+// Binary Search
+func lengthOfLIS2(nums []int) int {
+	n := len(nums)
+	if n == 0 {
+		return 0
+	}
+	mins := []int{nums[0]}
 	for i := 1; i < len(nums); i++ {
 		if nums[i] > mins[len(mins)-1] {
 			mins = append(mins, nums[i])
@@ -42,23 +58,16 @@ func lengthOfLIS(nums []int) int {
 	return len(mins)
 }
 
-// Dynamic Programming
-func lengthOfLIS2(nums []int) int {
-	if len(nums) == 0 {
-		return 0
-	}
-	dp := make([]int, len(nums))
-	for i := range dp {
-		dp[i] = 1
-	}
-	max := 1
-	for i := 1; i < len(nums); i++ {
-		for j := 0; j < i; j++ {
-			if nums[i] > nums[j] {
-				dp[i] = Max(dp[j]+1, dp[i])
-			}
+// search the specify number's index in the array
+func binarySearch(nums []int, target int) int {
+	l, r := 0, len(nums)
+	for l < r {
+		m := l + (r-l)>>1
+		if nums[m] < target {
+			l = m + 1
+		} else {
+			r = m
 		}
-		max = Max(max, dp[i])
 	}
-	return max
+	return l
 }
