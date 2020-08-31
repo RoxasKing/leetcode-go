@@ -4,6 +4,7 @@ package main
   实现 pow(x, n) ，即计算 x 的 n 次幂函数。
 */
 
+// Binary Exponentiation + Iterate
 func myPow(x float64, n int) float64 {
 	if n < 0 {
 		n = -n
@@ -12,15 +13,6 @@ func myPow(x float64, n int) float64 {
 	return quickMul(x, n)
 }
 
-func myPow2(x float64, n int) float64 {
-	if n < 0 {
-		n = -n
-		x = 1 / x
-	}
-	return quickMul2(x, n)
-}
-
-// Binary Exponentiation + Iterate
 func quickMul(x float64, N int) float64 {
 	out := 1.0
 	base := x
@@ -35,6 +27,14 @@ func quickMul(x float64, N int) float64 {
 }
 
 // Binary Exponentiation + Recursion
+func myPow2(x float64, n int) float64 {
+	if n < 0 {
+		n = -n
+		x = 1 / x
+	}
+	return quickMul2(x, n)
+}
+
 func quickMul2(x float64, N int) float64 {
 	if N == 0 {
 		return 1
