@@ -10,24 +10,27 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+// Double Pointer
 func isHappy(n int) bool {
-	for {
-		if n == 1 {
-			return true
-		}
-		if n < 10 && n%2 == 0 {
+	slow := getNext(n)
+	fast := getNext(slow)
+	for fast != 1 {
+		if slow == fast {
 			return false
 		}
-		var newN int
-		for n != 0 {
-			newN += (n % 10) * (n % 10)
-			n /= 10
-		}
-		for newN%10 == 0 {
-			newN /= 10
-		}
-		n = newN
+		slow = getNext(slow)
+		fast = getNext(getNext(fast))
 	}
+	return true
+}
+
+func getNext(n int) int {
+	var res int
+	for n != 0 {
+		res += (n % 10) * (n % 10)
+		n /= 10
+	}
+	return res
 }
 
 func isHappy2(n int) bool {
