@@ -7,7 +7,7 @@ package main
     n 是 32 位有符号整数，其数值范围是 [−231, 231 − 1] 。
 */
 
-// Binary Exponentiation + Iterate
+// Binary Exponentiation + Iteration
 func myPow(x float64, n int) float64 {
 	if n < 0 {
 		n = -n
