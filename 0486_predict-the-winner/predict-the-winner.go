@@ -28,6 +28,7 @@ func maxScore(nums []int, turn int) int {
 	pickHead := nums[head]*turn + maxScore(nums[head+1:], -turn)
 	pickTail := nums[tail]*turn + maxScore(nums[:tail], -turn)
 	return Max(pickHead*turn, pickTail*turn) * turn
+	// when turn == -1, get min score
 }
 
 func Max(a, b int) int {
