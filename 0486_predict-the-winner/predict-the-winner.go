@@ -42,9 +42,7 @@ func Max(a, b int) int {
 func PredictTheWinner2(nums []int) bool {
 	n := len(nums)
 	dp := make([]int, n)
-	for i := 0; i < n; i++ {
-		dp[i] = nums[i]
-	}
+	copy(dp, nums)
 	for i := n - 2; i >= 0; i-- {
 		for j := i + 1; j < n; j++ {
 			dp[j] = Max(nums[i]-dp[j], nums[j]-dp[j-1])
