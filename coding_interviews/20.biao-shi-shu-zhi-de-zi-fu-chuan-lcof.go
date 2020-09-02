@@ -9,51 +9,50 @@ package codinginterviews
 */
 
 func isNumber(s string) bool {
-	trimSpace(&s)
+	s = trimSpace(s)
 	if s == "" {
 		return false
 	}
-	if !scanInteger(&s) {
+	var ok bool
+	if s, ok = scanInteger(s); !ok {
 		if s[0] != '.' {
 			return false
 		}
-		s = s[1:]
-		if !scanPureNumber(&s) {
+		if s, ok = scanPureInteger(s[1:]); !ok {
 			return false
 		}
 	} else if s != "" && s[0] == '.' {
-		s = s[1:]
-		scanPureNumber(&s)
+		s, _ = scanPureInteger(s[1:])
 	}
-	if s != "" && s[0] == 'e' {
-		s = s[1:]
-		if !scanInteger(&s) {
+	if s != "" && (s[0] == 'e' || s[0] == 'E') {
+		if s, ok = scanInteger(s[1:]); !ok {
 			return false
 		}
 	}
 	return s == ""
 }
 
-func trimSpace(s *string) {
-	for *s != "" && (*s)[0] == ' ' {
-		*s = (*s)[1:]
+func trimSpace(s string) string {
+	for s != "" && s[0] == ' ' {
+		s = s[1:]
 	}
-	for *s != "" && (*s)[len(*s)-1] == ' ' {
-		*s = (*s)[:len(*s)-1]
+	for s != "" && s[len(s)-1] == ' ' {
+		s = s[:len(s)-1]
 	}
+	return s
 }
 
-func scanInteger(s *string) bool {
-	if *s != "" && ((*s)[0] == '+' || (*s)[0] == '-') {
-		*s = (*s)[1:]
+func scanInteger(s string) (string, bool) {
+	if s != "" && (s[0] == '+' || s[0] == '-') {
+		s = s[1:]
 	}
-	return scanPureNumber(s)
+	return scanPureInteger(s)
 }
 
-func scanPureNumber(s *string) bool {
-	old := len(*s)
-	for *s != "" && '0' <= (*s)[0] && (*s)[0] <= '9' {
-		*s = (*s)[1:]
+func scanPureInteger(s string) (string, bool) {
+	old := len(s)
+	for s != "" && '0' <= s[0] && s[0] <= '9' {
+		s = s[1:]
 	}
-	return len(*s) < old
+	return s, len(s) < old
 }
