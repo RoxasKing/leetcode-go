@@ -17,7 +17,7 @@ package main
 
 func divide(dividend int, divisor int) int {
 	var (
-		tmp       uint32
+		quotient  uint32
 		udivisor  uint32
 		udividend uint32
 		divis     uint32
@@ -45,22 +45,22 @@ func divide(dividend int, divisor int) int {
 			divis <<= 1
 			i++
 		}
-		tmp += 1 << i
+		quotient += 1 << i
 		udividend = udividend - divis
 		divis = udivisor
 		if udividend < divis {
 			break
 		}
 	}
-	out := int(tmp)
 	if dividend > 0 && divisor < 0 || dividend < 0 && divisor > 0 {
-		out = -out
+		if quotient > 1<<31 {
+			return -1 << 31
+		} else {
+			return -int(quotient)
+		}
 	}
-	if out >= 2147483648 {
-		return 2147483647
+	if quotient > 1<<31-1 {
+		return 1<<31 - 1
 	}
-	if out <= -2147483648 {
-		return -2147483648
-	}
-	return out
+	return int(quotient)
 }
