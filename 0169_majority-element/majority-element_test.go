@@ -13,9 +13,10 @@ func Test_majorityElement(t *testing.T) {
 		args args
 		want int
 	}{
-		{"", args{[]int{6, 5, 5}}, 5},
-		{"", args{[]int{3, 2, 3}}, 3},
-		{"", args{[]int{2, 2, 1, 1, 1, 2, 2}}, 2},
+		{"1", args{[]int{3, 3, 4}}, 3},
+		{"2", args{[]int{6, 5, 5}}, 5},
+		{"3", args{[]int{3, 2, 3}}, 3},
+		{"4", args{[]int{2, 2, 1, 1, 1, 2, 2}}, 2},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -35,10 +36,10 @@ func Test_majorityElement2(t *testing.T) {
 		args args
 		want int
 	}{
-		{"", args{[]int{3, 3, 4}}, 3},
-		{"", args{[]int{6, 5, 5}}, 5},
-		{"", args{[]int{3, 2, 3}}, 3},
-		{"", args{[]int{2, 2, 1, 1, 1, 2, 2}}, 2},
+		{"1", args{[]int{3, 3, 4}}, 3},
+		{"2", args{[]int{6, 5, 5}}, 5},
+		{"3", args{[]int{3, 2, 3}}, 3},
+		{"4", args{[]int{2, 2, 1, 1, 1, 2, 2}}, 2},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -58,9 +59,10 @@ func Test_majorityElement3(t *testing.T) {
 		args args
 		want int
 	}{
-		{"", args{[]int{6, 5, 5}}, 5},
-		{"", args{[]int{3, 2, 3}}, 3},
-		{"", args{[]int{2, 2, 1, 1, 1, 2, 2}}, 2},
+		{"1", args{[]int{3, 3, 4}}, 3},
+		{"2", args{[]int{6, 5, 5}}, 5},
+		{"3", args{[]int{3, 2, 3}}, 3},
+		{"4", args{[]int{2, 2, 1, 1, 1, 2, 2}}, 2},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

@@ -11,6 +11,7 @@ package main
     输出: 2
 */
 
+// Hash
 func majorityElement(nums []int) int {
 	least := len(nums) / 2
 	if len(nums)%2 != 0 {
