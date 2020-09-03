@@ -55,9 +55,8 @@ func divide(dividend int, divisor int) int {
 	if dividend > 0 && divisor < 0 || dividend < 0 && divisor > 0 {
 		if quotient > 1<<31 {
 			return -1 << 31
-		} else {
-			return -int(quotient)
 		}
+		return -int(quotient)
 	}
 	if quotient > 1<<31-1 {
 		return 1<<31 - 1
