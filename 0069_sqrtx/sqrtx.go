@@ -8,17 +8,18 @@ package main
 
 // Binary Search
 func mySqrt(x int) int {
-	l, r := 0, x
-	for l <= r {
+	l, r := 0, x>>1+1
+	for l < r {
 		m := l + (r-l)>>1
-		tmp := m * m
-		if tmp < x {
+		pow := m * m
+		if pow < x {
 			l = m + 1
-		} else if tmp > x {
-			r = m - 1
 		} else {
-			return m
+			r = m
 		}
+	}
+	if l*l == x {
+		return l
 	}
 	return l - 1
 }
