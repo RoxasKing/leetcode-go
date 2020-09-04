@@ -17,17 +17,18 @@ func increasingTriplet(nums []int) bool {
 	if len(nums) < 3 {
 		return false
 	}
-	scd, thd := nums[len(nums)-2], nums[len(nums)-1]
-	for i := len(nums) - 3; i >= 0; i-- {
-		if nums[i] < scd && scd < thd {
+	i, j, k := len(nums)-3, len(nums)-2, len(nums)-1
+	for i >= 0 {
+		if nums[i] < nums[j] && nums[j] < nums[k] {
 			return true
 		}
-		if thd < nums[i+1] {
-			scd = nums[i]
-			thd = nums[i+1]
-		} else if nums[i] < thd && (scd >= thd || nums[i] > scd) {
-			scd = nums[i]
+		if nums[i+1] > nums[k] {
+			k = i + 1
+			j = k - 1
+		} else if nums[i] < nums[k] && nums[i] > nums[j] {
+			j = i
 		}
+		i--
 	}
 	return false
 }
