@@ -17,19 +17,18 @@ func binaryTreePaths(root *TreeNode) []string {
 	var dfs func(string, *TreeNode)
 	dfs = func(cur string, node *TreeNode) {
 		if node.Left == nil && node.Right == nil {
-			cur += strconv.Itoa(node.Val)
 			out = append(out, cur)
 			return
 		}
-		cur += strconv.Itoa(node.Val) + "->"
+		cur += "->"
 		if node.Left != nil {
-			dfs(cur, node.Left)
+			dfs(cur+strconv.Itoa(node.Left.Val), node.Left)
 		}
 		if node.Right != nil {
-			dfs(cur, node.Right)
+			dfs(cur+strconv.Itoa(node.Right.Val), node.Right)
 		}
 	}
-	dfs("", root)
+	dfs(strconv.Itoa(root.Val), root)
 	return out
 }
 
