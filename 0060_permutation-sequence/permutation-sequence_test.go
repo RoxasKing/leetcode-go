@@ -12,8 +12,8 @@ func Test_getPermutation(t *testing.T) {
 		args args
 		want string
 	}{
-		{"", args{4, 9}, "2314"},
-		{"", args{3, 3}, "213"},
+		{"1", args{4, 9}, "2314"},
+		{"2", args{3, 3}, "213"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
