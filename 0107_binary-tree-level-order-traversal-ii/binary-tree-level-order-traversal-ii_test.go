@@ -15,7 +15,7 @@ func Test_levelOrderBottom(t *testing.T) {
 		want [][]int
 	}{
 		{
-			"",
+			"1",
 			args{
 				&TreeNode{
 					Val:  3,

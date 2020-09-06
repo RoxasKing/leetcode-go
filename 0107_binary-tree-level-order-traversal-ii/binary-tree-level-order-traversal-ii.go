@@ -22,24 +22,30 @@ func levelOrderBottom(root *TreeNode) [][]int {
 		return nil
 	}
 	var out [][]int
-	stack := []*TreeNode{root}
-	for len(stack) != 0 {
-		index := len(stack)
-		var tmp []int
-		for i := range stack {
-			tmp = append(tmp, stack[i].Val)
-			if stack[i].Left != nil {
-				stack = append(stack, stack[i].Left)
+	q := []*TreeNode{root}
+	for len(q) != 0 {
+		size := len(q)
+		tmp := make([]int, size)
+		for i := range q {
+			tmp[i] = q[i].Val
+			if q[i].Left != nil {
+				q = append(q, q[i].Left)
 			}
-			if stack[i].Right != nil {
-				stack = append(stack, stack[i].Right)
+			if q[i].Right != nil {
+				q = append(q, q[i].Right)
 			}
 		}
 		out = append(out, tmp)
-		stack = stack[index:]
+		q = q[size:]
 	}
-	for i := 0; i < len(out)/2; i++ {
+	for i := 0; i < len(out)>>1; i++ {
 		out[i], out[len(out)-1-i] = out[len(out)-1-i], out[i]
 	}
 	return out
+}
+
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
 }
