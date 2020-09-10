@@ -27,24 +27,22 @@ import "strconv"
 func evalRPN(tokens []string) int {
 	var stack []int
 	for _, token := range tokens {
-		last := len(stack) - 1
 		if token != "+" && token != "-" && token != "*" && token != "/" {
 			num, _ := strconv.Atoi(token)
 			stack = append(stack, num)
-		} else {
-			num1 := stack[last-1]
-			num2 := stack[last]
-			stack = stack[:last-1]
-			switch token {
-			case "+":
-				stack = append(stack, num1+num2)
-			case "-":
-				stack = append(stack, num1-num2)
-			case "*":
-				stack = append(stack, num1*num2)
-			case "/":
-				stack = append(stack, num1/num2)
-			}
+			continue
+		}
+		last := len(stack) - 1
+		num1, num2 := stack[last-1], stack[last]
+		switch token {
+		case "+":
+			stack = append(stack, num1+num2)
+		case "-":
+			stack = append(stack, num1-num2)
+		case "*":
+			stack = append(stack, num1*num2)
+		case "/":
+			stack = append(stack, num1/num2)
 		}
 	}
 	return stack[0]
