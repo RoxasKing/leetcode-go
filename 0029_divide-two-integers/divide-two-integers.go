@@ -16,50 +16,43 @@ package main
 */
 
 func divide(dividend int, divisor int) int {
-	var (
-		quotient  uint32
-		udivisor  uint32
-		udividend uint32
-		divis     uint32
-	)
-	if dividend > 0 {
-		udividend = uint32(dividend)
-	} else {
-		udividend = uint32(-dividend)
+	var isNeg bool
+	if dividend > 0 && divisor < 0 || dividend < 0 && divisor > 0 {
+		isNeg = true
 	}
-	if divisor > 0 {
-		udivisor = uint32(divisor)
-	} else {
-		udivisor = uint32(-divisor)
-	}
-	divis = udivisor
-	if udividend < divis {
-		return 0
-	}
-	for {
-		var i uint32
-		for divis < udividend {
-			if divis<<1 > udividend {
+	udividend := uint32(Abs(dividend))
+	udivisor := uint32(Abs(divisor))
+	var out int
+	tmpDivisor := udivisor
+	for udividend >= udivisor {
+		var n int
+		for tmpDivisor < udividend {
+			if tmpDivisor<<1 > udividend {
 				break
 			}
-			divis <<= 1
-			i++
+			tmpDivisor <<= 1
+			n++
 		}
-		quotient += 1 << i
-		udividend = udividend - divis
-		divis = udivisor
-		if udividend < divis {
-			break
-		}
-	}
-	if dividend > 0 && divisor < 0 || dividend < 0 && divisor > 0 {
-		if quotient > 1<<31 {
+		udividend -= tmpDivisor
+		tmpDivisor = udivisor
+		cur := 1 << n
+		tmp := 1<<31 - 1 - cur
+		if out >= tmp+1 && isNeg {
 			return -1 << 31
+		} else if out >= tmp && !isNeg {
+			return 1<<31 - 1
 		}
-		return -int(quotient)
+		out += cur
 	}
-	if quotient > 1<<31-1 {
-		return 1<<31 - 1
+	if isNeg {
+		return -out
 	}
-	return int(quotient)
+	return out
+}
+
+func Abs(num int) int {
+	if num < 0 {
+		return -num
+	}
+	return num
 }
