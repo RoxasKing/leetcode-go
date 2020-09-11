@@ -5,6 +5,7 @@ package main
   要求算法的时间复杂度为 O(n)。
 */
 
+// Hash
 func longestConsecutive(nums []int) int {
 	numSet := make(map[int]bool)
 	for _, num := range nums {
@@ -23,4 +24,11 @@ func longestConsecutive(nums []int) int {
 		out = Max(out, count)
 	}
 	return out
+}
+
+func Max(a, b int) int {
+	if a < b {
+		return b
+	}
+	return a
 }
