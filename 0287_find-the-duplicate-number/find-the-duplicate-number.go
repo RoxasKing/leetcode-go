@@ -14,8 +14,21 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Binary Search
+// Double Pointer
 func findDuplicate(nums []int) int {
+	slow, fast := nums[0], nums[nums[0]]
+	for slow != fast {
+		slow, fast = nums[slow], nums[nums[fast]]
+	}
+	slow = 0
+	for slow != fast {
+		slow, fast = nums[slow], nums[fast]
+	}
+	return slow
+}
+
+// Binary Search
+func findDuplicate2(nums []int) int {
 	l, r := 1, len(nums)-1
 	var out int
 	for l <= r {
@@ -37,7 +50,7 @@ func findDuplicate(nums []int) int {
 }
 
 // Bit operation
-func findDuplicate2(nums []int) int {
+func findDuplicate3(nums []int) int {
 	var out int
 	bitMax := 31
 	for (len(nums)-1)>>bitMax == 0 {
@@ -58,17 +71,4 @@ func findDuplicate2(nums []int) int {
 		}
 	}
 	return out
-}
-
-// fast & slow pointer
-func findDuplicate3(nums []int) int {
-	slow, fast := nums[0], nums[nums[0]]
-	for slow != fast {
-		slow, fast = nums[slow], nums[nums[fast]]
-	}
-	slow = 0
-	for slow != fast {
-		slow, fast = nums[slow], nums[fast]
-	}
-	return slow
 }
