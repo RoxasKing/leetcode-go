@@ -11,31 +11,35 @@ package main
 */
 
 func gameOfLife(board [][]int) {
-	next := make([][]int, len(board))
-	for i := range next {
-		next[i] = make([]int, len(board[0]))
+	if len(board) == 0 || len(board[0]) == 0 {
+		return
 	}
-	steps := [][]int{{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}}
-	getNewStatus := func(x, y int) {
-		var count int
-		for _, step := range steps {
-			nx, ny := x+step[0], y+step[1]
-			if nx < 0 || nx > len(board)-1 || ny < 0 || ny > len(board[0])-1 {
-				continue
+	locates := [][]int{{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}}
+	for i := range board {
+		for j := range board[0] {
+			var count int
+			for _, locate := range locates {
+				newI, newJ := i+locate[0], j+locate[1]
+				if 0 <= newI && newI < len(board) &&
+					0 <= newJ && newJ < len(board[0]) &&
+					(board[newI][newJ] == 1 || board[newI][newJ] == 3) {
+					count++
+				}
 			}
-			if board[nx][ny] == 1 {
-				count++
+			if board[i][j] == 1 && (count < 2 || count > 3) {
+				board[i][j] = 3
+			} else if board[i][j] == 0 && count == 3 {
+				board[i][j] = 4
 			}
-		}
-		if board[x][y] == 1 && (count == 2 || count == 3) ||
-			board[x][y] == 0 && count == 3 {
-			next[x][y] = 1
 		}
 	}
 	for i := range board {
 		for j := range board[0] {
-			getNewStatus(i, j)
+			if board[i][j] == 3 {
+				board[i][j] = 0
+			} else if board[i][j] == 4 {
+				board[i][j] = 1
+			}
 		}
 	}
-	copy(board, next)
 }
