@@ -5,6 +5,7 @@ package main
   说明：你不能倾斜容器，且 n 的值至少为 2。
 */
 
+// Double Pointer
 func maxArea(height []int) int {
 	var out int
 	l, r := 0, len(height)-1
@@ -17,4 +18,18 @@ func maxArea(height []int) int {
 		}
 	}
 	return out
+}
+
+func Max(a, b int) int {
+	if a < b {
+		return b
+	}
+	return a
+}
+
+func Min(a, b int) int {
+	if a > b {
+		return b
+	}
+	return a
 }
