@@ -12,27 +12,34 @@ func sortList(head *ListNode) *ListNode {
 	for fast != nil && fast.Next != nil {
 		slow, fast = slow.Next, fast.Next.Next
 	}
-	mid := slow.Next
+	l1, l2 := head, slow.Next
 	slow.Next = nil
-	return sortListMerge(sortList(head), sortList(mid))
+	return merge(sortList(l1), sortList(l2))
 }
 
-func sortListMerge(l1, l2 *ListNode) *ListNode {
-	head := &ListNode{}
-	cur := head
+func merge(l1, l2 *ListNode) *ListNode {
+	rootPre := &ListNode{}
+	ptr := rootPre
 	for l1 != nil && l2 != nil {
-		if l1.Val <= l2.Val {
-			cur.Next, l1 = l1, l1.Next
+		if l1.Val < l2.Val {
+			ptr.Next = l1
+			l1 = l1.Next
 		} else {
-			cur.Next, l2 = l2, l2.Next
+			ptr.Next = l2
+			l2 = l2.Next
 		}
-		cur = cur.Next
+		ptr = ptr.Next
 	}
 	if l1 != nil {
-		cur.Next = l1
+		ptr.Next = l1
 	}
 	if l2 != nil {
-		cur.Next = l2
+		ptr.Next = l2
 	}
-	return head.Next
+	return rootPre.Next
+}
+
+type ListNode struct {
+	Val  int
+	Next *ListNode
 }
