@@ -10,43 +10,47 @@ package main
     所有单词只由小写字母组成。
     字典中不存在重复的单词。
     你可以假设 beginWord 和 endWord 是非空的，且二者不相同。
+
+  来源：力扣（LeetCode）
+  链接：https://leetcode-cn.com/problems/word-ladder
+  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
 func ladderLength(beginWord string, endWord string, wordList []string) int {
-	wordDict := make(map[string]struct{})
-	for _, w := range wordList {
-		wordDict[w] = struct{}{}
+	wordDict := make(map[string]bool)
+	for _, word := range wordList {
+		wordDict[word] = true
 	}
-	if _, ok := wordDict[endWord]; !ok {
+	if !wordDict[endWord] {
 		return 0
 	}
 	delete(wordDict, endWord)
-	src := map[string]struct{}{beginWord: {}}
-	dst := map[string]struct{}{endWord: {}}
+	src := map[string]bool{beginWord: true}
+	dst := map[string]bool{endWord: true}
 	out := 1
 	for len(src) != 0 && len(dst) != 0 {
 		out++
 		if len(src) > len(dst) {
 			src, dst = dst, src
 		}
-		for w := range src {
-			delete(wordDict, w)
+		for word := range src {
+			delete(wordDict, word)
 		}
-		newSrc := make(map[string]struct{})
-		for w := range src {
-			bytes := []byte(w)
-			for i := range bytes {
+		newSrc := make(map[string]bool)
+		for word := range src {
+			letters := []byte(word)
+			for i := range letters {
 				for j := 0; j < 26; j++ {
-					bytes[i] = byte(j + 'a')
-					target := string(bytes)
-					if _, ok := dst[target]; ok {
+					letters[i] = byte(j) + 'a'
+					next := string(letters)
+					if dst[next] {
 						return out
 					}
-					if _, ok := wordDict[target]; ok {
-						newSrc[target] = struct{}{}
+					if wordDict[next] {
+						newSrc[next] = true
 					}
 				}
-				bytes[i] = w[i]
+				letters[i] = word[i]
 			}
 		}
 		src = newSrc

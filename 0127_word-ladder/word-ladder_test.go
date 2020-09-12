@@ -16,7 +16,7 @@ func Test_ladderLength(t *testing.T) {
 		want int
 	}{
 		{
-			"",
+			"1",
 			args{
 				"hit",
 				"cog",
@@ -25,7 +25,7 @@ func Test_ladderLength(t *testing.T) {
 			5,
 		},
 		{
-			"",
+			"2",
 			args{
 				"hit",
 				"cog",
@@ -55,7 +55,7 @@ func Test_ladderLength2(t *testing.T) {
 		want int
 	}{
 		{
-			"",
+			"1",
 			args{
 				"hit",
 				"cog",
@@ -64,7 +64,7 @@ func Test_ladderLength2(t *testing.T) {
 			5,
 		},
 		{
-			"",
+			"2",
 			args{
 				"hit",
 				"cog",
@@ -94,7 +94,7 @@ func Test_ladderLength3(t *testing.T) {
 		want int
 	}{
 		{
-			"",
+			"1",
 			args{
 				"hit",
 				"cog",
@@ -103,7 +103,7 @@ func Test_ladderLength3(t *testing.T) {
 			5,
 		},
 		{
-			"",
+			"2",
 			args{
 				"hit",
 				"cog",
