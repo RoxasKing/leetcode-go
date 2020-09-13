@@ -14,15 +14,15 @@ func Test_maxPathSum(t *testing.T) {
 		want int
 	}{
 		{
-			"test 1",
+			"1",
 			args{
 				&TreeNode{
 					Val:  -10,
-					Left: &TreeNode{Val: 9, Left: nil, Right: nil},
+					Left: &TreeNode{Val: 9},
 					Right: &TreeNode{
 						Val:   20,
-						Left:  &TreeNode{Val: 15, Left: nil, Right: nil},
-						Right: &TreeNode{Val: 7, Left: nil, Right: nil},
+						Left:  &TreeNode{Val: 15},
+						Right: &TreeNode{Val: 7},
 					},
 				},
 			},
