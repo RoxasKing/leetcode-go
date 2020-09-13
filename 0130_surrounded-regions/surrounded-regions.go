@@ -17,19 +17,19 @@ package main
   被围绕的区间不会存在于边界上，换句话说，任何边界上的 'O' 都不会被填充为 'X'。 任何不在边界上，或不与边界上的 'O' 相连的 'O' 最终都会被填充为 'X'。如果两个元素在水平或垂直方向相邻，则称它们是“相连”的。
 */
 
-// BFS + Stack
+// BFS
 func solve(board [][]byte) {
 	if len(board) == 0 || len(board[0]) == 0 {
 		return
 	}
 
-	var queue [][]int
+	var q [][]int
 
 	checkIfAppend := func(row, col int) {
 		if 0 <= row && row < len(board) &&
 			0 <= col && col < len(board[0]) &&
 			board[row][col] == 'O' {
-			queue = append(queue, []int{row, col})
+			q = append(q, []int{row, col})
 			board[row][col] = '#'
 		}
 	}
@@ -41,15 +41,15 @@ func solve(board [][]byte) {
 	for i := range board {
 		for j := range board[0] {
 			if isEdge(i, j) && board[i][j] == 'O' {
-				queue = append(queue, []int{i, j})
+				q = append(q, []int{i, j})
 				board[i][j] = '#'
 			}
 		}
 	}
 
-	for len(queue) != 0 {
-		row, col := queue[0][0], queue[0][1]
-		queue = queue[1:]
+	for len(q) != 0 {
+		row, col := q[0][0], q[0][1]
+		q = q[1:]
 		checkIfAppend(row-1, col)
 		checkIfAppend(row+1, col)
 		checkIfAppend(row, col-1)
@@ -107,7 +107,7 @@ func solve2(board [][]byte) {
 	}
 }
 
-// DFS + stack
+// DFS + Stack
 func solve3(board [][]byte) {
 	if len(board) == 0 {
 		return
