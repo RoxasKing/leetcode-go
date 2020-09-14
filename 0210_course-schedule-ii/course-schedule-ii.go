@@ -19,8 +19,43 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Topological Sorting + DFS
+// Topological Sorting + BFS
 func findOrder(numCourses int, prerequisites [][]int) []int {
+	edges := make([][]int, numCourses)
+	indeg := make([]int, numCourses)
+	for _, p := range prerequisites {
+		edges[p[1]] = append(edges[p[1]], p[0])
+		indeg[p[0]]++
+	}
+	var queue []int
+	for i := 0; i < numCourses; i++ {
+		if indeg[i] == 0 {
+			queue = append(queue, i)
+		}
+	}
+	out := make([]int, 0, numCourses)
+	for len(queue) > 0 {
+		course := queue[0]
+		queue = queue[1:]
+		if len(out) == numCourses {
+			return nil
+		}
+		out = append(out, course)
+		for _, c := range edges[course] {
+			indeg[c]--
+			if indeg[c] == 0 {
+				queue = append(queue, c)
+			}
+		}
+	}
+	if len(out) < numCourses {
+		return nil
+	}
+	return out
+}
+
+// Topological Sorting + DFS
+func findOrder2(numCourses int, prerequisites [][]int) []int {
 	out := make([]int, 0, numCourses)
 	edges := make([][]int, numCourses)
 	visited := make([]int, numCourses)
@@ -55,41 +90,6 @@ func findOrder(numCourses int, prerequisites [][]int) []int {
 	}
 	for i := 0; i < len(out)>>1; i++ {
 		out[i], out[len(out)-1-i] = out[len(out)-1-i], out[i]
-	}
-	return out
-}
-
-// Topological Sorting + BFS
-func findOrder2(numCourses int, prerequisites [][]int) []int {
-	edges := make([][]int, numCourses)
-	indeg := make([]int, numCourses)
-	for _, p := range prerequisites {
-		edges[p[1]] = append(edges[p[1]], p[0])
-		indeg[p[0]]++
-	}
-	var queue []int
-	for i := 0; i < numCourses; i++ {
-		if indeg[i] == 0 {
-			queue = append(queue, i)
-		}
-	}
-	out := make([]int, 0, numCourses)
-	for len(queue) > 0 {
-		course := queue[0]
-		queue = queue[1:]
-		if len(out) == numCourses {
-			return nil
-		}
-		out = append(out, course)
-		for _, c := range edges[course] {
-			indeg[c]--
-			if indeg[c] == 0 {
-				queue = append(queue, c)
-			}
-		}
-	}
-	if len(out) < numCourses {
-		return nil
 	}
 	return out
 }
