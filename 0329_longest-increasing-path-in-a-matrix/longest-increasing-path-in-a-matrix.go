@@ -48,6 +48,13 @@ func longestIncreasingPath(matrix [][]int) int {
 	return max
 }
 
+func Max(a, b int) int {
+	if a < b {
+		return b
+	}
+	return a
+}
+
 // Topological Sorting
 func longestIncreasingPath2(matrix [][]int) int {
 	if len(matrix) == 0 || len(matrix[0]) == 0 {
