@@ -17,32 +17,30 @@ package main
 
 // Topological Sorting + BFS
 func canFinish(numCourses int, prerequisites [][]int) bool {
-	var (
-		edges  = make([][]int, numCourses)
-		indeg  = make([]int, numCourses)
-		queue  = make([]int, 0, numCourses)
-		count  int
-		course int
-	)
+	edges := make([][]int, numCourses)
+	indeg := make([]int, numCourses)
 	for _, p := range prerequisites {
 		edges[p[1]] = append(edges[p[1]], p[0])
 		indeg[p[0]]++
 	}
+	var q []int
 	for i := 0; i < numCourses; i++ {
 		if indeg[i] == 0 {
-			queue = append(queue, i)
+			q = append(q, i)
 		}
 	}
-	for len(queue) != 0 {
-		course, queue = queue[0], queue[1:]
+	var count int
+	for len(q) != 0 {
+		c := q[0]
+		q = q[1:]
 		if count == numCourses {
 			return false
 		}
 		count++
-		for _, c := range edges[course] {
-			indeg[c]--
-			if indeg[c] == 0 {
-				queue = append(queue, c)
+		for _, course := range edges[c] {
+			indeg[course]--
+			if indeg[course] == 0 {
+				q = append(q, course)
 			}
 		}
 	}
