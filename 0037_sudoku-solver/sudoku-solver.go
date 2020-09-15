@@ -13,14 +13,15 @@ package main
     给定数独永远是 9x9 形式的。
 */
 
+// DFS + Backtracking
 func solveSudoku(board [][]byte) {
 	rows := make([][]int, 9)
 	cols := make([][]int, 9)
 	boxs := make([][]int, 9)
-	for i := range rows {
-		rows[i] = make([]int, 10)
-		cols[i] = make([]int, 10)
-		boxs[i] = make([]int, 10)
+	for i := 0; i < 9; i++ {
+		rows[i] = make([]int, 9)
+		cols[i] = make([]int, 9)
+		boxs[i] = make([]int, 9)
 	}
 	for row := 0; row < 9; row++ {
 		for col := 0; col < 9; col++ {
@@ -28,49 +29,41 @@ func solveSudoku(board [][]byte) {
 				continue
 			}
 			idx := (row/3)*3 + col/3
-			num := board[row][col] - '0'
+			num := board[row][col] - '1'
 			rows[row][num] = 1
 			cols[col][num] = 1
 			boxs[idx][num] = 1
 		}
 	}
-	var (
-		solved bool
-		next   func(row, col int)
-		solve  func(row, col int)
-	)
-	next = func(row, col int) {
-		if col == 8 && row == 8 {
+	var solved bool
+	var backTrack func(int)
+	backTrack = func(index int) {
+		if index == 81 {
 			solved = true
-		} else {
-			if col == 8 {
-				solve(row+1, 0)
-			} else {
-				solve(row, col+1)
-			}
+			return
 		}
-	}
-	solve = func(row, col int) {
-		if board[row][col] == '.' {
-			for i := 1; i <= 9; i++ {
-				idx := (row/3)*3 + col/3
-				if rows[row][i]+cols[col][i]+boxs[idx][i] == 0 {
-					rows[row][i] = 1
-					cols[col][i] = 1
-					boxs[idx][i] = 1
-					board[row][col] = byte(i + '0')
-					next(row, col)
-					if !solved {
-						rows[row][i] = 0
-						cols[col][i] = 0
-						boxs[idx][i] = 0
-						board[row][col] = '.'
-					}
+		row, col := index/9, index%9
+		if board[row][col] != '.' {
+			backTrack(index + 1)
+			return
+		}
+		idx := (row/3)*3 + col/3
+		for i := 0; i < 9; i++ {
+			if rows[row][i]+cols[col][i]+boxs[idx][i] == 0 {
+				rows[row][i] = 1
+				cols[col][i] = 1
+				boxs[idx][i] = 1
+				board[row][col] = byte(i) + '1'
+				backTrack(index + 1)
+				if solved {
+					return
 				}
+				rows[row][i] = 0
+				cols[col][i] = 0
+				boxs[idx][i] = 0
+				board[row][col] = '.'
 			}
-		} else {
-			next(row, col)
 		}
 	}
-	solve(0, 0)
+	backTrack(0)
 }
