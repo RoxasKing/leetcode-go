@@ -11,7 +11,7 @@ package main
 */
 
 // Dynamic Programming
-func isMatchII(s string, p string) bool {
+func isMatch(s string, p string) bool {
 	dp := make([][]bool, len(s)+1)
 	for i := range dp {
 		dp[i] = make([]bool, len(p)+1)
@@ -33,7 +33,7 @@ func isMatchII(s string, p string) bool {
 }
 
 // Greedy algorithm
-func isMatchII2(s string, p string) bool {
+func isMatch2(s string, p string) bool {
 	for len(s) > 0 && len(p) > 0 && p[len(p)-1] != '*' {
 		if s[len(s)-1] == p[len(p)-1] || '?' == p[len(p)-1] {
 			s = s[:len(s)-1]
@@ -42,8 +42,8 @@ func isMatchII2(s string, p string) bool {
 			return false
 		}
 	}
-	if s != "" && p == "" {
-		return false
+	if p == "" {
+		return s == ""
 	}
 	sIndex, pIndex := 0, 0
 	sRecord, pRecord := -1, -1

@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func Test_isMatchII(t *testing.T) {
+func Test_isMatch(t *testing.T) {
 	type args struct {
 		s string
 		p string
@@ -19,17 +19,21 @@ func Test_isMatchII(t *testing.T) {
 		{"3", args{"cb", "?a"}, false},
 		{"4", args{"aa", "a"}, false},
 		{"5", args{"aa", "*"}, true},
+		{"6", args{"ab", "*a"}, false},
+		{"7", args{"a", "*a"}, true},
+		{"8", args{"aaa", "**a"}, true},
+		{"9", args{"b", "*?*?"}, false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := isMatchII(tt.args.s, tt.args.p); got != tt.want {
-				t.Errorf("isMatch_0044() = %v, want %v", got, tt.want)
+			if got := isMatch(tt.args.s, tt.args.p); got != tt.want {
+				t.Errorf("isMatch() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func Test_isMatchII2(t *testing.T) {
+func Test_isMatch2(t *testing.T) {
 	type args struct {
 		s string
 		p string
@@ -50,8 +54,8 @@ func Test_isMatchII2(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := isMatchII2(tt.args.s, tt.args.p); got != tt.want {
-				t.Errorf("isMatch_0044_2() = %v, want %v", got, tt.want)
+			if got := isMatch2(tt.args.s, tt.args.p); got != tt.want {
+				t.Errorf("isMatch2() = %v, want %v", got, tt.want)
 			}
 		})
 	}
