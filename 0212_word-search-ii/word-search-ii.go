@@ -37,8 +37,8 @@ func findWords(board [][]byte, words []string) []string {
 	var cur []byte
 	mark := make(map[string]bool)
 
-	var backTrack func(int, int, *Trie)
-	backTrack = func(row, col int, t *Trie) {
+	var backtrack func(int, int, *Trie)
+	backtrack = func(row, col int, t *Trie) {
 		str := string(cur)
 		if t.isEnd && !mark[str] {
 			out = append(out, str)
@@ -53,7 +53,7 @@ func findWords(board [][]byte, words []string) []string {
 					tmp := board[newRow][newCol]
 					board[newRow][newCol] = '#'
 					cur = append(cur, tmp)
-					backTrack(newRow, newCol, next)
+					backtrack(newRow, newCol, next)
 					cur = cur[:len(cur)-1]
 					board[newRow][newCol] = tmp
 				}
@@ -68,7 +68,7 @@ func findWords(board [][]byte, words []string) []string {
 				tmp := board[i][j]
 				board[i][j] = '#'
 				cur = append(cur, tmp)
-				backTrack(i, j, next)
+				backtrack(i, j, next)
 				cur = cur[:len(cur)-1]
 				board[i][j] = tmp
 			}

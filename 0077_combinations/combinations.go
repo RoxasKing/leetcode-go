@@ -8,8 +8,8 @@ package main
 func combine(n int, k int) [][]int {
 	var out [][]int
 	cur := make([]int, 0, k)
-	var backTrack func(int)
-	backTrack = func(index int) {
+	var backtrack func(int)
+	backtrack = func(index int) {
 		if len(cur) == k {
 			tmp := make([]int, k)
 			copy(tmp, cur)
@@ -18,10 +18,10 @@ func combine(n int, k int) [][]int {
 		}
 		for i := index; i < n; i++ {
 			cur = append(cur, i+1)
-			backTrack(i + 1)
+			backtrack(i + 1)
 			cur = cur[:len(cur)-1]
 		}
 	}
-	backTrack(0)
+	backtrack(0)
 	return out
 }

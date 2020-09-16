@@ -36,15 +36,15 @@ func solveSudoku(board [][]byte) {
 		}
 	}
 	var solved bool
-	var backTrack func(int)
-	backTrack = func(index int) {
+	var backtrack func(int)
+	backtrack = func(index int) {
 		if index == 81 {
 			solved = true
 			return
 		}
 		row, col := index/9, index%9
 		if board[row][col] != '.' {
-			backTrack(index + 1)
+			backtrack(index + 1)
 			return
 		}
 		idx := (row/3)*3 + col/3
@@ -54,7 +54,7 @@ func solveSudoku(board [][]byte) {
 				cols[col][i] = 1
 				boxs[idx][i] = 1
 				board[row][col] = byte(i) + '1'
-				backTrack(index + 1)
+				backtrack(index + 1)
 				if solved {
 					return
 				}
@@ -65,5 +65,5 @@ func solveSudoku(board [][]byte) {
 			}
 		}
 	}
-	backTrack(0)
+	backtrack(0)
 }

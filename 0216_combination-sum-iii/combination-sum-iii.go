@@ -17,8 +17,8 @@ func combinationSum3(k int, n int) [][]int {
 	var out [][]int
 	var cur []int
 	var curSum int
-	var backTrack func(int)
-	backTrack = func(index int) {
+	var backtrack func(int)
+	backtrack = func(index int) {
 		if len(cur) == k {
 			if curSum == n {
 				tmp := make([]int, k)
@@ -33,11 +33,11 @@ func combinationSum3(k int, n int) [][]int {
 		for i := index; i <= 9; i++ {
 			cur = append(cur, i)
 			curSum += i
-			backTrack(i + 1)
+			backtrack(i + 1)
 			cur = cur[:len(cur)-1]
 			curSum -= i
 		}
 	}
-	backTrack(1)
+	backtrack(1)
 	return out
 }

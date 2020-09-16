@@ -20,8 +20,8 @@ func combinationSum2(candidates []int, target int) [][]int {
 	sort.Ints(candidates)
 	var out [][]int
 	var combination []int
-	var backTrack func(int, int)
-	backTrack = func(index, target int) {
+	var backtrack func(int, int)
+	backtrack = func(index, target int) {
 		if target == 0 {
 			tmp := make([]int, len(combination))
 			copy(tmp, combination)
@@ -37,16 +37,16 @@ func combinationSum2(candidates []int, target int) [][]int {
 			next++
 		}
 
-		backTrack(next, target)
+		backtrack(next, target)
 
 		curSize := len(combination)
 		for i := 0; i < next-index && candidates[index] <= target; i++ {
 			combination = append(combination, candidates[index])
 			target -= candidates[index]
-			backTrack(next, target)
+			backtrack(next, target)
 		}
 		combination = combination[:curSize]
 	}
-	backTrack(0, target)
+	backtrack(0, target)
 	return out
 }

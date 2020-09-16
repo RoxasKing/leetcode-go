@@ -9,8 +9,8 @@ package main
 func partition(s string) [][]string {
 	var out [][]string
 	var cur []string
-	var backTrack func(int)
-	backTrack = func(offset int) {
+	var backtrack func(int)
+	backtrack = func(offset int) {
 		if offset == len(s) {
 			tmp := make([]string, len(cur))
 			copy(tmp, cur)
@@ -20,12 +20,12 @@ func partition(s string) [][]string {
 		for i := offset; i < len(s); i++ {
 			if isPalindrome(s[offset : i+1]) {
 				cur = append(cur, s[offset:i+1])
-				backTrack(i + 1)
+				backtrack(i + 1)
 				cur = cur[:len(cur)-1]
 			}
 		}
 	}
-	backTrack(0)
+	backtrack(0)
 	return out
 }
 
