@@ -10,6 +10,7 @@ package main
     p 可能为空，且只包含从 a-z 的小写字母，以及字符 . 和 *。
 */
 
+// Dynamic Programming
 func isMatch(s string, p string) bool {
 	dp := make([][]bool, len(s)+1)
 	for i := range dp {
