@@ -3,58 +3,43 @@ package main
 /*
   给定一个字符串 s，将 s 分割成一些子串，使每个子串都是回文串。
   返回 s 所有可能的分割方案。
-  示例:
-    输入: "aab"
-    输出:
-    [
-      ["aa","b"],
-      ["a","a","b"]
-    ]
 */
 
 // Backtracking
-func partition0131(s string) [][]string {
-	isPalindrome := func(s string) bool {
-		for i := 0; i < len(s)/2; i++ {
-			if s[i] != s[len(s)-1-i] {
-				return false
-			}
-		}
-		return true
-	}
+func partition(s string) [][]string {
 	var out [][]string
 	var cur []string
-	var recur func(string)
-	recur = func(s string) {
-		if s == "" {
+	var backTrack func(int)
+	backTrack = func(offset int) {
+		if offset == len(s) {
 			tmp := make([]string, len(cur))
 			copy(tmp, cur)
 			out = append(out, tmp)
 			return
 		}
-		for i := 1; i <= len(s); i++ {
-			if !isPalindrome(s[:i]) {
-				continue
+		for i := offset; i < len(s); i++ {
+			if isPalindrome(s[offset : i+1]) {
+				cur = append(cur, s[offset:i+1])
+				backTrack(i + 1)
+				cur = cur[:len(cur)-1]
 			}
-			cur = append(cur, s[:i])
-			recur(s[i:])
-			cur = cur[:len(cur)-1]
 		}
 	}
-	recur(s)
+	backTrack(0)
 	return out
 }
 
-// Backtracking && Dynamic Programming
-func partition01312(s string) [][]string {
-	isPalindrome := func(s string) bool {
-		for i := 0; i < len(s)/2; i++ {
-			if s[i] != s[len(s)-1-i] {
-				return false
-			}
+func isPalindrome(s string) bool {
+	for i := 0; i < len(s)>>1; i++ {
+		if s[i] != s[len(s)-1-i] {
+			return false
 		}
-		return true
 	}
+	return true
+}
+
+// Backtracking && Dynamic Programming
+func partition2(s string) [][]string {
 	dp := make([][]bool, len(s))
 	for i := range dp {
 		dp[i] = make([]bool, len(s)+1)
@@ -88,7 +73,7 @@ func partition01312(s string) [][]string {
 }
 
 // Backtracking && Dynamic Programming
-func partition01313(s string) [][]string {
+func partition3(s string) [][]string {
 	check := make([][]bool, len(s))
 	for r := range check {
 		check[r] = make([]bool, len(s))

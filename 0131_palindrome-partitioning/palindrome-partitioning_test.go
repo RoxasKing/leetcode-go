@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func Test_partition0131(t *testing.T) {
+func Test_partition(t *testing.T) {
 	type args struct {
 		s string
 	}
@@ -15,7 +15,7 @@ func Test_partition0131(t *testing.T) {
 		want [][]string
 	}{
 		{
-			"",
+			"1",
 			args{"efe"},
 			[][]string{
 				{"e", "f", "e"},
@@ -23,7 +23,7 @@ func Test_partition0131(t *testing.T) {
 			},
 		},
 		{
-			"",
+			"2",
 			args{"aab"},
 			[][]string{
 				{"a", "a", "b"},
@@ -33,14 +33,14 @@ func Test_partition0131(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := partition0131(tt.args.s); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("partition0131() = %v, want %v", got, tt.want)
+			if got := partition(tt.args.s); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("partition() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func Test_partition01312(t *testing.T) {
+func Test_partition2(t *testing.T) {
 	type args struct {
 		s string
 	}
@@ -50,7 +50,7 @@ func Test_partition01312(t *testing.T) {
 		want [][]string
 	}{
 		{
-			"",
+			"1",
 			args{"efe"},
 			[][]string{
 				{"e", "f", "e"},
@@ -58,7 +58,7 @@ func Test_partition01312(t *testing.T) {
 			},
 		},
 		{
-			"",
+			"2",
 			args{"aab"},
 			[][]string{
 				{"a", "a", "b"},
@@ -68,14 +68,14 @@ func Test_partition01312(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := partition01312(tt.args.s); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("partition01312() = %v, want %v", got, tt.want)
+			if got := partition2(tt.args.s); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("partition2() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func Test_partition01313(t *testing.T) {
+func Test_partition3(t *testing.T) {
 	type args struct {
 		s string
 	}
@@ -85,7 +85,7 @@ func Test_partition01313(t *testing.T) {
 		want [][]string
 	}{
 		{
-			"",
+			"1",
 			args{"efe"},
 			[][]string{
 				{"e", "f", "e"},
@@ -93,7 +93,7 @@ func Test_partition01313(t *testing.T) {
 			},
 		},
 		{
-			"",
+			"2",
 			args{"aab"},
 			[][]string{
 				{"a", "a", "b"},
@@ -103,8 +103,8 @@ func Test_partition01313(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := partition01313(tt.args.s); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("partition01313() = %v, want %v", got, tt.want)
+			if got := partition3(tt.args.s); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("partition3() = %v, want %v", got, tt.want)
 			}
 		})
 	}
