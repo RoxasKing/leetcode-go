@@ -165,7 +165,7 @@ func solve3(board [][]byte) {
 	}
 }
 
-// union-find
+// Union-Find
 func solve4(board [][]byte) {
 	if len(board) == 0 {
 		return
