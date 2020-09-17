@@ -37,3 +37,48 @@ func findCircleNum(M [][]int) int {
 	}
 	return count
 }
+
+// Union-Find
+func findCircleNum2(M [][]int) int {
+	uf := newUnionFind(len(M))
+	for i := 0; i < len(M)-1; i++ {
+		for j := i + 1; j < len(M); j++ {
+			if M[i][j] == 1 {
+				uf.union(i, j)
+			}
+		}
+	}
+	var out int
+	mark := make([]bool, len(M))
+	for i := 0; i < len(M); i++ {
+		index := uf.find(i)
+		if !mark[index] {
+			out++
+			mark[index] = true
+		}
+	}
+	return out
+}
+
+type unionFind struct {
+	ancestor []int
+}
+
+func newUnionFind(n int) unionFind {
+	ancestor := make([]int, n)
+	for i := range ancestor {
+		ancestor[i] = i
+	}
+	return unionFind{ancestor}
+}
+
+func (uf unionFind) find(x int) int {
+	if uf.ancestor[x] != x {
+		uf.ancestor[x] = uf.find(uf.ancestor[x])
+	}
+	return uf.ancestor[x]
+}
+
+func (uf unionFind) union(from, to int) {
+	uf.ancestor[uf.find(from)] = uf.find(to)
+}
