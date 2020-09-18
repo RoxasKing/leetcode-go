@@ -7,6 +7,7 @@ package main
   不能使用代码库中的排序函数来解决这道题。
 */
 
+// 3-way partition
 func sortColors(nums []int) {
 	m, l, r := 0, 0, len(nums)-1
 	for m <= r {
