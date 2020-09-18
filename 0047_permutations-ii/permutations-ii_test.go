@@ -15,8 +15,10 @@ func Test_permuteUnique(t *testing.T) {
 		want [][]int
 	}{
 		{
-			"",
-			args{[]int{1, 1, 2}},
+			"1",
+			args{
+				[]int{1, 1, 2},
+			},
 			[][]int{
 				{1, 1, 2},
 				{1, 2, 1},
