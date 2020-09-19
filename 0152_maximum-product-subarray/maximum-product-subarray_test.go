@@ -13,6 +13,7 @@ func Test_maxProduct(t *testing.T) {
 	}{
 		{"1", args{[]int{2, 3, -2, 4}}, 6},
 		{"2", args{[]int{-2, 0, -1}}, 0},
+		{"3", args{[]int{-2, 1, -1}}, 2},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
