@@ -10,27 +10,30 @@ package main
 
 // Binary Search
 func kthSmallest(matrix [][]int, k int) int {
-	check := func(mid int) bool {
-		i, j := len(matrix)-1, 0
-		var count int
-		for i >= 0 && j < len(matrix) {
-			if matrix[i][j] <= mid {
-				count += i + 1
-				j++
-			} else {
-				i--
-			}
-		}
-		return count >= k
-	}
-	l, r := matrix[0][0], matrix[len(matrix)-1][len(matrix)-1]
+	n := len(matrix)
+	l, r := matrix[0][0], matrix[n-1][n-1]
 	for l < r {
 		m := l + (r-l)>>1
-		if check(m) {
-			r = m
-		} else {
+		if !check(matrix, k, m) {
 			l = m + 1
+		} else {
+			r = m
 		}
 	}
 	return l
+}
+
+func check(matrix [][]int, k, target int) bool {
+	n := len(matrix)
+	row, col := n-1, 0
+	var count int
+	for row >= 0 && col < n {
+		if matrix[row][col] <= target {
+			count += row + 1
+			col++
+		} else {
+			row--
+		}
+	}
+	return count >= k
 }
