@@ -2,7 +2,7 @@ package main
 
 import "testing"
 
-func Test_maxProfitIV(t *testing.T) {
+func Test_maxProfit(t *testing.T) {
 	type args struct {
 		k      int
 		prices []int
@@ -17,8 +17,8 @@ func Test_maxProfitIV(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := maxProfitIV(tt.args.k, tt.args.prices); got != tt.want {
-				t.Errorf("maxProfitIV() = %v, want %v", got, tt.want)
+			if got := maxProfit(tt.args.k, tt.args.prices); got != tt.want {
+				t.Errorf("maxProfit() = %v, want %v", got, tt.want)
 			}
 		})
 	}

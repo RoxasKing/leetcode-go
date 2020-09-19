@@ -11,12 +11,28 @@ package main
 */
 
 func maxProfit(prices []int) int {
-	profit, buyPrice := 0, -1<<31
+	profit, cost := 0, -1<<31
 	for _, price := range prices {
-		profit = Max(profit, buyPrice+price)
-		buyPrice = Max(buyPrice, -price)
+		profit = Max(profit, cost+price)
+		cost = Max(cost, -price)
 	}
 	return profit
+}
+
+func maxProfit2(prices []int) int {
+	profit, minPrice := 0, 1<<31-1
+	for _, price := range prices {
+		profit = Max(profit, price-minPrice)
+		minPrice = Min(minPrice, price)
+	}
+	return profit
+}
+
+func Min(a, b int) int {
+	if a > b {
+		return b
+	}
+	return a
 }
 
 func Max(a, b int) int {

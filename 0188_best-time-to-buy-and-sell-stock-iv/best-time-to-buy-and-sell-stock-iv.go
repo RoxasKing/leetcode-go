@@ -10,11 +10,12 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-func maxProfitIV(k int, prices []int) int {
+// Dynamic Programming
+func maxProfit(k int, prices []int) int {
 	if k == 0 || len(prices) < 2 {
 		return 0
-	} else if k >= len(prices)>>1 {
-		return maxProfitII(prices)
+	} else if k >= len(prices)>>1 { // 如果交易次数大于最多交易次数(天数的一半)，可以看作是没有交易限制
+		return maxProfitWithNoLimit(prices)
 	}
 	dp := make([][2]int, k+1)
 	for i := range dp {
@@ -27,4 +28,21 @@ func maxProfitIV(k int, prices []int) int {
 		}
 	}
 	return dp[k][0]
+}
+
+func maxProfitWithNoLimit(prices []int) int {
+	sell, buy := 0, -1<<31
+	for _, price := range prices {
+		preSell := sell
+		sell = Max(sell, buy+price)
+		buy = Max(buy, preSell-price)
+	}
+	return sell
+}
+
+func Max(a, b int) int {
+	if a < b {
+		return b
+	}
+	return a
 }
