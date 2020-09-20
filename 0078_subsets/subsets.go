@@ -7,24 +7,24 @@ package main
 
 // Backtracking
 func subsets(nums []int) [][]int {
-	out := [][]int{{}}
-	var cur []int
-	var backtrack func(int, int)
-	backtrack = func(limit, start int) {
-		if len(cur) == limit {
-			tmp := make([]int, len(cur))
-			copy(tmp, cur)
-			out = append(out, tmp)
-			return
-		}
-		for i := start; i < len(nums); i++ {
-			cur = append(cur, nums[i])
-			backtrack(limit, i+1)
-			cur = cur[:len(cur)-1]
-		}
-	}
-	for i := 1; i <= len(nums); i++ {
-		backtrack(i, 0)
+	var out [][]int
+	for i := 0; i <= len(nums); i++ {
+		backtrack(nums, i, 0, []int{}, &out)
 	}
 	return out
+}
+
+func backtrack(nums []int, size, start int, set []int, sets *[][]int) {
+	if len(set) == size {
+		tmp := make([]int, size)
+		copy(tmp, set)
+		*sets = append(*sets, tmp)
+		return
+	}
+	if start == len(nums) {
+		return
+	}
+	for i := start; i < len(nums); i++ {
+		backtrack(nums, size, i+1, append(set, nums[i]), sets)
+	}
 }
