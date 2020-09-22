@@ -22,14 +22,13 @@ func wordBreak(s string, wordDict []string) []string {
 	dp[0] = []string{""}
 	for i := 1; i <= n; i++ {
 		for _, word := range wordDict {
-			if i < len(word) || s[i-len(word):i] != word || len(dp[i-len(word)]) == 0 {
-				continue
-			}
-			for _, str := range dp[i-len(word)] {
-				if str != "" {
-					str += " "
+			if len(word) <= i && word == s[i-len(word):i] {
+				for _, str := range dp[i-len(word)] {
+					if str != "" {
+						str += " "
+					}
+					dp[i] = append(dp[i], str+word)
 				}
-				dp[i] = append(dp[i], str+word)
 			}
 		}
 	}

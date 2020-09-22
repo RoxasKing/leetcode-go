@@ -14,11 +14,9 @@ func wordBreak(s string, wordDict []string) bool {
 	dp[0] = true
 	for i := 1; i <= n; i++ {
 		for _, word := range wordDict {
-			if i < len(word) {
-				continue
-			}
-			if s[i-len(word):i] == word && dp[i-len(word)] {
+			if i >= len(word) && s[i-len(word):i] == word && dp[i-len(word)] {
 				dp[i] = true
+				break
 			}
 		}
 	}
