@@ -9,44 +9,44 @@ package main
 */
 
 type Trie struct {
-	trie  [26]*Trie
+	next  [26]*Trie
 	isEnd bool
 }
 
 /** Initialize your data structure here. */
-func NewTrie() Trie {
+func Constructor() Trie {
 	return Trie{}
 }
 
 /** Inserts a word into the trie. */
 func (this *Trie) Insert(word string) {
-	for _, c := range word {
-		if this.trie[c-'a'] == nil {
-			this.trie[c-'a'] = new(Trie)
+	for _, letter := range word {
+		if this.next[letter-'a'] == nil {
+			this.next[letter-'a'] = new(Trie)
 		}
-		this = this.trie[c-'a']
+		this = this.next[letter-'a']
 	}
 	this.isEnd = true
 }
 
 /** Returns if the word is in the trie. */
 func (this *Trie) Search(word string) bool {
-	for _, c := range word {
-		if this.trie[c-'a'] == nil {
+	for _, letter := range word {
+		if this.next[letter-'a'] == nil {
 			return false
 		}
-		this = this.trie[c-'a']
+		this = this.next[letter-'a']
 	}
 	return this.isEnd
 }
 
 /** Returns if there is any word in the trie that starts with the given prefix. */
 func (this *Trie) StartsWith(prefix string) bool {
-	for _, c := range prefix {
-		if this.trie[c-'a'] == nil {
+	for _, letter := range prefix {
+		if this.next[letter-'a'] == nil {
 			return false
 		}
-		this = this.trie[c-'a']
+		this = this.next[letter-'a']
 	}
 	return true
 }
