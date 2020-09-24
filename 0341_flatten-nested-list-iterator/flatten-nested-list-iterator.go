@@ -36,25 +36,30 @@ package main
  */
 
 type NestedIterator struct {
-	iter  *NestedIterator
 	list  []*NestedInteger
+	inner *NestedIterator
 	index int
 }
 
 func Constructor(nestedList []*NestedInteger) *NestedIterator {
-	iter := &NestedIterator{list: nestedList}
-	if len(nestedList) != 0 && !nestedList[0].IsInteger() {
-		iter.iter = Constructor(nestedList[0].GetList())
-	}
+	iter := &NestedIterator{list: nestedList, index: -1}
+	makeInnerIterator(iter)
 	return iter
+}
+
+func makeInnerIterator(iter *NestedIterator) {
+	iter.index++
+	if iter.index < len(iter.list) && !iter.list[iter.index].IsInteger() {
+		iter.inner = Constructor(iter.list[iter.index].GetList())
+	}
 }
 
 func (this *NestedIterator) Next() int {
 	if !this.list[this.index].IsInteger() {
-		return this.iter.Next()
+		return this.inner.Next()
 	}
 	res := this.list[this.index].GetInteger()
-	this.MakeNextIter()
+	makeInnerIterator(this)
 	return res
 }
 
@@ -62,21 +67,11 @@ func (this *NestedIterator) HasNext() bool {
 	if this.index == len(this.list) {
 		return false
 	}
-	if this.list[this.index].IsInteger() {
+	if this.list[this.index].IsInteger() || this.inner.HasNext() {
 		return true
 	}
-	if !this.iter.HasNext() {
-		this.MakeNextIter()
-		return this.HasNext()
-	}
-	return true
-}
-
-func (this *NestedIterator) MakeNextIter() {
-	this.index++
-	if this.index < len(this.list) && !this.list[this.index].IsInteger() {
-		this.iter = Constructor(this.list[this.index].GetList())
-	}
+	makeInnerIterator(this)
+	return this.HasNext()
 }
 
 type NestedInteger struct {
