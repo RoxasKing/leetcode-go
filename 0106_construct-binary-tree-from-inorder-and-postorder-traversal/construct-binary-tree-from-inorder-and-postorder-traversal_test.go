@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func Test_buildTree0106(t *testing.T) {
+func Test_buildTree(t *testing.T) {
 	type args struct {
 		inorder   []int
 		postorder []int
@@ -16,7 +16,7 @@ func Test_buildTree0106(t *testing.T) {
 		want *TreeNode
 	}{
 		{
-			"",
+			"1",
 			args{
 				[]int{9, 3, 15, 20, 7},
 				[]int{9, 15, 7, 20, 3},
@@ -34,8 +34,8 @@ func Test_buildTree0106(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := buildTree2(tt.args.inorder, tt.args.postorder); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("buildTree0106() = %v, want %v", got, tt.want)
+			if got := buildTree(tt.args.inorder, tt.args.postorder); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("buildTree() = %v, want %v", got, tt.want)
 			}
 		})
 	}
