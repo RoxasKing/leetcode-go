@@ -4,8 +4,52 @@ package main
   给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
 */
 
-// Double Pointer
+// Stack
 func trap(height []int) int {
+	var out int
+	stack := MakeStack()
+	for i := 0; i < len(height); i++ {
+		for stack.Size() > 0 && height[stack.Top()] < height[i] {
+			baseHeight := height[stack.Pop()]
+			if stack.Size() == 0 {
+				break
+			}
+			h := Min(height[stack.Top()], height[i]) - baseHeight
+			w := i - 1 - stack.Top()
+			out += h * w
+		}
+		stack.Push(i)
+	}
+	return out
+}
+
+type Stack []int
+
+func MakeStack() Stack {
+	return Stack{}
+}
+
+func (s *Stack) Size() int {
+	return len(*s)
+}
+
+func (s *Stack) Push(num int) {
+	*s = append(*s, num)
+}
+
+func (s *Stack) Pop() int {
+	last := len(*s) - 1
+	res := (*s)[last]
+	(*s) = (*s)[:last]
+	return res
+}
+
+func (s *Stack) Top() int {
+	return (*s)[len(*s)-1]
+}
+
+// Double Pointer
+func trap2(height []int) int {
 	if len(height) == 0 {
 		return 0
 	}
@@ -22,26 +66,6 @@ func trap(height []int) int {
 			out += rmax - height[r]
 			r--
 		}
-	}
-	return out
-}
-
-// Stack
-func trap2(height []int) int {
-	var out int
-	var stack []int
-	for i := 0; i < len(height); i++ {
-		for len(stack) != 0 && height[i] > height[stack[len(stack)-1]] {
-			bottomHeight := height[stack[len(stack)-1]]
-			stack = stack[:len(stack)-1]
-			if len(stack) == 0 {
-				break
-			}
-			distance := i - 1 - stack[len(stack)-1]
-			boundedHeight := Min(height[i], height[stack[len(stack)-1]]) - bottomHeight
-			out += distance * boundedHeight
-		}
-		stack = append(stack, i)
 	}
 	return out
 }
@@ -64,4 +88,18 @@ func trap3(height []int) int {
 		out += Min(lmax[i], rmax[i]) - height[i]
 	}
 	return out
+}
+
+func Max(a, b int) int {
+	if a < b {
+		return b
+	}
+	return a
+}
+
+func Min(a, b int) int {
+	if a > b {
+		return b
+	}
+	return a
 }

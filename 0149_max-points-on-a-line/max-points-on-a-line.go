@@ -5,33 +5,32 @@ package main
 */
 
 func maxPoints(points [][]int) int {
-	pointMap := map[[2]int]int{}
-	for _, p := range points {
-		pointMap[[2]int{p[0], p[1]}]++
+	pointCount := make(map[[2]int]int)
+	for _, point := range points {
+		pointCount[[2]int{point[0], point[1]}]++
 	}
-	n := len(pointMap)
-	if n <= 2 {
+	n := len(pointCount)
+	if n < 3 {
 		return len(points)
 	}
-	pointCount := make([][3]int, n)
-	var index int
-	for point, count := range pointMap {
-		pointCount[index] = [3]int{point[0], point[1], count}
-		index++
+	pointSet := make([][3]int, 0, n)
+	for point, count := range pointCount {
+		pointSet = append(pointSet, [3]int{point[0], point[1], count})
 	}
 	var max int
-	for i, p := range pointCount {
-		x, y := p[0], p[1]
-		var dict = make(map[float64]int)
-		var pointWithSameX int
+	for i, point := range pointSet {
+		x0, y0, count0 := point[0], point[1], point[2]
+		slopeCount := make(map[float64]int)
+		pointWithSameXCount := 0
 		for j := 0; j < i; j++ {
-			if x == pointCount[j][0] {
-				pointWithSameX += pointCount[j][2]
-				max = Max(max, pointWithSameX+p[2])
+			x, y, count := pointSet[j][0], pointSet[j][1], pointSet[j][2]
+			if x0 == x {
+				pointWithSameXCount += count
+				max = Max(max, pointWithSameXCount+count0)
 			} else {
-				k := float64(y-pointCount[j][1]) / float64(x-pointCount[j][0])
-				dict[k] += pointCount[j][2]
-				max = Max(max, dict[k]+p[2])
+				slope := float64(y0-y) / float64(x0-x)
+				slopeCount[slope] += count
+				max = Max(max, slopeCount[slope]+count0)
 			}
 		}
 	}

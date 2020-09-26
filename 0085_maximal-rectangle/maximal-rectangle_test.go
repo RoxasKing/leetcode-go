@@ -12,7 +12,7 @@ func Test_maximalRectangle(t *testing.T) {
 		want int
 	}{
 		{
-			"",
+			"1",
 			args{
 				[][]byte{
 					{'1', '0', '1', '0', '0'},

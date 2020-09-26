@@ -16,7 +16,7 @@ func Test_pathSum(t *testing.T) {
 		want [][]int
 	}{
 		{
-			"",
+			"1",
 			args{
 				&TreeNode{
 					Val: 5,
@@ -66,7 +66,7 @@ func Test_pathSum2(t *testing.T) {
 		want [][]int
 	}{
 		{
-			"",
+			"1",
 			args{
 				&TreeNode{
 					Val: 5,
