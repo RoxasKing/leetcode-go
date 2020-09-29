@@ -20,14 +20,14 @@ package main
 // Stack
 func maxSlidingWindow(nums []int, k int) []int {
 	n := len(nums)
-	out := make([]int, 0, n+1-k)
-	var stack []int
+	out := make([]int, 0, n-k+1)
+	stack := MakeStack()
 	for i := 0; i < n; i++ {
-		for len(stack) != 0 && stack[len(stack)-1] < nums[i] {
-			stack = stack[:len(stack)-1]
+		for stack.Len() > 0 && stack.Top() < nums[i] {
+			_ = stack.Pop()
 		}
-		stack = append(stack, nums[i])
-		if i >= k && nums[i-k] == stack[0] {
+		stack.Push(nums[i])
+		if i > k-1 && nums[i-k] == stack[0] {
 			stack = stack[1:]
 		}
 		if i >= k-1 {
@@ -35,4 +35,29 @@ func maxSlidingWindow(nums []int, k int) []int {
 		}
 	}
 	return out
+}
+
+type Stack []int
+
+func MakeStack() Stack {
+	return Stack{}
+}
+
+func (s Stack) Len() int {
+	return len(s)
+}
+
+func (s Stack) Top() int {
+	return s[s.Len()-1]
+}
+
+func (s *Stack) Push(x int) {
+	*s = append(*s, x)
+}
+
+func (s *Stack) Pop() int {
+	top := s.Len() - 1
+	val := (*s)[top]
+	*s = (*s)[:top]
+	return val
 }

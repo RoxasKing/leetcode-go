@@ -7,25 +7,25 @@ package main
 // Sliding Window
 func minWindow(s string, t string) string {
 	out := s
-	var count int
-	have := [128]int{}
+	count := len(t)
+	save := [128]int{}
 	for i := range t {
-		have[t[i]]++
+		save[t[i]]++
 	}
 	for l, r := 0, 0; r < len(s); r++ {
-		if have[s[r]] > 0 {
-			count++
+		if save[s[r]] > 0 {
+			count--
 		}
-		have[s[r]]--
-		for l < r && have[s[l]] < 0 {
-			have[s[l]]++
+		save[s[r]]--
+		for l < r && save[s[l]] < 0 {
+			save[s[l]]++
 			l++
 		}
-		if count == len(t) && r+1-l < len(out) {
+		if count == 0 && r+1-l < len(out) {
 			out = s[l : r+1]
 		}
 	}
-	if count < len(t) {
+	if count > 0 {
 		return ""
 	}
 	return out

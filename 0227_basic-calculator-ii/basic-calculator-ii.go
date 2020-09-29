@@ -14,8 +14,7 @@ import "strconv"
 func calculate(s string) int {
 	var nums []int
 	var ops []byte
-	l, r := 0, 0
-	for l < len(s) {
+	for l, r := 0, 0; l < len(s); l = r + 1 {
 		for l < len(s) && s[l] == ' ' {
 			l++
 		}
@@ -28,16 +27,14 @@ func calculate(s string) int {
 		nums = append(nums, num)
 
 		if len(nums) >= 2 && len(ops) != 0 && (ops[len(ops)-1] == '*' || ops[len(ops)-1] == '/') {
-			lastNumIdx := len(nums) - 1
-			num1, num2 := nums[lastNumIdx-1], nums[lastNumIdx]
-			nums = nums[:lastNumIdx-1]
-			lastOpsIdx := len(ops) - 1
-			if ops[lastOpsIdx] == '*' {
+			lastNumIdx, lastOpsIdx := len(nums)-1, len(ops)-1
+			num1, num2, op := nums[lastNumIdx-1], nums[lastNumIdx], ops[lastOpsIdx]
+			nums, ops = nums[:lastNumIdx-1], ops[:lastOpsIdx]
+			if op == '*' {
 				nums = append(nums, num1*num2)
-			} else if ops[lastOpsIdx] == '/' {
+			} else {
 				nums = append(nums, num1/num2)
 			}
-			ops = ops[:lastOpsIdx]
 		}
 
 		for r < len(s) && s[r] == ' ' {
@@ -47,19 +44,16 @@ func calculate(s string) int {
 		if r < len(s) {
 			ops = append(ops, s[r])
 		}
-
-		l = r + 1
 	}
 	out := nums[0]
 	nums = nums[1:]
 	for len(nums) != 0 {
 		if ops[0] == '+' {
 			out += nums[0]
-		} else if ops[0] == '-' {
+		} else {
 			out -= nums[0]
 		}
-		nums = nums[1:]
-		ops = ops[1:]
+		nums, ops = nums[1:], ops[1:]
 	}
 	return out
 }

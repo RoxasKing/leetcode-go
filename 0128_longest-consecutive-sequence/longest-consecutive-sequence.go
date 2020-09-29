@@ -16,9 +16,8 @@ func longestConsecutive(nums []int) int {
 		if numSet[num-1] {
 			continue
 		}
-		cur, count := num, 1
-		for numSet[cur+1] {
-			cur++
+		count := 1
+		for i := num + 1; numSet[i]; i++ {
 			count++
 		}
 		out = Max(out, count)
