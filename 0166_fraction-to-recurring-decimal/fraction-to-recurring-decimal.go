@@ -15,6 +15,7 @@ import (
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+// Hash
 func fractionToDecimal(numerator int, denominator int) string {
 	if numerator == 0 {
 		return "0"
@@ -34,12 +35,12 @@ func fractionToDecimal(numerator int, denominator int) string {
 	dict := make(map[int]int)
 	repeatPos := -1
 	for remain != 0 {
-		if pos, ok := dict[remain]; ok {
+		pos, ok := dict[remain]
+		if ok {
 			repeatPos = pos
 			break
-		} else {
-			dict[remain] = len(out)
 		}
+		dict[remain] = len(out)
 		remain *= 10
 		out += strconv.Itoa(remain / divisor)
 		remain %= divisor
