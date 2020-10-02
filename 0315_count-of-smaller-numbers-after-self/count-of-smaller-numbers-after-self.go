@@ -47,9 +47,9 @@ func merge(nums, counter, tmpIdxs, indexes []int, l, r int) {
 		k++
 	}
 	copy(indexes[k:k+r+1-j], tmpIdxs[j:r+1])
+	copy(indexes[k:k+m+1-i], tmpIdxs[i:m+1])
 	for i <= m {
 		counter[tmpIdxs[i]] += r - m
-		indexes[k] = tmpIdxs[i]
 		i++
 		k++
 	}
