@@ -15,37 +15,36 @@ func longestIncreasingPath(matrix [][]int) int {
 	if len(matrix) == 0 || len(matrix[0]) == 0 {
 		return 0
 	}
-	moves := [][]int{{-1, 0}, {1, 0}, {0, -1}, {0, 1}}
-	memo := make([][]int, len(matrix))
+	rows, cols := len(matrix), len(matrix[0])
+	memo := make([][]int, rows)
 	for i := range memo {
-		memo[i] = make([]int, len(matrix[0]))
-	}
-	var dfs func(int, int) int
-	dfs = func(row, col int) int {
-		if memo[row][col] > 0 {
-			return memo[row][col]
-		}
-		memo[row][col]++
-		for _, move := range moves {
-			newRow := row + move[0]
-			newCol := col + move[1]
-			if 0 <= newRow && newRow < len(matrix) &&
-				0 <= newCol && newCol < len(matrix[0]) &&
-				matrix[row][col] < matrix[newRow][newCol] {
-				memo[row][col] = Max(memo[row][col], dfs(newRow, newCol)+1)
-			}
-		}
-		return memo[row][col]
+		memo[i] = make([]int, cols)
 	}
 	var max int
 	for i := range matrix {
 		for j := range matrix[0] {
 			if memo[i][j] == 0 {
-				max = Max(max, dfs(i, j))
+				max = Max(max, dfs(matrix, memo, -1<<31, i, j))
 			}
 		}
 	}
 	return max
+}
+
+func dfs(matrix, memo [][]int, preVal, i, j int) int {
+	if i < 0 || len(matrix)-1 < i || j < 0 || len(matrix[0])-1 < j ||
+		matrix[i][j] <= preVal {
+		return 0
+	}
+	if memo[i][j] > 0 {
+		return memo[i][j]
+	}
+	memo[i][j]++
+	memo[i][j] = Max(memo[i][j], dfs(matrix, memo, matrix[i][j], i-1, j)+1)
+	memo[i][j] = Max(memo[i][j], dfs(matrix, memo, matrix[i][j], i+1, j)+1)
+	memo[i][j] = Max(memo[i][j], dfs(matrix, memo, matrix[i][j], i, j-1)+1)
+	memo[i][j] = Max(memo[i][j], dfs(matrix, memo, matrix[i][j], i, j+1)+1)
+	return memo[i][j]
 }
 
 func Max(a, b int) int {
