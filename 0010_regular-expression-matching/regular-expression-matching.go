@@ -26,10 +26,10 @@ func isMatch(s string, p string) bool {
 		for j := range p {
 			if s[i] == p[j] || '.' == p[j] {
 				dp[i+1][j+1] = dp[i][j]
-			} else if '*' == p[j] {
+			} else if j > 0 && '*' == p[j] {
 				dp[i+1][j+1] = dp[i+1][j-1] // repeat == 0
 				if s[i] == p[j-1] || '.' == p[j-1] {
-					dp[i+1][j+1] = dp[i+1][j+1] || dp[i+1][j] || dp[i][j+1] // repeat > 1 || ==1
+					dp[i+1][j+1] = dp[i+1][j+1] || dp[i+1][j] || dp[i][j+1] // repeat == 1 || repeat > 1
 				}
 			}
 		}

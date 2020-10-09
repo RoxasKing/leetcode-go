@@ -19,7 +19,42 @@ package main
 
 // Backtracking + Trie
 func findWords(board [][]byte, words []string) []string {
+	trie := buildTrie(words)
+	contain := make(map[string]bool)
+	out := []string{}
+	for i := range board {
+		for j := range board[0] {
+			backtrack(board, trie, contain, "", &out, i, j)
+		}
+	}
+	return out
+}
 
+func backtrack(board [][]byte, t *Trie, contain map[string]bool, cur string, out *[]string, row, col int) {
+	if row < 0 || len(board)-1 < row || col < 0 || len(board[0])-1 < col || board[row][col] == '#' ||
+		t.next[board[row][col]-'a'] == nil {
+		return
+	}
+	cur += string(board[row][col])
+	t = t.next[board[row][col]-'a']
+
+	save := board[row][col]
+	board[row][col] = '#'
+
+	if t.isEnd && !contain[cur] {
+		*out = append(*out, cur)
+		contain[cur] = true
+	}
+
+	backtrack(board, t, contain, cur, out, row-1, col)
+	backtrack(board, t, contain, cur, out, row+1, col)
+	backtrack(board, t, contain, cur, out, row, col-1)
+	backtrack(board, t, contain, cur, out, row, col+1)
+
+	board[row][col] = save
+}
+
+func buildTrie(words []string) *Trie {
 	trie := new(Trie)
 	for _, word := range words {
 		t := trie
@@ -32,53 +67,8 @@ func findWords(board [][]byte, words []string) []string {
 		}
 		t.isEnd = true
 	}
-
-	var out []string
-	var cur []byte
-	mark := make(map[string]bool)
-
-	var backtrack func(int, int, *Trie)
-	backtrack = func(row, col int, t *Trie) {
-		str := string(cur)
-		if t.isEnd && !mark[str] {
-			out = append(out, str)
-			mark[str] = true
-		}
-		for _, move := range moves {
-			newRow, newCol := row+move[0], col+move[1]
-			if 0 <= newRow && newRow < len(board) && 0 <= newCol && newCol < len(board[0]) &&
-				board[newRow][newCol] != '#' {
-				next := t.next[int(board[newRow][newCol]-'a')]
-				if next != nil {
-					tmp := board[newRow][newCol]
-					board[newRow][newCol] = '#'
-					cur = append(cur, tmp)
-					backtrack(newRow, newCol, next)
-					cur = cur[:len(cur)-1]
-					board[newRow][newCol] = tmp
-				}
-			}
-		}
-	}
-
-	for i := range board {
-		for j := range board[0] {
-			next := trie.next[int(board[i][j]-'a')]
-			if next != nil {
-				tmp := board[i][j]
-				board[i][j] = '#'
-				cur = append(cur, tmp)
-				backtrack(i, j, next)
-				cur = cur[:len(cur)-1]
-				board[i][j] = tmp
-			}
-		}
-	}
-
-	return out
+	return trie
 }
-
-var moves = [][]int{{-1, 0}, {1, 0}, {0, -1}, {0, 1}}
 
 type Trie struct {
 	next  [26]*Trie

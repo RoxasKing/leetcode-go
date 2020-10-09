@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func Test_removeInvalidParentheses(t *testing.T) {
+func Test_findRepeatedDnaSequences(t *testing.T) {
 	type args struct {
 		s string
 	}
@@ -13,16 +13,13 @@ func Test_removeInvalidParentheses(t *testing.T) {
 		args args
 		want []string
 	}{
-		{"1", args{"()())()"}, []string{"()()()", "(())()"}},
-		{"2", args{"(a)())()"}, []string{"(a)()()", "(a())()"}},
-		{"3", args{")(f"}, []string{"f"}},
-		{"4", args{"))((f"}, []string{"f"}},
-		{"5", args{"((()())()"}, []string{"(()())()", "((()()))", "((()))()"}},
+		{"1", args{"AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"}, []string{"AAAAACCCCC", "CCCCCAAAAA"}},
+		{"2", args{"AAAAAAAAAAAA"}, []string{"AAAAAAAAAA"}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := removeInvalidParentheses(tt.args.s); !equal(got, tt.want) {
-				t.Errorf("removeInvalidParentheses() = %v, want %v", got, tt.want)
+			if got := findRepeatedDnaSequences(tt.args.s); !equal(got, tt.want) {
+				t.Errorf("findRepeatedDnaSequences() = %v, want %v", got, tt.want)
 			}
 		})
 	}

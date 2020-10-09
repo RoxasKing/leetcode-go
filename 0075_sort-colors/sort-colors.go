@@ -9,17 +9,17 @@ package main
 
 // 3-way partition
 func sortColors(nums []int) {
-	m, l, r := 0, 0, len(nums)-1
-	for m <= r {
-		if nums[m] == 0 {
-			nums[l], nums[m] = nums[m], nums[l]
-			l++
-			m++
-		} else if nums[m] == 1 {
-			m++
+	r, w, b := 0, 0, len(nums)-1
+	for w <= b {
+		if nums[w] == 2 {
+			nums[b], nums[w] = nums[w], nums[b]
+			b--
 		} else {
-			nums[r], nums[m] = nums[m], nums[r]
-			r--
+			if nums[w] == 0 {
+				nums[r], nums[w] = nums[w], nums[r]
+				r++
+			}
+			w++
 		}
 	}
 }
