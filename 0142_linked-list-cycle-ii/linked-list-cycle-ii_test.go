@@ -6,9 +6,14 @@ import (
 )
 
 func Test_detectCycle(t *testing.T) {
-	head := &ListNode{Val: 1, Next: nil}
-	head.Next = &ListNode{Val: 2, Next: nil}
-	head.Next.Next = &ListNode{Val: 3, Next: head.Next}
+	n0 := &ListNode{Val: 3}
+	n1 := &ListNode{Val: 2}
+	n2 := &ListNode{Val: 0}
+	n3 := &ListNode{Val: -4}
+	n0.Next = n1
+	n1.Next = n2
+	n2.Next = n3
+	n3.Next = n1
 	type args struct {
 		head *ListNode
 	}
@@ -17,7 +22,7 @@ func Test_detectCycle(t *testing.T) {
 		args args
 		want *ListNode
 	}{
-		{"test 1", args{head}, head.Next},
+		{"1", args{n0}, n1},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

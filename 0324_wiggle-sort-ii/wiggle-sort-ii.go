@@ -16,14 +16,13 @@ import (
 
 // 3-Way Quick Sort
 func wiggleSort(nums []int) {
-	m := (len(nums) - 1) >> 1
-
-	threeWayQuickSort(nums, m)
-
-	reverse(nums[:m+1])
-	reverse(nums[m+1:])
-
 	n := len(nums)
+	k := (n - 1) >> 1
+
+	threeWayQuickSort(nums, n, k)
+
+	reverse(nums[:k+1], n)
+	reverse(nums[k+1:], n)
 
 	tmp := make([]int, n)
 	copy(tmp, nums)
@@ -37,14 +36,14 @@ func wiggleSort(nums []int) {
 	}
 }
 
-func reverse(nums []int) {
-	for i := 0; i < len(nums)>>1; i++ {
-		nums[i], nums[len(nums)-1-i] = nums[len(nums)-1-i], nums[i]
+func reverse(nums []int, n int) {
+	for i := 0; i < n>>1; i++ {
+		nums[i], nums[n-1-i] = nums[n-1-i], nums[i]
 	}
 }
 
-func threeWayQuickSort(nums []int, k int) {
-	l, r := 0, len(nums)-1
+func threeWayQuickSort(nums []int, n, k int) {
+	l, r := 0, n-1
 	for l < r {
 		i := partition(nums, l, r)
 		if i < k {
@@ -60,19 +59,18 @@ func threeWayQuickSort(nums []int, k int) {
 
 func partition(nums []int, l, r int) int {
 	pivotIndex := l + rand.Intn(r+1-l)
-	mid := nums[pivotIndex]
-	i := l
-	for i <= r {
-		if nums[i] < mid {
+	pivot := nums[pivotIndex]
+	for i := l; i <= r; {
+		if nums[i] < pivot {
 			nums[i], nums[l] = nums[l], nums[i]
 			l++
 			i++
-		} else if nums[i] > mid {
+		} else if nums[i] > pivot {
 			nums[i], nums[r] = nums[r], nums[i]
 			r--
 		} else {
 			i++
 		}
 	}
-	return i - 1
+	return r
 }

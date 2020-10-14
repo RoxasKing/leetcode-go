@@ -11,11 +11,11 @@ func Test_intToRoman(t *testing.T) {
 		args args
 		want string
 	}{
-		{"", args{3}, "III"},
-		{"", args{4}, "IV"},
-		{"", args{9}, "IX"},
-		{"", args{58}, "LVIII"},
-		{"", args{1994}, "MCMXCIV"},
+		{"1", args{3}, "III"},
+		{"2", args{4}, "IV"},
+		{"3", args{9}, "IX"},
+		{"4", args{58}, "LVIII"},
+		{"5", args{1994}, "MCMXCIV"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

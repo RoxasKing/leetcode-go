@@ -5,6 +5,16 @@ package main
   返回被除数 dividend 除以除数 divisor 得到的商。
   整数除法的结果应当截去（truncate）其小数部分，例如：truncate(8.345) = 8 以及 truncate(-2.7335) = -2
 
+  示例 1:
+    输入: dividend = 10, divisor = 3
+    输出: 3
+    解释: 10/3 = truncate(3.33333..) = truncate(3) = 3
+
+  示例 2:
+    输入: dividend = 7, divisor = -3
+    输出: -2
+    解释: 7/-3 = truncate(-2.33333..) = -2
+
   提示：
     被除数和除数均为 32 位有符号整数。
     除数不为 0。
@@ -16,38 +26,32 @@ package main
 */
 
 func divide(dividend int, divisor int) int {
-	var isNeg bool
+	flag := 1
 	if dividend > 0 && divisor < 0 || dividend < 0 && divisor > 0 {
-		isNeg = true
+		flag = -1
 	}
-	udividend := uint32(Abs(dividend))
-	udivisor := uint32(Abs(divisor))
+	udividend, udivisor := uint32(Abs(dividend)), uint32(Abs(divisor))
 	var out int
-	tmpDivisor := udivisor
-	for udividend >= udivisor {
+	for div := udivisor; udividend >= udivisor; div = udivisor {
 		var n int
-		for tmpDivisor < udividend {
-			if tmpDivisor<<1 > udividend {
+		for div < udividend {
+			if div<<1 > udividend {
 				break
 			}
-			tmpDivisor <<= 1
+			div <<= 1
 			n++
 		}
-		udividend -= tmpDivisor
-		tmpDivisor = udivisor
-		cur := 1 << n
-		tmp := 1<<31 - 1 - cur
-		if out >= tmp+1 && isNeg {
-			return -1 << 31
-		} else if out >= tmp && !isNeg {
+		udividend -= div
+		subtracted := 1 << n
+		maxRemain := 1<<31 - 1 - subtracted
+		if flag == 1 && out >= maxRemain {
 			return 1<<31 - 1
+		} else if flag == -1 && out > maxRemain {
+			return -1 << 31
 		}
-		out += cur
+		out += subtracted
 	}
-	if isNeg {
-		return -out
-	}
-	return out
+	return flag * out
 }
 
 func Abs(num int) int {

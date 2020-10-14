@@ -16,7 +16,7 @@ func Test_findSubstring(t *testing.T) {
 		want []int
 	}{
 		{
-			"",
+			"1",
 			args{
 				"wordgoodgoodgoodbestword",
 				[]string{"word", "good", "best", "word"},
@@ -24,7 +24,7 @@ func Test_findSubstring(t *testing.T) {
 			nil,
 		},
 		{
-			"",
+			"2",
 			args{
 				"wordgoodgoodgoodbestword",
 				[]string{"word", "good", "best", "good"},
@@ -32,7 +32,7 @@ func Test_findSubstring(t *testing.T) {
 			[]int{8},
 		},
 		{
-			"",
+			"3",
 			args{
 				"barfoothefoobarman",
 				[]string{"foo", "bar"},

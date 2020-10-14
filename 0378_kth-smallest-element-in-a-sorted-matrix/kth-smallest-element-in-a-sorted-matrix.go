@@ -14,7 +14,7 @@ func kthSmallest(matrix [][]int, k int) int {
 	l, r := matrix[0][0], matrix[n-1][n-1]
 	for l < r {
 		m := l + (r-l)>>1
-		if !check(matrix, k, m) {
+		if !check(matrix, n, k, m) {
 			l = m + 1
 		} else {
 			r = m
@@ -23,16 +23,14 @@ func kthSmallest(matrix [][]int, k int) int {
 	return l
 }
 
-func check(matrix [][]int, k, target int) bool {
-	n := len(matrix)
-	row, col := n-1, 0
-	var count int
-	for row >= 0 && col < n {
-		if matrix[row][col] <= target {
-			count += row + 1
-			col++
+func check(matrix [][]int, n, k, target int) bool {
+	i, j, count := n-1, 0, 0
+	for i >= 0 && j < n {
+		if matrix[i][j] <= target {
+			count += i + 1
+			j++
 		} else {
-			row--
+			i--
 		}
 	}
 	return count >= k

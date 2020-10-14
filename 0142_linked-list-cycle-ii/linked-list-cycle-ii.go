@@ -7,18 +7,21 @@ package main
 */
 
 func detectCycle(head *ListNode) *ListNode {
-	if head == nil {
-		return nil
-	}
 	slow, fast := head, head
-	for fast.Next != nil && fast.Next.Next != nil {
+	for fast != nil && fast.Next != nil {
 		slow, fast = slow.Next, fast.Next.Next
 		if slow == fast {
-			for head != slow {
-				head, slow = head.Next, slow.Next
+			slow = head
+			for slow != fast {
+				slow, fast = slow.Next, fast.Next
 			}
-			return head
+			return slow
 		}
 	}
 	return nil
+}
+
+type ListNode struct {
+	Val  int
+	Next *ListNode
 }

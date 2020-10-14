@@ -11,9 +11,9 @@ func Test_isPalindrome(t *testing.T) {
 		args args
 		want bool
 	}{
-		{"", args{10}, false},
-		{"", args{-121}, false},
-		{"", args{121}, true},
+		{"1", args{10}, false},
+		{"2", args{-121}, false},
+		{"3", args{121}, true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
