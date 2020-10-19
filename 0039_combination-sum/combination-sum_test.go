@@ -43,21 +43,7 @@ func Test_combinationSum(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got := combinationSum(tt.args.candidates, tt.args.target)
-			sort.Slice(got, func(i, j int) bool {
-				var index int
-				for got[i][index] == got[j][index] {
-					index++
-				}
-				return got[i][index] < got[j][index]
-			})
-			sort.Slice(tt.want, func(i, j int) bool {
-				var index int
-				for tt.want[i][index] == tt.want[j][index] {
-					index++
-				}
-				return tt.want[i][index] < tt.want[j][index]
-			})
-			if !reflect.DeepEqual(got, tt.want) {
+			if !compare(got, tt.want) {
 				t.Errorf("combinationSum() = %v, want %v", got, tt.want)
 			}
 		})
@@ -101,23 +87,27 @@ func Test_combinationSum2(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got := combinationSum2(tt.args.candidates, tt.args.target)
-			sort.Slice(got, func(i, j int) bool {
-				var index int
-				for got[i][index] == got[j][index] {
-					index++
-				}
-				return got[i][index] < got[j][index]
-			})
-			sort.Slice(tt.want, func(i, j int) bool {
-				var index int
-				for tt.want[i][index] == tt.want[j][index] {
-					index++
-				}
-				return tt.want[i][index] < tt.want[j][index]
-			})
-			if !reflect.DeepEqual(got, tt.want) {
+			if !compare(got, tt.want) {
 				t.Errorf("combinationSum2() = %v, want %v", got, tt.want)
 			}
 		})
 	}
+}
+
+func compare(nums1, nums2 [][]int) bool {
+	sort.Slice(nums1, func(i, j int) bool {
+		var k int
+		for nums1[i][k] == nums1[j][k] {
+			k++
+		}
+		return nums1[i][k] < nums1[j][k]
+	})
+	sort.Slice(nums2, func(i, j int) bool {
+		var k int
+		for nums2[i][k] == nums2[j][k] {
+			k++
+		}
+		return nums2[i][k] < nums2[j][k]
+	})
+	return reflect.DeepEqual(nums1, nums2)
 }

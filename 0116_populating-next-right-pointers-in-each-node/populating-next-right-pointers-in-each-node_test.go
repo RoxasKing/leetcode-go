@@ -33,23 +33,9 @@ func Test_connect(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := connect(tt.args.root)
-			var bfs func(*Node)
-			bfs = func(node *Node) {
-				if node.Left == nil && node.Right == nil {
-					return
-				}
-				nodeL, nodeR := node.Left, node.Right
-				for nodeL != nil && nodeR != nil {
-					if nodeL.Next != nodeR {
-						t.Errorf("connect() failed")
-					}
-					nodeL, nodeR = nodeL.Right, nodeR.Left
-				}
-				bfs(node.Left)
-				bfs(node.Right)
+			if got := connect(tt.args.root); !check(got) {
+				t.Errorf("connect() test failed!")
 			}
-			bfs(got)
 		})
 	}
 }
@@ -83,23 +69,34 @@ func Test_connect2(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := connect2(tt.args.root)
-			var bfs func(*Node)
-			bfs = func(node *Node) {
-				if node.Left == nil && node.Right == nil {
-					return
-				}
-				nodeL, nodeR := node.Left, node.Right
-				for nodeL != nil && nodeR != nil {
-					if nodeL.Next != nodeR {
-						t.Errorf("connect2() failed")
-					}
-					nodeL, nodeR = nodeL.Right, nodeR.Left
-				}
-				bfs(node.Left)
-				bfs(node.Right)
+			if got := connect2(tt.args.root); !check(got) {
+				t.Errorf("connect2() test failed!")
 			}
-			bfs(got)
 		})
 	}
+}
+
+func check(root *Node) bool {
+	node := root
+	for node != nil {
+		if node.Left != nil {
+			pre := node.Left
+			for pre.Right != nil && pre.Right != node {
+				pre = pre.Right
+			}
+			if pre.Right != node {
+				pre.Right = node
+				node = node.Left
+				continue
+			}
+			pre.Right = nil
+			for l, r := node.Left, node.Right; l != nil && r != nil; l, r = l.Right, r.Left {
+				if l.Next != r {
+					return false
+				}
+			}
+		}
+		node = node.Right
+	}
+	return true
 }

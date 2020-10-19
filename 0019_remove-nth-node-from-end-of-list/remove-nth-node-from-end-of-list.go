@@ -19,19 +19,16 @@ package main
 */
 
 func removeNthFromEnd(head *ListNode, n int) *ListNode {
-	nodeA, nodeB := head, head
-	preA := &ListNode{Next: head}
-	preH := preA
-	for i := 0; i < n && nodeB != nil; i++ {
-		nodeB = nodeB.Next
+	headPre := &ListNode{Next: head}
+	l1, l2 := head, headPre
+	for i := 0; i < n && l1 != nil; i++ {
+		l1 = l1.Next
 	}
-	for nodeB != nil {
-		nodeA = nodeA.Next
-		nodeB = nodeB.Next
-		preA = preA.Next
+	for l1 != nil {
+		l1, l2 = l1.Next, l2.Next
 	}
-	preA.Next = nodeA.Next
-	return preH.Next
+	l2.Next = l2.Next.Next
+	return headPre.Next
 }
 
 type ListNode struct {

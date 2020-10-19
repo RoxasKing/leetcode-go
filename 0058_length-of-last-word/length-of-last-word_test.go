@@ -11,8 +11,8 @@ func Test_lengthOfLastWord(t *testing.T) {
 		args args
 		want int
 	}{
-		{"", args{""}, 0},
-		{"", args{"Hello World"}, 5},
+		{"1", args{""}, 0},
+		{"2", args{"Hello World"}, 5},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

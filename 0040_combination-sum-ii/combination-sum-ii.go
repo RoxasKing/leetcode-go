@@ -7,12 +7,35 @@ import (
 /*
   给定一个数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。
   candidates 中的每个数字在每个组合中只能使用一次。
+
   说明：
     所有数字（包括目标数）都是正整数。
     解集不能包含重复的组合。
+
+  示例 1:
+    输入: candidates = [10,1,2,7,6,1,5], target = 8,
+    所求解集为:
+    [
+      [1, 7],
+      [1, 2, 5],
+      [2, 6],
+      [1, 1, 6]
+    ]
+
+  示例 2:
+    输入: candidates = [2,5,2,1,2], target = 5,
+    所求解集为:
+    [
+      [1,2,2],
+      [5]
+    ]
+
+  来源：力扣（LeetCode）
+  链接：https://leetcode-cn.com/problems/combination-sum-ii
+  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Backtracking
+// DFS + Backtracking
 func combinationSum2(candidates []int, target int) [][]int {
 	if len(candidates) == 0 {
 		return nil
@@ -20,33 +43,35 @@ func combinationSum2(candidates []int, target int) [][]int {
 	sort.Ints(candidates)
 	var out [][]int
 	var combination []int
-	var backtrack func(int, int)
-	backtrack = func(index, target int) {
-		if target == 0 {
-			tmp := make([]int, len(combination))
-			copy(tmp, combination)
-			out = append(out, tmp)
-			return
-		}
-		if index == len(candidates) {
-			return
-		}
-
-		next := index
-		for next < len(candidates) && candidates[next] == candidates[index] {
-			next++
-		}
-
-		backtrack(next, target)
-
-		curSize := len(combination)
-		for i := 0; i < next-index && candidates[index] <= target; i++ {
-			combination = append(combination, candidates[index])
-			target -= candidates[index]
-			backtrack(next, target)
-		}
-		combination = combination[:curSize]
-	}
-	backtrack(0, target)
+	backtrack(candidates, target, &out, &combination, 0)
 	return out
+}
+
+func backtrack(candidates []int, target int, out *[][]int, comb *[]int, index int) {
+	if target == 0 {
+		tmp := make([]int, len(*comb))
+		copy(tmp, *comb)
+		*out = append(*out, tmp)
+		return
+	}
+
+	if index == len(candidates) {
+		return
+	}
+
+	next, count := index+1, 1
+	for next < len(candidates) && candidates[next] == candidates[index] {
+		next++
+		count++
+	}
+
+	backtrack(candidates, target, out, comb, next)
+
+	size := len(*comb)
+	for i := 0; i < count && candidates[index] <= target; i++ {
+		*comb = append(*comb, candidates[index])
+		target -= candidates[index]
+		backtrack(candidates, target, out, comb, next)
+	}
+	*comb = (*comb)[:size]
 }
