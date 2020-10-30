@@ -1,30 +1,53 @@
 package main
 
 /*
-  给定一组不含重复元素的整数数组 nums，返回该数组所有可能的子集（幂集）。
-  说明：解集不能包含重复的子集
+  给定一组不含重复元素的整数数组 nums，返回该数组所有可能的子集（幂集）。
+
+  说明：解集不能包含重复的子集。
+
+  示例:
+    输入: nums = [1,2,3]
+    输出:
+    [
+      [3],
+      [1],
+      [2],
+      [1,2,3],
+      [1,3],
+      [2,3],
+      [1,2],
+      []
+    ]
+
+  来源：力扣（LeetCode）
+  链接：https://leetcode-cn.com/problems/subsets
+  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
 // Backtracking
 func subsets(nums []int) [][]int {
-	var out [][]int
-	for i := 0; i <= len(nums); i++ {
-		backtrack(nums, i, 0, []int{}, &out)
+	out := [][]int{}
+	cur := []int{}
+	n := len(nums)
+	for k := 0; k <= n; k++ {
+		backtrack(nums, n, k, 0, &cur, &out)
 	}
 	return out
 }
 
-func backtrack(nums []int, size, start int, set []int, sets *[][]int) {
-	if len(set) == size {
-		tmp := make([]int, size)
-		copy(tmp, set)
-		*sets = append(*sets, tmp)
+func backtrack(nums []int, n, k, i int, cur *[]int, out *[][]int) {
+	if len(*cur) == k {
+		tmp := make([]int, len(*cur))
+		copy(tmp, *cur)
+		*out = append(*out, tmp)
 		return
 	}
-	if start == len(nums) {
+	if i == n {
 		return
 	}
-	for i := start; i < len(nums); i++ {
-		backtrack(nums, size, i+1, append(set, nums[i]), sets)
-	}
+	*cur = append(*cur, nums[i])
+	backtrack(nums, n, k, i+1, cur, out)
+	*cur = (*cur)[:len(*cur)-1]
+
+	backtrack(nums, n, k, i+1, cur, out)
 }

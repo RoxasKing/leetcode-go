@@ -47,3 +47,29 @@ type TreeNode struct {
 	Left  *TreeNode
 	Right *TreeNode
 }
+
+// Morris Traversal
+func preorderTraversal3(root *TreeNode) []int {
+	out := []int{}
+	node := root
+	for node != nil {
+		if node.Left != nil {
+			pre := node.Left
+			for pre.Right != nil && pre.Right != node {
+				pre = pre.Right
+			}
+			if pre.Right != node {
+				pre.Right = node
+				out = append(out, node.Val)
+				node = node.Left
+				continue
+			}
+			pre.Right = nil
+			node = node.Right
+		} else {
+			out = append(out, node.Val)
+			node = node.Right
+		}
+	}
+	return out
+}
