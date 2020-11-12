@@ -1,7 +1,7 @@
 package main
 
 import (
-	"reflect"
+	"sort"
 	"testing"
 )
 
@@ -20,7 +20,7 @@ func Test_intersection(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := intersection(tt.args.nums1, tt.args.nums2); !reflect.DeepEqual(got, tt.want) {
+			if got := intersection(tt.args.nums1, tt.args.nums2); !compare(got, tt.want) {
 				t.Errorf("intersection() = %v, want %v", got, tt.want)
 			}
 		})
@@ -42,9 +42,23 @@ func Test_intersection2(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := intersection2(tt.args.nums1, tt.args.nums2); !reflect.DeepEqual(got, tt.want) {
+			if got := intersection2(tt.args.nums1, tt.args.nums2); !compare(got, tt.want) {
 				t.Errorf("intersection2() = %v, want %v", got, tt.want)
 			}
 		})
 	}
+}
+
+func compare(a, b []int) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	sort.Ints(a)
+	sort.Ints(b)
+	for i := range a {
+		if a[i] != b[i] {
+			return false
+		}
+	}
+	return true
 }

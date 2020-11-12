@@ -7,6 +7,35 @@ package main
     分隔时可以重复使用字典中的单词。
     你可以假设字典中没有重复的单词。
 
+  示例 1：
+    输入:
+    s = "catsanddog"
+    wordDict = ["cat", "cats", "and", "sand", "dog"]
+    输出:
+    [
+      "cats and dog",
+      "cat sand dog"
+    ]
+
+  示例 2：
+    输入:
+    s = "pineapplepenapple"
+    wordDict = ["apple", "pen", "applepen", "pine", "pineapple"]
+    输出:
+    [
+      "pine apple pen apple",
+      "pineapple pen apple",
+      "pine applepen apple"
+    ]
+    解释: 注意你可以重复使用字典中的单词。
+
+  示例 3：
+    输入:
+    s = "catsandog"
+    wordDict = ["cats", "dog", "sand", "and", "cat"]
+    输出:
+    []
+
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/word-break-ii
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
@@ -14,29 +43,29 @@ package main
 
 // Dynamic Programming
 func wordBreak(s string, wordDict []string) []string {
-	if !isValid(s, wordDict) {
+	n := len(s)
+	if !canSplit(s, n, wordDict) {
 		return nil
 	}
-	n := len(s)
 	dp := make([][]string, n+1)
 	dp[0] = []string{""}
 	for i := 1; i <= n; i++ {
 		for _, word := range wordDict {
-			if len(word) <= i && word == s[i-len(word):i] {
-				for _, str := range dp[i-len(word)] {
-					if str != "" {
-						str += " "
-					}
-					dp[i] = append(dp[i], str+word)
+			if i < len(word) || s[i-len(word):i] != word {
+				continue
+			}
+			for _, str := range dp[i-len(word)] {
+				if str != "" {
+					str += " "
 				}
+				dp[i] = append(dp[i], str+word)
 			}
 		}
 	}
 	return dp[n]
 }
 
-func isValid(s string, wordDict []string) bool {
-	n := len(s)
+func canSplit(s string, n int, wordDict []string) bool {
 	dp := make([]bool, n+1)
 	dp[0] = true
 	for i := 1; i <= n; i++ {

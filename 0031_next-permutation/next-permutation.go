@@ -16,7 +16,8 @@ package main
 */
 
 func nextPermutation(nums []int) {
-	i := len(nums) - 2
+	n := len(nums)
+	i := n - 2
 	for i >= 0 && nums[i] >= nums[i+1] {
 		i--
 	}
@@ -24,10 +25,7 @@ func nextPermutation(nums []int) {
 	if i < 0 {
 		return
 	}
-	j := i + 1
-	for nums[j] <= nums[i] {
-		j++
-	}
+	j := bSearch(nums, nums[i], i+1, n-1)
 	nums[i], nums[j] = nums[j], nums[i]
 }
 
@@ -38,4 +36,16 @@ func reverse(nums []int) {
 		l++
 		r--
 	}
+}
+
+func bSearch(nums []int, target, l, r int) int {
+	for l < r {
+		m := l + (r-l)>>1
+		if nums[m] <= target {
+			l = m + 1
+		} else {
+			r = m
+		}
+	}
+	return l
 }
