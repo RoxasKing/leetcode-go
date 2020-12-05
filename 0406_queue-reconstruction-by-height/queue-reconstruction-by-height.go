@@ -10,6 +10,12 @@ import (
   注意：
     总人数少于1100人。
 
+  示例
+    输入:
+    [[7,0], [4,4], [7,1], [5,0], [6,1], [5,2]]
+    输出:
+    [[5,0], [7,0], [5,2], [6,1], [4,4], [7,1]]
+
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/queue-reconstruction-by-height
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
@@ -18,21 +24,20 @@ import (
 // Greedy Algorithm + Array
 func reconstructQueue(people [][]int) [][]int {
 	sort.Slice(people, func(i, j int) bool {
-		if people[i][0] == people[j][0] {
-			return people[i][1] < people[j][1]
+		if people[i][0] != people[j][0] {
+			return people[i][0] > people[j][0]
 		}
-		return people[i][0] > people[j][0]
+		return people[i][1] < people[j][1]
 	})
-	var out [][]int
+	out := make([][]int, len(people))
 	for _, p := range people {
-		out = append(out, p)
 		copy(out[p[1]+1:], out[p[1]:])
 		out[p[1]] = p
 	}
 	return out
 }
 
-// Greedy Algorithm + LinkedList
+// Greedy Algorithm + Linked List
 func reconstructQueue2(people [][]int) [][]int {
 	sort.Slice(people, func(i, j int) bool {
 		if people[i][0] == people[j][0] {

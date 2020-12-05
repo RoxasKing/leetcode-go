@@ -13,6 +13,7 @@ func Test_leastInterval(t *testing.T) {
 		want int
 	}{
 		{"1", args{[]byte{'A', 'A', 'A', 'B', 'B', 'B'}, 2}, 8},
+		{"2", args{[]byte{'A', 'A', 'A', 'B', 'B', 'C', 'C', 'D', 'D'}, 2}, 9},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

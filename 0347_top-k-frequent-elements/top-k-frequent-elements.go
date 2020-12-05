@@ -19,7 +19,7 @@ import (
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Heap Sort + Min Heap + Use Container
+// Heap Sort + Priority Queue + Use Container
 func topKFrequent(nums []int, k int) []int {
 	rand.Intn(len(nums))
 	count := make(map[int]int)
@@ -67,7 +67,7 @@ func (p *PriorityQueue) Pop() interface{} {
 	return e
 }
 
-// Heap Sort + Min Heap
+// Heap Sort + Priority Queue
 func topKFrequent2(nums []int, k int) []int {
 	count := make(map[int]int)
 	for _, num := range nums {

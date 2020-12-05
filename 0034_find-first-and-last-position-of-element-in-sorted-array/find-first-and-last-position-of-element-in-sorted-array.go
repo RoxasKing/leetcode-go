@@ -18,31 +18,31 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+// Binary Search
 func searchRange(nums []int, target int) []int {
 	n := len(nums)
-	one := binarySearchBound(true, nums, n, target, 0, n-1)
-	if one == -1 {
+	l := bSearch(nums, target, 0, n-1, true)
+	if l == -1 {
 		return []int{-1, -1}
 	}
-	two := binarySearchBound(false, nums, n, target, one, n-1)
-	return []int{one, two}
+	r := bSearch(nums, target, l, n-1, false)
+	return []int{l, r}
 }
 
-// binarySearchBound: (mode == true) ? (search left bound) : (search right bound)
-func binarySearchBound(mode bool, nums []int, n, target, l, r int) int {
+func bSearch(nums []int, target, l, r int, leftBond bool) int {
 	for l <= r {
 		m := l + (r-l)>>1
 		if nums[m] < target {
 			l = m + 1
 		} else if nums[m] > target {
 			r = m - 1
-		} else if mode {
-			if m == 0 || target != nums[m-1] {
+		} else if leftBond {
+			if m == 0 || nums[m-1] < target {
 				return m
 			}
 			r = m - 1
 		} else {
-			if m == n-1 || target != nums[m+1] {
+			if m == r || nums[m+1] > target {
 				return m
 			}
 			l = m + 1

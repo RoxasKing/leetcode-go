@@ -35,24 +35,34 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Greedy algorithm + Monotone Stack
+// Greedy Algorithm + Monotone Stack
 func maxNumber(nums1 []int, nums2 []int, k int) []int {
 	out := []int{}
 	n1, n2 := len(nums1), len(nums2)
-	for i := 0; i <= k; i++ {
-		if i > n1 || k-i > n2 {
-			continue
-		}
-		tmp := merge(chooseMax(nums1, i), chooseMax(nums2, (k-i)))
-		if isBigger(tmp, out) {
+	for i := Max(0, k-n2); i <= Min(n1, k); i++ {
+		if tmp := merge(chooseMax(nums1, i), chooseMax(nums2, k-i)); isBigger(tmp, out) {
 			out = tmp
 		}
 	}
 	return out
 }
 
-func chooseMax(nums []int, k int) []int {
-	del := len(nums) - k
+func Max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+func Min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+func chooseMax(nums []int, choose int) []int {
+	del := len(nums) - choose
 	out := []int{}
 	for _, num := range nums {
 		for len(out) > 0 && out[len(out)-1] < num && del > 0 {
@@ -61,25 +71,22 @@ func chooseMax(nums []int, k int) []int {
 		}
 		out = append(out, num)
 	}
-	return out[:k]
+	return out[:choose]
 }
 
 func merge(nums1, nums2 []int) []int {
-	n1, n2 := len(nums1), len(nums2)
-	out := make([]int, n1+n2)
-	i, j, k := 0, 0, 0
-	for i < n1 && j < n2 {
-		if isBigger(nums1[i:], nums2[j:]) {
-			out[k] = nums1[i]
-			i++
+	out := make([]int, 0, len(nums1)+len(nums2))
+	for len(nums1) > 0 && len(nums2) > 0 {
+		if isBigger(nums1, nums2) {
+			out = append(out, nums1[0])
+			nums1 = nums1[1:]
 		} else {
-			out[k] = nums2[j]
-			j++
+			out = append(out, nums2[0])
+			nums2 = nums2[1:]
 		}
-		k++
 	}
-	copy(out[k:], nums1[i:])
-	copy(out[k:], nums2[j:])
+	out = append(out, nums1...)
+	out = append(out, nums2...)
 	return out
 }
 
@@ -91,11 +98,4 @@ func isBigger(nums1, nums2 []int) bool {
 		}
 	}
 	return n1 > n2
-}
-
-func Min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
 }
