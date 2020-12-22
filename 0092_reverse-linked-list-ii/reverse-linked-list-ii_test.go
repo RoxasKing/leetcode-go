@@ -17,7 +17,7 @@ func Test_reverseBetween(t *testing.T) {
 		want *ListNode
 	}{
 		{
-			"",
+			"1",
 			args{
 				&ListNode{
 					Val:  3,
@@ -31,7 +31,7 @@ func Test_reverseBetween(t *testing.T) {
 			},
 		},
 		{
-			"",
+			"2",
 			args{
 				&ListNode{
 					Val: 1,

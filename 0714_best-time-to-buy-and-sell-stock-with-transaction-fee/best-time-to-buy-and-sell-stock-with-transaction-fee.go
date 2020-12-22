@@ -16,11 +16,19 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-func maxProfitVI(prices []int, fee int) int {
-	dp0, dp1 := 0, -prices[0]
-	for i := 1; i < len(prices); i++ {
-		dp0 = Max(dp0, dp1+prices[i]-fee)
-		dp1 = Max(dp1, dp0-prices[i])
+// Dynamic Programming
+func maxProfit(prices []int, fee int) int {
+	dp0, dp1 := 0, -1<<31
+	for _, price := range prices {
+		dp0 = Max(dp0, dp1+price-fee)
+		dp1 = Max(dp1, dp0-price)
 	}
 	return dp0
+}
+
+func Max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
 }

@@ -1,0 +1,48 @@
+package main
+
+/*
+  给你一个字符串 s ，请你去除字符串中重复的字母，使得每个字母只出现一次。需保证 返回结果的字典序最小（要求不能打乱其他字符的相对位置）。
+
+  注意：该题与 1081 https://leetcode-cn.com/problems/smallest-subsequence-of-distinct-characters 相同
+
+  示例 1：
+    输入：s = "bcabc"
+    输出："abc"
+
+  示例 2：
+    输入：s = "cbacdcbc"
+    输出："acdb"
+
+  提示：
+    1 <= s.length <= 10^4
+    s 由小写英文字母组成
+
+  来源：力扣（LeetCode）
+  链接：https://leetcode-cn.com/problems/remove-duplicate-letters
+  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+*/
+
+// Greedy Algorithm + Stack
+func removeDuplicateLetters(s string) string {
+	count := [26]int{}
+	for i := range s {
+		count[s[i]-'a']++
+	}
+	mark := [26]bool{}
+	stack := []byte{}
+	for i := range s {
+		if mark[s[i]-'a'] {
+			count[s[i]-'a']--
+			continue
+		}
+		for len(stack) > 0 && stack[len(stack)-1] >= s[i] && count[stack[len(stack)-1]-'a'] > 1 {
+			index := stack[len(stack)-1] - 'a'
+			mark[index] = false
+			count[index]--
+			stack = stack[:len(stack)-1]
+		}
+		mark[s[i]-'a'] = true
+		stack = append(stack, s[i])
+	}
+	return string(stack)
+}

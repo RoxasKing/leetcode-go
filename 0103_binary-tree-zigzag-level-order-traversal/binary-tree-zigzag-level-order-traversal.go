@@ -2,6 +2,7 @@ package main
 
 /*
   给定一个二叉树，返回其节点值的锯齿形层次遍历。（即先从左往右，再从右往左进行下一层遍历，以此类推，层与层之间交替进行）。
+
   例如：
   给定二叉树 [3,9,20,null,null,15,7],
         3
@@ -21,32 +22,29 @@ func zigzagLevelOrder(root *TreeNode) [][]int {
 	if root == nil {
 		return nil
 	}
-	var out [][]int
+	out := [][]int{}
 	queue := []*TreeNode{root}
-	var reverse bool
-	for len(queue) != 0 {
-		var tmp []int
-		curSize := len(queue)
-		for _, node := range queue {
-			if node.Left != nil {
-				queue = append(queue, node.Left)
+	reverse := false
+	for len(queue) > 0 {
+		n := len(queue)
+		tmp := make([]int, n)
+		for i := 0; i < n; i++ {
+			tmp[i] = queue[i].Val
+			if queue[i].Left != nil {
+				queue = append(queue, queue[i].Left)
 			}
-			if node.Right != nil {
-				queue = append(queue, node.Right)
+			if queue[i].Right != nil {
+				queue = append(queue, queue[i].Right)
 			}
 		}
 		if reverse {
-			for i := curSize - 1; i >= 0; i-- {
-				tmp = append(tmp, queue[i].Val)
-			}
-		} else {
-			for i := 0; i < curSize; i++ {
-				tmp = append(tmp, queue[i].Val)
+			for i := 0; i < n>>1; i++ {
+				tmp[i], tmp[n-1-i] = tmp[n-1-i], tmp[i]
 			}
 		}
-		reverse = !reverse
 		out = append(out, tmp)
-		queue = queue[curSize:]
+		queue = queue[n:]
+		reverse = !reverse
 	}
 	return out
 }

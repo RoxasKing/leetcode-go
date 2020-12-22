@@ -44,13 +44,10 @@ package main
 
 func rotate(matrix [][]int) {
 	n := len(matrix)
-	l, r := 0, n-1
-	for l < r {
-		for i := l; i < r; i++ {
-			a, b, c, d := matrix[l][i], matrix[i][r], matrix[r][n-1-i], matrix[n-1-i][l]
-			matrix[l][i], matrix[i][r], matrix[r][n-1-i], matrix[n-1-i][l] = d, a, b, c
+	for i := 0; i < n-1-i; i++ {
+		for j := i; j < n-1-i; j++ {
+			a, b, c, d := matrix[i][j], matrix[j][n-1-i], matrix[n-1-i][n-1-j], matrix[n-1-j][i]
+			matrix[i][j], matrix[j][n-1-i], matrix[n-1-i][n-1-j], matrix[n-1-j][i] = d, a, b, c
 		}
-		l++
-		r--
 	}
 }
