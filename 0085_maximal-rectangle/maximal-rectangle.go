@@ -58,7 +58,7 @@ func maximalRectangle(matrix [][]byte) int {
 
 func largestRectangleArea(heights []int) int {
 	out := 0
-	stack := MakeStack()
+	stack := MakeIntStack()
 	stack.Push(-1)
 	for i := range heights {
 		for stack.Top() != -1 && heights[i] <= heights[stack.Top()] {
@@ -72,29 +72,29 @@ func largestRectangleArea(heights []int) int {
 	return out
 }
 
-type Stack []int
+type IntStack []int
 
-func MakeStack() Stack {
-	return Stack{}
+func MakeIntStack() IntStack {
+	return IntStack{}
 }
 
-func (s Stack) Size() int {
+func (s IntStack) Size() int {
 	return len(s)
 }
 
-func (s Stack) Top() int {
+func (s IntStack) Top() int {
 	last := len(s) - 1
 	return s[last]
 }
 
-func (s *Stack) Pop() int {
+func (s *IntStack) Pop() int {
 	last := len(*s) - 1
 	out := (*s)[last]
 	*s = (*s)[:last]
 	return out
 }
 
-func (s *Stack) Push(num int) {
+func (s *IntStack) Push(num int) {
 	*s = append(*s, num)
 }
 
