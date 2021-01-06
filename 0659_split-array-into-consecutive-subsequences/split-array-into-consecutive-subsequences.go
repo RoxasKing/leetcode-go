@@ -34,7 +34,7 @@ import "container/heap"
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Priority Queue + Hash
+// Priority Queue(Heap Sort) + Hash
 func isPossible(nums []int) bool {
 	pqs := make(map[int]*priorityQueue)
 	for _, num := range nums {

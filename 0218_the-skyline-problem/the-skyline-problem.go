@@ -27,7 +27,7 @@ import (
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Priority queue ( Max Stack )
+// Priority Queue(Heap Sort)
 func getSkyline(buildings [][]int) [][]int {
 	n := len(buildings)
 	points := make([]int, 0, n*2)
