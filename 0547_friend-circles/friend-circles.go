@@ -1,63 +1,76 @@
 package main
 
 /*
-  班上有 N 名学生。其中有些人是朋友，有些则不是。他们的友谊具有是传递性。如果已知 A 是 B 的朋友，B 是 C 的朋友，那么我们可以认为 A 也是 C 的朋友。所谓的朋友圈，是指所有朋友的集合。
+  有 n 个城市，其中一些彼此相连，另一些没有相连。如果城市 a 与城市 b 直接相连，且城市 b 与城市 c 直接相连，那么城市 a 与城市 c 间接相连。
+  省份 是一组直接或间接相连的城市，组内不含其他没有相连的城市。
+  给你一个 n x n 的矩阵 isConnected ，其中 isConnected[i][j] = 1 表示第 i 个城市和第 j 个城市直接相连，而 isConnected[i][j] = 0 表示二者不直接相连。
+  返回矩阵中 省份 的数量。
 
-  给定一个 N * N 的矩阵 M，表示班级中学生之间的朋友关系。如果M[i][j] = 1，表示已知第 i 个和 j 个学生互为朋友关系，否则为不知道。你必须输出所有学生中的已知的朋友圈总数。
+  示例 1：
+    输入：isConnected = [[1,1,0],[1,1,0],[0,0,1]]
+    输出：2
+
+  示例 2：
+    输入：isConnected = [[1,0,0],[0,1,0],[0,0,1]]
+    输出：3
 
   提示：
-    1 <= N <= 200
-    M[i][i] == 1
-    M[i][j] == M[j][i]
+    1 <= n <= 200
+    n == isConnected.length
+    n == isConnected[i].length
+    isConnected[i][j] 为 1 或 0
+    isConnected[i][i] == 1
+    isConnected[i][j] == isConnected[j][i]
 
   来源：力扣（LeetCode）
-  链接：https://leetcode-cn.com/problems/friend-circles
+  链接：https://leetcode-cn.com/problems/number-of-provinces
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
 // DFS
 func findCircleNum(M [][]int) int {
-	N := len(M)
-	visited := make([]bool, N)
-	var count int
-	var dfs func(int)
-	dfs = func(i int) {
-		for j := 0; j < N; j++ {
-			if M[i][j] == 1 && !visited[j] {
-				visited[j] = true
-				dfs(j)
-			}
-		}
-	}
-	for i := 0; i < N; i++ {
+	n := len(M)
+	visited := make([]bool, n)
+	count := 0
+	for i := 0; i < n; i++ {
 		if !visited[i] {
-			dfs(i)
+			dfs(M, n, visited, i)
 			count++
 		}
 	}
 	return count
 }
 
+func dfs(M [][]int, N int, visited []bool, i int) {
+	for j := 0; j < N; j++ {
+		if M[i][j] == 1 && !visited[j] {
+			visited[j] = true
+			dfs(M, N, visited, j)
+		}
+	}
+}
+
 // Union-Find
 func findCircleNum2(M [][]int) int {
-	uf := newUnionFind(len(M))
-	for i := 0; i < len(M)-1; i++ {
-		for j := i + 1; j < len(M); j++ {
+	n := len(M)
+	uf := newUnionFind(n)
+	for i := 0; i < n-1; i++ {
+		for j := i + 1; j < n; j++ {
 			if M[i][j] == 1 {
 				uf.union(i, j)
 			}
 		}
 	}
-	var out int
 	mark := make([]bool, len(M))
-	for i := 0; i < len(M); i++ {
+	count := 0
+	for i := 0; i < n; i++ {
 		index := uf.find(i)
 		if !mark[index] {
-			out++
+			count++
 			mark[index] = true
 		}
 	}
-	return out
+	return count
 }
 
 type unionFind struct {
