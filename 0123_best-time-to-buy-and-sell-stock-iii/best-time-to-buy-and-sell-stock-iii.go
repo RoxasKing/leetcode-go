@@ -3,7 +3,34 @@ package main
 /*
   给定一个数组，它的第 i 个元素是一支给定的股票在第 i 天的价格。
   设计一个算法来计算你所能获取的最大利润。你最多可以完成 两笔 交易。
-  注意: 你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
+
+  注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
+
+  示例 1:
+    输入：prices = [3,3,5,0,0,3,1,4]
+    输出：6
+    解释：在第 4 天（股票价格 = 0）的时候买入，在第 6 天（股票价格 = 3）的时候卖出，这笔交易所能获得利润 = 3-0 = 3 。
+         随后，在第 7 天（股票价格 = 1）的时候买入，在第 8 天 （股票价格 = 4）的时候卖出，这笔交易所能获得利润 = 4-1 = 3 。
+
+  示例 2：
+    输入：prices = [1,2,3,4,5]
+    输出：4
+    解释：在第 1 天（股票价格 = 1）的时候买入，在第 5 天 （股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。
+         注意你不能在第 1 天和第 2 天接连购买股票，之后再将它们卖出。
+         因为这样属于同时参与了多笔交易，你必须在再次购买前出售掉之前的股票。
+
+  示例 3：
+    输入：prices = [7,6,4,3,1]
+    输出：0
+    解释：在这个情况下, 没有交易完成, 所以最大利润为 0。
+
+  示例 4：
+    输入：prices = [1]
+    输出：0
+
+  提示：
+    1 <= prices.length <= 10^5
+    0 <= prices[i] <= 10^5
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii
@@ -12,46 +39,14 @@ package main
 
 // Dynamic Programming
 func maxProfit(prices []int) int {
-	dp := [3][2]int{{0, 0}, {0, -1 << 31}, {0, -1 << 31}}
+	dp00, dp01, dp10, dp11 := 0, -1<<31, 0, -1<<31
 	for _, price := range prices {
-		for i := 2; i >= 1; i-- {
-			dp[i][0] = Max(dp[i][0], dp[i][1]+price)   // sell
-			dp[i][1] = Max(dp[i][1], dp[i-1][0]-price) // buy
-		}
+		dp00 = Max(dp00, dp01+price)
+		dp01 = Max(dp01, dp10-price)
+		dp10 = Max(dp10, dp11+price)
+		dp11 = Max(dp11, -price)
 	}
-	return dp[2][0]
-}
-
-// Backtracking
-func maxProfit2(prices []int) int {
-	memo := make([][][]int, len(prices)+1)
-	for i := range memo {
-		memo[i] = make([][]int, 2)
-		for j := range memo[i] {
-			memo[i][j] = []int{-1 << 31, -1 << 31, -1 << 31}
-		}
-	}
-	return backtrack(prices, 0, 0, 0, memo)
-}
-
-func backtrack(prices []int, index, status, k int, memo [][][]int) int {
-	if memo[index][status][k] != -1<<31 {
-		return memo[index][status][k]
-	}
-	if k == 2 || index == len(prices) {
-		return 0
-	}
-
-	var a, b, c int
-	a = backtrack(prices, index+1, status, k, memo) // 不做任何处理
-	if status == 0 {
-		b = backtrack(prices, index+1, 1, k, memo) - prices[index] // 当前状态为卖出时，选择买入
-	} else {
-		c = backtrack(prices, index+1, 0, k+1, memo) + prices[index] // 当前状态为买入时，选择卖出
-	}
-
-	memo[index][status][k] = Max(Max(a, b), c)
-	return memo[index][status][k]
+	return dp00
 }
 
 func Max(a, b int) int {
