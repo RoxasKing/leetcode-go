@@ -3,23 +3,126 @@ package main
 import "container/heap"
 
 /*
-  在一个 N x N 的坐标方格 grid 中，每一个方格的值 grid[i][j] 表示在位置 (i,j) 的平台高度。
+  On an N x N grid, each square grid[i][j] represents the elevation at that point (i,j).
+  Now rain starts to fall. At time t, the depth of the water everywhere is t. You can swim from a square to another 4-directionally adjacent square if and only if the elevation of both squares individually are at most t. You can swim infinite distance in zero time. Of course, you must stay within the boundaries of the grid during your swim.
+  You start at the top left square (0, 0). What is the least time until you can reach the bottom right square (N-1, N-1)?
 
-  现在开始下雨了。当时间为 t 时，此时雨水导致水池中任意位置的水位为 t 。你可以从一个平台游向四周相邻的任意一个平台，但是前提是此时水位必须同时淹没这两个平台。假定你可以瞬间移动无限距离，也就是默认在方格内部游动是不耗时的。当然，在你游泳的时候你必须待在坐标方格里面。
+  Example 1:
+    Input: [[0,2],[1,3]]
+    Output: 3
+    Explanation:
+    At time 0, you are in grid location (0, 0).
+    You cannot go anywhere else because 4-directionally adjacent neighbors have a higher elevation than t = 0.
+    You cannot reach point (1, 1) until time 3.
+    When the depth of water is 3, we can swim anywhere inside the grid.
 
-  你从坐标方格的左上平台 (0，0) 出发。最少耗时多久你才能到达坐标方格的右下平台 (N-1, N-1)？
+  Example 2:
+    Input: [[0,1,2,3,4],[24,23,22,21,5],[12,13,14,15,16],[11,17,18,19,20],[10,9,8,7,6]]
+    Output: 16
+    Explanation:
+     0  1  2  3  4
+    24 23 22 21  5
+    12 13 14 15 16
+    11 17 18 19 20
+    10  9  8  7  6
+    The final route is marked in bold.
+    We need to wait until time 16 so that (0, 0) and (4, 4) are connected.
 
-  提示:
+  Note:
     2 <= N <= 50.
-    grid[i][j] 位于区间 [0, ..., N*N - 1] 内。
+    grid[i][j] is a permutation of [0, ..., N*N - 1].
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/swim-in-rising-water
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Binary Search + DFS
+// Union-Find + Binary Search
 func swimInWater(grid [][]int) int {
+	n := len(grid)
+	l, r := Max(grid[0][0], grid[n-1][n-1]), n*n-1
+	for l < r {
+		m := l + (r-l)>>1
+		if !checkByUnionFind(grid, m) {
+			l = m + 1
+		} else {
+			r = m
+		}
+	}
+	return l
+}
+
+func checkByUnionFind(grid [][]int, limit int) bool {
+	n := len(grid)
+	uf := newUnionFind(n * n)
+	for i := 0; i < n; i++ {
+		for j := 0; j < n; j++ {
+			if grid[i][j] > limit {
+				continue
+			}
+			for _, move := range moves {
+				x, y := i+move[0], j+move[1]
+				if x < 0 || n-1 < x || y < 0 || n-1 < y || grid[x][y] > limit {
+					continue
+				}
+				a := uf.find(i*n + j)
+				b := uf.find(x*n + y)
+				if a == b {
+					continue
+				}
+				uf.union(a, b)
+			}
+		}
+	}
+	return uf.find(0) == uf.find(n*n-1)
+}
+
+type unionFind struct {
+	parent []int
+	size   []int
+}
+
+func newUnionFind(n int) unionFind {
+	parent := make([]int, n)
+	size := make([]int, n)
+	for i := 0; i < n; i++ {
+		parent[i] = i
+		size[i] = 1
+	}
+	return unionFind{parent: parent, size: size}
+}
+
+func (uf unionFind) find(x int) int {
+	if uf.parent[x] != x {
+		uf.parent[x] = uf.find(uf.parent[x])
+	}
+	return uf.parent[x]
+}
+
+func (uf unionFind) union(x, y int) {
+	x = uf.find(x)
+	y = uf.find(y)
+	if x == y {
+		return
+	}
+	if uf.size[x] > uf.size[y] {
+		x, y = y, x
+	}
+	uf.parent[x] = y
+	uf.size[y] += uf.size[x]
+}
+
+var moves = [][]int{{-1, 0}, {1, 0}, {0, -1}, {0, 1}}
+
+func Max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+// Binary Search + DFS
+func swimInWater2(grid [][]int) int {
 	n := len(grid)
 	l, r := grid[0][0], n*n-1
 	for l < r {
@@ -52,10 +155,8 @@ func checkByDFS(grid [][]int, limit int) bool {
 	return dfs(0, 0)
 }
 
-var moves = [][]int{{-1, 0}, {1, 0}, {0, -1}, {0, 1}}
-
 // Priority Queue(Heap Sort) + BFS
-func swimInWater2(grid [][]int) int {
+func swimInWater3(grid [][]int) int {
 	n := len(grid)
 	visited := [50][50]bool{}
 	var out int
@@ -78,13 +179,6 @@ func swimInWater2(grid [][]int) int {
 	return out
 }
 
-func Max(a, b int) int {
-	if a < b {
-		return b
-	}
-	return a
-}
-
 type pos struct {
 	height int
 	row    int
@@ -102,64 +196,4 @@ func (p *posHeap) Pop() interface{} {
 	pos := (*p)[last]
 	*p = (*p)[:last]
 	return pos
-}
-
-// Union-Find + Binary Search
-func swimInWater3(grid [][]int) int {
-	n := len(grid)
-	l, r := Max(grid[0][0], grid[n-1][n-1]), n*n-1
-	for l < r {
-		m := l + (r-l)>>1
-		if !checkByUnionFind(grid, m) {
-			l = m + 1
-		} else {
-			r = m
-		}
-	}
-	return l
-}
-
-func checkByUnionFind(grid [][]int, limit int) bool {
-	n := len(grid)
-	uf := newUnionFind(n * n)
-	for i := 0; i < n; i++ {
-		for j := 0; j < n; j++ {
-			if grid[i][j] > limit {
-				continue
-			}
-			for _, m := range moves {
-				row, col := i+m[0], j+m[1]
-				if 0 <= row && row < n && 0 <= col && col < n && grid[row][col] <= limit {
-					p1, p2 := uf.find(i*n+j), uf.find(row*n+col)
-					if p1 != p2 {
-						uf.union(p1, p2)
-					}
-				}
-			}
-		}
-	}
-	return uf.find(0) == uf.find(n*n-1)
-}
-
-type unionFind struct {
-	ancestor []int
-}
-
-func newUnionFind(n int) unionFind {
-	ancestor := make([]int, n)
-	for i := 0; i < n; i++ {
-		ancestor[i] = i
-	}
-	return unionFind{ancestor}
-}
-
-func (uf unionFind) find(x int) int {
-	if uf.ancestor[x] != x {
-		uf.ancestor[x] = uf.find(uf.ancestor[x])
-	}
-	return uf.ancestor[x]
-}
-
-func (uf unionFind) union(from, to int) {
-	uf.ancestor[uf.find(from)] = uf.find(to)
 }

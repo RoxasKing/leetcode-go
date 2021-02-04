@@ -76,7 +76,6 @@ func sortItems(n int, m int, group []int, beforeItems [][]int) []int {
 	}
 
 	count := 0
-	added := make([]bool, n)
 	groupItemsAll := make([][]int, m)
 	groupBeforeSelf := make([][]int, m)
 	groupBeforeOther := make([][]int, m)
@@ -88,17 +87,12 @@ func sortItems(n int, m int, group []int, beforeItems [][]int) []int {
 			return []int{}
 		}
 		count++
-		if group[i] != -1 && !added[i] {
+		if group[i] != -1 {
 			groupItemsAll[group[i]] = append(groupItemsAll[group[i]], i)
 		}
 		for _, j := range itemEdges[i] {
 			if group[j] != -1 {
-				if !added[j] {
-					groupItemsAll[group[j]] = append(groupItemsAll[group[j]], j)
-				}
-				if added[i] {
-					continue
-				}
+				groupItemsAll[group[j]] = append(groupItemsAll[group[j]], j)
 				if group[i] == group[j] {
 					groupBeforeSelf[group[j]] = append(groupBeforeSelf[group[j]], i)
 				} else {
