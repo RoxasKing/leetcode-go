@@ -28,34 +28,39 @@ package main
 // Sliding Window + Hash
 func subarraysWithKDistinct(A []int, K int) int {
 	out := 0
-	cnt := make(map[int]int)
-	for l, r, k := 0, 0, 0; r < len(A); r++ {
-		if cnt[A[r]] == 0 {
-			k++
+	n := len(A)
+	cnt1 := make([]int, n+1)
+	cnt2 := make([]int, n+1)
+	l1, l2, k1, k2 := 0, 0, 0, 0
+
+	for r := 0; r < n; r++ {
+		if cnt1[A[r]] == 0 {
+			k1++
 		}
-		cnt[A[r]]++
-		for k > K {
-			cnt[A[l]]--
-			if cnt[A[l]] == 0 {
-				k--
-			}
-			l++
+		if cnt2[A[r]] == 0 {
+			k2++
 		}
-		if k == K {
-			i := l
-			for i <= r {
-				out++
-				cnt[A[i]]--
-				if cnt[A[i]] == 0 {
-					break
-				}
-				i++
+		cnt1[A[r]]++
+		cnt2[A[r]]++
+
+		for ; k1 > K; l1++ {
+			cnt1[A[l1]]--
+			if cnt1[A[l1]] == 0 {
+				k1--
 			}
-			for i >= l {
-				cnt[A[i]]++
-				i--
+		}
+
+		for ; k2 >= K; l2++ {
+			cnt2[A[l2]]--
+			if cnt2[A[l2]] == 0 {
+				k2--
 			}
+		}
+
+		if k1 == K {
+			out += l2 - l1
 		}
 	}
+
 	return out
 }

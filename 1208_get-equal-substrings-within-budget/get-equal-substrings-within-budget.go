@@ -33,18 +33,11 @@ package main
 
 // Sliding Window
 func equalSubstring(s string, t string, maxCost int) int {
-	n := len(s)
-	cost := make([]int, n)
-	for i := 0; i < n; i++ {
-		cost[i] = Abs(int(s[i]) - int(t[i]))
-	}
 	out := 0
-	sum := 0
-	l := 0
-	for r := 0; r < n; r++ {
-		sum += cost[r]
-		for sum > maxCost {
-			sum -= cost[l]
+	for l, r, cost := 0, 0, 0; r < len(s); r++ {
+		cost += Abs(int(s[r]) - int(t[r]))
+		for l <= r && cost > maxCost {
+			cost -= Abs(int(s[l]) - int(t[l]))
 			l++
 		}
 		out = Max(out, r+1-l)
