@@ -3,16 +3,17 @@ package main
 import "sort"
 
 /*
-  给定一些标记了宽度和高度的信封，宽度和高度以整数对形式 (w, h) 出现。当另一个信封的宽度和高度都比这个信封大的时候，这个信封就可以放进另一个信封里，如同俄罗斯套娃一样。
-  请计算最多能有多少个信封能组成一组“俄罗斯套娃”信封（即可以把一个信封放到另一个信封里面）。
+  You have a number of envelopes with widths and heights given as a pair of integers (w, h). One envelope can fit into another if and only if both the width and height of one envelope is greater than the width and height of the other envelope.
 
-  说明:
-  不允许旋转信封。
+  What is the maximum number of envelopes can you Russian doll? (put one inside other)
 
-  示例:
-    输入: envelopes = [[5,4],[6,4],[6,7],[2,3]]
-    输出: 3
-    解释: 最多信封的个数为 3, 组合为: [2,3] => [5,4] => [6,7]。
+  Note:
+  Rotation is not allowed.
+
+  Example:
+    Input: [[5,4],[6,4],[6,7],[2,3]]
+    Output: 3
+    Explanation: The maximum number of envelopes you can Russian doll is 3 ([2,3] => [5,4] => [6,7]).
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/russian-doll-envelopes
@@ -21,49 +22,37 @@ import "sort"
 
 // Binary Search
 func maxEnvelopes(envelopes [][]int) int {
-	if len(envelopes) == 0 {
-		return 0
-	}
-	sort.Slice(envelopes, func(i, j int) bool {
-		if envelopes[i][0] != envelopes[j][0] {
-			return envelopes[i][0] < envelopes[j][0]
-		}
-		return envelopes[i][1] > envelopes[j][1]
-	})
-	heights := make([]int, len(envelopes))
-	for i := range envelopes {
-		heights[i] = envelopes[i][1]
-	}
-	return lengthOfLIS(heights)
-}
-
-func lengthOfLIS(nums []int) int {
-	n := len(nums)
+	n := len(envelopes)
 	if n == 0 {
 		return 0
 	}
-	mins := []int{nums[0]}
-	for i := 1; i < len(nums); i++ {
-		last := len(mins) - 1
-		if nums[i] > mins[last] {
-			mins = append(mins, nums[i])
-		} else if nums[i] < mins[last] {
-			mins[binarySearch(mins, nums[i])] = nums[i]
-		}
-	}
-	return len(mins)
-}
 
-// search the specify number's index in the array
-func binarySearch(nums []int, target int) int {
-	l, r := 0, len(nums)-1
-	for l < r {
-		m := l + (r-l)>>1
-		if nums[m] < target {
-			l = m + 1
+	sort.Slice(envelopes, func(i, j int) bool {
+		if envelopes[i][1] != envelopes[j][1] {
+			return envelopes[i][1] < envelopes[j][1]
+		}
+		return envelopes[i][0] > envelopes[j][0]
+	})
+
+	// e.g.          [[12 2] [3 4] [13 3] [4 5] [5 6] [14 4] [15 5] [5 5]]
+	// after sort => [[12 2] [13 3] [14 4] [3 4] [15 5] [5 5] [4 5] [5 6]]
+	// every heights can only selete one, and the width must be strictly incremented,
+	// so we can get arrays like that:
+	//               [[12 2] [13 3] [14 4] [15 5]]
+	//            or [[3 4] [5 5]]
+	//            or [[3 4] [4 5] [5 6]]
+	// select the longest one
+
+	arr := make([]int, 0, n)
+	for _, envelope := range envelopes {
+		num := envelope[0]
+		// find the first elem in the array that is not less than the num, return index
+		i := sort.Search(len(arr), func(i int) bool { return arr[i] >= num })
+		if i < len(arr) {
+			arr[i] = num
 		} else {
-			r = m
+			arr = append(arr, num)
 		}
 	}
-	return l
+	return len(arr)
 }
