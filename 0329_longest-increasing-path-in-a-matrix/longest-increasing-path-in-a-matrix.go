@@ -56,53 +56,94 @@ func Max(a, b int) int {
 
 // Topological Sorting
 func longestIncreasingPath2(matrix [][]int) int {
-	if len(matrix) == 0 || len(matrix[0]) == 0 {
-		return 0
-	}
 	moves := [][]int{{-1, 0}, {1, 0}, {0, -1}, {0, 1}}
-	outdegrees := make([][]int, len(matrix))
-	for i := range outdegrees {
-		outdegrees[i] = make([]int, len(matrix[0]))
+	m, n := len(matrix), len(matrix[0])
+	indeg := make([][]int, m)
+	for i := range indeg {
+		indeg[i] = make([]int, n)
 	}
 	for i := range matrix {
 		for j := range matrix[0] {
 			for _, move := range moves {
-				newRow, newCol := i+move[0], j+move[1]
-				if 0 <= newRow && newRow < len(matrix) &&
-					0 <= newCol && newCol < len(matrix[0]) &&
-					matrix[i][j] < matrix[newRow][newCol] {
-					outdegrees[i][j]++
+				x, y := i+move[0], j+move[1]
+				if 0 <= x && x < m && 0 <= y && y < n && matrix[x][y] < matrix[i][j] {
+					indeg[i][j]++
 				}
 			}
 		}
 	}
-	var queue [][]int
+
+	q := [][]int{}
 	for i := range matrix {
 		for j := range matrix[0] {
-			if outdegrees[i][j] == 0 {
-				queue = append(queue, []int{i, j})
+			if indeg[i][j] == 0 {
+				q = append(q, []int{i, j})
 			}
 		}
 	}
-	var count int
-	for len(queue) != 0 {
-		count++
-		size := len(queue)
-		for _, q := range queue {
-			row, col := q[0], q[1]
+
+	cnt := 0
+	for len(q) != 0 {
+		cnt++
+		size := len(q)
+		for _, e := range q {
+			i, j := e[0], e[1]
 			for _, move := range moves {
-				newRow, newCol := row+move[0], col+move[1]
-				if 0 <= newRow && newRow < len(matrix) &&
-					0 <= newCol && newCol < len(matrix[0]) &&
-					matrix[newRow][newCol] < matrix[row][col] {
-					outdegrees[newRow][newCol]--
-					if outdegrees[newRow][newCol] == 0 {
-						queue = append(queue, []int{newRow, newCol})
+				x, y := i+move[0], j+move[1]
+				if 0 <= x && x < m && 0 <= y && y < n && matrix[x][y] > matrix[i][j] {
+					indeg[x][y]--
+					if indeg[x][y] == 0 {
+						q = append(q, []int{x, y})
 					}
 				}
 			}
 		}
-		queue = queue[size:]
+		q = q[size:]
 	}
-	return count
+	return cnt
+}
+
+// Topological Sorting
+func longestIncreasingPath3(matrix [][]int) int {
+	moves := [][]int{{-1, 0}, {1, 0}, {0, -1}, {0, 1}}
+	m, n := len(matrix), len(matrix[0])
+	size := m * n
+	edges := make([][]int, size)
+	indeg := make([]int, size)
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			k1 := i*n + j
+			for _, mo := range moves {
+				x, y := i+mo[0], j+mo[1]
+				if 0 <= x && x < m && 0 <= y && y < n && matrix[x][y] < matrix[i][j] {
+					k2 := x*n + y
+					edges[k2] = append(edges[k2], k1)
+					indeg[k1]++
+				}
+			}
+		}
+	}
+
+	q := []int{}
+	for i := 0; i < size; i++ {
+		if indeg[i] == 0 {
+			q = append(q, i)
+		}
+	}
+
+	cnt := 0
+	for len(q) > 0 {
+		cnt++
+		total := len(q)
+		for _, a := range q {
+			for _, b := range edges[a] {
+				indeg[b]--
+				if indeg[b] == 0 {
+					q = append(q, b)
+				}
+			}
+		}
+		q = q[total:]
+	}
+	return cnt
 }

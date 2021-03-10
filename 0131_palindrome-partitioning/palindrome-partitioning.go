@@ -1,39 +1,59 @@
 package main
 
 /*
-  给定一个字符串 s，将 s 分割成一些子串，使每个子串都是回文串。
-  返回 s 所有可能的分割方案。
+  Given a string s, partition s such that every substring of the partition is a palindrome. Return all possible palindrome partitioning of s.
+
+  A palindrome string is a string that reads the same backward as forward.
+
+  Example 1:
+    Input: s = "aab"
+    Output: [["a","a","b"],["aa","b"]]
+
+  Example 2:
+    Input: s = "a"
+    Output: [["a"]]
+
+  Constraints:
+    1. 1 <= s.length <= 16
+    2. s contains only lowercase English letters.
+
+  来源：力扣（LeetCode）
+  链接：https://leetcode-cn.com/problems/palindrome-partitioning
+  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Backtracking
+// DFS + Backtracking
 func partition(s string) [][]string {
-	var out [][]string
-	var cur []string
-	var backtrack func(int)
-	backtrack = func(offset int) {
-		if offset == len(s) {
-			tmp := make([]string, len(cur))
-			copy(tmp, cur)
-			out = append(out, tmp)
-			return
-		}
-		for i := offset; i < len(s); i++ {
-			if isPalindrome(s[offset : i+1]) {
-				cur = append(cur, s[offset:i+1])
-				backtrack(i + 1)
-				cur = cur[:len(cur)-1]
-			}
-		}
-	}
-	backtrack(0)
+	out := [][]string{}
+	dfs(s, []string{}, &out)
 	return out
 }
 
+func dfs(s string, cur []string, out *[][]string) {
+	if s == "" {
+		tmp := make([]string, len(cur))
+		copy(tmp, cur)
+		*out = append(*out, tmp)
+		return
+	}
+
+	for i := range s {
+		if isPalindrome(s[:i+1]) {
+			cur = append(cur, s[:i+1])
+			dfs(s[i+1:], cur, out)
+			cur = cur[:len(cur)-1]
+		}
+	}
+}
+
 func isPalindrome(s string) bool {
-	for i := 0; i < len(s)>>1; i++ {
-		if s[i] != s[len(s)-1-i] {
+	l, r := 0, len(s)-1
+	for l < r {
+		if s[l] != s[r] {
 			return false
 		}
+		l++
+		r--
 	}
 	return true
 }
