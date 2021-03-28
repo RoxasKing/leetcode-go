@@ -14,6 +14,8 @@ func Test_calculate(t *testing.T) {
 		{"1", args{"3+2*2"}, 7},
 		{"2", args{" 3/2 "}, 1},
 		{"3", args{" 3+5 / 2 "}, 5},
+		{"4", args{"0"}, 0},
+		{"5", args{"1 + 1"}, 2},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

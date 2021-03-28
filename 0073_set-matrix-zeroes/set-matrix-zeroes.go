@@ -1,40 +1,26 @@
 package main
 
 /*
-  给定一个 m x n 的矩阵，如果一个元素为 0，则将其所在行和列的所有元素都设为 0。请使用原地算法。
+  Given an m x n matrix. If an element is 0, set its entire row and column to 0. Do it in-place.
 
-  示例 1:
-    输入:
-    [
-      [1,1,1],
-      [1,0,1],
-      [1,1,1]
-    ]
-    输出:
-    [
-      [1,0,1],
-      [0,0,0],
-      [1,0,1]
-    ]
+  Follow up:
+    1. A straight forward solution using O(mn) space is probably a bad idea.
+    2. A simple improvement uses O(m + n) space, but still not the best solution.
+    3. Could you devise a constant space solution?
 
-  示例 2:
-    输入:
-    [
-      [0,1,2,0],
-      [3,4,5,2],
-      [1,3,1,5]
-    ]
-    输出:
-    [
-      [0,0,0,0],
-      [0,4,5,0],
-      [0,3,1,0]
-    ]
+  Example 1:
+    Input: matrix = [[1,1,1],[1,0,1],[1,1,1]]
+    Output: [[1,0,1],[0,0,0],[1,0,1]]
 
-  进阶:
-    一个直接的解决方案是使用  O(mn) 的额外空间，但这并不是一个好的解决方案。
-    一个简单的改进方案是使用 O(m + n) 的额外空间，但这仍然不是最好的解决方案。
-    你能想出一个常数空间的解决方案吗？
+  Example 2:
+    Input: matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]]
+    Output: [[0,0,0,0],[0,4,5,0],[0,3,1,0]]
+
+  Constraints:
+    1. m == matrix.length
+    2. n == matrix[0].length
+    3. 1 <= m, n <= 200
+    4. -2^31 <= matrix[i][j] <= 2^31 - 1
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/set-matrix-zeroes
@@ -43,23 +29,26 @@ package main
 
 func setZeroes(matrix [][]int) {
 	m, n := len(matrix), len(matrix[0])
-	rows := make([]bool, m)
-	cols := make([]bool, n)
+	col0 := false
 	for i := 0; i < m; i++ {
-		for j := 0; j < n; j++ {
-			if matrix[i][j] != 0 {
-				continue
+		if matrix[i][0] == 0 { // 记录第一列是否要置0
+			col0 = true
+		}
+		for j := 1; j < n; j++ {
+			if matrix[i][j] == 0 {
+				matrix[i][0] = 0 // 第一列用来记录当前行是否要置0
+				matrix[0][j] = 0 // 第一行用来记录当前列是否要置0
 			}
-			rows[i] = true
-			cols[j] = true
 		}
 	}
-	for i := 0; i < m; i++ {
-		for j := 0; j < n; j++ {
-			if !rows[i] && !cols[j] {
-				continue
+	for i := m - 1; i >= 0; i-- {
+		for j := 1; j < n; j++ {
+			if matrix[i][0] == 0 || matrix[0][j] == 0 {
+				matrix[i][j] = 0
 			}
-			matrix[i][j] = 0
+		}
+		if col0 {
+			matrix[i][0] = 0
 		}
 	}
 }

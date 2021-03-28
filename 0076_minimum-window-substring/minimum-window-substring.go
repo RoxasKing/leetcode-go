@@ -1,39 +1,47 @@
 package main
 
 /*
-  给你一个字符串 S、一个字符串 T 。请你设计一种算法，可以在 O(n) 的时间复杂度内，从字符串 S 里面找出：包含 T 所有字符的最小子串。
+  Given two strings s and t, return the minimum window in s which will contain all the characters in t. If there is no such window in s that covers all characters in t, return the empty string "".
 
-  示例：
-    输入：S = "ADOBECODEBANC", T = "ABC"
-    输出："BANC"
+  Note that If there is such a window, it is guaranteed that there will always be only one unique minimum window in s.
 
-  提示：
-    如果 S 中不存这样的子串，则返回空字符串 ""。
-    如果 S 中存在这样的子串，我们保证它是唯一的答案。
+  Example 1:
+    Input: s = "ADOBECODEBANC", t = "ABC"
+    Output: "BANC"
+
+  Example 2:
+    Input: s = "a", t = "a"
+    Output: "a"
+
+  Constraints:
+    1. 1 <= s.length, t.length <= 10^5
+    2. s and t consist of English letters.
+
+  Follow up: Could you find an algorithm that runs in O(n) time?
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/minimum-window-substring
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Sliding Window
+// Two Pointers + Sliding Window
 func minWindow(s string, t string) string {
-	out := ""
-	count := len(t)
-	dict := [128]int{}
+	cnt := [128]int{}
 	for i := range t {
-		dict[t[i]]++
+		cnt[t[i]]++
 	}
+	out := ""
+	include := 0
 	for l, r := 0, 0; r < len(s); r++ {
-		if dict[s[r]] > 0 {
-			count--
+		if cnt[s[r]] > 0 {
+			include++
 		}
-		dict[s[r]]--
-		for l < r && dict[s[l]] < 0 {
-			dict[s[l]]++
+		cnt[s[r]]--
+		for l < r && cnt[s[l]] < 0 {
+			cnt[s[l]]++
 			l++
 		}
-		if count == 0 && (out == "" || r+1-l < len(out)) {
+		if include == len(t) && (out == "" || r-l+1 < len(out)) {
 			out = s[l : r+1]
 		}
 	}

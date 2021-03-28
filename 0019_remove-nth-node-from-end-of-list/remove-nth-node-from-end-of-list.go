@@ -1,33 +1,53 @@
 package main
 
 /*
-  给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。
+  Given the head of a linked list, remove the nth node from the end of the list and return its head.
 
-  示例：
-    给定一个链表: 1->2->3->4->5, 和 n = 2.
-    当删除了倒数第二个节点后，链表变为 1->2->3->5.
+  Follow up: Could you do this in one pass?
 
-  说明：
-    给定的 n 保证是有效的。
+  Example 1:
+    Input: head = [1,2,3,4,5], n = 2
+    Output: [1,2,3,5]
 
-  进阶：
-    你能尝试使用一趟扫描实现吗？
+  Example 2:
+    Input: head = [1], n = 1
+    Output: []
+
+  Example 3:
+    Input: head = [1,2], n = 1
+    Output: [1]
+
+  Constraints:
+    1. The number of nodes in the list is sz.
+    2. 1 <= sz <= 30
+    3. 0 <= Node.val <= 100
+    4. 1 <= n <= sz
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
 func removeNthFromEnd(head *ListNode, n int) *ListNode {
 	headPre := &ListNode{Next: head}
-	l1, l2 := head, headPre
-	for i := 0; i < n && l1 != nil; i++ {
-		l1 = l1.Next
+	last := headPre
+	for n > 0 {
+		last = last.Next
+		n--
 	}
-	for l1 != nil {
-		l1, l2 = l1.Next, l2.Next
+	ptr := headPre
+	for last.Next != nil {
+		last = last.Next
+		ptr = ptr.Next
 	}
-	l2.Next = l2.Next.Next
+	ptr.Next = ptr.Next.Next
 	return headPre.Next
 }
 

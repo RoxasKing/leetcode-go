@@ -54,7 +54,7 @@ func reBuild(s string) string {
 	return out
 }
 
-// Double Pointer
+// Two Pointers
 func backspaceCompare2(S string, T string) bool {
 	sPtr, tPtr := len(S)-1, len(T)-1
 	sCnt, tCnt := 0, 0

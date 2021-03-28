@@ -12,52 +12,59 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+// Trie + Queue
 type MapSum struct {
-	m     [26]*MapSum
-	sum   int
-	isEnd bool
+	trie *Trie
+}
+
+type Trie struct {
+	child [26]*Trie
+	num   int
 }
 
 /** Initialize your data structure here. */
-func NewMapSum() MapSum {
-	return MapSum{}
+func Constructor() MapSum {
+	return MapSum{
+		trie: &Trie{},
+	}
 }
 
 func (this *MapSum) Insert(key string, val int) {
+	t := this.trie
 	for i := range key {
-		k := key[i] - 'a'
-		if this.m[k] == nil {
-			this.m[k] = new(MapSum)
+		idx := int(key[i] - 'a')
+		if t.child[idx] == nil {
+			t.child[idx] = &Trie{}
 		}
-		this = this.m[k]
+		t = t.child[idx]
 	}
-	this.isEnd = true
-	this.sum = val
+	t.num = val
 }
 
 func (this *MapSum) Sum(prefix string) int {
+	t := this.trie
 	for i := range prefix {
-		k := prefix[i] - 'a'
-		if this.m[k] == nil {
+		idx := int(prefix[i] - 'a')
+		if t.child[idx] == nil {
 			return 0
 		}
-		this = this.m[k]
+		t = t.child[idx]
 	}
-	var out int
-	q := []*MapSum{this}
-	for len(q) != 0 {
-		cur := q[0]
+
+	sum := 0
+	q := []*Trie{t}
+	for len(q) > 0 {
+		t := q[0]
 		q = q[1:]
-		if cur.isEnd {
-			out += cur.sum
-		}
-		for i := range cur.m {
-			if cur.m[i] != nil {
-				q = append(q, cur.m[i])
+
+		sum += t.num
+		for i := 0; i < 26; i++ {
+			if t.child[i] != nil {
+				q = append(q, t.child[i])
 			}
 		}
 	}
-	return out
+	return sum
 }
 
 /**
