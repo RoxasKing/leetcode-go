@@ -1,15 +1,20 @@
 package main
 
 /*
-  给定一个排序链表，删除所有含有重复数字的节点，只保留原始链表中 没有重复出现 的数字。
+  Given the head of a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list. Return the linked list sorted as well.
 
-  示例 1:
-    输入: 1->2->3->3->4->4->5
-    输出: 1->2->5
+  Example 1:
+    Input: head = [1,2,3,3,4,4,5]
+    Output: [1,2,5]
 
-  示例 2:
-    输入: 1->1->1->2->3
-    输出: 2->3
+  Example 2:
+    Input: head = [1,1,1,2,3]
+    Output: [2,3]
+
+  Constraints:
+    1. The number of nodes in the list is in the range [0, 300].
+    2. -100 <= Node.val <= 100
+    3. The list is guaranteed to be sorted in ascending order.
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii
@@ -17,27 +22,27 @@ package main
 */
 
 func deleteDuplicates(head *ListNode) *ListNode {
-	if head == nil || head.Next == nil {
+	if head == nil {
 		return head
 	}
 	headPre := &ListNode{Next: head}
 	ptr := headPre
-	node := head
-	for node != nil {
-		val := node.Val
-		count := 1
-		next := node.Next
-		for next != nil && next.Val == val {
-			count++
-			next = next.Next
+	isDup := false
+	for n := head.Next; n != nil; n = n.Next {
+		if n.Val == ptr.Next.Val {
+			isDup = true
+		} else {
+			if isDup {
+				ptr.Next = n
+			} else {
+				ptr = ptr.Next
+			}
+			isDup = false
 		}
-		if count == 1 {
-			ptr.Next = node
-			ptr = node
-		}
-		node = next
 	}
-	ptr.Next = nil
+	if isDup {
+		ptr.Next = nil
+	}
 	return headPre.Next
 }
 

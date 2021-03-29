@@ -26,8 +26,8 @@ package main
       myHashSet.contains(2); // return False, (already removed)
 
   Constraints:
-    1. 0 <= key <= 106
-    2. At most 104 calls will be made to add, remove, and contains.
+    1. 0 <= key <= 10^6
+    2. At most 10^4 calls will be made to add, remove, and contains.
 
   Follow up: Could you solve the problem without using the built-in HashSet library?
 

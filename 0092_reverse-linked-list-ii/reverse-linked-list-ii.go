@@ -1,39 +1,48 @@
 package main
 
 /*
-  反转从位置 m 到 n 的链表。请使用一趟扫描完成反转。
+  Given the head of a singly linked list and two integers left and right where left <= right, reverse the nodes of the list from position left to position right, and return the reversed list.
 
-  说明:
-  1 ≤ m ≤ n ≤ 链表长度。
+  Example 1:
+    Input: head = [1,2,3,4,5], left = 2, right = 4
+    Output: [1,4,3,2,5]
 
-  示例:
-    输入: 1->2->3->4->5->NULL, m = 2, n = 4
-    输出: 1->4->3->2->5->NULL
+  Example 2:
+    Input: head = [5], left = 1, right = 1
+    Output: [5]
+
+  Constraints:
+    1. The number of nodes in the list is n.
+    2. 1 <= n <= 500
+    3. -500 <= Node.val <= 500
+    4. 1 <= left <= right <= n
+
+  Follow up: Could you do it in one pass?
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/reverse-linked-list-ii
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
 func reverseBetween(head *ListNode, m int, n int) *ListNode {
 	headPre := &ListNode{Next: head}
-	pre := headPre
-	index := 1
-	for index < m {
-		pre = pre.Next
-		index++
+	leftPre := headPre
+	for i := 1; i < m; i++ {
+		leftPre = leftPre.Next
 	}
-	l := pre.Next
-	r := l
-	ptr := l.Next
-	index++
-	for index <= n {
-		r.Next = ptr.Next
-		pre.Next = ptr
-		ptr.Next = l
-		l = ptr
-		ptr = r.Next
-		index++
+	right := leftPre.Next
+	for i := m; i < n; i++ {
+		node := right.Next
+		right.Next = right.Next.Next
+		node.Next = leftPre.Next
+		leftPre.Next = node
 	}
 	return headPre.Next
 }

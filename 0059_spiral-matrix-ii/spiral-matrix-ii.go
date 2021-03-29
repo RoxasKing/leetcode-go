@@ -1,16 +1,18 @@
 package main
 
 /*
-  给定一个正整数 n，生成一个包含 1 到 n2 所有元素，且元素按顺时针顺序螺旋排列的正方形矩阵。
+  Given a positive integer n, generate an n x n matrix filled with elements from 1 to n2 in spiral order.
 
-  示例:
-    输入: 3
-    输出:
-    [
-     [ 1, 2, 3 ],
-     [ 8, 9, 4 ],
-     [ 7, 6, 5 ]
-    ]
+  Example 1:
+    Input: n = 3
+    Output: [[1,2,3],[8,9,4],[7,6,5]]
+
+  Example 2:
+    Input: n = 1
+    Output: [[1]]
+
+  Constraints:
+    1 <= n <= 20
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/spiral-matrix-ii
@@ -18,39 +20,40 @@ package main
 */
 
 func generateMatrix(n int) [][]int {
-	matrix := make([][]int, n)
-	for i := range matrix {
-		matrix[i] = make([]int, n)
+	out := make([][]int, n)
+	for i := range out {
+		out[i] = make([]int, n)
 	}
-	L, R, U, D := 0, n-1, 0, n-1
-	move, index := 0, 1
-	for L <= R && U <= D {
-		if move == 0 {
-			for i := L; i <= R; i++ {
-				matrix[U][i] = index
-				index++
+	u, d, l, r := 0, n-1, 0, n-1
+	num, move := 1, 0
+	for u <= d && l <= r {
+		switch move {
+		case 0:
+			for i := l; i <= r; i++ {
+				out[u][i] = num
+				num++
 			}
-			U++
-		} else if move == 1 {
-			for i := U; i <= D; i++ {
-				matrix[i][R] = index
-				index++
+			u++
+		case 1:
+			for i := u; i <= d; i++ {
+				out[i][r] = num
+				num++
 			}
-			R--
-		} else if move == 2 {
-			for i := R; i >= L; i-- {
-				matrix[D][i] = index
-				index++
+			r--
+		case 2:
+			for i := r; i >= l; i-- {
+				out[d][i] = num
+				num++
 			}
-			D--
-		} else {
-			for i := D; i >= U; i-- {
-				matrix[i][L] = index
-				index++
+			d--
+		case 3:
+			for i := d; i >= u; i-- {
+				out[i][l] = num
+				num++
 			}
-			L++
+			l++
 		}
 		move = (move + 1) % 4
 	}
-	return matrix
+	return out
 }

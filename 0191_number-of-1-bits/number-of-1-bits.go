@@ -1,11 +1,31 @@
 package main
 
 /*
-  编写一个函数，输入是一个无符号整数，返回其二进制表达式中数字位数为 ‘1’ 的个数（也被称为汉明重量）。
+  Write a function that takes an unsigned integer and returns the number of '1' bits it has (also known as the Hamming weight).
 
-  提示：
-    请注意，在某些语言（如 Java）中，没有无符号整数类型。在这种情况下，输入和输出都将被指定为有符号整数类型，并且不应影响您的实现，因为无论整数是有符号的还是无符号的，其内部的二进制表示形式都是相同的。
-    在 Java 中，编译器使用二进制补码记法来表示有符号整数。因此，在上面的 示例 3 中，输入表示有符号整数 -3。
+  Note:
+    1. Note that in some languages, such as Java, there is no unsigned integer type. In this case, the input will be given as a signed integer type. It should not affect your implementation, as the integer's internal binary representation is the same, whether it is signed or unsigned.
+    2. In Java, the compiler represents the signed integers using 2's complement notation. Therefore, in Example 3, the input represents the signed integer. -3.
+
+  Example 1:
+    Input: n = 00000000000000000000000000001011
+    Output: 3
+    Explanation: The input binary string 00000000000000000000000000001011 has a total of three '1' bits.
+
+  Example 2:
+    Input: n = 00000000000000000000000010000000
+    Output: 1
+    Explanation: The input binary string 00000000000000000000000010000000 has a total of one '1' bit.
+
+  Example 3:
+    Input: n = 11111111111111111111111111111101
+    Output: 31
+    Explanation: The input binary string 11111111111111111111111111111101 has a total of thirty one '1' bits.
+
+  Constraints:
+    The input must be a binary string of length 32.
+
+  Follow up: If this function is called many times, how would you optimize it?
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/number-of-1-bits
@@ -14,10 +34,10 @@ package main
 
 // Bit Operation
 func hammingWeight(num uint32) int {
-	var count int
-	for num != 0 {
-		num &= num - 1
-		count++
+	out := 0
+	for num > 0 {
+		out += int(num & 1)
+		num >>= 1
 	}
-	return count
+	return out
 }
