@@ -7,9 +7,33 @@ import (
 )
 
 /*
-  给定一组非负整数，重新排列它们的顺序使之组成一个最大的整数。
+  Given a list of non-negative integers nums, arrange them such that they form the largest number.
 
-  说明: 输出结果可能非常大，所以你需要返回一个字符串而不是整数。
+  Note: The result may be very large, so you need to return a string instead of an integer.
+
+  Example 1:
+    Input: nums = [10,2]
+    Output: "210"
+
+  Example 2:
+    Input: nums = [3,30,34,5,9]
+    Output: "9534330"
+
+  Example 3:
+    Input: nums = [1]
+    Output: "1"
+
+  Example 4:
+    Input: nums = [10]
+    Output: "10"
+
+  Constraints:
+    1. 1 <= nums.length <= 100
+    2. 0 <= nums[i] <= 109
+
+  来源：力扣（LeetCode）
+  链接：https://leetcode-cn.com/problems/largest-number
+  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
 func largestNumber(nums []int) string {

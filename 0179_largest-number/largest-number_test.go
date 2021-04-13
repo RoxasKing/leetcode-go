@@ -13,6 +13,8 @@ func Test_largestNumber(t *testing.T) {
 	}{
 		{"1", args{[]int{10, 2}}, "210"},
 		{"2", args{[]int{3, 30, 34, 5, 9}}, "9534330"},
+		{"3", args{[]int{0, 1, 2, 3}}, "3210"},
+		{"4", args{[]int{0, 0, 0, 0}}, "0"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

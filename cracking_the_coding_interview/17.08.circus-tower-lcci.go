@@ -1,4 +1,4 @@
-package crackingthecodingintervew
+package main
 
 import (
 	"math/rand"
