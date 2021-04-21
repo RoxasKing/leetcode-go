@@ -14,6 +14,8 @@ func Test_removeDuplicates(t *testing.T) {
 		{"1", args{[]int{1, 1}}, 1},
 		{"2", args{[]int{1, 1, 2}}, 2},
 		{"3", args{[]int{0, 0, 1, 1, 1, 2, 2, 3, 3, 4}}, 5},
+		{"4", args{[]int{}}, 0},
+		{"5", args{[]int{1}}, 1},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

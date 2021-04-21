@@ -1,51 +1,57 @@
 package main
 
-/*
-  实现获取下一个排列的函数，算法需要将给定数字序列重新排列成字典序中下一个更大的排列。
-  如果不存在下一个更大的排列，则将数字重新排列成最小的排列（即升序排列）。
-  必须原地修改，只允许使用额外常数空间。
+import "sort"
 
-  以下是一些例子，输入位于左侧列，其相应输出位于右侧列。
-    1,2,3 → 1,3,2
-    3,2,1 → 1,2,3
-    1,1,5 → 1,5,1
+/*
+  Implement next permutation, which rearranges numbers into the lexicographically next greater permutation of numbers.
+
+  If such an arrangement is not possible, it must rearrange it as the lowest possible order (i.e., sorted in ascending order).
+
+  The replacement must be in place and use only constant extra memory.
+
+  Example 1:
+    Input: nums = [1,2,3]
+    Output: [1,3,2]
+
+  Example 2:
+    Input: nums = [3,2,1]
+    Output: [1,2,3]
+
+  Example 3:
+    Input: nums = [1,1,5]
+    Output: [1,5,1]
+
+  Example 4:
+    Input: nums = [1]
+    Output: [1]
+
+  Constraints:
+    1. 1 <= nums.length <= 100
+    2. 0 <= nums[i] <= 100
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/next-permutation
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+// Math
 func nextPermutation(nums []int) {
 	n := len(nums)
-	i := n - 2
-	for i >= 0 && nums[i] >= nums[i+1] {
+	i := n - 1
+	for i > 0 && nums[i-1] >= nums[i] {
 		i--
 	}
-	reverse(nums[i+1:])
-	if i < 0 {
+	reverse(nums[i:])
+	if i == 0 {
 		return
 	}
-	j := bSearch(nums, nums[i], i+1, n-1)
-	nums[i], nums[j] = nums[j], nums[i]
+	j := sort.Search(n-i, func(j int) bool { return nums[j+i] > nums[i-1] }) + i
+	nums[i-1], nums[j] = nums[j], nums[i-1]
 }
 
 func reverse(nums []int) {
-	l, r := 0, len(nums)-1
-	for l < r {
-		nums[l], nums[r] = nums[r], nums[l]
-		l++
-		r--
+	n := len(nums)
+	for i := 0; i < n>>1; i++ {
+		nums[i], nums[n-1-i] = nums[n-1-i], nums[i]
 	}
-}
-
-func bSearch(nums []int, target, l, r int) int {
-	for l < r {
-		m := l + (r-l)>>1
-		if nums[m] <= target {
-			l = m + 1
-		} else {
-			r = m
-		}
-	}
-	return l
 }

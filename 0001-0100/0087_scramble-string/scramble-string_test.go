@@ -12,8 +12,9 @@ func Test_isScramble(t *testing.T) {
 		args args
 		want bool
 	}{
-		{"", args{"rgeat", "great"}, true},
-		{"", args{"abcde", "caebd"}, false},
+		{"1", args{"rgeat", "great"}, true},
+		{"2", args{"abcde", "caebd"}, false},
+		{"3", args{"a", "a"}, true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

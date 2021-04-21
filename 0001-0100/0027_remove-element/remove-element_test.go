@@ -12,8 +12,8 @@ func Test_removeElement(t *testing.T) {
 		args args
 		want int
 	}{
-		{"1", args{[]int{0, 1, 2, 2, 3, 0, 4, 2}, 2}, 5},
-		{"2", args{[]int{3, 2, 2, 3}, 3}, 2},
+		{"1", args{[]int{3, 2, 2, 3}, 3}, 2},
+		{"2", args{[]int{0, 1, 2, 2, 3, 0, 4, 2}, 2}, 5},
 		{"3", args{[]int{}, 3}, 0},
 	}
 	for _, tt := range tests {

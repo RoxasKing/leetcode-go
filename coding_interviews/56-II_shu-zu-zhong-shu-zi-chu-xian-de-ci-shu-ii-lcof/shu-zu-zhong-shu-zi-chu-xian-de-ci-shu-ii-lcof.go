@@ -20,7 +20,7 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Bit Operation
+// Bit Manipulation
 func singleNumber(nums []int) int {
 	out := 0
 	for i := 1; i <= 1<<31; i <<= 1 {
