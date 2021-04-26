@@ -35,42 +35,15 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Trie + Queue
+// Trie
 func findMaximumXOR(nums []int) int {
-	trie := NewTrie()
+	out := 0
+	t := NewTrie()
+	t.Insert(nums[0])
+	nums = nums[1:]
 	for _, num := range nums {
-		trie.Insert(num)
-	}
-
-	out := -1 << 31
-	q := []*triePair{{a: trie, b: trie, num: 0}}
-	for len(q) > 0 {
-		tp := q[0]
-		q = q[1:]
-		a, b, num := tp.a, tp.b, tp.num
-		if a.isEnd && b.isEnd {
-			out = Max(out, num)
-			continue
-		}
-
-		pushed := false
-		if a.child[0] != nil && b.child[1] != nil {
-			q = append(q, &triePair{a: a.child[0], b: b.child[1], num: num<<1 + 1})
-			pushed = true
-		}
-		if a.child[1] != nil && b.child[0] != nil {
-			q = append(q, &triePair{a: a.child[1], b: b.child[0], num: num<<1 + 1})
-			pushed = true
-		}
-		if pushed {
-			continue
-		}
-
-		if a.child[0] != nil {
-			q = append(q, &triePair{a: a.child[0], b: b.child[0], num: num << 1})
-		} else {
-			q = append(q, &triePair{a: a.child[1], b: b.child[1], num: num << 1})
-		}
+		out = Max(out, t.Query(num))
+		t.Insert(num)
 	}
 	return out
 }
@@ -82,30 +55,36 @@ func Max(a, b int) int {
 	return b
 }
 
-type triePair struct {
-	a   *Trie
-	b   *Trie
-	num int
-}
-
 type Trie struct {
 	child [2]*Trie
-	isEnd bool
 }
 
 func NewTrie() *Trie {
-	return &Trie{}
+	return &Trie{
+		child: [2]*Trie{},
+	}
 }
 
 func (t *Trie) Insert(num int) {
-	node := t
 	for i := 31; i >= 0; i-- {
 		idx := (num >> i) & 1
-		if node.child[idx] == nil {
-			node.child[idx] = NewTrie()
+		if t.child[idx] == nil {
+			t.child[idx] = NewTrie()
 		}
-		node.isEnd = false
-		node = node.child[idx]
+		t = t.child[idx]
 	}
-	node.isEnd = true
+}
+
+func (t *Trie) Query(num int) int {
+	out := 0
+	for i := 31; i >= 0; i-- {
+		idx := (num >> i) & 1
+		if t.child[1-idx] != nil {
+			out |= 1 << i
+			t = t.child[1-idx]
+		} else {
+			t = t.child[idx]
+		}
+	}
+	return out
 }

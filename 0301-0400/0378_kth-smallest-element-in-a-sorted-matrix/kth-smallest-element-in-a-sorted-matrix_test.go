@@ -24,6 +24,14 @@ func Test_kthSmallest(t *testing.T) {
 			},
 			13,
 		},
+		{
+			"2",
+			args{
+				[][]int{{-5}},
+				1,
+			},
+			-5,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

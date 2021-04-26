@@ -1,11 +1,30 @@
 package main
 
 /*
-  给定一个 n x n 矩阵，其中每行和每列元素均按升序排序，找到矩阵中第 k 小的元素。
-  请注意，它是排序后的第 k 小元素，而不是第 k 个不同的元素。
+  Given an n x n matrix where each of the rows and columns are sorted in ascending order, return the kth smallest element in the matrix.
 
-  提示：
-    你可以假设 k 的值永远是有效的，1 ≤ k ≤ n2 。
+  Note that it is the kth smallest element in the sorted order, not the kth distinct element.
+
+  Example 1:
+    Input: matrix = [[1,5,9],[10,11,13],[12,13,15]], k = 8
+    Output: 13
+    Explanation: The elements in the matrix are [1,5,9,10,11,12,13,13,15], and the 8th smallest number is 13
+
+  Example 2:
+    Input: matrix = [[-5]], k = 1
+    Output: -5
+
+  Constraints:
+    1. n == matrix.length
+    2. n == matrix[i].length
+    3. 1 <= n <= 300
+    4. -10^9 <= matrix[i][j] <= 10^9
+    5. All the rows and columns of matrix are guaranteed to be sorted in non-decreasing order.
+    6. 1 <= k <= n2
+
+  来源：力扣（LeetCode）
+  链接：https://leetcode-cn.com/problems/kth-smallest-element-in-a-sorted-matrix
+  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
 // Binary Search
@@ -13,25 +32,25 @@ func kthSmallest(matrix [][]int, k int) int {
 	n := len(matrix)
 	l, r := matrix[0][0], matrix[n-1][n-1]
 	for l < r {
-		m := l + (r-l)>>1
-		if !check(matrix, n, k, m) {
-			l = m + 1
+		limit := (l + r) >> 1
+		if countSmaller(matrix, n, limit) < k {
+			l = limit + 1
 		} else {
-			r = m
+			r = limit
 		}
 	}
 	return l
 }
 
-func check(matrix [][]int, n, k, target int) bool {
-	i, j, count := n-1, 0, 0
-	for i >= 0 && j < n {
-		if matrix[i][j] <= target {
-			count += i + 1
+func countSmaller(matrix [][]int, n, limit int) int {
+	cnt := 0
+	for i, j := n-1, 0; i >= 0 && j < n; {
+		if matrix[i][j] <= limit {
+			cnt += i + 1
 			j++
 		} else {
 			i--
 		}
 	}
-	return count >= k
+	return cnt
 }

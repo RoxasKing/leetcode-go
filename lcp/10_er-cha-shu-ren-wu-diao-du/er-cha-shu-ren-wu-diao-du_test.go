@@ -52,7 +52,7 @@ func Test_minimalExecTime(t *testing.T) {
 					},
 				},
 			},
-			121,
+			7.5,
 		},
 	}
 	for _, tt := range tests {

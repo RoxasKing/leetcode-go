@@ -31,6 +31,10 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+// Important!
+
+// DFS
+
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -40,18 +44,27 @@ package main
  * }
  */
 func minimalExecTime(root *TreeNode) float64 {
-	return 0
+	total, parallel := dfs(root)
+	return total - parallel
 }
 
 func dfs(node *TreeNode) (float64, float64) {
-	return 0, 0
-}
-
-func Min(a, b int) int {
-	if a < b {
-		return a
+	if node == nil {
+		return 0, 0
 	}
-	return b
+
+	total1, parallel1 := dfs(node.Left)
+	total2, parallel2 := dfs(node.Right)
+
+	if total1 < total2 {
+		total1, total2 = total2, total1
+		parallel1 = parallel2
+	}
+
+	if total1-2*parallel1 > total2 {
+		return float64(node.Val) + total1 + total2, parallel1 + total2
+	}
+	return float64(node.Val) + total1 + total2, (total1 + total2) / 2 // (total1-total2)/2 + total2 = (total1+total2)/2
 }
 
 type TreeNode struct {

@@ -41,7 +41,7 @@ package main
 
 // Important!!
 
-// Trie + Bit Operation
+// Trie + Bit Manipulation
 func countPairs(nums []int, low int, high int) int {
 	trie := &Trie{}
 	out := 0

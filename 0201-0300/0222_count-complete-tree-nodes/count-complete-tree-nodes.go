@@ -30,7 +30,7 @@ func countNodes(root *TreeNode) int {
 	return 1 + countNodes(root.Left) + countNodes(root.Right)
 }
 
-// Binary Search + Bit Operation
+// Binary Search + Bit Manipulation
 func countNodes2(root *TreeNode) int {
 	if root == nil {
 		return 0
