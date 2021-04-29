@@ -28,20 +28,20 @@ package main
 */
 
 func addStrings(num1 string, num2 string) string {
-	chs := make([]byte, 0, Max(len(num1), len(num2)))
+	m, n := len(num1), len(num2)
+	chs := make([]byte, 0, Max(m, n)+1)
 	remain := 0
-	for num1 != "" || num2 != "" {
-		sum := remain
-		if num1 != "" {
-			sum += int(num1[len(num1)-1] - '0')
-			num1 = num1[:len(num1)-1]
+	for i, j := m-1, n-1; i >= 0 || j >= 0; {
+		if i >= 0 {
+			remain += int(num1[i] - '0')
+			i--
 		}
-		if num2 != "" {
-			sum += int(num2[len(num2)-1] - '0')
-			num2 = num2[:len(num2)-1]
+		if j >= 0 {
+			remain += int(num2[j] - '0')
+			j--
 		}
-		chs = append(chs, byte(sum%10)+'0')
-		remain = sum / 10
+		chs = append(chs, byte(remain%10)+'0')
+		remain /= 10
 	}
 	if remain > 0 {
 		chs = append(chs, byte(remain)+'0')

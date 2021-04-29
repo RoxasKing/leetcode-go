@@ -27,7 +27,15 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Merge Sort + Linked List
+// Merge Sort
+
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
 func sortList(head *ListNode) *ListNode {
 	if head == nil || head.Next == nil {
 		return head
@@ -56,8 +64,7 @@ func merge(l1, l2 *ListNode) *ListNode {
 	}
 	if l1 != nil {
 		ptr.Next = l1
-	}
-	if l2 != nil {
+	} else {
 		ptr.Next = l2
 	}
 	return outPre.Next

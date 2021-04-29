@@ -3,17 +3,25 @@ package main
 import "sort"
 
 /*
-  给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。
+  Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
 
-  注意：答案中不可以包含重复的三元组。
+  Notice that the solution set must not contain duplicate triplets.
 
-  示例：
-    给定数组 nums = [-1, 0, 1, 2, -1, -4]，
-    满足要求的三元组集合为：
-    [
-      [-1, 0, 1],
-      [-1, -1, 2]
-    ]
+  Example 1:
+    Input: nums = [-1,0,1,2,-1,-4]
+    Output: [[-1,-1,2],[-1,0,1]]
+
+  Example 2:
+    Input: nums = []
+    Output: []
+
+  Example 3:
+    Input: nums = [0]
+    Output: []
+
+  Constraints:
+    1. 0 <= nums.length <= 3000
+    2. -10^5 <= nums[i] <= 10^5
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/3sum
@@ -22,9 +30,10 @@ import "sort"
 
 func threeSum(nums []int) [][]int {
 	sort.Ints(nums)
-	var out [][]int
-	for i := 0; i < len(nums)-2; i++ {
-		j, k := i+1, len(nums)-1
+	out := [][]int{}
+	n := len(nums)
+	for i := 0; i < n-2; i++ {
+		j, k := i+1, n-1
 		for j < k {
 			sum := nums[i] + nums[j] + nums[k]
 			if sum < 0 {
@@ -49,7 +58,7 @@ func threeSum(nums []int) [][]int {
 				k--
 			}
 		}
-		for i+1 < len(nums)-2 && nums[i+1] == nums[i] {
+		for i+1 < n-2 && nums[i+1] == nums[i] {
 			i++
 		}
 	}

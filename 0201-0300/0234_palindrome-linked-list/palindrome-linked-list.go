@@ -23,56 +23,40 @@ package main
 */
 
 // Two Pointers
+
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
 func isPalindrome(head *ListNode) bool {
-	if head == nil || head.Next == nil {
-		return true
-	}
-	slow, fast := head, head
-	slowPre := &ListNode{Next: head}
+	slow, fast := head, head.Next
 	for fast != nil && fast.Next != nil {
-		slow = slow.Next
-		fast = fast.Next.Next
-		slowPre = slowPre.Next
+		slow, fast = slow.Next, fast.Next.Next
 	}
-	slowPre.Next = nil
-	var reve *ListNode
-	if fast == nil {
-		reve = reverse(slow)
-	} else {
-		reve = reverse(slow.Next)
-	}
-	res := checkIfEqual(head, reve)
-	if fast == nil {
-		slowPre.Next = reverse(reve)
-	} else {
-		slowPre.Next = slow
-		slow.Next = reverse(reve)
-	}
-	return res
-}
-
-func reverse(head *ListNode) *ListNode {
-	var newHead *ListNode
-	for head != nil {
-		next := head.Next
-		head.Next = newHead
-		newHead = head
-		head = next
-	}
-	return newHead
-}
-
-func checkIfEqual(l1, l2 *ListNode) bool {
+	l1, l2 := head, slow.Next
+	slow.Next = nil
+	l2 = reverse(l2)
 	for l1 != nil && l2 != nil {
 		if l1.Val != l2.Val {
 			return false
 		}
 		l1, l2 = l1.Next, l2.Next
 	}
-	if l1 != nil || l2 != nil {
-		return false
-	}
 	return true
+}
+
+func reverse(head *ListNode) *ListNode {
+	var out *ListNode
+	for head != nil {
+		next := head.Next
+		head.Next = out
+		out = head
+		head = next
+	}
+	return out
 }
 
 type ListNode struct {

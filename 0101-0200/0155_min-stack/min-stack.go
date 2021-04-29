@@ -1,11 +1,35 @@
 package main
 
 /*
-  设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈。
-    push(x) —— 将元素 x 推入栈中。
-    pop() —— 删除栈顶的元素。
-    top() —— 获取栈顶元素。
-    getMin() —— 检索栈中的最小元素。
+  Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
+
+  Implement the MinStack class:
+    1. MinStack() initializes the stack object.
+    2. void push(val) pushes the element val onto the stack.
+    3. void pop() removes the element on the top of the stack.
+    4. int top() gets the top element of the stack.
+    5. int getMin() retrieves the minimum element in the stack.
+
+  Example 1:
+    Input
+      ["MinStack","push","push","push","getMin","pop","top","getMin"]
+      [[],[-2],[0],[-3],[],[],[],[]]
+    Output
+      [null,null,null,null,-3,null,0,-2]
+    Explanation
+      MinStack minStack = new MinStack();
+      minStack.push(-2);
+      minStack.push(0);
+      minStack.push(-3);
+      minStack.getMin(); // return -3
+      minStack.pop();
+      minStack.top();    // return 0
+      minStack.getMin(); // return -2
+
+  Constraints:
+    1. -2^31 <= val <= 2^31 - 1
+    2. Methods pop, top and getMin operations will always be called on non-empty stacks.
+    3. At most 3 * 10^4 calls will be made to push, pop, top, and getMin.
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/min-stack
@@ -13,8 +37,8 @@ package main
 */
 
 type MinStack struct {
-	stack []int
-	help  []int
+	nums []int
+	mins []int
 }
 
 /** initialize your data structure here. */
@@ -22,32 +46,32 @@ func Constructor() MinStack {
 	return MinStack{}
 }
 
-func (s *MinStack) Push(x int) {
-	s.stack = append(s.stack, x)
-	if len(s.help) == 0 || x <= s.help[len(s.help)-1] {
-		s.help = append(s.help, x)
+func (this *MinStack) Push(val int) {
+	this.nums = append(this.nums, val)
+	if len(this.mins) == 0 || this.mins[len(this.mins)-1] >= val {
+		this.mins = append(this.mins, val)
 	}
 }
 
-func (s *MinStack) Pop() {
-	if s.stack[len(s.stack)-1] == s.help[len(s.help)-1] {
-		s.help = s.help[:len(s.help)-1]
+func (this *MinStack) Pop() {
+	if this.mins[len(this.mins)-1] == this.nums[len(this.nums)-1] {
+		this.mins = this.mins[:len(this.mins)-1]
 	}
-	s.stack = s.stack[:len(s.stack)-1]
+	this.nums = this.nums[:len(this.nums)-1]
 }
 
-func (s *MinStack) Top() int {
-	return s.stack[len(s.stack)-1]
+func (this *MinStack) Top() int {
+	return this.nums[len(this.nums)-1]
 }
 
-func (s *MinStack) GetMin() int {
-	return s.help[len(s.help)-1]
+func (this *MinStack) GetMin() int {
+	return this.mins[len(this.mins)-1]
 }
 
 /**
  * Your MinStack object will be instantiated and called as such:
  * obj := Constructor();
- * obj.Push(x);
+ * obj.Push(val);
  * obj.Pop();
  * param_3 := obj.Top();
  * param_4 := obj.GetMin();

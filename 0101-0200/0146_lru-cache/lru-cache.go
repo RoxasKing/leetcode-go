@@ -1,28 +1,64 @@
 package main
 
 /*
-  运用你所掌握的数据结构，设计和实现一个  LRU (最近最少使用) 缓存机制。它应该支持以下操作： 获取数据 get 和 写入数据 put 。
-  获取数据 get(key) - 如果密钥 (key) 存在于缓存中，则获取密钥的值（总是正数），否则返回 -1。
-  写入数据 put(key, value) - 如果密钥不存在，则写入其数据值。当缓存容量达到上限时，它应该在写入新数据之前删除最近最少使用的数据值，从而为新的数据值留出空间。
+  Design a data structure that follows the constraints of a Least Recently Used (LRU) cache.
 
-  进阶: 你是否可以在 O(1) 时间复杂度内完成这两种操作？
+  Implement the LRUCache class:
+    1. LRUCache(int capacity) Initialize the LRU cache with positive size capacity.
+    2. int get(int key) Return the value of the key if the key exists, otherwise return -1.
+    3. void put(int key, int value) Update the value of the key if the key exists. Otherwise, add the key-value pair to the cache. If the number of keys exceeds the capacity from this operation, evict the least recently used key.
+
+  Follow up:
+    Could you do get and put in O(1) time complexity?
+
+  Example 1:
+  Input
+    ["LRUCache", "put", "put", "get", "put", "get", "put", "get", "get", "get"]
+    [[2], [1, 1], [2, 2], [1], [3, 3], [2], [4, 4], [1], [3], [4]]
+  Output
+    [null, null, null, 1, null, -1, null, -1, 3, 4]
+  Explanation
+    LRUCache lRUCache = new LRUCache(2);
+    lRUCache.put(1, 1); // cache is {1=1}
+    lRUCache.put(2, 2); // cache is {1=1, 2=2}
+    lRUCache.get(1);    // return 1
+    lRUCache.put(3, 3); // LRU key was 2, evicts key 2, cache is {1=1, 3=3}
+    lRUCache.get(2);    // returns -1 (not found)
+    lRUCache.put(4, 4); // LRU key was 1, evicts key 1, cache is {4=4, 3=3}
+    lRUCache.get(1);    // return -1 (not found)
+    lRUCache.get(3);    // return 3
+    lRUCache.get(4);    // return 4
+
+  Constraints:
+    1. 1 <= capacity <= 3000
+    2. 0 <= key <= 3000
+    3. 0 <= value <= 10^4
+    4. At most 3 * 10^4 calls will be made to get and put.
+
+  来源：力扣（LeetCode）
+  链接：https://leetcode-cn.com/problems/lru-cache
+  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+// Important!
+
+// Design
 type LRUCache struct {
-	head     *cacheNode
-	tail     *cacheNode
-	dict     map[int]*cacheNode
-	capacity int
+	head *cacheNode
+	tail *cacheNode
+	dict map[int]*cacheNode
+	cap  int
 }
 
 func Constructor(capacity int) LRUCache {
-	head, tail := newCacheNode(-1<<31, -1<<31), newCacheNode(-1<<31, -1<<31)
-	head.next, tail.prev = tail, head
+	head, tail := newCacheNode(-1, -1), newCacheNode(-1, -1)
+	head.next = tail
+	tail.prev = head
 	return LRUCache{
-		head:     head,
-		tail:     tail,
-		dict:     make(map[int]*cacheNode, capacity),
-		capacity: capacity,
+		head: head,
+		tail: tail,
+		dict: make(map[int]*cacheNode),
+		cap:  capacity,
 	}
 }
 
@@ -42,7 +78,7 @@ func (this *LRUCache) Put(key int, value int) {
 		node.val = value
 		return
 	}
-	if len(this.dict) == this.capacity {
+	if len(this.dict) == this.cap {
 		first := this.head.next
 		this.removeNode(first)
 		delete(this.dict, first.key)
@@ -52,6 +88,26 @@ func (this *LRUCache) Put(key int, value int) {
 	this.insertToTail(node)
 }
 
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * obj := Constructor(capacity);
+ * param_1 := obj.Get(key);
+ * obj.Put(key,value);
+ */
+
+func (this *LRUCache) insertToTail(node *cacheNode) {
+	tail := this.tail
+	node.prev = tail.prev
+	tail.prev.next = node
+	node.next = tail
+	tail.prev = node
+}
+
+func (this *LRUCache) removeNode(node *cacheNode) {
+	node.prev.next = node.next
+	node.next.prev = node.prev
+}
+
 type cacheNode struct {
 	key  int
 	val  int
@@ -59,26 +115,6 @@ type cacheNode struct {
 	next *cacheNode
 }
 
-func newCacheNode(key, value int) *cacheNode {
-	return &cacheNode{key: key, val: value}
+func newCacheNode(key int, val int) *cacheNode {
+	return &cacheNode{key: key, val: val}
 }
-
-func (l *LRUCache) insertToTail(node *cacheNode) {
-	tail := l.tail
-	node.prev = tail.prev
-	tail.prev.next = node
-	node.next = tail
-	tail.prev = node
-}
-
-func (l *LRUCache) removeNode(node *cacheNode) {
-	node.prev.next = node.next
-	node.next.prev = node.prev
-}
-
-/**
- * Your LRUCache object will be instantiated and called as such:
- * obj := Constructor(capacity);
- * param_1 := obj.Get(key);
- * obj.Put(key,value);
- */

@@ -42,18 +42,15 @@ func diameterOfBinaryTree(root *TreeNode) int {
 }
 
 func dfs(root *TreeNode, depth int, out *int) int {
-	if root.Left == nil && root.Right == nil {
+	if root == nil {
 		return depth
 	}
-	l, r := 0, 0
-	if root.Left != nil {
-		l = dfs(root.Left, depth+1, out)
-	}
-	if root.Right != nil {
-		r = dfs(root.Right, depth+1, out)
-	}
-	*out = Max(*out, l+r-2*depth)
-	return Max(l, r)
+
+	depth++
+	ld := dfs(root.Left, depth, out)
+	rd := dfs(root.Right, depth, out)
+	*out = Max(*out, ld+rd-depth<<1)
+	return Max(ld, rd)
 }
 
 func Max(a, b int) int {

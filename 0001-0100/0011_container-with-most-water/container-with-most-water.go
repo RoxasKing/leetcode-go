@@ -32,16 +32,17 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+// Important!
+
 // Two Pointers
 func maxArea(height []int) int {
-	var out int
-	l, r := 0, len(height)-1
-	for l < r {
+	out := 0
+	for l, r := 0, len(height)-1; l < r; {
 		out = Max(out, Min(height[l], height[r])*(r-l))
-		if height[l] > height[r] {
-			r--
-		} else {
+		if height[l] < height[r] {
 			l++
+		} else {
+			r--
 		}
 	}
 	return out

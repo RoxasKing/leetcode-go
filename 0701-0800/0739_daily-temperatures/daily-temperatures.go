@@ -16,14 +16,14 @@ package main
 func dailyTemperatures(T []int) []int {
 	n := len(T)
 	out := make([]int, n)
-	stack := []int{}
-	for i, t := range T {
-		for len(stack) > 0 && T[stack[len(stack)-1]] < t {
-			idx := stack[len(stack)-1]
-			stack = stack[:len(stack)-1]
-			out[idx] = i - idx
+	stk := []int{}
+	for i := range T {
+		for len(stk) > 0 && T[i] > T[stk[len(stk)-1]] {
+			j := stk[len(stk)-1]
+			stk = stk[:len(stk)-1]
+			out[j] = i - j
 		}
-		stack = append(stack, i)
+		stk = append(stk, i)
 	}
 	return out
 }

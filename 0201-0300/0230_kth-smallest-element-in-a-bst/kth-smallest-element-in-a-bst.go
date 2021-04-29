@@ -15,76 +15,36 @@ package main
 */
 
 // Morris Traversal
+
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
 func kthSmallest(root *TreeNode, k int) int {
-	var index int
-	node := root
-	for node != nil {
-		if node.Left != nil {
-			pre := node.Left
-			for pre.Right != nil && pre.Right != node {
+	for root != nil {
+		if root.Left != nil {
+			pre := root.Left
+			for pre.Right != nil && pre.Right != root {
 				pre = pre.Right
 			}
-			if pre.Right != node {
-				pre.Right = node
-				node = node.Left
+			if pre.Right != root {
+				pre.Right = root
+				root = root.Left
 				continue
 			}
 			pre.Right = nil
 		}
-		index++
-		if index == k {
+		k--
+		if k == 0 {
 			break
 		}
-		node = node.Right
+		root = root.Right
 	}
-	return node.Val
-}
-
-// Stack
-func kthSmallest2(root *TreeNode, k int) int {
-	var index int
-	var stack []*TreeNode
-	node := root
-	for len(stack) != 0 || node != nil {
-		for node != nil {
-			stack = append(stack, node)
-			node = node.Left
-		}
-		if len(stack) != 0 {
-			node = stack[len(stack)-1]
-			stack = stack[:len(stack)-1]
-			index++
-			if index == k {
-				break
-			}
-			node = node.Right
-		}
-	}
-	return node.Val
-}
-
-// Recursion
-func kthSmallest3(root *TreeNode, k int) int {
-	var out int
-	var index int
-	var recursion func(*TreeNode) bool
-	recursion = func(node *TreeNode) bool {
-		if node == nil {
-			return false
-		}
-		if recursion(node.Left) {
-			return true
-		}
-		index++
-		if index == k {
-			out = node.Val
-			return true
-		}
-		return recursion(node.Right)
-
-	}
-	recursion(root)
-	return out
+	return root.Val
 }
 
 type TreeNode struct {

@@ -5,35 +5,41 @@ import (
 )
 
 /*
-  给定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。
-  candidates 中的数字可以无限制重复被选取。
+  Given an array of distinct integers candidates and a target integer target, return a list of all unique combinations of candidates where the chosen numbers sum to target. You may return the combinations in any order.
 
-  说明：
-    所有数字（包括 target）都是正整数。
-    解集不能包含重复的组合。
+  The same number may be chosen from candidates an unlimited number of times. Two combinations are unique if the frequency of at least one of the chosen numbers is different.
 
-  示例 1：
-    输入：candidates = [2,3,6,7], target = 7,
-    所求解集为：
-    [
-      [7],
-      [2,2,3]
-    ]
+  It is guaranteed that the number of unique combinations that sum up to target is less than 150 combinations for the given input.
 
-  示例 2：
-    输入：candidates = [2,3,5], target = 8,
-    所求解集为：
-    [
-      [2,2,2,2],
-      [2,3,3],
-      [3,5]
-    ]
+  Example 1:
+    Input: candidates = [2,3,6,7], target = 7
+    Output: [[2,2,3],[7]]
+    Explanation:
+      2 and 3 are candidates, and 2 + 2 + 3 = 7. Note that 2 can be used multiple times.
+      7 is a candidate, and 7 = 7.
+      These are the only two combinations.
 
-  提示：
-    1 <= candidates.length <= 30
-    1 <= candidates[i] <= 200
-    candidate 中的每个元素都是独一无二的。
-    1 <= target <= 500
+  Example 2:
+    Input: candidates = [2,3,5], target = 8
+    Output: [[2,2,2,2],[2,3,3],[3,5]]
+
+  Example 3:
+    Input: candidates = [2], target = 1
+    Output: []
+
+  Example 4:
+    Input: candidates = [1], target = 1
+    Output: [[1]]
+
+  Example 5:
+    Input: candidates = [1], target = 2
+    Output: [[1,1]]
+
+  Constraints:
+    1. 1 <= candidates.length <= 30
+    2. 1 <= candidates[i] <= 200
+    3. All elements of candidates are distinct.
+    4. 1 <= target <= 500
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/combination-sum
@@ -42,67 +48,56 @@ import (
 
 // DFS + Backtracking
 func combinationSum(candidates []int, target int) [][]int {
-	var out [][]int
-	var comb []int
-	dfs(candidates, target, &out, &comb, 0)
+	out := [][]int{}
+	dfs(candidates, target, len(candidates), 0, []int{}, &out)
 	return out
 }
 
-func dfs(candidates []int, target int, out *[][]int, comb *[]int, index int) {
+func dfs(candidates []int, target int, n, i int, cur []int, out *[][]int) {
 	if target == 0 {
-		tmp := make([]int, len(*comb))
-		copy(tmp, *comb)
+		tmp := make([]int, len(cur))
+		copy(tmp, cur)
 		*out = append(*out, tmp)
 		return
 	}
-	if index == len(candidates) {
+
+	if i == n {
 		return
 	}
-	dfs(candidates, target, out, comb, index+1)
-	if target -= candidates[index]; target >= 0 {
-		*comb = append(*comb, candidates[index])
-		dfs(candidates, target, out, comb, index)
-		*comb = (*comb)[:len(*comb)-1]
+
+	if target-candidates[i] >= 0 {
+		cur = append(cur, candidates[i])
+		target -= candidates[i]
+		dfs(candidates, target, n, i, cur, out)
+		target += candidates[i]
+		cur = cur[:len(cur)-1]
 	}
+
+	dfs(candidates, target, n, i+1, cur, out)
 }
 
-// Dynamic Programming + Hash
+// Dynamic Programming
 func combinationSum2(candidates []int, target int) [][]int {
+	dp := make([][][]int, target+1)
+	dp[0] = [][]int{{}}
 	sort.Ints(candidates)
-	last := len(candidates) - 1
-	for last >= 0 && candidates[last] > target {
-		last--
-	}
-	candidates = candidates[:last+1]
-	if len(candidates) == 0 {
-		return nil
-	}
-	base := candidates[0]
-	memo := make([][][]int, target-base+1)
-	for i := base; i <= target; i++ {
-		index := i - base
+
+	for i := 1; i <= target; i++ {
 		for _, candidate := range candidates {
-			remain := i - candidate
-			if remain < 0 {
+			if candidate > i {
 				break
-			} else if remain == 0 {
-				memo[index] = append(memo[index], []int{candidate})
-				continue
 			}
-			if remain -= base; remain < 0 {
-				continue
-			}
-			for _, list := range memo[remain] {
-				n := len(list)
-				if list[n-1] > candidate {
-					continue
+			for _, arr := range dp[i-candidate] {
+				if len(arr) > 0 && arr[len(arr)-1] > candidate {
+					break
 				}
-				tmp := make([]int, n+1)
-				copy(tmp, list)
-				tmp[n] = candidate
-				memo[index] = append(memo[index], tmp)
+				tmp := make([]int, len(arr)+1)
+				copy(tmp[:len(arr)], arr)
+				tmp[len(arr)] = candidate
+				dp[i] = append(dp[i], tmp)
 			}
 		}
 	}
-	return memo[target-base]
+
+	return dp[target]
 }

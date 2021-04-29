@@ -1,52 +1,47 @@
 package main
 
 /*
-  反转一个单链表。
+  Given the head of a singly linked list, reverse the list, and return the reversed list.
 
-  进阶:
-    你可以迭代或递归地反转链表。你能否用两种方法解决这道题？
+  Example 1:
+    Input: head = [1,2,3,4,5]
+    Output: [5,4,3,2,1]
+
+  Example 2:
+    Input: head = [1,2]
+    Output: [2,1]
+
+  Example 3:
+    Input: head = []
+    Output: []
+
+  Constraints:
+    1. The number of nodes in the list is the range [0, 5000].
+    2. -5000 <= Node.val <= 5000
+
+  Follow up: A linked list can be reversed either iteratively or recursively. Could you implement both?
+
+  来源：力扣（LeetCode）
+  链接：https://leetcode-cn.com/problems/reverse-linked-list
+  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Iteration
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
 func reverseList(head *ListNode) *ListNode {
-	var revHead *ListNode
+	var out *ListNode
 	for head != nil {
 		next := head.Next
-		head.Next = revHead
-		revHead = head
+		head.Next = out
+		out = head
 		head = next
 	}
-	return revHead
-}
-
-// Recursion
-func reverseList2(head *ListNode) *ListNode {
-	res, _ := recur(head)
-	return res
-}
-
-func recur(node *ListNode) (*ListNode, *ListNode) {
-	if node == nil || node.Next == nil {
-		return node, node
-	}
-	head, last := recur(node.Next)
-	last.Next, node.Next = node, nil
-	return head, node
-}
-
-// Recursion
-func reverseList3(head *ListNode) *ListNode {
-	var recur func(*ListNode) *ListNode
-	recur = func(node *ListNode) *ListNode {
-		if node == nil || node.Next == nil {
-			return node
-		}
-		p := recur(node.Next)
-		node.Next.Next = node
-		node.Next = nil
-		return p
-	}
-	return recur(head)
+	return out
 }
 
 type ListNode struct {

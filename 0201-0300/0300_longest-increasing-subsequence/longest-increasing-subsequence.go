@@ -1,5 +1,7 @@
 package main
 
+import "sort"
+
 /*
   给定一个无序的整数数组，找到其中最长上升子序列的长度。
 
@@ -14,62 +16,16 @@ package main
   进阶: 你能将算法的时间复杂度降低到 O(n log n) 吗?
 */
 
-// Dynamic Programming
-func lengthOfLIS(nums []int) int {
-	n := len(nums)
-	if n == 0 {
-		return 0
-	}
-	dp := make([]int, n)
-	for i := 0; i < n; i++ {
-		dp[i] = 1
-	}
-	max := dp[0]
-	for i := 1; i < n; i++ {
-		for j := i - 1; j >= 0; j-- {
-			if nums[j] < nums[i] {
-				dp[i] = Max(dp[i], dp[j]+1)
-			}
-		}
-		max = Max(max, dp[i])
-	}
-	return max
-}
-
-func Max(a, b int) int {
-	if a < b {
-		return b
-	}
-	return a
-}
-
 // Binary Search
-func lengthOfLIS2(nums []int) int {
-	n := len(nums)
-	if n == 0 {
-		return 0
-	}
-	mins := []int{nums[0]}
-	for i := 1; i < len(nums); i++ {
-		if nums[i] > mins[len(mins)-1] {
-			mins = append(mins, nums[i])
-		} else if nums[i] < mins[len(mins)-1] {
-			mins[binarySearch(mins, nums[i])] = nums[i]
+func lengthOfLIS(nums []int) int {
+	mins := []int{}
+	for _, num := range nums {
+		i := sort.Search(len(mins), func(i int) bool { return mins[i] >= num })
+		if i == len(mins) {
+			mins = append(mins, num)
+		} else {
+			mins[i] = num
 		}
 	}
 	return len(mins)
-}
-
-// search the specify number's index in the array
-func binarySearch(nums []int, target int) int {
-	l, r := 0, len(nums)-1
-	for l < r {
-		m := l + (r-l)>>1
-		if nums[m] < target {
-			l = m + 1
-		} else {
-			r = m
-		}
-	}
-	return l
 }

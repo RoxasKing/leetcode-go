@@ -49,14 +49,10 @@ func Test_reorderList(t *testing.T) {
 		},
 		{
 			"3",
-			args{nil},
-		},
-		{
-			"4",
 			args{&ListNode{Val: 1}},
 		},
 		{
-			"5",
+			"4",
 			args{&ListNode{Val: 1, Next: &ListNode{Val: 2}}},
 		},
 	}

@@ -1,48 +1,84 @@
 package main
 
 /*
-  给你一个链表，每 k 个节点一组进行翻转，请你返回翻转后的链表。
-  k 是一个正整数，它的值小于或等于链表的长度。
-  如果节点总数不是 k 的整数倍，那么请将最后剩余的节点保持原有顺序。
+  Given a linked list, reverse the nodes of a linked list k at a time and return its modified list.
 
-  示例：
-    给你这个链表：1->2->3->4->5
-    当 k = 2 时，应当返回: 2->1->4->3->5
-    当 k = 3 时，应当返回: 3->2->1->4->5
+  k is a positive integer and is less than or equal to the length of the linked list. If the number of nodes is not a multiple of k then left-out nodes, in the end, should remain as it is.
 
-  说明：
-    你的算法只能使用常数的额外空间。
-    你不能只是单纯的改变节点内部的值，而是需要实际进行节点交换。
+  Follow up:
+    1. Could you solve the problem in O(1) extra memory space?
+    2. You may not alter the values in the list's nodes, only nodes itself may be changed.
+
+  Example 1:
+    Input: head = [1,2,3,4,5], k = 2
+    Output: [2,1,4,3,5]
+
+  Example 2:
+    Input: head = [1,2,3,4,5], k = 3
+    Output: [3,2,1,4,5]
+
+  Example 3:
+    Input: head = [1,2,3,4,5], k = 1
+    Output: [1,2,3,4,5]
+
+  Example 4:
+    Input: head = [1], k = 1
+    Output: [1]
+
+  Constraints:
+    1. The number of nodes in the list is in the range sz.
+    2. 1 <= sz <= 5000
+    3. 0 <= Node.val <= 1000
+    4. 1 <= k <= sz
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/reverse-nodes-in-k-group
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Stack
+// Important!
+
 func reverseKGroup(head *ListNode, k int) *ListNode {
-	outPre := &ListNode{Val: -1}
-	ptr := outPre
-	tmp := make([]*ListNode, k)
-	var index int
-	for head != nil {
-		for index < k && head != nil {
-			tmp[index] = head
-			index++
-			head = head.Next
+	node := head
+	nodePre := &ListNode{Next: node}
+	var out *ListNode
+	for {
+		ptr := node
+		pre := nodePre
+		i := 0
+		for i < k && pre.Next != nil {
+			pre = pre.Next
+			i++
 		}
-		if index == k {
-			for index > 0 {
-				index--
-				ptr.Next = tmp[index]
-				ptr = ptr.Next
+		if i == k {
+			node = pre.Next
+			pre.Next = nil
+			first, last := revList(ptr)
+			if out == nil {
+				out = first
 			}
-			ptr.Next = nil
+			nodePre.Next = first
+			last.Next = node
+			nodePre = last
 		} else {
-			ptr.Next = tmp[0]
+			break
 		}
 	}
-	return outPre.Next
+	return out
+}
+
+func revList(head *ListNode) (*ListNode, *ListNode) {
+	var first, last *ListNode
+	for head != nil {
+		next := head.Next
+		head.Next = first
+		first = head
+		if last == nil {
+			last = head
+		}
+		head = next
+	}
+	return first, last
 }
 
 type ListNode struct {

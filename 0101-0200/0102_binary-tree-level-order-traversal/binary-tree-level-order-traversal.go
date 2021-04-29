@@ -1,29 +1,59 @@
 package main
 
 /*
-  给你一个二叉树，请你返回其按 层序遍历 得到的节点值。 （即逐层地，从左到右访问所有节点）。
+  Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).
+
+  Example 1:
+    Input: root = [3,9,20,null,null,15,7]
+    Output: [[3],[9,20],[15,7]]
+
+  Example 2:
+    Input: root = [1]
+    Output: [[1]]
+
+  Example 3:
+    Input: root = []
+    Output: []
+
+  Constraints:
+    1. The number of nodes in the tree is in the range [0, 2000].
+    2. -1000 <= Node.val <= 1000
+
+  来源：力扣（LeetCode）
+  链接：https://leetcode-cn.com/problems/binary-tree-level-order-traversal
+  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// BFS + Iteration
+// BFS
+
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
 func levelOrder(root *TreeNode) [][]int {
 	if root == nil {
 		return nil
 	}
-	var out [][]int
-	queue := []*TreeNode{root}
-	for len(queue) != 0 {
-		cur := make([]int, 0, len(queue))
-		for _, node := range queue {
-			cur = append(cur, node.Val)
-			if node.Left != nil {
-				queue = append(queue, node.Left)
+	out := [][]int{}
+	q := []*TreeNode{root}
+	for len(q) > 0 {
+		size := len(q)
+		tmp := []int{}
+		for _, t := range q {
+			tmp = append(tmp, t.Val)
+			if t.Left != nil {
+				q = append(q, t.Left)
 			}
-			if node.Right != nil {
-				queue = append(queue, node.Right)
+			if t.Right != nil {
+				q = append(q, t.Right)
 			}
 		}
-		queue = queue[len(cur):]
-		out = append(out, cur)
+		out = append(out, tmp)
+		q = q[size:]
 	}
 	return out
 }

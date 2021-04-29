@@ -25,79 +25,37 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+// Important!
+
 // Stack
 func calculate(s string) int {
-	nus := []int{}  // number stack
-	ops := []byte{} // operator stack
-	for s != "" {
-		for s != "" && s[0] == ' ' {
-			s = s[1:]
-		}
-		if s == "" {
-			break
-		}
-		if s[0] == '+' || s[0] == '-' || s[0] == '(' {
-			ops = append(ops, s[0])
-			s = s[1:]
-		} else if s[0] == ')' {
-			s = s[1:]
-			if len(ops) > 0 && ops[len(ops)-1] != '(' {
-				op := ops[len(ops)-1]
-				ops = ops[:len(ops)-1]
-				num := nus[len(nus)-1]
-				nus = nus[:len(nus)-1]
-				if op == '-' {
-					num = -num
-				}
-				nus = append(nus, num)
-			} else if len(ops) > 0 {
-				ops = ops[:len(ops)-1]
+	out := 0
+	ops := []int{1}
+	sig := 1
+	n := len(s)
+	for i := 0; i < n; {
+		switch s[i] {
+		case ' ':
+			i++
+		case '+':
+			sig = ops[len(ops)-1]
+			i++
+		case '-':
+			sig = -ops[len(ops)-1]
+			i++
+		case '(':
+			ops = append(ops, sig)
+			i++
+		case ')':
+			ops = ops[:len(ops)-1]
+			i++
+		default:
+			num := 0
+			for ; i < n && '0' <= s[i] && s[i] <= '9'; i++ {
+				num = num*10 + int(s[i]-'0')
 			}
-			if len(ops) > 0 && ops[len(ops)-1] != '(' {
-				num2 := nus[len(nus)-1]
-				nus = nus[:len(nus)-1]
-				num1 := 0
-				if len(nus) > 0 {
-					num1 = nus[len(nus)-1]
-					nus = nus[:len(nus)-1]
-				}
-				op := ops[len(ops)-1]
-				ops = ops[:len(ops)-1]
-				res := 0
-				if op == '+' {
-					res = num1 + num2
-				} else {
-					res = num1 - num2
-				}
-				nus = append(nus, res)
-			} else if len(ops) > 0 {
-				ops = ops[:len(ops)-1]
-			}
-		} else {
-			num2 := 0
-			for s != "" && '0' <= s[0] && s[0] <= '9' {
-				num2 = num2*10 + int(s[0]-'0')
-				s = s[1:]
-			}
-			if len(ops) > 0 && ops[len(ops)-1] != '(' {
-				op := ops[len(ops)-1]
-				ops = ops[:len(ops)-1]
-				num1 := 0
-				if len(nus) > 0 {
-					num1 = nus[len(nus)-1]
-					nus = nus[:len(nus)-1]
-				}
-				res := 0
-				if op == '+' {
-					res = num1 + num2
-				} else {
-					res = num1 - num2
-				}
-				nus = append(nus, res)
-			} else {
-				nus = append(nus, num2)
-			}
+			out += sig * num
 		}
 	}
-	return nus[0]
+	return out
 }

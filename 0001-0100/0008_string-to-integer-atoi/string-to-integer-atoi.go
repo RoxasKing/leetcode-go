@@ -1,89 +1,116 @@
 package main
 
 /*
-  请你来实现一个 atoi 函数，使其能将字符串转换成整数。
+  Implement the myAtoi(string s) function, which converts a string to a 32-bit signed integer (similar to C/C++'s atoi function).
 
-  首先，该函数会根据需要丢弃无用的开头空格字符，直到寻找到第一个非空格的字符为止。接下来的转化规则如下：
-    如果第一个非空字符为正或者负号时，则将该符号与之后面尽可能多的连续数字字符组合起来，形成一个有符号整数。
-    假如第一个非空字符是数字，则直接将其与之后连续的数字字符组合起来，形成一个整数。
-	该字符串在有效的整数部分之后也可能会存在多余的字符，那么这些字符可以被忽略，它们对函数不应该造成影响。
+  The algorithm for myAtoi(string s) is as follows:
+    1. Read in and ignore any leading whitespace.
+    2. Check if the next character (if not already at the end of the string) is '-' or '+'. Read this character in if it is either. This determines if the final result is negative or positive respectively. Assume the result is positive if neither is present.
+    3. Read in next the characters until the next non-digit charcter or the end of the input is reached. The rest of the string is ignored.
+    4. Convert these digits into an integer (i.e. "123" -> 123, "0032" -> 32). If no digits were read, then the integer is 0. Change the sign as necessary (from step 2).
+    5. If the integer is out of the 32-bit signed integer range [-231, 231 - 1], then clamp the integer so that it remains in the range. Specifically, integers less than -231 should be clamped to -231, and integers greater than 231 - 1 should be clamped to 231 - 1.
+    6. Return the integer as the final result.
 
-  注意：假如该字符串中的第一个非空格字符不是一个有效整数字符、字符串为空或字符串仅包含空白字符时，则你的函数不需要进行转换，即无法进行有效转换。
+  Note:
+    1. Only the space character ' ' is considered a whitespace character.
+    2. Do not ignore any characters other than the leading whitespace or the rest of the string after the digits.
 
-  在任何情况下，若函数不能进行有效的转换时，请返回 0 。
+  Example 1:
+    Input: s = "42"
+    Output: 42
+    Explanation: The underlined characters are what is read in, the caret is the current reader position.
+      Step 1: "42" (no characters read because there is no leading whitespace)
+               ^
+      Step 2: "42" (no characters read because there is neither a '-' nor '+')
+               ^
+      Step 3: "42" ("42" is read in)
+                 ^
+      The parsed integer is 42.
+      Since 42 is in the range [-231, 231 - 1], the final result is 42.
 
-  提示：
-    本题中的空白字符只包括空格字符 ' ' 。
-    假设我们的环境只能存储 32 位大小的有符号整数，那么其数值范围为 [−2^31,  2^31 − 1]。如果数值超过这个范围，请返回  INT_MAX (2^31 − 1) 或 INT_MIN (−2^31) 。
+  Example 2:
+    Input: s = "   -42"
+    Output: -42
+    Explanation:
+      Step 1: "   -42" (leading whitespace is read and ignored)
+                  ^
+      Step 2: "   -42" ('-' is read, so the result should be negative)
+                   ^
+      Step 3: "   -42" ("42" is read in)
+                     ^
+      The parsed integer is -42.
+      Since -42 is in the range [-231, 231 - 1], the final result is -42.
 
-  示例 1:
-    输入: "42"
-    输出: 42
+  Example 3:
+    Input: s = "4193 with words"
+    Output: 4193
+    Explanation:
+      Step 1: "4193 with words" (no characters read because there is no leading whitespace)
+               ^
+      Step 2: "4193 with words" (no characters read because there is neither a '-' nor '+')
+               ^
+      Step 3: "4193 with words" ("4193" is read in; reading stops because the next character is a non-digit)
+                   ^
+      The parsed integer is 4193.
+      Since 4193 is in the range [-231, 231 - 1], the final result is 4193.
 
-  示例 2:
-    输入: "   -42"
-    输出: -42
-    解释: 第一个非空白字符为 '-', 它是一个负号。
-         我们尽可能将负号与后面所有连续出现的数字组合起来，最后得到 -42 。
+  Example 4:
+    Input: s = "words and 987"
+    Output: 0
+    Explanation:
+      Step 1: "words and 987" (no characters read because there is no leading whitespace)
+               ^
+      Step 2: "words and 987" (no characters read because there is neither a '-' nor '+')
+               ^
+      Step 3: "words and 987" (reading stops immediately because there is a non-digit 'w')
+               ^
+      The parsed integer is 0 because no digits were read.
+      Since 0 is in the range [-231, 231 - 1], the final result is 0.
 
-  示例 3:
-    输入: "4193 with words"
-    输出: 4193
-    解释: 转换截止于数字 '3' ，因为它的下一个字符不为数字。
+  Example 5:
+    Input: s = "-91283472332"
+    Output: -2147483648
+    Explanation:
+      Step 1: "-91283472332" (no characters read because there is no leading whitespace)
+               ^
+      Step 2: "-91283472332" ('-' is read, so the result should be negative)
+                ^
+      Step 3: "-91283472332" ("91283472332" is read in)
+                           ^
+      The parsed integer is -91283472332.
+      Since -91283472332 is less than the lower bound of the range [-231, 231 - 1], the final result is clamped to -231 = -2147483648.
 
-  示例 4:
-    输入: "words and 987"
-    输出: 0
-    解释: 第一个非空字符是 'w', 但它不是数字或正、负号。
-	     因此无法执行有效的转换。
-
-  示例 5:
-    输入: "-91283472332"
-    输出: -2147483648
-    解释: 数字 "-91283472332" 超过 32 位有符号整数范围。
-         因此返回 INT_MIN (−231) 。
+  Constraints:
+    1. 0 <= s.length <= 200
+    2. s consists of English letters (lower-case and upper-case), digits (0-9), ' ', '+', '-', and '.'.
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/string-to-integer-atoi
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-func myAtoi(str string) int {
-	trim(&str)
-	flag := true
-	if str != "" && (str[0] == '+' || str[0] == '-') {
-		if str[0] == '-' {
-			flag = false
-		}
-		return atoi(flag, str[1:])
+func myAtoi(s string) int {
+	i, n := 0, len(s)
+	for i < n && s[i] == ' ' {
+		i++
 	}
-	return atoi(flag, str)
-}
-
-func trim(str *string) {
-	for *str != "" && (*str)[0] == ' ' {
-		*str = (*str)[1:]
+	flg := 1
+	if i < n && s[i] == '-' {
+		flg = -1
+		i++
+	} else if i < n && s[i] == '+' {
+		i++
 	}
-}
-
-func isNumber(c byte) bool {
-	return '0' <= c && c <= '9'
-}
-
-func atoi(flag bool, str string) int {
-	var out int
-	for str != "" && isNumber(str[0]) {
-		cur := int(str[0] - '0')
-		if !flag && (-out < (-1<<31)/10 || -out == (-1<<31)/10 && cur > (1<<31)%10) {
-			return -1 << 31
-		} else if flag && (out > (1<<31-1)/10 || out == (1<<31-1)/10 && cur > (1<<31-1)%10) {
+	sum := 0
+	for i < n && '0' <= s[i] && s[i] <= '9' {
+		num := int(s[i] - '0')
+		if flg == 1 && ((1<<31-1-num)/10 < sum || (1<<31-1-num)/10 == sum && (1<<31-1-num)%10 == 0) {
 			return 1<<31 - 1
+		} else if flg == -1 && ((1<<31-num)/10 < sum || (1<<31-num)/10 == sum && (1<<31-num)%10 == 0) {
+			return -1 << 31
 		}
-		out = out*10 + cur
-		str = str[1:]
+		sum = sum*10 + num
+		i++
 	}
-	if !flag {
-		return -out
-	}
-	return out
+	return sum * flg
 }

@@ -21,26 +21,33 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+// Important!
+
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
 func deleteDuplicates(head *ListNode) *ListNode {
-	if head == nil {
+	if head == nil || head.Next == nil {
 		return head
 	}
 	headPre := &ListNode{Next: head}
 	ptr := headPre
-	isDup := false
-	for n := head.Next; n != nil; n = n.Next {
-		if n.Val == ptr.Next.Val {
-			isDup = true
+	cnt := 1
+	for node := ptr.Next.Next; node != nil; node = node.Next {
+		if node.Val == ptr.Next.Val {
+			cnt++
+		} else if cnt == 1 {
+			ptr = ptr.Next
 		} else {
-			if isDup {
-				ptr.Next = n
-			} else {
-				ptr = ptr.Next
-			}
-			isDup = false
+			ptr.Next = node
+			cnt = 1
 		}
 	}
-	if isDup {
+	if cnt > 1 {
 		ptr.Next = nil
 	}
 	return headPre.Next

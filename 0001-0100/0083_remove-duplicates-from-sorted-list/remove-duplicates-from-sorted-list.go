@@ -30,13 +30,13 @@ package main
  */
 func deleteDuplicates(head *ListNode) *ListNode {
 	if head == nil {
-		return head
+		return nil
 	}
 	ptr := head
-	for n := head.Next; n != nil; n = n.Next {
-		if n.Val != ptr.Val {
-			ptr.Next = n
-			ptr = n
+	for node := ptr.Next; node != nil; node = node.Next {
+		if node.Val != ptr.Val {
+			ptr.Next = node
+			ptr = ptr.Next
 		}
 	}
 	ptr.Next = nil

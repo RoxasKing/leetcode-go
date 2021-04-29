@@ -39,17 +39,24 @@ package main
  * }
  */
 func isBalanced(root *TreeNode) bool {
-	if root == nil {
-		return true
-	}
-	return isBalanced(root.Left) && isBalanced(root.Right) && Abs(dfs(root.Left)-dfs(root.Right)) < 2
+	_, ok := dfs(root, 0)
+	return ok
 }
 
-func dfs(root *TreeNode) int {
+func dfs(root *TreeNode, depth int) (int, bool) {
 	if root == nil {
-		return 0
+		return depth, true
 	}
-	return 1 + Max(dfs(root.Left), dfs(root.Right))
+	depth++
+	ld, lok := dfs(root.Left, depth)
+	if !lok {
+		return depth, false
+	}
+	rd, rok := dfs(root.Right, depth)
+	if !rok {
+		return depth, false
+	}
+	return Max(ld, rd), Abs(ld-rd) < 2
 }
 
 func Max(a, b int) int {

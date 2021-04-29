@@ -1,16 +1,28 @@
 package main
 
 /*
-  给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为 1000。
+  Given a string s, return the longest palindromic substring in s.
 
-  示例 1：
-    输入: "babad"
-    输出: "bab"
-    注意: "aba" 也是一个有效答案。
+  Example 1:
+    Input: s = "babad"
+    Output: "bab"
+    Note: "aba" is also a valid answer.
 
-  示例 2：
-    输入: "cbbd"
-    输出: "bb"
+  Example 2:
+    Input: s = "cbbd"
+    Output: "bb"
+
+  Example 3:
+    Input: s = "a"
+    Output: "a"
+
+  Example 4:
+    Input: s = "ac"
+    Output: "a"
+
+  Constraints:
+    1. 1 <= s.length <= 1000
+    2. s consist of only digits and English letters (lower-case and/or upper-case),
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/longest-palindromic-substring
@@ -18,27 +30,25 @@ package main
 */
 
 func longestPalindrome(s string) string {
-	var out string
+	out := ""
 	for i := range s {
-		out = maxStr(out, palindrome(s, i, i))
-		if i+1 < len(s) && s[i] == s[i+1] {
-			out = maxStr(out, palindrome(s, i, i+1))
+		if res := getlongetPalindrome(s, i, i); len(res) > len(out) {
+			out = res
+		}
+		if i+1 == len(s) || s[i+1] != s[i] {
+			continue
+		}
+		if res := getlongetPalindrome(s, i, i+1); len(res) > len(out) {
+			out = res
 		}
 	}
 	return out
 }
 
-func palindrome(s string, l, r int) string {
+func getlongetPalindrome(s string, l, r int) string {
 	for l-1 >= 0 && r+1 < len(s) && s[l-1] == s[r+1] {
 		l--
 		r++
 	}
 	return s[l : r+1]
-}
-
-func maxStr(s1, s2 string) string {
-	if len(s1) < len(s2) {
-		return s2
-	}
-	return s1
 }

@@ -1,37 +1,42 @@
 package main
 
 /*
-  给定一个二维网格和一个单词，找出该单词是否存在于网格中。
-  单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。
+  Given an m x n grid of characters board and a string word, return true if word exists in the grid.
 
-  示例:
-    board =
-    [
-      ['A','B','C','E'],
-      ['S','F','C','S'],
-      ['A','D','E','E']
-    ]
+  The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once.
 
-    给定 word = "ABCCED", 返回 true
-    给定 word = "SEE", 返回 true
-    给定 word = "ABCB", 返回 false
+  Example 1:
+    Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"
+    Output: true
 
-  提示：
-    board 和 word 中只包含大写和小写英文字母。
-    1 <= board.length <= 200
-    1 <= board[i].length <= 200
-    1 <= word.length <= 10^3
+  Example 2:
+    Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "SEE"
+    Output: true
+
+  Example 3:
+    Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCB"
+    Output: false
+
+  Constraints:
+    1. m == board.length
+    2. n = board[i].length
+    3. 1 <= m, n <= 6
+    4. 1 <= word.length <= 15
+    5. board and word consists of only lowercase and uppercase English letters.
+
+  Follow up: Could you use search pruning to make your solution faster with a larger board?
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/word-search
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Backtracking + DFS
+// DFS + Backtracking
 func exist(board [][]byte, word string) bool {
-	for i := range board {
-		for j := range board[0] {
-			if backtrack(board, word, 0, i, j) {
+	m, n := len(board), len(board[0])
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if dfs(board, m, n, word, 0, i, j) {
 				return true
 			}
 		}
@@ -39,21 +44,26 @@ func exist(board [][]byte, word string) bool {
 	return false
 }
 
-func backtrack(board [][]byte, word string, i, row, col int) bool {
+func dfs(board [][]byte, m, n int, word string, i, x, y int) bool {
 	if i == len(word) {
 		return true
 	}
-	if row < 0 || row > len(board)-1 || col < 0 || col > len(board[0])-1 || board[row][col] == '#' || board[row][col] != word[i] {
+
+	if x < 0 || x > m-1 || y < 0 || y > n-1 || board[x][y] != word[i] {
 		return false
 	}
-	backup := board[row][col]
-	board[row][col] = '#'
-	if backtrack(board, word, i+1, row-1, col) ||
-		backtrack(board, word, i+1, row+1, col) ||
-		backtrack(board, word, i+1, row, col-1) ||
-		backtrack(board, word, i+1, row, col+1) {
+
+	ch := board[x][y]
+	board[x][y] = '$'
+
+	if dfs(board, m, n, word, i+1, x-1, y) ||
+		dfs(board, m, n, word, i+1, x+1, y) ||
+		dfs(board, m, n, word, i+1, x, y-1) ||
+		dfs(board, m, n, word, i+1, x, y+1) {
 		return true
 	}
-	board[row][col] = backup
+
+	board[x][y] = ch
+
 	return false
 }

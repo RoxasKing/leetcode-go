@@ -41,20 +41,18 @@ func canCross(stones []int) bool {
 	dp[0] = append(dp[0], 0)
 	for i := 0; i < n-1; i++ {
 		sort.Ints(dp[i])
-		prev := -1
-		for _, step := range dp[i] {
-			if step == prev {
+		for j, k := range dp[i] {
+			if j > 0 && k == dp[i][j-1] {
 				continue
 			}
-			prev = step
-			if idx, ok := dict[stones[i]+step-1]; ok && stones[idx]-stones[i] == step-1 {
-				dp[idx] = append(dp[idx], step-1)
+			if next, ok := dict[stones[i]+k-1]; ok {
+				dp[next] = append(dp[next], k-1)
 			}
-			if idx, ok := dict[stones[i]+step]; ok && stones[idx]-stones[i] == step {
-				dp[idx] = append(dp[idx], step)
+			if next, ok := dict[stones[i]+k]; ok {
+				dp[next] = append(dp[next], k)
 			}
-			if idx, ok := dict[stones[i]+step+1]; ok && stones[idx]-stones[i] == step+1 {
-				dp[idx] = append(dp[idx], step+1)
+			if next, ok := dict[stones[i]+k+1]; ok {
+				dp[next] = append(dp[next], k+1)
 			}
 		}
 	}

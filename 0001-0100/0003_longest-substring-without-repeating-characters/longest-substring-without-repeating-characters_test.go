@@ -25,25 +25,3 @@ func Test_lengthOfLongestSubstring(t *testing.T) {
 		})
 	}
 }
-
-func Test_longestSubstring(t *testing.T) {
-	type args struct {
-		s string
-	}
-	tests := []struct {
-		name string
-		args args
-		want string
-	}{
-		{"1", args{"abcabcbb"}, "abc"},
-		{"2", args{"bbbbbbbb"}, "b"},
-		{"3", args{"pwwkew"}, "wke"},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := longestSubstring(tt.args.s); got != tt.want {
-				t.Errorf("longestSubstring() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}

@@ -3,28 +3,44 @@ package main
 import "math/rand"
 
 /*
-  在未排序的数组中找到第 k 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。
+  Given an integer array nums and an integer k, return the kth largest element in the array.
 
-  说明:
-    你可以假设 k 总是有效的，且 1 ≤ k ≤ 数组的长度。
+  Note that it is the kth largest element in the sorted order, not the kth distinct element.
+
+  Example 1:
+    Input: nums = [3,2,1,5,6,4], k = 2
+    Output: 5
+
+  Example 2:
+    Input: nums = [3,2,3,1,2,4,5,5,6], k = 4
+    Output: 4
+
+  Constraints:
+    1. 1 <= k <= nums.length <= 10^4
+    2. -10^4 <= nums[i] <= 10^4
+
+  来源：力扣（LeetCode）
+  链接：https://leetcode-cn.com/problems/kth-largest-element-in-an-array
+  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
 // Quick Sort
 func findKthLargest(nums []int, k int) int {
-	pivotIndex, lastIndex := rand.Intn(len(nums)), len(nums)-1
-	nums[pivotIndex], nums[lastIndex] = nums[lastIndex], nums[pivotIndex]
-	var index int
-	for i := 0; i < len(nums); i++ {
-		if nums[i] > nums[lastIndex] {
-			nums[i], nums[index] = nums[index], nums[i]
-			index++
+	n := len(nums)
+	pivotIdx := rand.Intn(n)
+	nums[pivotIdx], nums[n-1] = nums[n-1], nums[pivotIdx]
+	i := 0
+	for j := 0; j < n-1; j++ {
+		if nums[j] > nums[n-1] {
+			nums[i], nums[j] = nums[j], nums[i]
+			i++
 		}
 	}
-	nums[index], nums[lastIndex] = nums[lastIndex], nums[index]
-	if index+1 < k {
-		return findKthLargest(nums[index+1:], k-index-1)
-	} else if index+1 > k {
-		return findKthLargest(nums[:index], k)
+	nums[i], nums[n-1] = nums[n-1], nums[i]
+	if i+1 < k {
+		return findKthLargest(nums[i+1:], k-(i+1))
+	} else if i+1 > k {
+		return findKthLargest(nums[:i], k)
 	}
-	return nums[index]
+	return nums[i]
 }

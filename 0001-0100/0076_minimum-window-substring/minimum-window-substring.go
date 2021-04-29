@@ -24,24 +24,23 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Two Pointers + Sliding Window
+// Sliding Window + Two Pointers
 func minWindow(s string, t string) string {
 	cnt := [128]int{}
 	for i := range t {
 		cnt[t[i]]++
 	}
 	out := ""
-	include := 0
-	for l, r := 0, 0; r < len(s); r++ {
+	for l, r, include := 0, 0, 0; r < len(s); r++ {
 		if cnt[s[r]] > 0 {
 			include++
 		}
 		cnt[s[r]]--
-		for l < r && cnt[s[l]] < 0 {
+		for l <= r && cnt[s[l]] < 0 {
 			cnt[s[l]]++
 			l++
 		}
-		if include == len(t) && (out == "" || r-l+1 < len(out)) {
+		if include == len(t) && (out == "" || len(out) > r+1-l) {
 			out = s[l : r+1]
 		}
 	}

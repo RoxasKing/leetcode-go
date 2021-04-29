@@ -16,38 +16,45 @@ package main
        3    3
 */
 
-// BFS + Recursion
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
 func isSymmetric(root *TreeNode) bool {
-	if root == nil {
-		return true
-	}
-	return bfs(root.Left, root.Right)
+	return equal(root.Left, root.Right)
 }
 
-func bfs(l, r *TreeNode) bool {
-	if l == nil && r == nil {
+func equal(t1, t2 *TreeNode) bool {
+	if t1 == nil && t2 == nil {
 		return true
-	} else if l == nil || r == nil || l.Val != r.Val {
+	} else if t1 == nil || t2 == nil || t1.Val != t2.Val {
 		return false
 	}
-	return bfs(l.Left, r.Right) && bfs(l.Right, r.Left)
+	return equal(t1.Left, t2.Right) && equal(t1.Right, t2.Left)
 }
 
-// BFS + Iteration
 func isSymmetric2(root *TreeNode) bool {
-	if root == nil {
-		return true
-	}
-	queue := []*TreeNode{root.Left, root.Right}
-	for len(queue) != 0 {
-		l, r := queue[0], queue[1]
-		queue = queue[2:]
-		if l == nil && r == nil {
-		} else if l != nil || r != nil || l.Val != r.Val {
-			return false
-		} else {
-			queue = append(queue, l.Left, r.Right, l.Right, r.Left)
+	q := []*TreeNode{root}
+	for len(q) > 0 {
+		n := len(q)
+		for i := 0; i < n>>1; i++ {
+			if q[i] == nil && q[n-1-i] != nil ||
+				q[i] != nil && q[n-1-i] == nil ||
+				q[i] != nil && q[n-1-i] != nil && q[i].Val != q[n-1-i].Val {
+				return false
+			}
 		}
+		for _, t := range q {
+			if t == nil {
+				continue
+			}
+			q = append(q, t.Left, t.Right)
+		}
+		q = q[n:]
 	}
 	return true
 }

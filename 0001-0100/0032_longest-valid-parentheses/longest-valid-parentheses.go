@@ -18,55 +18,26 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Scan two times
+// Stack
 func longestValidParentheses(s string) int {
-	var max int
-	lCount, rCount := 0, 0
+	out := 0
+	stk := []int{-1}
 	for i := range s {
 		if s[i] == '(' {
-			lCount++
-		} else if s[i] == ')' {
-			rCount++
-			if lCount == rCount {
-				max = Max(max, lCount+rCount)
-			} else if lCount < rCount {
-				lCount, rCount = 0, 0
-			}
+			stk = append(stk, i)
+			continue
 		}
-	}
-	lCount, rCount = 0, 0
-	for i := len(s) - 1; i >= 0; i-- {
-		if s[i] == '(' {
-			lCount++
-			if lCount == rCount {
-				max = Max(max, lCount+rCount)
-			} else if lCount > rCount {
-				lCount, rCount = 0, 0
-			}
-		} else if s[i] == ')' {
-			rCount++
-		}
-	}
-	return max
-}
 
-// Stack
-func longestValidParentheses2(s string) int {
-	var max int
-	stack := []int{-1}
-	for i, c := range s {
-		if c == '(' {
-			stack = append(stack, i)
+		if len(stk) == 1 {
+			stk[0] = i
 			continue
 		}
-		if len(stack) == 1 {
-			stack[0] = i
-			continue
-		}
-		stack = stack[:len(stack)-1]
-		max = Max(max, i-stack[len(stack)-1])
+
+		stk = stk[:len(stk)-1]
+		out = Max(out, i-stk[len(stk)-1])
 	}
-	return max
+
+	return out
 }
 
 func Max(a, b int) int {

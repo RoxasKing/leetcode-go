@@ -26,6 +26,8 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+// Morris Traversal
+
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {
@@ -34,64 +36,25 @@ package main
  *     Right *TreeNode
  * }
  */
-
-// DFS + Recursion
 func isValidBST(root *TreeNode) bool {
-	return dfs(-1<<63, 1<<63-1, root)
-}
-
-func dfs(min, max int, root *TreeNode) bool {
-	if root == nil {
-		return true
-	} else if root.Val <= min || root.Val >= max {
-		return false
-	}
-	return dfs(min, root.Val, root.Left) && dfs(root.Val, max, root.Right)
-}
-
-// DFS + Stack
-func isValidBST2(root *TreeNode) bool {
-	stack := []*TreeNode{}
-	node := root
-	val := -1 << 63
-	for node != nil || len(stack) > 0 {
-		for node != nil {
-			stack = append(stack, node)
-			node = node.Left
-		}
-		node = stack[len(stack)-1]
-		stack = stack[:len(stack)-1]
-		if node.Val <= val {
-			return false
-		}
-		val = node.Val
-		node = node.Right
-	}
-	return true
-}
-
-// Morris Traversal
-func isValidBST3(root *TreeNode) bool {
-	node := root
-	val := -1 << 63
-	for node != nil {
-		if node.Left != nil {
-			prev := node.Left
-			for prev.Right != nil && prev.Right != node {
-				prev = prev.Right
+	var prev *TreeNode
+	for root != nil {
+		if root.Left != nil {
+			rootPre := root.Left
+			for rootPre.Right != nil && rootPre.Right != root {
+				rootPre = rootPre.Right
 			}
-			if prev.Right != node {
-				prev.Right = node
-				node = node.Left
+			if rootPre.Right != root {
+				rootPre.Right = root
+				root = root.Left
 				continue
 			}
-			prev.Right = nil
+			rootPre.Right = nil
 		}
-		if val >= node.Val {
+		if prev != nil && prev.Val >= root.Val {
 			return false
 		}
-		val = node.Val
-		node = node.Right
+		prev, root = root, root.Right
 	}
 	return true
 }

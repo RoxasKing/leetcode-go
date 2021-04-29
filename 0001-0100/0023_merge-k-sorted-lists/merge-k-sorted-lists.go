@@ -1,95 +1,82 @@
 package main
 
 /*
-  给你一个链表数组，每个链表都已经按升序排列。
-  请你将所有链表合并到一个升序链表中，返回合并后的链表。
+  You are given an array of k linked-lists lists, each linked-list is sorted in ascending order.
 
-  示例 1：
-    输入：lists = [[1,4,5],[1,3,4],[2,6]]
-    输出：[1,1,2,3,4,4,5,6]
-    解释：链表数组如下：
-    [
-      1->4->5,
-      1->3->4,
-      2->6
-    ]
-    将它们合并到一个有序链表中得到。
-    1->1->2->3->4->4->5->6
+  Merge all the linked-lists into one sorted linked-list and return it.
 
-  示例 2：
-    输入：lists = []
-    输出：[]
+  Example 1:
+    Input: lists = [[1,4,5],[1,3,4],[2,6]]
+    Output: [1,1,2,3,4,4,5,6]
+    Explanation: The linked-lists are:
+      [
+        1->4->5,
+        1->3->4,
+        2->6
+      ]
+      merging them into one sorted list:
+      1->1->2->3->4->4->5->6
 
-  示例 3：
-    输入：lists = [[]]
-    输出：[]
+  Example 2:
+    Input: lists = []
+    Output: []
 
-  提示：
-    k == lists.length
-    0 <= k <= 10^4
-    0 <= lists[i].length <= 500
-    -10^4 <= lists[i][j] <= 10^4
-    lists[i] 按 升序 排列
-    lists[i].length 的总和不超过 10^4
+  Example 3:
+    Input: lists = [[]]
+    Output: []
+
+  Constraints:
+    1. k == lists.length
+    2. 0 <= k <= 10^4
+    3. 0 <= lists[i].length <= 500
+    4. -10^4 <= lists[i][j] <= 10^4
+    5. lists[i] is sorted in ascending order.
+    6. The sum of lists[i].length won't exceed 10^4.
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/merge-k-sorted-lists
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Iteration
+// DFS + Merge Sort
+
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
 func mergeKLists(lists []*ListNode) *ListNode {
-	if len(lists) == 0 {
+	n := len(lists)
+	if n == 0 {
 		return nil
+	} else if n == 1 {
+		return lists[0]
 	}
-	newLists := make([]*ListNode, len(lists))
-	copy(newLists, lists)
-	for base := 1; base <= len(lists); base *= 2 {
-		for i := 0; i < len(newLists); i += 2 * base {
-			if i+base < len(lists) {
-				newLists[i] = mergeTwoLists(newLists[i], newLists[i+base])
-			}
-		}
-	}
-	return newLists[0]
+	m := n >> 1
+	return merge(mergeKLists(lists[:m]), mergeKLists(lists[m:]))
 }
 
-// Recursion
-func mergeKLists2(lists []*ListNode) *ListNode {
-	if len(lists) == 0 {
-		return nil
-	}
-	return recurMergeKLists(&lists, 0, len(lists)-1)
-}
-
-func recurMergeKLists(lists *[]*ListNode, l, r int) *ListNode {
-	if l == r {
-		return (*lists)[l]
-	}
-	m := l + (r-l)>>1
-	return mergeTwoLists(recurMergeKLists(lists, l, m), recurMergeKLists(lists, m+1, r))
-}
-
-func mergeTwoLists(l1, l2 *ListNode) *ListNode {
-	pre := new(ListNode)
-	cur := pre
+func merge(l1, l2 *ListNode) *ListNode {
+	outPre := &ListNode{}
+	ptr := outPre
 	for l1 != nil && l2 != nil {
-		if l1.Val <= l2.Val {
-			cur.Next = l1
+		if l1.Val < l2.Val {
+			ptr.Next = l1
 			l1 = l1.Next
 		} else {
-			cur.Next = l2
+			ptr.Next = l2
 			l2 = l2.Next
 		}
-		cur = cur.Next
+		ptr = ptr.Next
 	}
 	if l1 != nil {
-		cur.Next = l1
+		ptr.Next = l1
+	} else if l2 != nil {
+		ptr.Next = l2
 	}
-	if l2 != nil {
-		cur.Next = l2
-	}
-	return pre.Next
+	return outPre.Next
 }
 
 type ListNode struct {

@@ -21,13 +21,13 @@ package main
  * }
  */
 func getKthFromEnd(head *ListNode, k int) *ListNode {
-	ptr := head
-	for i := 0; i < k && ptr != nil; i++ {
-		ptr = ptr.Next
+	last := head
+	for ; k > 0; k-- {
+		last = last.Next
 	}
-	for ptr != nil {
+	for last != nil {
 		head = head.Next
-		ptr = ptr.Next
+		last = last.Next
 	}
 	return head
 }

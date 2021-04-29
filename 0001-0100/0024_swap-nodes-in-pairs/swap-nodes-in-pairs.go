@@ -1,24 +1,48 @@
 package main
 
 /*
-  给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。
-  你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
+  Given a linked list, swap every two adjacent nodes and return its head.
 
-  示例:
-    给定 1->2->3->4, 你应该返回 2->1->4->3.
+  Example 1:
+    Input: head = [1,2,3,4]
+    Output: [2,1,4,3]
+
+  Example 2:
+    Input: head = []
+    Output: []
+
+  Example 3:
+    Input: head = [1]
+    Output: [1]
+
+  Constraints:
+    1. The number of nodes in the list is in the range [0, 100].
+    2. 0 <= Node.val <= 100
+
+  Follow up: Can you solve the problem without modifying the values in the list's nodes? (i.e., Only nodes themselves may be changed.)
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/swap-nodes-in-pairs
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
 func swapPairs(head *ListNode) *ListNode {
 	headPre := &ListNode{Next: head}
-	for n := headPre; n != nil && n.Next != nil && n.Next.Next != nil; n = n.Next.Next {
-		a, b, c := n.Next, n.Next.Next, n.Next.Next.Next
-		n.Next = b
+	ptr := headPre
+	for ptr.Next != nil && ptr.Next.Next != nil {
+		next := ptr.Next.Next.Next
+		a, b := ptr.Next, ptr.Next.Next
+		ptr.Next = b
 		b.Next = a
-		a.Next = c
+		a.Next = next
+		ptr = a
 	}
 	return headPre.Next
 }

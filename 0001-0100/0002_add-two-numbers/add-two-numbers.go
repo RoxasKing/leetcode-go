@@ -15,25 +15,34 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Elementary mathematics
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
-	pre := &ListNode{}
-	cur := pre
-	var tmp int
-	for l1 != nil || l2 != nil || tmp != 0 {
+	headPre := &ListNode{}
+	ptr := headPre
+	remain := 0
+	for l1 != nil || l2 != nil {
 		if l1 != nil {
-			tmp += l1.Val
+			remain += l1.Val
 			l1 = l1.Next
 		}
 		if l2 != nil {
-			tmp += l2.Val
+			remain += l2.Val
 			l2 = l2.Next
 		}
-		cur.Next = &ListNode{Val: tmp % 10}
-		cur = cur.Next
-		tmp /= 10
+		ptr.Next = &ListNode{Val: remain % 10}
+		ptr = ptr.Next
+		remain /= 10
 	}
-	return pre.Next
+	if remain > 0 {
+		ptr.Next = &ListNode{Val: remain}
+	}
+	return headPre.Next
 }
 
 type ListNode struct {
