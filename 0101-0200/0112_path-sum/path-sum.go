@@ -45,17 +45,13 @@ func hasPathSum(root *TreeNode, targetSum int) bool {
 	if root.Left == nil && root.Right == nil {
 		return targetSum == 0
 	}
-	ok := false
-	if root.Left != nil {
-		ok = ok || hasPathSum(root.Left, targetSum)
-	}
-	if ok {
+	if root.Left != nil && hasPathSum(root.Left, targetSum) {
 		return true
 	}
-	if root.Right != nil {
-		ok = ok || hasPathSum(root.Right, targetSum)
+	if root.Right != nil && hasPathSum(root.Right, targetSum) {
+		return true
 	}
-	return ok
+	return false
 }
 
 type TreeNode struct {

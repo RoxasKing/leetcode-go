@@ -6,18 +6,38 @@ import (
 )
 
 /*
-  序列化是将一个数据结构或者对象转换为连续的比特位的操作，进而可以将转换后的数据存储在一个文件或者内存中，同时也可以通过网络传输到另一个计算机环境，采取相反方式重构得到原数据。
+  Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment.
 
-  请设计一个算法来实现二叉树的序列化与反序列化。这里不限定你的序列 / 反序列化算法执行逻辑，你只需要保证一个二叉树可以被序列化为一个字符串并且将这个字符串反序列化为原始的树结构。
+  Design an algorithm to serialize and deserialize a binary tree. There is no restriction on how your serialization/deserialization algorithm should work. You just need to ensure that a binary tree can be serialized to a string and this string can be deserialized to the original tree structure.
 
-  提示: 这与 LeetCode 目前使用的方式一致，详情请参阅 LeetCode 序列化二叉树的格式。你并非必须采取这种方式，你也可以采用其他的方法解决这个问题。
+  Clarification: The input/output format is the same as how LeetCode serializes a binary tree. You do not necessarily need to follow this format, so please be creative and come up with different approaches yourself.
 
-  说明: 不要使用类的成员 / 全局 / 静态变量来存储状态，你的序列化和反序列化算法应该是无状态的。
+  Example 1:
+    Input: root = [1,2,3,null,null,4,5]
+    Output: [1,2,3,null,null,4,5]
+
+  Example 2:
+    Input: root = []
+    Output: []
+
+  Example 3:
+    Input: root = [1]
+    Output: [1]
+
+  Example 4:
+    Input: root = [1,2]
+    Output: [1,2]
+
+  Constraints:
+    1. The number of nodes in the tree is in the range [0, 10^4].
+    2. -1000 <= Node.val <= 1000
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/serialize-and-deserialize-binary-tree
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
+
+// BFS
 
 type Codec struct{}
 
@@ -34,40 +54,38 @@ func (this *Codec) serialize(root *TreeNode) string {
 		q = q[1:]
 		if node == nil {
 			strs = append(strs, "#")
-		} else {
-			strs = append(strs, strconv.Itoa(node.Val))
-			q = append(q, node.Left, node.Right)
+			continue
 		}
+		strs = append(strs, strconv.Itoa(node.Val))
+		q = append(q, node.Left, node.Right)
 	}
 	return strings.Join(strs, ",")
 }
 
 // Deserializes your encoded data to tree.
 func (this *Codec) deserialize(data string) *TreeNode {
-	strs := strings.Split(data, ",")
-	if strs[0] == "#" {
+	arr := strings.Split(data, ",")
+	if len(arr) == 1 {
 		return nil
 	}
-	rootVal, _ := strconv.Atoi(strs[0])
-	strs = strs[1:]
+	rootVal, _ := strconv.Atoi(arr[0])
 	root := &TreeNode{Val: rootVal}
+	arr = arr[1:]
 	q := []*TreeNode{root}
-	for len(q) != 0 && len(strs) != 0 {
-		node := q[0]
+	for len(q) > 0 {
+		t := q[0]
 		q = q[1:]
-		if strs[0] != "#" {
-			lVal, _ := strconv.Atoi(strs[0])
-			lNode := &TreeNode{Val: lVal}
-			node.Left = lNode
-			q = append(q, lNode)
+		if arr[0] != "#" {
+			val, _ := strconv.Atoi(arr[0])
+			t.Left = &TreeNode{Val: val}
+			q = append(q, t.Left)
 		}
-		if strs[1] != "#" {
-			rVal, _ := strconv.Atoi(strs[1])
-			rNode := &TreeNode{Val: rVal}
-			node.Right = rNode
-			q = append(q, rNode)
+		if arr[1] != "#" {
+			val, _ := strconv.Atoi(arr[1])
+			t.Right = &TreeNode{Val: val}
+			q = append(q, t.Right)
 		}
-		strs = strs[2:]
+		arr = arr[2:]
 	}
 	return root
 }

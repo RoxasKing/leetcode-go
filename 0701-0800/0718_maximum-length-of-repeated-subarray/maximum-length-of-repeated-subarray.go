@@ -21,29 +21,20 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Sliding Window
-func findLength(A []int, B []int) int {
-	out := 0
-	m, n := len(A), len(B)
-	for i := 0; i < m && m-i > out; i++ {
-		out = Max(out, maxLen(A[i:], B))
+// Dynamic Programming
+func findLength(nums1 []int, nums2 []int) int {
+	m, n := len(nums1), len(nums2)
+	dp := make([][]int, m+1)
+	for i := range dp {
+		dp[i] = make([]int, n+1)
 	}
-	for i := 0; i < n && n-i > out; i++ {
-		out = Max(out, maxLen(A, B[i:]))
-	}
-	return out
-}
-
-func maxLen(A []int, B []int) int {
-	m, n := len(A), len(B)
 	out := 0
-	cnt := 0
-	for i := 0; i < m && i < n; i++ {
-		if A[i] != B[i] {
-			cnt = 0
-		} else {
-			cnt++
-			out = Max(out, cnt)
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if nums1[i] == nums2[j] {
+				dp[i+1][j+1] = dp[i][j] + 1
+			}
+			out = Max(out, dp[i+1][j+1])
 		}
 	}
 	return out
@@ -56,22 +47,29 @@ func Max(a, b int) int {
 	return b
 }
 
-// Dynamic Programming
-func findLength2(A []int, B []int) int {
-	m, n := len(A), len(B)
-	dp := make([][]int, m+1)
-	for i := range dp {
-		dp[i] = make([]int, n+1)
-	}
+// Important!
+
+// Sliding Window
+func findLength2(nums1 []int, nums2 []int) int {
 	out := 0
-	for i := 0; i < m; i++ {
-		for j := 0; j < n; j++ {
-			if A[i] == B[j] {
-				dp[i+1][j+1] = dp[i][j] + 1
-			} else {
-				dp[i+1][j+1] = 0
-			}
-			out = Max(out, dp[i+1][j+1])
+	m, n := len(nums1), len(nums2)
+	for i := 0; i < m && m-i > out; i++ {
+		out = Max(out, maxLen(nums1[i:], nums2))
+	}
+	for i := 0; i < n && n-i > out; i++ {
+		out = Max(out, maxLen(nums1, nums2[i:]))
+	}
+	return out
+}
+
+func maxLen(nums1, nums2 []int) int {
+	out := 0
+	for i, cnt := 0, 0; i < len(nums1) && i < len(nums2); i++ {
+		if nums1[i] != nums2[i] {
+			cnt = 0
+		} else {
+			cnt++
+			out = Max(out, cnt)
 		}
 	}
 	return out

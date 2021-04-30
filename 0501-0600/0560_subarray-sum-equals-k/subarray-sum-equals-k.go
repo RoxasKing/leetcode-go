@@ -24,14 +24,15 @@ package main
 // Prefix Sum + Hash
 func subarraySum(nums []int, k int) int {
 	out := 0
+	pSum := make(map[int]int)
+	pSum[0] = 1
 	sum := 0
-	cnt := map[int]int{0: 1} // if sum-k == 0 , count++
 	for _, num := range nums {
 		sum += num
-		if cnt[sum-k] > 0 {
-			out += cnt[sum-k]
+		if cnt, ok := pSum[sum-k]; ok {
+			out += cnt
 		}
-		cnt[sum]++
+		pSum[sum]++
 	}
 	return out
 }

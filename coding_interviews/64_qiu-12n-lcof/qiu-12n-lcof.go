@@ -31,7 +31,7 @@ func sumNums(n int) int {
 	return out
 }
 
-// Bit operation
+// Bit Manipulation
 func sumNums2(n int) int {
 	out, A, B := 0, n, n+1
 

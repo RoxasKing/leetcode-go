@@ -16,6 +16,7 @@ func Test_findKthNumber(t *testing.T) {
 		{"2", args{1, 1}, 1},
 		{"3", args{1356, 36}, 103},
 		{"4", args{10000, 10000}, 9999},
+		{"5", args{200, 111}, 199},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

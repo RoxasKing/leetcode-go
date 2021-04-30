@@ -39,20 +39,13 @@ package main
 func findMaximumXOR(nums []int) int {
 	out := 0
 	t := NewTrie()
-	t.Insert(nums[0])
-	nums = nums[1:]
 	for _, num := range nums {
-		out = Max(out, t.Query(num))
+		if res := t.Query(num); res > out {
+			out = res
+		}
 		t.Insert(num)
 	}
 	return out
-}
-
-func Max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
 }
 
 type Trie struct {
@@ -60,9 +53,7 @@ type Trie struct {
 }
 
 func NewTrie() *Trie {
-	return &Trie{
-		child: [2]*Trie{},
-	}
+	return &Trie{child: [2]*Trie{}}
 }
 
 func (t *Trie) Insert(num int) {
@@ -78,6 +69,9 @@ func (t *Trie) Insert(num int) {
 func (t *Trie) Query(num int) int {
 	out := 0
 	for i := 31; i >= 0; i-- {
+		if t == nil {
+			return 0
+		}
 		idx := (num >> i) & 1
 		if t.child[1-idx] != nil {
 			out |= 1 << i

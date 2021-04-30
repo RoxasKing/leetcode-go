@@ -32,52 +32,38 @@ import "sort"
 
 // Two Pointers
 func minSubArrayLen(target int, nums []int) int {
+	out := 0
 	n := len(nums)
-	out := n + 1
-	for l, r, sum := 0, 0, 0; r < n; r++ {
-		sum += nums[r]
-		for l <= r && sum >= target {
-			out = Min(out, r-l+1)
-			sum -= nums[l]
+	for l, r := 0, 0; r < n; r++ {
+		target -= nums[r]
+		for l < r && target+nums[l] <= 0 {
+			target += nums[l]
 			l++
 		}
-	}
-	if out == n+1 {
-		return 0
+		if target <= 0 && (out == 0 || r+1-l < out) {
+			out = r + 1 - l
+		}
 	}
 	return out
 }
 
-func Min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
 // Binary Seearch + Prefix Sum
-func minSubArrayLen2(s int, nums []int) int {
-	if len(nums) == 0 {
-		return 0
+func minSubArrayLen2(target int, nums []int) int {
+	n := len(nums)
+	pSum := make([]int, n+1)
+	for i := 0; i < n; i++ {
+		pSum[i+1] = pSum[i] + nums[i]
 	}
-	sums := make([]int, len(nums)+1)
-	for i := 1; i <= len(nums); i++ {
-		sums[i] = sums[i-1] + nums[i-1]
-	}
-	if sums[len(sums)-1] < s {
-		return 0
-	}
-	min := 1<<31 - 1
-	for l := range sums {
-		target := s + sums[l]
-		if target > sums[len(sums)-1] {
+
+	out := 0
+	for i := 0; i < n; i++ {
+		j := sort.Search((n+1)-(i+1), func(j int) bool { return pSum[j+(i+1)] >= pSum[i]+target }) + (i + 1)
+		if j > n {
 			break
 		}
-		r := sort.SearchInts(sums, target)
-		min = Min(min, r-l)
+		if out == 0 || j-i < out {
+			out = j - i
+		}
 	}
-	if min == 1<<31-1 {
-		return 0
-	}
-	return min
+	return out
 }

@@ -42,59 +42,30 @@ package main
  * }
  */
 func kthLargest(root *TreeNode, k int) int {
-	out := root.Val
-	i := 0
-	n := root
-	for n != nil {
-		if n.Right != nil {
-			nNext := n.Right
-			for nNext.Left != nil && nNext.Left != n {
-				nNext = nNext.Left
+	for root != nil {
+		if root.Right != nil {
+			pre := root.Right
+			for pre.Left != nil && pre.Left != root {
+				pre = pre.Left
 			}
-			if nNext.Left != n {
-				nNext.Left = n
-				n = n.Right
+			if pre.Left != root {
+				pre.Left = root
+				root = root.Right
 				continue
 			}
-			nNext.Left = nil
+			pre.Left = nil
 		}
-		i++
-		out = n.Val
-		if i == k {
+		k--
+		if k == 0 {
 			break
 		}
-		n = n.Left
+		root = root.Left
 	}
-	return out
+	return root.Val
 }
 
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
 	Right *TreeNode
-}
-
-// DFS
-func kthLargest2(root *TreeNode, k int) int {
-	var out int
-	var dfs func(*TreeNode) bool
-	dfs = func(root *TreeNode) bool {
-		if root == nil {
-			return false
-		}
-		if ok := dfs(root.Right); ok {
-			return true
-		}
-		if k == 1 {
-			out = root.Val
-			return true
-		}
-		k--
-		if ok := dfs(root.Left); ok {
-			return true
-		}
-		return false
-	}
-	dfs(root)
-	return out
 }

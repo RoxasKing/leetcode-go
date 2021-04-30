@@ -1,36 +1,35 @@
 package main
 
 /*
-  给定一个二叉树，它的每个结点都存放一个 0-9 的数字，每条从根到叶子节点的路径都代表一个数字。
-  例如，从根到叶子节点路径 1->2->3 代表数字 123。
-  计算从根到叶子节点生成的所有数字之和。
+  You are given the root of a binary tree containing digits from 0 to 9 only.
 
-  说明: 叶子节点是指没有子节点的节点。
+  Each root-to-leaf path in the tree represents a number.
+    For example, the root-to-leaf path 1 -> 2 -> 3 represents the number 123.
+  Return the total sum of all root-to-leaf numbers.
 
-  示例 1:
-    输入: [1,2,3]
-        1
-       / \
-      2   3
-    输出: 25
-    解释:
-    从根到叶子节点路径 1->2 代表数字 12.
-    从根到叶子节点路径 1->3 代表数字 13.
-    因此，数字总和 = 12 + 13 = 25.
+  A leaf node is a node with no children.
 
-  示例 2:
-    输入: [4,9,0,5,1]
-        4
-       / \
-      9   0
-     / \
-    5   1
-    输出: 1026
-    解释:
-    从根到叶子节点路径 4->9->5 代表数字 495.
-    从根到叶子节点路径 4->9->1 代表数字 491.
-    从根到叶子节点路径 4->0 代表数字 40.
-    因此，数字总和 = 495 + 491 + 40 = 1026.
+  Example 1:
+    Input: root = [1,2,3]
+    Output: 25
+    Explanation:
+    The root-to-leaf path 1->2 represents the number 12.
+    The root-to-leaf path 1->3 represents the number 13.
+    Therefore, sum = 12 + 13 = 25.
+
+  Example 2:
+    Input: root = [4,9,0,5,1]
+    Output: 1026
+    Explanation:
+    The root-to-leaf path 4->9->5 represents the number 495.
+    The root-to-leaf path 4->9->1 represents the number 491.
+    The root-to-leaf path 4->0 represents the number 40.
+    Therefore, sum = 495 + 491 + 40 = 1026.
+
+  Constraints:
+    1. The number of nodes in the tree is in the range [1, 1000].
+    2. 0 <= Node.val <= 9
+    3. The depth of the tree will not exceed 10.
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/sum-root-to-leaf-numbers
@@ -38,25 +37,32 @@ package main
 */
 
 // DFS
+
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
 func sumNumbers(root *TreeNode) int {
-	if root == nil {
-		return 0
-	}
-	var sum int
-	dfs(root, root.Val, &sum)
-	return sum
+	out := 0
+	dfs(root, root.Val, &out)
+	return out
 }
 
-func dfs(node *TreeNode, cur int, sum *int) {
-	if node.Left == nil && node.Right == nil {
-		*sum += cur
-		return
+func dfs(root *TreeNode, cur int, out *int) {
+	if root.Left == nil && root.Right == nil {
+		*out += cur
 	}
-	if node.Left != nil {
-		dfs(node.Left, cur*10+node.Left.Val, sum)
+
+	if root.Left != nil {
+		dfs(root.Left, cur*10+root.Left.Val, out)
 	}
-	if node.Right != nil {
-		dfs(node.Right, cur*10+node.Right.Val, sum)
+
+	if root.Right != nil {
+		dfs(root.Right, cur*10+root.Right.Val, out)
 	}
 }
 

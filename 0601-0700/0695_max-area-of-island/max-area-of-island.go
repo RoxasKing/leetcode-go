@@ -32,35 +32,39 @@ func maxAreaOfIsland(grid [][]int) int {
 	if len(grid) == 0 || len(grid[0]) == 0 {
 		return 0
 	}
-	forwards := [][]int{{-1, 0}, {1, 0}, {0, -1}, {0, 1}}
+
 	m, n := len(grid), len(grid[0])
 	uf := NewUnionFind(m * n)
+
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
 			if grid[i][j] == 0 {
 				continue
 			}
 			x := i*n + j
-			for _, f := range forwards {
-				r, c := i+f[0], j+f[1]
-				if r < 0 || r > m-1 || c < 0 || c > n-1 || grid[r][c] == 0 {
-					continue
-				}
-				y := r*n + c
+			if i+1 < m && grid[i+1][j] == 1 {
+				y := (i+1)*n + j
+				uf.Union(x, y)
+			}
+			if j+1 < n && grid[i][j+1] == 1 {
+				y := i*n + j + 1
 				uf.Union(x, y)
 			}
 		}
 	}
+
 	out := 0
-	visited := make(map[int]bool)
+	cnt := make([]int, m*n)
 	for i := 0; i < m*n; i++ {
 		r, c := i/n, i%n
-		idx := uf.Find(i)
-		if grid[r][c] == 0 || visited[idx] {
+		if grid[r][c] == 0 {
 			continue
 		}
-		visited[idx] = true
-		out = Max(out, uf.size[idx])
+		x := uf.Find(i)
+		cnt[x]++
+		if cnt[x] > out {
+			out = cnt[x]
+		}
 	}
 	return out
 }
@@ -101,11 +105,4 @@ func (uf UnionFind) Union(x, y int) {
 	}
 	uf.parent[y] = x
 	uf.size[x] += uf.size[y]
-}
-
-func Max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
 }
