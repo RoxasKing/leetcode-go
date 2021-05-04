@@ -46,19 +46,24 @@ import "strings"
 */
 
 func reverseWords(s string) string {
-	strs := []string{}
+	arr := []string{}
 	n := len(s)
-	l, r := n-1, n-1
-	for ; l >= 0; l-- {
-		if s[l] == ' ' {
-			if l+1 < n && s[l+1:r+1] != "" {
-				strs = append(strs, s[l+1:r+1])
-			}
-			r = l - 1
+
+	for i := 0; i < n; i++ {
+		if s[i] == ' ' {
+			continue
 		}
+		j := i
+		for j+1 < n && s[j+1] != ' ' {
+			j++
+		}
+		arr = append(arr, s[i:j+1])
+		i = j
 	}
-	if s[l+1:r+1] != "" {
-		strs = append(strs, s[l+1:r+1])
+
+	for l, r := 0, len(arr)-1; l < r; l, r = l+1, r-1 {
+		arr[l], arr[r] = arr[r], arr[l]
 	}
-	return strings.Join(strs, " ")
+
+	return strings.Join(arr, " ")
 }

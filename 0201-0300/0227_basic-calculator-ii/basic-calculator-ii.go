@@ -31,11 +31,11 @@ package main
 
 // Stack
 func calculate(s string) int {
-	stk := []int{}
+	stk := IntStack{}
 	num := 0
-	op := byte('+')
-	for i := range s {
-		ch := s[i]
+	op := '+'
+
+	for _, ch := range s + "+" {
 		if ch == ' ' {
 			continue
 		}
@@ -45,39 +45,33 @@ func calculate(s string) int {
 		}
 		switch op {
 		case '+':
-			stk = append(stk, num)
+			stk.Push(num)
 		case '-':
-			stk = append(stk, -num)
+			stk.Push(-num)
 		case '*':
-			pre := stk[len(stk)-1]
-			stk = stk[:len(stk)-1]
-			stk = append(stk, pre*num)
+			stk.Push(stk.Pop() * num)
 		case '/':
-			pre := stk[len(stk)-1]
-			stk = stk[:len(stk)-1]
-			stk = append(stk, pre/num)
+			stk.Push(stk.Pop() / num)
 		}
-		num, op = 0, ch
-	}
-
-	switch op {
-	case '+':
-		stk = append(stk, num)
-	case '-':
-		stk = append(stk, -num)
-	case '*':
-		pre := stk[len(stk)-1]
-		stk = stk[:len(stk)-1]
-		stk = append(stk, pre*num)
-	case '/':
-		pre := stk[len(stk)-1]
-		stk = stk[:len(stk)-1]
-		stk = append(stk, pre/num)
+		num = 0
+		op = ch
 	}
 
 	out := 0
 	for _, num := range stk {
 		out += num
 	}
+	return out
+}
+
+type IntStack []int
+
+func (s IntStack) Len() int    { return len(s) }
+func (s IntStack) Top() int    { return s[s.Len()-1] }
+func (s *IntStack) Push(x int) { *s = append(*s, x) }
+func (s *IntStack) Pop() int {
+	top := s.Len() - 1
+	out := (*s)[top]
+	*s = (*s)[:top]
 	return out
 }

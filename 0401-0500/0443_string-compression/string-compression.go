@@ -1,7 +1,5 @@
 package main
 
-import "strconv"
-
 /*
   Given an array of characters chars, compress it using the following algorithm:
 
@@ -45,35 +43,37 @@ import "strconv"
 */
 
 func compress(chars []byte) int {
-	idx := 0
-	cnt := 1
-	cur := chars[0]
-	for _, ch := range chars[1:] {
-		if ch != cur {
-			chars[idx] = cur
-			idx++
-			if cnt > 1 {
-				num := strconv.Itoa(cnt)
-				for i := range num {
-					chars[idx] = num[i]
-					idx++
-				}
-			}
-			cnt = 1
-			cur = ch
-		} else {
+	i, cur, cnt := 0, chars[0], 0
+	for _, ch := range chars {
+		if ch == cur {
 			cnt++
+			continue
 		}
+		chars[i] = cur
+		i++
+		if cnt > 1 {
+			tmp := []byte{}
+			for ; cnt > 0; cnt /= 10 {
+				tmp = append(tmp, byte(cnt%10)+'0')
+			}
+			for ; len(tmp) > 0; i, tmp = i+1, tmp[:len(tmp)-1] {
+				chars[i] = tmp[len(tmp)-1]
+			}
+		}
+		cur = ch
+		cnt = 1
 	}
-
-	chars[idx] = cur
-	idx++
+	chars[i] = cur
+	i++
 	if cnt > 1 {
-		num := strconv.Itoa(cnt)
-		for i := range num {
-			chars[idx] = num[i]
-			idx++
+		tmp := []byte{}
+		for ; cnt > 0; cnt /= 10 {
+			tmp = append(tmp, byte(cnt%10)+'0')
+		}
+		for ; len(tmp) > 0; i, tmp = i+1, tmp[:len(tmp)-1] {
+			chars[i] = tmp[len(tmp)-1]
 		}
 	}
-	return idx
+	// chars = chars[:i]
+	return i
 }

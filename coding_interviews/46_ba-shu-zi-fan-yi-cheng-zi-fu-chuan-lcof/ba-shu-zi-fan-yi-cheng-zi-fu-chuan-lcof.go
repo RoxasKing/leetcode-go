@@ -41,17 +41,29 @@ func dfs(str string, i int, out *int) {
 
 // Dynamic Programming
 func translateNum2(num int) int {
-	numStr := strconv.Itoa(num)
-	if len(numStr) == 1 {
-		return 1
+	arr := []int{}
+	for ; num > 0; num /= 10 {
+		arr = append(arr, num%10)
 	}
-	dp1, dp2 := 1, 1
-	for i := 1; i < len(numStr); i++ {
-		if numStr[i-1] == '1' || numStr[i-1] == '2' && numStr[i] <= '5' {
-			dp1, dp2 = dp2, dp1+dp2
-		} else {
-			dp1 = dp2
+	reverse(arr)
+
+	n := len(arr)
+	dp := make([]int, n+1)
+	dp[0] = 1
+
+	for i := 0; i < n; i++ {
+		dp[i+1] = dp[i]
+		if i-1 >= 0 && (arr[i-1] == 1 || arr[i-1] == 2 && arr[i] <= 5) {
+			dp[i+1] += dp[i-1]
 		}
 	}
-	return dp2
+
+	return dp[n]
+}
+
+func reverse(arr []int) {
+	n := len(arr)
+	for i := 0; i < n>>1; i++ {
+		arr[i], arr[n-1-i] = arr[n-1-i], arr[i]
+	}
 }

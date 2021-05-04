@@ -1,37 +1,40 @@
 package main
 
 /*
-  给定一个整数数组 prices ，它的第 i 个元素 prices[i] 是一支给定的股票在第 i 天的价格。
-  设计一个算法来计算你所能获取的最大利润。你最多可以完成 k 笔交易。
-  注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
+  You are given an integer array prices where prices[i] is the price of a given stock on the ith day, and an integer k.
 
-  示例 1：
-    输入：k = 2, prices = [2,4,1]
-    输出：2
-    解释：在第 1 天 (股票价格 = 2) 的时候买入，在第 2 天 (股票价格 = 4) 的时候卖出，这笔交易所能获得利润 = 4-2 = 2 。
+  Find the maximum profit you can achieve. You may complete at most k transactions.
 
-  示例 2：
-    输入：k = 2, prices = [3,2,6,5,0,3]
-    输出：7
-    解释：在第 2 天 (股票价格 = 2) 的时候买入，在第 3 天 (股票价格 = 6) 的时候卖出, 这笔交易所能获得利润 = 6-2 = 4 。
-         随后，在第 5 天 (股票价格 = 0) 的时候买入，在第 6 天 (股票价格 = 3) 的时候卖出, 这笔交易所能获得利润 = 3-0 = 3 。
+  Note: You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).
 
-  提示：
-    0 <= k <= 109
-    0 <= prices.length <= 1000
-    0 <= prices[i] <= 1000
+  Example 1:
+    Input: k = 2, prices = [2,4,1]
+    Output: 2
+    Explanation: Buy on day 1 (price = 2) and sell on day 2 (price = 4), profit = 4-2 = 2.
+
+  Example 2:
+    Input: k = 2, prices = [3,2,6,5,0,3]
+    Output: 7
+    Explanation: Buy on day 2 (price = 2) and sell on day 3 (price = 6), profit = 6-2 = 4. Then buy on day 5 (price = 0) and sell on day 6 (price = 3), profit = 3-0 = 3.
+
+  Constraints:
+    1. 0 <= k <= 100
+    2. 0 <= prices.length <= 1000
+    3. 0 <= prices[i] <= 1000
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+// Important!
+
 // Dynamic Programming
 func maxProfit(k int, prices []int) int {
 	if k == 0 || len(prices) < 2 {
 		return 0
 	} else if k >= len(prices)>>1 { // 如果交易次数大于最多交易次数(天数的一半)，可以看作是没有交易限制
-		return maxProfitWithNoLimit(prices)
+		return maxProfitInf(prices)
 	}
 	dp := make([][2]int, k+1)
 	for i := range dp {
@@ -46,7 +49,7 @@ func maxProfit(k int, prices []int) int {
 	return dp[k][1] // last sell
 }
 
-func maxProfitWithNoLimit(prices []int) int {
+func maxProfitInf(prices []int) int {
 	buy, sell := -1<<31, 0
 	for _, price := range prices {
 		preBuy := buy

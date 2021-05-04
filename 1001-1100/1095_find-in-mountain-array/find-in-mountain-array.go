@@ -48,34 +48,12 @@ package main
  */
 
 func findInMountainArray(target int, mountainArr *MountainArray) int {
-	l, r := 0, mountainArr.length()-1
-	top := bSearchTop(mountainArr, l, r)
-	L, R := l, r
-	l, r = L, top
-	for l <= r {
-		m := (l + r) >> 1
-		res := mountainArr.get(m)
-		if res < target {
-			l = m + 1
-		} else if res > target {
-			r = m - 1
-		} else {
-			return m
-		}
+	n := mountainArr.length()
+	top := bSearchTop(mountainArr, 0, n-1)
+	if res := bSearch1(target, mountainArr, 0, top); res != -1 {
+		return res
 	}
-	l, r = top+1, R
-	for l <= r {
-		m := (l + r) >> 1
-		res := mountainArr.get(m)
-		if res > target {
-			l = m + 1
-		} else if res < target {
-			r = m - 1
-		} else {
-			return m
-		}
-	}
-	return -1
+	return bSearch2(target, mountainArr, top+1, n-1)
 }
 
 func bSearchTop(mountainArr *MountainArray, l, r int) int {
@@ -91,6 +69,36 @@ func bSearchTop(mountainArr *MountainArray, l, r int) int {
 			l = m
 		} else {
 			r = m
+		}
+	}
+	return -1
+}
+
+func bSearch1(target int, mountainArr *MountainArray, l, r int) int {
+	for l <= r {
+		m := (l + r) >> 1
+		res := mountainArr.get(m)
+		if res < target {
+			l = m + 1
+		} else if res > target {
+			r = m - 1
+		} else {
+			return m
+		}
+	}
+	return -1
+}
+
+func bSearch2(target int, mountainArr *MountainArray, l, r int) int {
+	for l <= r {
+		m := (l + r) >> 1
+		res := mountainArr.get(m)
+		if res > target {
+			l = m + 1
+		} else if res < target {
+			r = m - 1
+		} else {
+			return m
 		}
 	}
 	return -1

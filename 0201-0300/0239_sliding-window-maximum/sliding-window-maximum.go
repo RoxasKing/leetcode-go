@@ -43,45 +43,34 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Stack
+// Monotone Stack
 func maxSlidingWindow(nums []int, k int) []int {
 	n := len(nums)
-	max := make([]int, n+1-k)
-	s := IntStack{}
+	out := make([]int, 0, n+1-k)
+	stk := IntStack{}
 	for i, num := range nums {
-		for s.Len() > 0 && s.Top() < num {
-			_ = s.Pop()
+		for stk.Len() > 0 && stk.Top() < num {
+			stk.Pop()
 		}
-		s.Push(num)
-		if i+1-k > 0 && nums[i-k] == s[0] {
-			s = s[1:]
+		stk.Push(num)
+		if i > k-1 && stk[0] == nums[i-k] {
+			stk = stk[1:]
 		}
-		if i+1-k >= 0 {
-			max[i+1-k] = s[0]
+		if i >= k-1 {
+			out = append(out, stk[0])
 		}
 	}
-	return max
+	return out
 }
 
 type IntStack []int
 
-func (s IntStack) Len() int { return len(s) }
-
-func (s IntStack) Top() int {
-	if s.Len() == 0 {
-		panic("stack is empty")
-	}
-	return s[len(s)-1]
-}
-
+func (s IntStack) Len() int    { return len(s) }
+func (s *IntStack) Push(x int) { *s = append(*s, x) }
 func (s *IntStack) Pop() int {
-	if s.Len() == 0 {
-		panic("stack is empty")
-	}
-	last := len(*s) - 1
-	out := (*s)[last]
-	*s = (*s)[:last]
+	top := s.Len() - 1
+	out := (*s)[top]
+	*s = (*s)[:top]
 	return out
 }
-
-func (s *IntStack) Push(x int) { *s = append(*s, x) }
+func (s IntStack) Top() int { return s[s.Len()-1] }

@@ -35,9 +35,11 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+// Important!
+
 // Dynamic Programming
 func superEggDrop(k int, n int) int {
-	dp := make([][]int, n+1)
+	dp := make([][]int, n+1) // j个 鸡蛋操作 i次 可以确定的层数
 	for i := range dp {
 		dp[i] = make([]int, k+1)
 	}

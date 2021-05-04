@@ -51,119 +51,58 @@ package main
 
 // Important!
 
+// Doubly Linked List + Hash
+
 type LFUCache struct {
-	cacheMap  map[int]*cacheNode
-	frequency map[int]*doublyLList
-	minFreq   int
-	capacity  int
-	size      int
+	nodeAddr map[int]*cacheNode
+	freqList map[int]*doublyLL
+	minFreq  int
+	cap, len int
 }
 
 func Constructor(capacity int) LFUCache {
 	return LFUCache{
-		cacheMap:  make(map[int]*cacheNode),
-		frequency: make(map[int]*doublyLList),
-		capacity:  capacity,
+		nodeAddr: make(map[int]*cacheNode),
+		freqList: make(map[int]*doublyLL),
+		cap:      capacity,
 	}
 }
 
 func (this *LFUCache) Get(key int) int {
-	node, ok := this.cacheMap[key]
-	if !ok {
-		return -1
+	if node, ok := this.nodeAddr[key]; ok {
+		this.incrFreq(node)
+		return node.val
 	}
-	this.increaseFreq(node)
-	return node.val
+	return -1
 }
 
 func (this *LFUCache) Put(key int, value int) {
-	if this.capacity == 0 {
+	if this.cap == 0 {
 		return
 	}
-	if node, ok := this.cacheMap[key]; ok {
-		this.cacheMap[key].val = value
-		this.increaseFreq(node)
+
+	if node, ok := this.nodeAddr[key]; ok {
+		node.val = value
+		this.incrFreq(node)
 		return
 	}
-	if this.size == this.capacity {
-		this.removeMin()
-	}
-	this.addNode(&cacheNode{
-		key:  key,
-		val:  value,
-		freq: 1,
-	})
-}
 
-func (this *LFUCache) increaseFreq(node *cacheNode) {
-	this.frequency[node.freq].remove(node)
-	if node.freq == this.minFreq && this.frequency[node.freq].size == 0 {
-		this.minFreq++
+	if this.len == this.cap {
+		del := this.freqList[this.minFreq].peekHead()
+		this.freqList[this.minFreq].remove(del)
+		delete(this.nodeAddr, del.key)
+		this.len--
 	}
-	node.freq++
-	if this.frequency[node.freq] == nil {
-		this.frequency[node.freq] = newDoubleList()
-	}
-	this.frequency[node.freq].pushBack(node)
-}
 
-func (this *LFUCache) addNode(node *cacheNode) {
-	if this.frequency[1] == nil {
-		this.frequency[1] = newDoubleList()
+	node := newCacheNode(key, value)
+	node.freq = 1
+	this.nodeAddr[key] = node
+	if this.freqList[1] == nil {
+		this.freqList[1] = newDoublyLL()
 	}
-	this.frequency[1].pushBack(node)
-	this.cacheMap[node.key] = node
+	this.freqList[1].pushToTail(node)
 	this.minFreq = 1
-	this.size++
-}
-
-func (c *LFUCache) removeMin() {
-	toRemove := c.frequency[c.minFreq].front()
-	c.frequency[c.minFreq].remove(toRemove)
-	delete(c.cacheMap, toRemove.key)
-	if c.frequency[c.minFreq].size == 0 {
-		c.minFreq++
-	}
-	c.size--
-}
-
-type cacheNode struct {
-	key  int
-	val  int
-	freq int
-	prev *cacheNode
-	next *cacheNode
-}
-
-type doublyLList struct {
-	head *cacheNode
-	tail *cacheNode
-	size int
-}
-
-func newDoubleList() *doublyLList {
-	head := &cacheNode{}
-	tail := &cacheNode{prev: head}
-	head.next = tail
-	return &doublyLList{
-		head: head,
-		tail: tail,
-	}
-}
-
-func (l *doublyLList) pushBack(node *cacheNode) {
-	node.prev, node.next = l.tail.prev, l.tail
-	node.prev.next, node.next.prev = node, node
-	l.size++
-}
-
-func (l *doublyLList) front() *cacheNode {
-	return l.head.next
-}
-
-func (l *doublyLList) remove(node *cacheNode) {
-	node.prev.next, node.next.prev = node.next, node.prev
-	l.size--
+	this.len++
 }
 
 /**
@@ -172,3 +111,55 @@ func (l *doublyLList) remove(node *cacheNode) {
  * param_1 := obj.Get(key);
  * obj.Put(key,value);
  */
+
+func (this *LFUCache) incrFreq(node *cacheNode) {
+	this.freqList[node.freq].remove(node)
+	if this.minFreq == node.freq && this.freqList[node.freq].len == 0 {
+		this.minFreq++
+	}
+	node.freq++
+	if this.freqList[node.freq] == nil {
+		this.freqList[node.freq] = newDoublyLL()
+	}
+	this.freqList[node.freq].pushToTail(node)
+}
+
+type doublyLL struct {
+	head, tail *cacheNode
+	len        int
+}
+
+func newDoublyLL() *doublyLL {
+	head := newCacheNode(-1, -1)
+	tail := newCacheNode(-1, -1)
+	head.next = tail
+	tail.prev = head
+	return &doublyLL{head: head, tail: tail}
+}
+
+func (ll *doublyLL) pushToTail(node *cacheNode) {
+	node.prev = ll.tail.prev
+	node.next = ll.tail
+	node.prev.next = node
+	node.next.prev = node
+	ll.len++
+}
+
+func (ll *doublyLL) remove(node *cacheNode) {
+	node.prev.next = node.next
+	node.next.prev = node.prev
+	ll.len--
+}
+
+func (ll doublyLL) peekHead() *cacheNode {
+	return ll.head.next
+}
+
+type cacheNode struct {
+	key, val, freq int
+	prev, next     *cacheNode
+}
+
+func newCacheNode(key, val int) *cacheNode {
+	return &cacheNode{key: key, val: val}
+}

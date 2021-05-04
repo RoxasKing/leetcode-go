@@ -1,41 +1,53 @@
 package main
 
 /*
-  给定一个非负整数数组 A， A 中一半整数是奇数，一半整数是偶数。
-  对数组进行排序，以便当 A[i] 为奇数时，i 也是奇数；当 A[i] 为偶数时， i 也是偶数。
-  你可以返回任何满足上述条件的数组作为答案。
+  Given an array of integers nums, half of the integers in nums are odd, and the other half are even.
 
-  示例：
-    输入：[4,2,5,7]
-    输出：[4,5,2,7]
-    解释：[4,7,2,5]，[2,5,4,7]，[2,7,4,5] 也会被接受。
+  Sort the array so that whenever nums[i] is odd, i is odd, and whenever nums[i] is even, i is even.
 
-  提示：
-    2 <= A.length <= 20000
-    A.length % 2 == 0
-    0 <= A[i] <= 1000
+  Return any answer array that satisfies this condition.
+
+  Example 1:
+    Input: nums = [4,2,5,7]
+    Output: [4,5,2,7]
+    Explanation: [4,7,2,5], [2,5,4,7], [2,7,4,5] would also have been accepted.
+
+  Example 2:
+    Input: nums = [2,3]
+    Output: [2,3]
+
+  Constraints:
+    1. 2 <= nums.length <= 2 * 10^4
+    2. nums.length is even.
+    3. Half of the integers in nums are even.
+    4. 0 <= nums[i] <= 1000
+
+  Follow Up: Could you solve it in-place?
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/sort-array-by-parity-ii
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-func sortArrayByParityII(A []int) []int {
-	n := len(A)
-	i, j := 0, 1
-	for i < n && j < n {
-		if A[i]&1 == 1 && A[j]&1 == 0 {
-			A[i], A[j] = A[j], A[i]
+// Important!
+
+// Two Pointers
+
+func sortArrayByParityII(nums []int) []int {
+	n := len(nums)
+	for i, j := 0, 1; i < n && j < n; {
+		if nums[i]&1 == 1 && nums[j]&1 == 0 {
+			nums[i], nums[j] = nums[j], nums[i]
 			i += 2
 			j += 2
-		} else {
-			if A[i]&1 == 0 {
-				i += 2
-			}
-			if A[j]&1 == 1 {
-				j += 2
-			}
+			continue
+		}
+		if nums[i]&1 == 0 {
+			i += 2
+		}
+		if nums[j]&1 == 1 {
+			j += 2
 		}
 	}
-	return A
+	return nums
 }

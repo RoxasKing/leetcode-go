@@ -1,45 +1,57 @@
 package main
 
 /*
-  给你一个整数数组 nums ，请你找出数组中乘积最大的连续子数组（该子数组中至少包含一个数字），并返回该子数组所对应的乘积。
+  Given an integer array nums, find a contiguous non-empty subarray within the array that has the largest product, and return the product.
 
-  示例 1:
-    输入: [2,3,-2,4]
-    输出: 6
-    解释: 子数组 [2,3] 有最大乘积 6。
+  It is guaranteed that the answer will fit in a 32-bit integer.
 
-  示例 2:
-    输入: [-2,0,-1]
-    输出: 0
-    解释: 结果不能为 2, 因为 [-2,-1] 不是子数组。
+  A subarray is a contiguous subsequence of the array.
+
+  Example 1:
+    Input: nums = [2,3,-2,4]
+    Output: 6
+    Explanation: [2,3] has the largest product 6.
+
+  Example 2:
+    Input: nums = [-2,0,-1]
+    Output: 0
+    Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
+
+  Constraints:
+    1. 1 <= nums.length <= 2 * 10^4
+    2. -10 <= nums[i] <= 10
+    3. The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/maximum-product-subarray
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+// Important!
+
 // Dynamic Programming
+
 func maxProduct(nums []int) int {
 	max, min, out := nums[0], nums[0], nums[0]
-	for i := 1; i < len(nums); i++ {
-		a, b := max*nums[i], min*nums[i]
-		max = Max(Max(a, b), nums[i])
-		min = Min(Min(a, b), nums[i])
+	for _, num := range nums[1:] {
+		a, b := max*num, min*num
+		max = Max(num, Max(a, b))
+		min = Min(num, Min(a, b))
 		out = Max(out, max)
 	}
 	return out
 }
 
 func Max(a, b int) int {
-	if a < b {
-		return b
+	if a > b {
+		return a
 	}
-	return a
+	return b
 }
 
 func Min(a, b int) int {
-	if a > b {
-		return b
+	if a < b {
+		return a
 	}
-	return a
+	return b
 }

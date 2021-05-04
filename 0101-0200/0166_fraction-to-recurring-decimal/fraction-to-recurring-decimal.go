@@ -1,54 +1,73 @@
 package main
 
 import (
-	"fmt"
 	"strconv"
 )
 
 /*
-  给定两个整数，分别表示分数的分子 numerator 和分母 denominator，以字符串形式返回小数。
+  Given two integers representing the numerator and denominator of a fraction, return the fraction in string format.
 
-  如果小数部分为循环小数，则将循环的部分括在括号内。
+  If the fractional part is repeating, enclose the repeating part in parentheses.
+
+  If multiple answers are possible, return any of them.
+
+  It is guaranteed that the length of the answer string is less than 104 for all the given inputs.
+
+  Example 1:
+    Input: numerator = 1, denominator = 2
+    Output: "0.5"
+
+  Example 2:
+    Input: numerator = 2, denominator = 1
+    Output: "2"
+
+  Example 3:
+    Input: numerator = 2, denominator = 3
+    Output: "0.(6)"
+
+  Example 4:
+    Input: numerator = 4, denominator = 333
+    Output: "0.(012)"
+
+  Example 5:
+    Input: numerator = 1, denominator = 5
+    Output: "0.2"
+
+  Constraints:
+    1. -2^31 <= numerator, denominator <= 2^31 - 1
+    2. denominator != 0
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/fraction-to-recurring-decimal
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Hash
+// Math + Hash
 func fractionToDecimal(numerator int, denominator int) string {
-	if numerator == 0 {
-		return "0"
-	}
-	var out string
+	out := ""
 	if numerator < 0 && denominator > 0 || numerator > 0 && denominator < 0 {
 		out += "-"
 	}
-	dividend := Abs(numerator)
-	divisor := Abs(denominator)
-	out += strconv.Itoa(dividend / divisor)
-	remain := dividend % divisor
+	numerator = Abs(numerator)
+	denominator = Abs(denominator)
+	out += strconv.Itoa(numerator / denominator)
+	remain := numerator % denominator
 	if remain == 0 {
 		return out
 	}
+
 	out += "."
-	dict := make(map[int]int)
-	repeatPos := -1
-	for remain != 0 {
-		pos, ok := dict[remain]
-		if ok {
-			repeatPos = pos
-			break
+	memo := make(map[int]int)
+	for remain > 0 {
+		if i, ok := memo[remain]; ok {
+			return out[:i] + "(" + out[i:] + ")"
 		}
-		dict[remain] = len(out)
+		memo[remain] = len(out)
 		remain *= 10
-		out += strconv.Itoa(remain / divisor)
-		remain %= divisor
+		out += strconv.Itoa(remain / denominator)
+		remain %= denominator
 	}
-	if repeatPos == -1 {
-		return out
-	}
-	return fmt.Sprintf("%s(%s)", out[0:repeatPos], out[repeatPos:])
+	return out
 }
 
 func Abs(num int) int {

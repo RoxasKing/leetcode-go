@@ -1,16 +1,50 @@
 package main
 
-/*
-  比较两个版本号 version1 和 version2。
-  如果 version1 > version2 返回 1，如果 version1 < version2 返回 -1， 除此之外返回 0。
-  你可以假设版本字符串非空，并且只包含数字和 . 字符。
-   . 字符不代表小数点，而是用于分隔数字序列。
-  例如，2.5 不是“两个半”，也不是“差一半到三”，而是第二版中的第五个小版本。
-  你可以假设版本号的每一级的默认修订版号为 0。例如，版本号 3.4 的第一级（大版本）和第二级（小版本）修订号分别为 3 和 4。其第三级和第四级修订号均为 0。
+import (
+	"strconv"
+	"strings"
+)
 
-  提示：
-    版本字符串由以点 （.） 分隔的数字字符串组成。这个数字字符串可能有前导零。
-    版本字符串不以点开始或结束，并且其中不会有两个连续的点。
+/*
+  Given two version numbers, version1 and version2, compare them.
+
+  Version numbers consist of one or more revisions joined by a dot '.'. Each revision consists of digits and may contain leading zeros. Every revision contains at least one character. Revisions are 0-indexed from left to right, with the leftmost revision being revision 0, the next revision being revision 1, and so on. For example 2.5.33 and 0.1 are valid version numbers.
+
+  To compare version numbers, compare their revisions in left-to-right order. Revisions are compared using their integer value ignoring any leading zeros. This means that revisions 1 and 001 are considered equal. If a version number does not specify a revision at an index, then treat the revision as 0. For example, version 1.0 is less than version 1.1 because their revision 0s are the same, but their revision 1s are 0 and 1 respectively, and 0 < 1.
+
+  Return the following:
+    1. If version1 < version2, return -1.
+    2. If version1 > version2, return 1.
+    3. Otherwise, return 0.
+
+  Example 1:
+    Input: version1 = "1.01", version2 = "1.001"
+    Output: 0
+    Explanation: Ignoring leading zeroes, both "01" and "001" represent the same integer "1".
+
+  Example 2:
+    Input: version1 = "1.0", version2 = "1.0.0"
+    Output: 0
+    Explanation: version1 does not specify revision 2, which means it is treated as "0".
+
+  Example 3:
+    Input: version1 = "0.1", version2 = "1.1"
+    Output: -1
+    Explanation: version1's revision 0 is "0", while version2's revision 0 is "1". 0 < 1, so version1 < version2.
+
+  Example 4:
+    Input: version1 = "1.0.1", version2 = "1"
+    Output: 1
+
+  Example 5:
+    Input: version1 = "7.5.2.4", version2 = "7.5.3"
+    Output: -1
+
+  Constraints:
+    1. 1 <= version1.length, version2.length <= 500
+    2. version1 and version2 only contain digits and '.'.
+    3. version1 and version2 are valid version numbers.
+    4. All the given revisions in version1 and version2 can be stored in a 32-bit integer.
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/compare-version-numbers
@@ -18,60 +52,36 @@ package main
 */
 
 func compareVersion(version1 string, version2 string) int {
-	n1, n2 := len(version1), len(version2)
-	l1, r1, l2, r2 := 0, 1, 0, 1
-	for l1 < n1 && l2 < n2 {
-		for r1 < n1 && version1[r1] != '.' {
-			r1++
-		}
-		for r2 < n2 && version2[r2] != '.' {
-			r2++
-		}
-		if res := compare(trimZero(version1[l1:r1]), trimZero(version2[l2:r2])); res != 0 {
-			return res
-		}
-		l1, r1, l2, r2 = r1+1, r1+2, r2+1, r2+2
+	ss1 := strings.Split(version1, ".")
+	ss2 := strings.Split(version2, ".")
+	nums1 := make([]int, len(ss1))
+	for i := range nums1 {
+		nums1[i], _ = strconv.Atoi(ss1[i])
 	}
-	if l1 < n1 && containNonZeroNumber(version1[l1:]) {
-		return 1
-	} else if l2 < n2 && containNonZeroNumber(version2[l2:]) {
-		return -1
+	nums2 := make([]int, len(ss2))
+	for j := range nums2 {
+		nums2[j], _ = strconv.Atoi(ss2[j])
+	}
+	for len(nums1) > 0 && len(nums2) > 0 {
+		if nums1[0] > nums2[0] {
+			return 1
+		} else if nums1[0] < nums2[0] {
+			return -1
+		}
+		nums1 = nums1[1:]
+		nums2 = nums2[1:]
+	}
+	for len(nums1) > 0 {
+		if nums1[0] > 0 {
+			return 1
+		}
+		nums1 = nums1[1:]
+	}
+	for len(nums2) > 0 {
+		if nums2[0] > 0 {
+			return -1
+		}
+		nums2 = nums2[1:]
 	}
 	return 0
-}
-
-func compare(s1, s2 string) int {
-	n1, n2 := len(s1), len(s2)
-	if n1 != n2 {
-		return boolToInt(n1 > n2)
-	}
-	for i := 0; i < n1; i++ {
-		if s1[i] != s2[i] {
-			return boolToInt(s1[i] > s2[i])
-		}
-	}
-	return 0
-}
-
-func boolToInt(b bool) int {
-	if b {
-		return 1
-	}
-	return -1
-}
-
-func trimZero(s string) string {
-	for len(s) != 0 && s[0] == '0' {
-		s = s[1:]
-	}
-	return s
-}
-
-func containNonZeroNumber(s string) bool {
-	for i := range s {
-		if '1' <= s[i] && s[i] <= '9' {
-			return true
-		}
-	}
-	return false
 }

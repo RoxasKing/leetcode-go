@@ -23,21 +23,23 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Dynamic Programming
+// Important!
+
+// Math + Dynamic Programming
 func nthUglyNumber(n int) int {
 	dp := make([]int, n)
 	dp[0] = 1
-	mul2, mul3, mul5 := 0, 0, 0
+	i2, i3, i5 := 0, 0, 0
 	for i := 1; i < n; i++ {
-		dp[i] = Min(Min(dp[mul2]*2, dp[mul3]*3), dp[mul5]*5)
-		if dp[mul2]*2 <= dp[i] {
-			mul2++
+		dp[i] = Min(dp[i2]*2, Min(dp[i3]*3, dp[i5]*5))
+		if dp[i2]*2 == dp[i] {
+			i2++
 		}
-		if dp[mul3]*3 <= dp[i] {
-			mul3++
+		if dp[i3]*3 == dp[i] {
+			i3++
 		}
-		if dp[mul5]*5 <= dp[i] {
-			mul5++
+		if dp[i5]*5 == dp[i] {
+			i5++
 		}
 	}
 	return dp[n-1]

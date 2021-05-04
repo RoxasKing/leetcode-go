@@ -47,7 +47,7 @@ import "container/heap"
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Priority Queue
+// Priority Queue(Heap Sort)
 type MKAverage struct {
 	m, k int
 	arr  []int       // record last m number

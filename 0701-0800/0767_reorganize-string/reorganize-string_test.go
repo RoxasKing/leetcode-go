@@ -16,6 +16,7 @@ func Test_reorganizeString(t *testing.T) {
 		{"3", args{"aaabb"}, "ababa"},
 		{"4", args{"aaabbccc"}, "acbacbac"},
 		{"5", args{"vvvlo"}, "vlvov"},
+		{"6", args{"a"}, "a"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

@@ -1,18 +1,34 @@
 package main
 
 /*
-  现在你总共有 n 门课需要选，记为 0 到 n-1。
-  在选修某些课程之前需要一些先修课程。 例如，想要学习课程 0 ，你需要先完成课程 1 ，我们用一个匹配来表示他们: [0,1]
-  给定课程总量以及它们的先决条件，返回你为了学完所有课程所安排的学习顺序。
-  可能会有多个正确的顺序，你只要返回一种就可以了。如果不可能完成所有课程，返回一个空数组。
+  There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
 
-  说明:
-    输入的先决条件是由边缘列表表示的图形，而不是邻接矩阵。详情请参见图的表示法。
-    你可以假定输入的先决条件中没有重复的边。
-  提示:
-    这个问题相当于查找一个循环是否存在于有向图中。如果存在循环，则不存在拓扑排序，因此不可能选取所有课程进行学习。
-    通过 DFS 进行拓扑排序 - 一个关于Coursera的精彩视频教程（21分钟），介绍拓扑排序的基本概念。
-    拓扑排序也可以通过 BFS 完成。
+    For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
+
+  Return the ordering of courses you should take to finish all courses. If there are many valid answers, return any of them. If it is impossible to finish all courses, return an empty array.
+
+  Example 1:
+    Input: numCourses = 2, prerequisites = [[1,0]]
+    Output: [0,1]
+    Explanation: There are a total of 2 courses to take. To take course 1 you should have finished course 0. So the correct course order is [0,1].
+
+  Example 2:
+    Input: numCourses = 4, prerequisites = [[1,0],[2,0],[3,1],[3,2]]
+    Output: [0,2,1,3]
+    Explanation: There are a total of 4 courses to take. To take course 3 you should have finished both courses 1 and 2. Both courses 1 and 2 should be taken after you finished course 0.
+    So one correct course order is [0,1,2,3]. Another correct ordering is [0,2,1,3].
+
+  Example 3:
+    Input: numCourses = 1, prerequisites = []
+    Output: [0]
+
+  Constraints:
+    1. 1 <= numCourses <= 2000
+    2. 0 <= prerequisites.length <= numCourses * (numCourses - 1)
+    3. prerequisites[i].length == 2
+    4. 0 <= ai, bi < numCourses
+    5. ai != bi
+    6. All the pairs [ai, bi] are distinct.
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/course-schedule-ii
@@ -27,69 +43,32 @@ func findOrder(numCourses int, prerequisites [][]int) []int {
 		edges[p[1]] = append(edges[p[1]], p[0])
 		indeg[p[0]]++
 	}
-	var queue []int
+
+	q := []int{}
 	for i := 0; i < numCourses; i++ {
 		if indeg[i] == 0 {
-			queue = append(queue, i)
+			q = append(q, i)
 		}
 	}
+
 	out := make([]int, 0, numCourses)
-	for len(queue) > 0 {
-		course := queue[0]
-		queue = queue[1:]
+	for len(q) > 0 {
 		if len(out) == numCourses {
 			return nil
 		}
-		out = append(out, course)
-		for _, c := range edges[course] {
-			indeg[c]--
-			if indeg[c] == 0 {
-				queue = append(queue, c)
+		c := q[0]
+		q = q[1:]
+		out = append(out, c)
+		for _, nc := range edges[c] {
+			indeg[nc]--
+			if indeg[nc] == 0 {
+				q = append(q, nc)
 			}
 		}
 	}
+
 	if len(out) < numCourses {
 		return nil
-	}
-	return out
-}
-
-// Topological Sorting + DFS
-func findOrder2(numCourses int, prerequisites [][]int) []int {
-	out := make([]int, 0, numCourses)
-	edges := make([][]int, numCourses)
-	visited := make([]int, numCourses)
-	var invalid bool
-	var dfs func(int)
-	dfs = func(course int) {
-		visited[course] = 1
-		for _, c := range edges[course] {
-			if visited[c] == 0 {
-				dfs(c)
-				if invalid {
-					return
-				}
-			} else if visited[c] == 1 {
-				invalid = true
-				return
-			}
-		}
-		visited[course] = 2
-		out = append(out, course)
-	}
-	for _, p := range prerequisites {
-		edges[p[1]] = append(edges[p[1]], p[0])
-	}
-	for i := 0; i < numCourses && !invalid; i++ {
-		if visited[i] == 0 {
-			dfs(i)
-		}
-	}
-	if invalid {
-		return nil
-	}
-	for i := 0; i < len(out)>>1; i++ {
-		out[i], out[len(out)-1-i] = out[len(out)-1-i], out[i]
 	}
 	return out
 }

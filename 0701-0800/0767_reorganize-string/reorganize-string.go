@@ -5,19 +5,20 @@ import (
 )
 
 /*
-  给定一个字符串S，检查是否能重新排布其中的字母，使得两相邻的字符不同。
-  若可行，输出任意可行的结果。若不可行，返回空字符串。
+  Given a string S, check if the letters can be rearranged so that two acters that are adjacent to each other are not the same.
 
-  示例 1:
-    输入: S = "aab"
-    输出: "aba"
+  If possible, output any possible result.  If not possible, return the empty string.
 
-  示例 2:
-    输入: S = "aaab"
-    输出: ""
+  Example 1:
+    Input: S = "aab"
+    Output: "aba"
 
-  注意:
-    S 只包含小写字母并且长度在[1, 500]区间内。
+  Example 2:
+    Input: S = "aaab"
+    Output: ""
+
+  Note:
+    S will consist of lowercase letters and have length in range [1, 500].
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/reorganize-string
@@ -27,63 +28,54 @@ import (
 // Priority Queue(Heap Sort)
 func reorganizeString(S string) string {
 	n := len(S)
-	if n <= 1 {
-		return S
-	}
 
-	counts := [26]int{}
-	for _, c := range S {
-		index := int(c - 'a')
-		if counts[index]++; counts[index] > (n+1)>>1 {
+	cnt := [26]int{}
+	for i := range S {
+		idx := S[i] - 'a'
+		if cnt[idx]++; cnt[idx] > (n+1)>>1 {
 			return ""
 		}
 	}
 
-	pq := priorityQueue{}
-
-	for i, count := range counts {
-		if count > 0 {
-			heap.Push(&pq, &charCount{
-				count: count,
-				char:  byte(i) + 'a',
-			})
+	pq := PriorityQueue{}
+	for i := range cnt {
+		if cnt[i] == 0 {
+			continue
 		}
+		heap.Push(&pq, &Pair{ch: byte(i) + 'a', cnt: cnt[i]})
 	}
 
-	chars := make([]byte, 0, n)
-
+	chs := make([]byte, 0, n)
 	for pq.Len() > 1 {
-		a, b := heap.Pop(&pq).(*charCount), heap.Pop(&pq).(*charCount)
-		chars = append(chars, a.char, b.char)
-		if a.count--; a.count > 0 {
+		a, b := heap.Pop(&pq).(*Pair), heap.Pop(&pq).(*Pair)
+		chs = append(chs, a.ch, b.ch)
+		if a.cnt--; a.cnt > 0 {
 			heap.Push(&pq, a)
 		}
-		if b.count--; b.count > 0 {
+		if b.cnt--; b.cnt > 0 {
 			heap.Push(&pq, b)
 		}
 	}
-
 	if pq.Len() > 0 {
-		chars = append(chars, pq.Pop().(*charCount).char)
+		chs = append(chs, pq.Pop().(*Pair).ch)
 	}
-
-	return string(chars)
+	return string(chs)
 }
 
-type charCount struct {
-	count int
-	char  byte
+type Pair struct {
+	ch  byte
+	cnt int
 }
 
-type priorityQueue []*charCount
+type PriorityQueue []*Pair
 
-func (p priorityQueue) Len() int            { return len(p) }
-func (p priorityQueue) Less(i, j int) bool  { return p[i].count > p[j].count }
-func (p priorityQueue) Swap(i, j int)       { p[i], p[j] = p[j], p[i] }
-func (p *priorityQueue) Push(x interface{}) { *p = append(*p, x.(*charCount)) }
-func (p *priorityQueue) Pop() interface{} {
-	last := len(*p) - 1
-	out := (*p)[last]
-	*p = (*p)[:last]
+func (pq PriorityQueue) Len() int            { return len(pq) }
+func (pq PriorityQueue) Less(i, j int) bool  { return pq[i].cnt > pq[j].cnt }
+func (pq PriorityQueue) Swap(i, j int)       { pq[i], pq[j] = pq[j], pq[i] }
+func (pq *PriorityQueue) Push(x interface{}) { *pq = append(*pq, x.(*Pair)) }
+func (pq *PriorityQueue) Pop() interface{} {
+	last := len(*pq) - 1
+	out := (*pq)[last]
+	*pq = (*pq)[:last]
 	return out
 }

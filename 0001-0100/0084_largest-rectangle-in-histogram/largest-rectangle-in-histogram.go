@@ -1,63 +1,58 @@
 package main
 
 /*
-  给定 n 个非负整数，用来表示柱状图中各个柱子的高度。每个柱子彼此相邻，且宽度为 1 。
-  求在该柱状图中，能够勾勒出来的矩形的最大面积。
+  Given an array of integers heights representing the histogram's bar height where the width of each bar is 1, return the area of the largest rectangle in the histogram.
 
-  以上是柱状图的示例，其中每个柱子的宽度为 1，给定的高度为 [2,1,5,6,2,3]。
+  Example 1:
+    Input: heights = [2,1,5,6,2,3]
+    Output: 10
+    Explanation: The above is a histogram where width of each bar is 1.
+      The largest rectangle is shown in the red area, which has an area = 10 units.
 
-  图中阴影部分为所能勾勒出的最大矩形面积，其面积为 10 个单位。
+  Example 2:
+    Input: heights = [2,4]
+    Output: 4
 
-  示例:
-    输入: [2,1,5,6,2,3]
-    输出: 10
+  Constraints:
+    1. 1 <= heights.length <= 10^5
+    2. 0 <= heights[i] <= 10^4
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/largest-rectangle-in-histogram
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Stack
+// Important!
+
+// Monotone Stack
 func largestRectangleArea(heights []int) int {
 	out := 0
-	stack := MakeStack()
-	stack.Push(-1)
+	s := IntStack{-1}
 	for i := range heights {
-		for stack.Top() != -1 && heights[i] <= heights[stack.Top()] {
-			out = Max(out, heights[stack.Pop()]*(i-1-stack.Top()))
+		for s.Len() > 1 && heights[s.Top()] >= heights[i] {
+			height := heights[s.Pop()]
+			out = Max(out, height*(i-1-s.Top()))
 		}
-		stack.Push(i)
+		s.Push(i)
 	}
-	for stack.Top() != -1 {
-		out = Max(out, heights[stack.Pop()]*(len(heights)-1-stack.Top()))
+	n := len(heights)
+	for s.Len() > 1 {
+		height := heights[s.Pop()]
+		out = Max(out, height*(n-1-s.Top()))
 	}
 	return out
 }
 
-type Stack []int
+type IntStack []int
 
-func MakeStack() Stack {
-	return Stack{}
-}
-
-func (s Stack) Size() int {
-	return len(s)
-}
-
-func (s Stack) Top() int {
-	last := len(s) - 1
-	return s[last]
-}
-
-func (s *Stack) Pop() int {
-	last := len(*s) - 1
-	out := (*s)[last]
-	*s = (*s)[:last]
+func (s IntStack) Len() int    { return len(s) }
+func (s IntStack) Top() int    { return s[s.Len()-1] }
+func (s *IntStack) Push(x int) { *s = append(*s, x) }
+func (s *IntStack) Pop() int {
+	top := s.Len() - 1
+	out := (*s)[top]
+	*s = (*s)[:top]
 	return out
-}
-
-func (s *Stack) Push(num int) {
-	*s = append(*s, num)
 }
 
 func Max(a, b int) int {

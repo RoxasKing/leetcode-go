@@ -37,21 +37,18 @@ package main
 
 // Binary Search
 func findMin(nums []int) int {
-	return nums[bSearchRotateIdx(nums, 0, len(nums)-1)]
-}
-
-func bSearchRotateIdx(nums []int, l, r int) int {
-	start := l
+	n := len(nums)
+	l, r := 0, n-1
 	for l < r {
 		m := (l + r) >> 1
 		if nums[m] > nums[m+1] {
-			return m + 1
+			return nums[m+1]
 		}
-		if nums[l] <= nums[m] {
+		if nums[l] < nums[m] {
 			l = m + 1
 		} else {
 			r = m
 		}
 	}
-	return start
+	return nums[0]
 }

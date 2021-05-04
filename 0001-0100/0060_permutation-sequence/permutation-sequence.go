@@ -1,51 +1,63 @@
 package main
 
 /*
-  给出集合 [1,2,3,…,n]，其所有元素共有 n! 种排列。
-  按大小顺序列出所有排列情况，并一一标记，当 n = 3 时, 所有排列如下：
-    "123"
-    "132"
-    "213"
-    "231"
-    "312"
-    "321"
-  给定 n 和 k，返回第 k 个排列。
+  The set [1, 2, 3, ..., n] contains a total of n! unique permutations.
 
-  说明：
-    给定 n 的范围是 [1, 9]。
-    给定 k 的范围是[1,  n!]。
+  By listing and labeling all of the permutations in order, we get the following sequence for n = 3:
+    1. "123"
+    2. "132"
+    3. "213"
+    4. "231"
+    5. "312"
+    6. "321"
+  Given n and k, return the kth permutation sequence.
 
-  示例 1:
-    输入: n = 3, k = 3
-    输出: "213"
+  Example 1:
+    Input: n = 3, k = 3
+    Output: "213"
 
-  示例 2:
-    输入: n = 4, k = 9
-    输出: "2314"
+  Example 2:
+    Input: n = 4, k = 9
+    Output: "2314"
+
+  Example 3:
+    Input: n = 3, k = 1
+    Output: "123"
+
+  Constraints:
+    1. 1 <= n <= 9
+    2. 1 <= k <= n!
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/permutation-sequence
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+// Important!
+
+// Math
+
 func getPermutation(n int, k int) string {
-	nums := make([]byte, n)
-	for i := 0; i < n; i++ {
-		nums[i] = byte(i) + '1'
+	nums := make([]byte, 0, n)
+	for i := 1; i <= n; i++ {
+		nums = append(nums, byte(i)+'0')
 	}
+
 	k--
 	base := 1
 	for i := 2; i < n; i++ {
 		base *= i
 	}
-	out := make([]byte, n)
+
+	chs := make([]byte, n)
 	for i := 0; i < n-1; i++ {
-		index := k / base
-		out[i] = nums[index]
-		copy(nums[index:], nums[index+1:])
+		idx := k / base
+		chs[i] = nums[idx]
+		copy(nums[idx:], nums[idx+1:])
 		k %= base
 		base /= n - 1 - i
 	}
-	out[n-1] = nums[0]
-	return string(out)
+	chs[n-1] = nums[0]
+
+	return string(chs)
 }

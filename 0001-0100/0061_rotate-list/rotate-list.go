@@ -22,28 +22,46 @@ package main
 */
 
 // Two Pointers
+
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
 func rotateRight(head *ListNode, k int) *ListNode {
-	if head == nil || k == 0 {
+	if head == nil {
 		return head
 	}
-	headPre := &ListNode{Next: head}
-	last := headPre
-	size := 0
-	for last.Next != nil {
+
+	cnt := 0
+	for n := head; n != nil; n = n.Next {
+		cnt++
+	}
+
+	k %= cnt
+	if k == 0 {
+		return head
+	}
+
+	last := head
+	for k > 0 {
 		last = last.Next
-		size++
+		k--
 	}
-	if size == k {
-		return head
+
+	ptr := head
+	for last.Next != nil {
+		ptr = ptr.Next
+		last = last.Next
 	}
-	last.Next = head // ring
-	outPre := headPre
-	for k := size - k%size; k > 0; k-- {
-		outPre = outPre.Next
-	}
-	out := outPre.Next
-	outPre.Next = nil
-	return out
+
+	newHead := ptr.Next
+	ptr.Next = nil
+	last.Next = head
+
+	return newHead
 }
 
 type ListNode struct {
