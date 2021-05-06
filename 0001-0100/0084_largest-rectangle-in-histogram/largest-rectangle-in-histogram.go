@@ -29,16 +29,13 @@ func largestRectangleArea(heights []int) int {
 	out := 0
 	s := IntStack{-1}
 	for i := range heights {
-		for s.Len() > 1 && heights[s.Top()] >= heights[i] {
-			height := heights[s.Pop()]
-			out = Max(out, height*(i-1-s.Top()))
+		for s.Len() > 1 && heights[i] <= heights[s.Top()] {
+			out = Max(out, heights[s.Pop()]*(i-1-s.Top()))
 		}
 		s.Push(i)
 	}
-	n := len(heights)
 	for s.Len() > 1 {
-		height := heights[s.Pop()]
-		out = Max(out, height*(n-1-s.Top()))
+		out = Max(out, heights[s.Pop()]*(len(heights)-1-s.Top()))
 	}
 	return out
 }

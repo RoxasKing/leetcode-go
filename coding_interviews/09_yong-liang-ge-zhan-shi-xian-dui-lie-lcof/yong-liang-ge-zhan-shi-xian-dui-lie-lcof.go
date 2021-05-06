@@ -25,35 +25,32 @@ package main
 */
 
 type CQueue struct {
-	a []int
-	b []int
+	a *IntStack
+	b *IntStack
 }
 
 func Constructor() CQueue {
-	return CQueue{}
+	return CQueue{
+		a: &IntStack{},
+		b: &IntStack{},
+	}
 }
 
 func (this *CQueue) AppendTail(value int) {
-	for len(this.b) > 0 {
-		e := this.b[len(this.b)-1]
-		this.b = this.b[:len(this.b)-1]
-		this.a = append(this.a, e)
+	for this.b.Len() > 0 {
+		this.a.Push(this.b.Pop())
 	}
-	this.a = append(this.a, value)
+	this.a.Push(value)
 }
 
 func (this *CQueue) DeleteHead() int {
-	for len(this.a) > 0 {
-		e := this.a[len(this.a)-1]
-		this.a = this.a[:len(this.a)-1]
-		this.b = append(this.b, e)
+	for this.a.Len() > 0 {
+		this.b.Push(this.a.Pop())
 	}
-	if len(this.b) == 0 {
+	if this.b.Len() == 0 {
 		return -1
 	}
-	out := this.b[len(this.b)-1]
-	this.b = this.b[:len(this.b)-1]
-	return out
+	return this.b.Pop()
 }
 
 /**
@@ -62,3 +59,15 @@ func (this *CQueue) DeleteHead() int {
  * obj.AppendTail(value);
  * param_2 := obj.DeleteHead();
  */
+
+type IntStack []int
+
+func (s IntStack) Len() int    { return len(s) }
+func (s IntStack) Top() int    { return s[s.Len()-1] }
+func (s *IntStack) Push(x int) { *s = append(*s, x) }
+func (s *IntStack) Pop() int {
+	top := s.Len() - 1
+	out := (*s)[top]
+	*s = (*s)[:top]
+	return out
+}

@@ -44,28 +44,25 @@ import "strings"
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-func validIPAddress(IP string) string {
-	arr := strings.Split(IP, ".")
-	if len(arr) == 4 {
-		if ok := checkIPv4(arr); ok {
-			return typName[1]
-		}
-		return typName[0]
-	}
-	arr = strings.Split(IP, ":")
-	if len(arr) == 8 {
-		if ok := checkIPv6(arr); ok {
-			return typName[2]
-		}
-		return typName[0]
-	}
+// Important!
 
-	return typName[0]
+func validIPAddress(IP string) string {
+	if arr := strings.Split(IP, "."); len(arr) == 4 {
+		if ok := validIPv4(arr); ok {
+			return "IPv4"
+		}
+	}
+	if arr := strings.Split(IP, ":"); len(arr) == 8 {
+		if ok := validIPv6(arr); ok {
+			return "IPv6"
+		}
+	}
+	return "Neither"
 }
 
-func checkIPv4(arr []string) bool {
+func validIPv4(arr []string) bool {
 	for _, n := range arr {
-		if n == "" || len(n) > 3 {
+		if len(n) < 1 || 3 < len(n) {
 			return false
 		}
 		for i := range n {
@@ -73,17 +70,19 @@ func checkIPv4(arr []string) bool {
 				return false
 			}
 		}
-		if len(n) > 1 && n[0] == '0' ||
-			len(n) == 3 && (n[0] > '2' || n[0] == '2' && (n[1] > '5' || n[1] == '5' && n[2] > '5')) {
+		if len(n) > 1 && n[0] == '0' {
+			return false
+		}
+		if len(n) == 3 && (n[0] > '2' || n[0] == '2' && (n[1] > '5' || n[1] == '5' && n[2] > '5')) {
 			return false
 		}
 	}
 	return true
 }
 
-func checkIPv6(arr []string) bool {
+func validIPv6(arr []string) bool {
 	for _, n := range arr {
-		if n == "" || len(n) > 4 {
+		if len(n) < 1 || 4 < len(n) {
 			return false
 		}
 		for i := range n {
@@ -93,18 +92,4 @@ func checkIPv6(arr []string) bool {
 		}
 	}
 	return true
-}
-
-type IpTyp int
-
-const (
-	Neither IpTyp = iota
-	IPv4
-	IPv6
-)
-
-var typName = map[IpTyp]string{
-	Neither: "Neither",
-	IPv4:    "IPv4",
-	IPv6:    "IPv6",
 }
