@@ -12,7 +12,7 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// DFS + Backtracking
+// Backtracking
 func combinationSum3(k int, n int) [][]int {
 	var out [][]int
 	var cur []int

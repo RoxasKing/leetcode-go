@@ -57,7 +57,7 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Backtracking + DFS
+// Backtracking
 func closestCost(baseCosts []int, toppingCosts []int, target int) int {
 	out := baseCosts[0]
 	for _, bc := range baseCosts {

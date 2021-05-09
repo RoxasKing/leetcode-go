@@ -27,7 +27,7 @@ import (
 
 // Important!
 
-// DFS + Backtracking
+// Backtracking
 func canPartitionKSubsets(nums []int, k int) bool {
 	n := len(nums)
 	sort.Ints(nums)
