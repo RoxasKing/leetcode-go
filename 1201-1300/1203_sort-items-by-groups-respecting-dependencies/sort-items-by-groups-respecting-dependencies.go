@@ -19,7 +19,7 @@ package main
     Explanation: This is the same as example 1 except that 4 needs to be before 6 in the sorted list.
 
   Constraints:
-    1 <= m <= n <= 3 * 104
+    1 <= m <= n <= 3 * 10^4
     group.length == beforeItems.length == n
     -1 <= group[i] <= m - 1
     0 <= beforeItems[i].length <= n - 1
@@ -32,128 +32,92 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Topological Sorting
+// Important!
+
+// Topological Sorting + BFS
 func sortItems(n int, m int, group []int, beforeItems [][]int) []int {
-	itemEdges := make([][]int, n)
-	itemIndeg := make([]int, n)
+	iEdges := make([][]int, n)
+	iIndeg := make([]int, n)
+	gEdges := make([][]int, m+n)
+	gIndeg := make([]int, m+n)
+	gItems := make([][]int, m+n)
+	added := make(map[int]bool)
 
-	groupDepends := make([][]bool, m)
-	groupEdges := make([][]int, m)
-	groupIndeg := make([]int, m)
+	gi := m
+	for i := 0; i < n; i++ {
+		if group[i] != -1 {
+			continue
+		}
+		group[i] = gi
+		gi++
+	}
 
-	for i, items := range beforeItems {
-		for _, j := range items {
-			itemEdges[j] = append(itemEdges[j], i)
-			itemIndeg[i]++
+	for iv := range beforeItems {
+		for _, iu := range beforeItems[iv] {
+			iEdges[iu] = append(iEdges[iu], iv)
+			iIndeg[iv]++
 
-			groupI := group[i]
-			groupJ := group[j]
-			if groupI == -1 || groupJ == -1 || groupJ == groupI ||
-				groupDepends[groupI] != nil && groupDepends[groupI][groupJ] {
+			gu, gv := group[iu], group[iv]
+			idx := gu*(m+n+1) + gv
+			if gu == gv || added[idx] {
 				continue
 			}
-
-			if groupDepends[groupI] == nil {
-				groupDepends[groupI] = make([]bool, m)
-			}
-			groupDepends[groupI][groupJ] = true
-
-			// check groups dependeces, ifcontain circular, return empty list
-			if groupDepends[groupJ] != nil && groupDepends[groupJ][groupI] {
+			added[idx] = true
+			if added[gv*(m+n+1)+gu] {
 				return []int{}
 			}
-
-			groupEdges[groupJ] = append(groupEdges[groupJ], groupI)
-			groupIndeg[groupI]++
+			gEdges[gu] = append(gEdges[gu], gv)
+			gIndeg[gv]++
 		}
 	}
 
-	itempQ := make([]int, 0, n)
+	iq := []int{}
 	for i := 0; i < n; i++ {
-		if itemIndeg[i] == 0 {
-			itempQ = append(itempQ, i)
+		if iIndeg[i] == 0 {
+			iq = append(iq, i)
 		}
 	}
 
-	count := 0
-	groupItemsAll := make([][]int, m)
-	groupBeforeSelf := make([][]int, m)
-	groupBeforeOther := make([][]int, m)
-
-	for len(itempQ) > 0 {
-		i := itempQ[0]
-		itempQ = itempQ[1:]
-		if count == n {
+	cnt := 0
+	for len(iq) > 0 {
+		if cnt == n {
 			return []int{}
 		}
-		count++
-		if group[i] != -1 {
-			groupItemsAll[group[i]] = append(groupItemsAll[group[i]], i)
-		}
-		for _, j := range itemEdges[i] {
-			if group[j] != -1 {
-				groupItemsAll[group[j]] = append(groupItemsAll[group[j]], j)
-				if group[i] == group[j] {
-					groupBeforeSelf[group[j]] = append(groupBeforeSelf[group[j]], i)
-				} else {
-					groupBeforeOther[group[j]] = append(groupBeforeOther[group[j]], i)
-				}
-			}
-			itemIndeg[j]--
-			if itemIndeg[j] == 0 {
-				itempQ = append(itempQ, j)
+		cnt++
+		u := iq[0]
+		iq = iq[1:]
+		gItems[group[u]] = append(gItems[group[u]], u)
+		for _, v := range iEdges[u] {
+			iIndeg[v]--
+			if iIndeg[v] == 0 {
+				iq = append(iq, v)
 			}
 		}
 	}
 
-	if count != n {
+	if cnt < n {
 		return []int{}
 	}
 
-	mark := make([]bool, n)
+	gq := []int{}
+	for i := 0; i < gi; i++ {
+		if gIndeg[i] == 0 {
+			gq = append(gq, i)
+		}
+	}
+
 	out := make([]int, 0, n)
+	for len(gq) > 0 {
+		u := gq[0]
+		gq = gq[1:]
+		out = append(out, gItems[u]...)
 
-	groupQ := make([]int, 0, m)
-	for g := 0; g < m; g++ {
-		if groupIndeg[g] == 0 {
-			groupQ = append(groupQ, g)
-		}
-	}
-
-	for len(groupQ) > 0 {
-		groupIdx := groupQ[0]
-		groupQ = groupQ[1:]
-		for _, i := range groupBeforeOther[groupIdx] {
-			if !mark[i] {
-				out = append(out, i)
-				mark[i] = true
-			}
-		}
-		for _, i := range groupBeforeSelf[groupIdx] {
-			if !mark[i] {
-				out = append(out, i)
-				mark[i] = true
-			}
-		}
-		for _, i := range groupItemsAll[groupIdx] {
-			if !mark[i] {
-				out = append(out, i)
-				mark[i] = true
-			}
-		}
-		for _, g := range groupEdges[groupIdx] {
-			groupIndeg[g]--
-			if groupIndeg[g] == 0 {
-				groupQ = append(groupQ, g)
+		for _, v := range gEdges[u] {
+			gIndeg[v]--
+			if gIndeg[v] == 0 {
+				gq = append(gq, v)
 			}
 		}
 	}
-
-	for i := range mark {
-		if !mark[i] {
-			out = append(out, i)
-		}
-	}
-
 	return out
 }

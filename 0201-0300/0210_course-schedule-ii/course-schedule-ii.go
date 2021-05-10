@@ -40,8 +40,9 @@ func findOrder(numCourses int, prerequisites [][]int) []int {
 	edges := make([][]int, numCourses)
 	indeg := make([]int, numCourses)
 	for _, p := range prerequisites {
-		edges[p[1]] = append(edges[p[1]], p[0])
-		indeg[p[0]]++
+		v, u := p[0], p[1]
+		edges[u] = append(edges[u], v)
+		indeg[v]++
 	}
 
 	q := []int{}
@@ -56,17 +57,16 @@ func findOrder(numCourses int, prerequisites [][]int) []int {
 		if len(out) == numCourses {
 			return nil
 		}
-		c := q[0]
+		u := q[0]
 		q = q[1:]
-		out = append(out, c)
-		for _, nc := range edges[c] {
-			indeg[nc]--
-			if indeg[nc] == 0 {
-				q = append(q, nc)
+		out = append(out, u)
+		for _, v := range edges[u] {
+			indeg[v]--
+			if indeg[v] == 0 {
+				q = append(q, v)
 			}
 		}
 	}
-
 	if len(out) < numCourses {
 		return nil
 	}
