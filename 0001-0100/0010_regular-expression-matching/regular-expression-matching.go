@@ -1,77 +1,76 @@
 package main
 
 /*
-  给你一个字符串 s 和一个字符规律 p，请你来实现一个支持 '.' 和 '*' 的正则表达式匹配。
-    '.' 匹配任意单个字符
-    '*' 匹配零个或多个前面的那一个元素
-  所谓匹配，是要涵盖 整个 字符串 s的，而不是部分字符串。
+  Given an input string (s) and a pattern (p), implement regular expression matching with support for '.' and '*' where:
+    1. '.' Matches any single character.​​​​
+    2. '*' Matches zero or more of the preceding element.
 
-  说明:
-    s 可能为空，且只包含从 a-z 的小写字母。
-    p 可能为空，且只包含从 a-z 的小写字母，以及字符 . 和 *。
+  The matching should cover the entire input string (not partial).
 
-  示例 1:
-    输入:
-    s = "aa"
-    p = "a"
-    输出: false
-    解释: "a" 无法匹配 "aa" 整个字符串。
+  Example 1:
+    Input: s = "aa", p = "a"
+    Output: false
+    Explanation: "a" does not match the entire string "aa".
 
-  示例 2:
-    输入:
-    s = "aa"
-    p = "a*"
-    输出: true
-    解释: 因为 '*' 代表可以匹配零个或多个前面的那一个元素, 在这里前面的元素就是 'a'。因此，字符串 "aa" 可被视为 'a' 重复了一次。
+  Example 2:
+    Input: s = "aa", p = "a*"
+    Output: true
+    Explanation: '*' means zero or more of the preceding element, 'a'. Therefore, by repeating 'a' once, it becomes "aa".
 
-  示例 3:
-    输入:
-    s = "ab"
-    p = ".*"
-    输出: true
-    解释: ".*" 表示可匹配零个或多个（'*'）任意字符（'.'）。
+  Example 3:
+    Input: s = "ab", p = ".*"
+    Output: true
+    Explanation: ".*" means "zero or more (*) of any character (.)".
 
-  示例 4:
-    输入:
-    s = "aab"
-    p = "c*a*b"
-    输出: true
-    解释: 因为 '*' 表示零个或多个，这里 'c' 为 0 个, 'a' 被重复一次。因此可以匹配字符串 "aab"。
+  Example 4:
+    Input: s = "aab", p = "c*a*b"
+    Output: true
+    Explanation: c can be repeated 0 times, a can be repeated 1 time. Therefore, it matches "aab".
 
-  示例 5:
-    输入:
-    s = "mississippi"
-    p = "mis*is*p*."
-    输出: false
+  Example 5:
+    Input: s = "mississippi", p = "mis*is*p*."
+    Output: false
+
+  Constraints:
+    1. 0 <= s.length <= 20
+    2. 0 <= p.length <= 30
+    3. s contains only lowercase English letters.
+    4. p contains only lowercase English letters, '.', and '*'.
+    5. It is guaranteed for each appearance of the character '*', there will be a previous valid character to match.
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/regular-expression-matching
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+// Important!
+
 // Dynamic Programming
 func isMatch(s string, p string) bool {
-	dp := make([][]bool, len(s)+1)
-	for i := range dp {
-		dp[i] = make([]bool, len(p)+1)
+	m, n := len(s), len(p)
+	f := make([][]bool, m+1)
+	for i := range f {
+		f[i] = make([]bool, n+1)
 	}
-	dp[0][0] = true
-	for j := 1; j < len(p) && dp[0][j-1]; j += 2 {
-		if p[j] == '*' {
-			dp[0][j+1] = true
+
+	f[0][0] = true
+	for i := 1; i < n && f[0][i-1]; i += 2 {
+		if p[i] == '*' {
+			f[0][i+1] = true
 		}
 	}
-	for i := range s {
-		for j := range p {
+
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
 			if s[i] == p[j] || '.' == p[j] {
-				dp[i+1][j+1] = dp[i][j]
-			} else if j > 0 && '*' == p[j] {
-				dp[i+1][j+1] = dp[i+1][j-1] // repeat == 0
+				f[i+1][j+1] = f[i][j]
+			} else if '*' == p[j] {
+				f[i+1][j+1] = f[i+1][j-1] // repeat 0 times
 				if s[i] == p[j-1] || '.' == p[j-1] {
-					dp[i+1][j+1] = dp[i+1][j+1] || dp[i+1][j] || dp[i][j+1] // repeat == 1 || repeat > 1
+					f[i+1][j+1] = f[i+1][j+1] || f[i+1][j] || f[i][j+1] // repeat 1 or more times
 				}
 			}
 		}
 	}
-	return dp[len(s)][len(p)]
+	return f[m][n]
 }
