@@ -31,7 +31,11 @@ import "sort"
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Binary Search + Prefix Sum
+// Important!
+
+// Binary Search
+// Prefix Sum
+
 func findBestValue(arr []int, target int) int {
 	sort.Ints(arr)
 	n := len(arr)
@@ -39,27 +43,25 @@ func findBestValue(arr []int, target int) int {
 	for i := 0; i < n; i++ {
 		pSum[i+1] = pSum[i] + arr[i]
 	}
-	out, diff := 1<<31-1, target
+
 	l, r := 0, arr[n-1]
-	for l <= r {
+	for l < r {
 		m := l + (r-l)>>1
-		idx := sort.SearchInts(arr, m)
-		sum := pSum[idx] + m*(n-idx)
-		nDiff := Abs(sum - target)
-		if nDiff < diff {
-			out, diff = m, nDiff
-		} else if nDiff == diff && m < out {
-			out = m
-		}
+		i := sort.SearchInts(arr, m)
+		sum := pSum[i] + m*(n-i)
 		if sum < target {
 			l = m + 1
-		} else if sum > target {
-			r = m - 1
 		} else {
-			break
+			r = m
 		}
 	}
-	return out
+
+	i := sort.SearchInts(arr, l)
+	j := sort.SearchInts(arr, l-1)
+	if Abs((n-i)*l+pSum[i]-target) < Abs((n-j)*(l-1)+pSum[j]-target) {
+		return l
+	}
+	return l - 1
 }
 
 func Abs(n int) int {

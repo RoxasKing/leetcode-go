@@ -1,6 +1,9 @@
 package main
 
-import "container/heap"
+import (
+	"container/heap"
+	"sort"
+)
 
 /*
   Given a non-empty list of words, return the k most frequent elements.
@@ -31,96 +34,88 @@ import "container/heap"
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Hash + Priority Queue
+// Important!
+
+// Trie
+// Priority Queue
+
 func topKFrequent(words []string, k int) []string {
-	wCnt := make(map[string]int)
-	for _, w := range words {
-		wCnt[w]++
+	t := &Trie{}
+	arr := []*Trie{}
+	for _, word := range words {
+		ret := t.Insert(word)
+		if ret != nil {
+			arr = append(arr, ret)
+		}
 	}
+
 	pq := PriorityQueue{}
-	for w, c := range wCnt {
-		heap.Push(&pq, &WordFreq{word: w, freq: c})
+	for _, t := range arr {
+		heap.Push(&pq, &wordFreq{word: t.word, freq: t.freq})
+		if pq.Len() > k {
+			heap.Pop(&pq)
+		}
 	}
+
+	sort.Slice(pq, func(i, j int) bool {
+		if pq[i].freq != pq[j].freq {
+			return pq[i].freq > pq[j].freq
+		}
+		return pq[i].word < pq[j].word
+	})
+
 	out := make([]string, 0, k)
-	for k > 0 {
-		w := heap.Pop(&pq).(*WordFreq).word
-		out = append(out, w)
-		k--
+	for _, wf := range pq {
+		out = append(out, wf.word)
 	}
 	return out
 }
 
-type WordFreq struct {
+type Trie struct {
+	child [26]*Trie
+	word  string
+	freq  int
+}
+
+func (t *Trie) Insert(word string) *Trie {
+	for i := range word {
+		idx := int(word[i] - 'a')
+		if t.child[idx] == nil {
+			t.child[idx] = &Trie{}
+		}
+		t = t.child[idx]
+	}
+
+	out := t
+	if t.freq > 0 {
+		out = nil
+	}
+
+	t.word = word
+	t.freq++
+
+	return out
+}
+
+type wordFreq struct {
 	word string
 	freq int
 }
 
-type PriorityQueue []*WordFreq
+type PriorityQueue []*wordFreq
 
 func (pq PriorityQueue) Len() int { return len(pq) }
 func (pq PriorityQueue) Less(i, j int) bool {
 	if pq[i].freq != pq[j].freq {
-		return pq[i].freq > pq[j].freq
+		return pq[i].freq < pq[j].freq
 	}
-	return pq[i].word < pq[j].word
+	return pq[i].word > pq[j].word
 }
 func (pq PriorityQueue) Swap(i, j int)       { pq[i], pq[j] = pq[j], pq[i] }
-func (pq *PriorityQueue) Push(x interface{}) { *pq = append(*pq, x.(*WordFreq)) }
+func (pq *PriorityQueue) Push(x interface{}) { *pq = append(*pq, x.(*wordFreq)) }
 func (pq *PriorityQueue) Pop() interface{} {
 	top := pq.Len() - 1
 	out := (*pq)[top]
 	*pq = (*pq)[:top]
 	return out
-}
-
-// Trie + Priority Queue
-func topKFrequent2(words []string, k int) []string {
-	t := &trie{}
-	for _, w := range words {
-		t.insert(w)
-	}
-	q := []*pair{{str: "", t: t}}
-	pq := PriorityQueue{}
-	for len(q) > 0 {
-		tp := q[0]
-		str, t := tp.str, tp.t
-		q = q[1:]
-		if t.count > 0 {
-			heap.Push(&pq, &WordFreq{word: str, freq: t.count})
-		}
-		for i := 0; i < 26; i++ {
-			if t.child[i] == nil {
-				continue
-			}
-			q = append(q, &pair{str: str + string(byte(i)+'a'), t: t.child[i]})
-		}
-	}
-	out := make([]string, 0, k)
-	for k > 0 {
-		w := heap.Pop(&pq).(*WordFreq).word
-		out = append(out, w)
-		k--
-	}
-	return out
-}
-
-type pair struct {
-	str string
-	t   *trie
-}
-
-type trie struct {
-	child [26]*trie
-	count int
-}
-
-func (t *trie) insert(word string) {
-	for i := range word {
-		idx := int(word[i] - 'a')
-		if t.child[idx] == nil {
-			t.child[idx] = &trie{}
-		}
-		t = t.child[idx]
-	}
-	t.count++
 }

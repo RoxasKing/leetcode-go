@@ -1,66 +1,69 @@
 package main
 
+import "strings"
+
 /*
-n 皇后问题研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。
+  The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that no two queens attack each other.
 
-上图为 8 皇后问题的一种解法。
-给定一个整数 n，返回 n 皇后不同的解决方案的数量。
+  Given an integer n, return the number of distinct solutions to the n-queens puzzle.
 
-示例:
-  输入: 4
-  输出: 2
-  解释: 4 皇后问题存在如下两个不同的解法。
-  [
-   [".Q..",  // 解法 1
-    "...Q",
-    "Q...",
-    "..Q."],
+  Example 1:
+    Input: n = 4
+    Output: 2
+    Explanation: There are two distinct solutions to the 4-queens puzzle as shown.
 
-   ["..Q.",  // 解法 2
-    "Q...",
-    "...Q",
-    ".Q.."]
-  ]
+  Example 2:
+    Input: n = 1
+    Output: 1
 
-提示：
-  皇后，是国际象棋中的棋子，意味着国王的妻子。皇后只做一件事，那就是“吃子”。当她遇见可以吃的棋子时，就迅速冲上去吃掉棋子。当然，她横、竖、斜都可走一或 N-1 步，可进可退。（引用自 百度百科 - 皇后 ）
+  Constraints:
+    1 <= n <= 9
 
-来源：力扣（LeetCode）
-链接：https://leetcode-cn.com/problems/n-queens-ii
-著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+  来源：力扣（LeetCode）
+  链接：https://leetcode-cn.com/problems/n-queens-ii
+  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
 // Backtracking
+// DFS
+
 func totalNQueens(n int) int {
-	cols := make([]bool, n)
-	mainDiag := make([]bool, n<<1-1)
-	antiDiag := make([]bool, n<<1-1)
-	total := 0
-
-	backtrack(n, cols, mainDiag, antiDiag, &total, 0)
-
-	return total
+	board := make([]string, n)
+	for i := 0; i < n; i++ {
+		board[i] = strings.Repeat(".", n)
+	}
+	c := make([]bool, n)
+	x := make([]bool, n<<1-1)
+	y := make([]bool, n<<1-1)
+	out := 0
+	dfs(board, c, x, y, 0, n, &out)
+	return out
 }
 
-func backtrack(n int, cols, mainDiag, antiDiag []bool, total *int, i int) {
+func dfs(board []string, c, x, y []bool, i, n int, out *int) {
 	if i == n {
-		*total++
+		*out++
 		return
 	}
 
+	chs := []byte(board[i])
 	for j := 0; j < n; j++ {
-		if cols[j] || mainDiag[i+j] || antiDiag[i-j+n-1] {
+		if c[j] || x[i+j] || y[i-j+n-1] {
 			continue
 		}
 
-		cols[j] = true
-		mainDiag[i+j] = true
-		antiDiag[i-j+n-1] = true
+		chs[j] = 'Q'
+		board[i] = string(chs)
+		c[j] = true
+		x[i+j] = true
+		y[i-j+n-1] = true
 
-		backtrack(n, cols, mainDiag, antiDiag, total, i+1)
+		dfs(board, c, x, y, i+1, n, out)
 
-		cols[j] = false
-		mainDiag[i+j] = false
-		antiDiag[i-j+n-1] = false
+		chs[j] = '.'
+		board[i] = string(chs)
+		c[j] = false
+		x[i+j] = false
+		y[i-j+n-1] = false
 	}
 }

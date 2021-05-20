@@ -3,79 +3,73 @@ package main
 import "strings"
 
 /*
-  n 皇后问题研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。
+  The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that no two queens attack each other.
 
-  上图为 8 皇后问题的一种解法。
+  Given an integer n, return all distinct solutions to the n-queens puzzle.
 
-  给定一个整数 n，返回所有不同的 n 皇后问题的解决方案。
-  每一种解法包含一个明确的 n 皇后问题的棋子放置方案，该方案中 'Q' 和 '.' 分别代表了皇后和空位。
+  Each solution contains a distinct board configuration of the n-queens' placement, where 'Q' and '.' both indicate a queen and an empty space, respectively.
 
-  示例：
-    输入：4
-    输出：[
-     [".Q..",  // 解法 1
-      "...Q",
-      "Q...",
-      "..Q."],
+  Example 1:
+    Input: n = 4
+    Output: [[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
+    Explanation: There exist two distinct solutions to the 4-queens puzzle as shown above
 
-     ["..Q.",  // 解法 2
-      "Q...",
-      "...Q",
-      ".Q.."]
-    ]
-    解释: 4 皇后问题存在两个不同的解法。
+  Example 2:
+    Input: n = 1
+    Output: [["Q"]]
 
-  提示：
-    皇后彼此不能相互攻击，也就是说：任何两个皇后都不能处于同一条横行、纵行或斜线上。
+  Constraints:
+    1 <= n <= 9
 
   来源：力扣（LeetCode）
   链接：https://leetcode-cn.com/problems/n-queens
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+// Important!
+
 // Backtracking
+// DFS
+
 func solveNQueens(n int) [][]string {
-	track := make([]string, n)
-	for i := range track {
-		track[i] = strings.Repeat(".", n)
+	board := make([]string, n)
+	for i := 0; i < n; i++ {
+		board[i] = strings.Repeat(".", n)
 	}
-	cols := make([]bool, n)
-	mainDiag := make([]bool, n<<1-1)
-	antiDiag := make([]bool, n<<1-1)
+	c := make([]bool, n)
+	x := make([]bool, n<<1-1)
+	y := make([]bool, n<<1-1)
 	out := [][]string{}
-
-	backtrack(n, track, cols, mainDiag, antiDiag, &out, 0)
-
+	dfs(board, c, x, y, 0, n, &out)
 	return out
 }
 
-func backtrack(n int, track []string, cols, mainDiag, antiDiag []bool, out *[][]string, row int) {
-	if row == n {
+func dfs(board []string, c, x, y []bool, i, n int, out *[][]string) {
+	if i == n {
 		tmp := make([]string, n)
-		copy(tmp, track)
+		copy(tmp, board)
 		*out = append(*out, tmp)
 		return
 	}
 
-	for col := 0; col < n; col++ {
-		if cols[col] || mainDiag[row+col] || antiDiag[row-col+n-1] {
+	chs := []byte(board[i])
+	for j := 0; j < n; j++ {
+		if c[j] || x[i+j] || y[i-j+n-1] {
 			continue
 		}
 
-		bs := []byte(track[row])
+		chs[j] = 'Q'
+		board[i] = string(chs)
+		c[j] = true
+		x[i+j] = true
+		y[i-j+n-1] = true
 
-		bs[col] = 'Q'
-		track[row] = string(bs)
-		cols[col] = true
-		mainDiag[row+col] = true
-		antiDiag[row-col+n-1] = true
+		dfs(board, c, x, y, i+1, n, out)
 
-		backtrack(n, track, cols, mainDiag, antiDiag, out, row+1)
-
-		bs[col] = '.'
-		track[row] = string(bs)
-		cols[col] = false
-		mainDiag[row+col] = false
-		antiDiag[row-col+n-1] = false
+		chs[j] = '.'
+		board[i] = string(chs)
+		c[j] = false
+		x[i+j] = false
+		y[i-j+n-1] = false
 	}
 }
