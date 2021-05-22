@@ -37,37 +37,35 @@ package main
  * }
  */
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
-	var rev1, rev2 *ListNode
-	for l1 != nil {
-		next := l1.Next
-		l1.Next = rev1
-		rev1 = l1
-		l1 = next
-	}
-	for l2 != nil {
-		next := l2.Next
-		l2.Next = rev2
-		rev2 = l2
-		l2 = next
-	}
+	l1 = reverse(l1)
+	l2 = reverse(l2)
 	var out *ListNode
-	remain := 0
-	for rev1 != nil || rev2 != nil {
-		if rev1 != nil {
-			remain += rev1.Val
-			rev1 = rev1.Next
+	var remain int
+	for l1 != nil || l2 != nil {
+		if l1 != nil {
+			remain += l1.Val
+			l1 = l1.Next
 		}
-		if rev2 != nil {
-			remain += rev2.Val
-			rev2 = rev2.Next
+		if l2 != nil {
+			remain += l2.Val
+			l2 = l2.Next
 		}
-		node := &ListNode{Val: remain % 10, Next: out}
-		out = node
+		out = &ListNode{Val: remain % 10, Next: out}
 		remain /= 10
 	}
-	if remain != 0 {
-		node := &ListNode{Val: remain, Next: out}
-		out = node
+	if remain > 0 {
+		out = &ListNode{Val: remain, Next: out}
+	}
+	return out
+}
+
+func reverse(head *ListNode) *ListNode {
+	var out *ListNode
+	for head != nil {
+		next := head.Next
+		head.Next = out
+		out = head
+		head = next
 	}
 	return out
 }
