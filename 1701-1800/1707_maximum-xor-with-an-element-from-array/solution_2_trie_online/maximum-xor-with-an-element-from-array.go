@@ -1,7 +1,5 @@
 package main
 
-import "sort"
-
 /*
   You are given an array nums consisting of non-negative integers. You are also given a queries array, where queries[i] = [xi, mi].
 
@@ -31,54 +29,66 @@ import "sort"
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Trie + Bit Manipulation
+// Important!
+
+// Trie
+// Online Algorithm
+// Bit Manipulation
+
 func maximizeXor(nums []int, queries [][]int) []int {
-	sort.Ints(nums)
+	t := MakeTrie()
+	for _, num := range nums {
+		t.Insert(num)
+	}
+
 	n := len(queries)
-	idxs := make([]int, n)
-	for i := range idxs {
-		idxs[i] = i
-	}
-	sort.Slice(idxs, func(i, j int) bool { return queries[idxs[i]][1] < queries[idxs[j]][1] })
-	t := &Trie{}
 	out := make([]int, n)
-	for _, i := range idxs {
-		x, m := queries[i][0], queries[i][1]
-		for len(nums) > 0 && nums[0] <= m {
-			t.Insert(nums[0])
-			nums = nums[1:]
-		}
-		out[i] = t.Query(x)
+
+	for i, q := range queries {
+		out[i] = t.Query(q[0], q[1])
 	}
+
 	return out
+}
+
+func Min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
 }
 
 type Trie struct {
 	child [2]*Trie
+	min   int
+}
+
+func MakeTrie() *Trie {
+	return &Trie{min: 1<<31 - 1}
 }
 
 func (t *Trie) Insert(num int) {
-	for i := 31; i >= 0; i-- {
-		idx := (num >> i) & 1
-		if t.child[idx] == nil {
-			t.child[idx] = &Trie{}
+	for b := 31; b >= 0; b-- {
+		i := (num >> b) & 1
+		if t.child[i] == nil {
+			t.child[i] = MakeTrie()
 		}
-		t = t.child[idx]
+		t = t.child[i]
+		t.min = Min(t.min, num)
 	}
 }
 
-func (t *Trie) Query(num int) int {
+func (t *Trie) Query(x, m int) int {
 	out := 0
-	for i := 31; i >= 0; i-- {
-		if t == nil {
-			return -1
-		}
-		idx := (num >> i) & 1
-		if t.child[1-idx] != nil {
-			out |= 1 << i
-			t = t.child[1-idx]
+	for b := 31; b >= 0; b-- {
+		i := (x >> b) & 1
+		if t.child[1-i] != nil && t.child[1-i].min <= m {
+			out |= 1 << b
+			t = t.child[1-i]
+		} else if t.child[i].min <= m {
+			t = t.child[i]
 		} else {
-			t = t.child[idx]
+			return -1
 		}
 	}
 	return out
