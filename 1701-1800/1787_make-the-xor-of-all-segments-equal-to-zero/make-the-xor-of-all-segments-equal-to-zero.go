@@ -29,44 +29,41 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Dynamic Programming + Greedy algorithm
+// Important!
+
+// Dynamic Programming
+// Greedy algorithm
+// Bit Manipulation
+
 func minChanges(nums []int, k int) int {
-	// 记录每一组的数字出现的次数
-	cnt := make([][1 << 10]int, k)
+	freq := make([][1 << 10]int, k)
 	for i, num := range nums {
-		cnt[i%k][num]++
+		freq[i%k][num]++
 	}
 
-	// 前 i 个组异或的值以及保留的数字
-	dp0 := [1 << 10]int{}
-	// 组间最小的maxCnt，记为minCnt
-	minCnt := 0
+	maxFreq, f0 := 0, freq[0]
 	for j := 0; j < 1<<10; j++ {
-		dp0[j] = cnt[0][j]
-		minCnt = Max(minCnt, cnt[0][j])
+		maxFreq = Max(maxFreq, freq[0][j])
 	}
-	// 累加每个组出现次数最多的数的次数maxCnt
-	keep := minCnt
+	keep, minFreq := maxFreq, maxFreq
 
 	for i := 1; i < k; i++ {
-		maxCnt := 0
-		dp := [1 << 10]int{}
+		maxFreq, f1 := 0, [1 << 10]int{}
 		for j := 0; j < 1<<10; j++ {
-			if cnt[i][j] == 0 {
+			if freq[i][j] == 0 {
 				continue
 			}
-			maxCnt = Max(maxCnt, cnt[i][j])
+			maxFreq = Max(maxFreq, freq[i][j])
 			for k := 0; k < 1<<10; k++ {
-				dp[j^k] = Max(dp[j^k], dp0[k]+cnt[i][j])
+				f1[j^k] = Max(f1[j^k], f0[k]+freq[i][j])
 			}
 		}
-		keep += maxCnt
-		minCnt = Min(minCnt, maxCnt)
-		dp0 = dp
+		keep += maxFreq
+		minFreq = Min(minFreq, maxFreq)
+		f0 = f1
 	}
-	keep -= minCnt
 
-	return len(nums) - Max(keep, dp0[0])
+	return len(nums) - Max(keep-minFreq, f0[0])
 }
 
 func Max(a, b int) int {

@@ -13,6 +13,7 @@ func Test_hammingDistance(t *testing.T) {
 		want int
 	}{
 		{"1", args{1, 4}, 2},
+		{"2", args{3, 1}, 1},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
