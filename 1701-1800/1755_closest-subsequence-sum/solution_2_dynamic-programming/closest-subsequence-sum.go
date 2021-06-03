@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"sort"
 )
 
@@ -39,11 +40,10 @@ import (
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// TODO
-
 // Important!
 
-// Divide-and-Conquer Algorithm
+// Dynamic Programming
+// Two Pointers
 
 func minAbsDifference(nums []int, goal int) int {
 	out := Min(Abs(goal), Abs(nums[0]-goal))
@@ -53,52 +53,48 @@ func minAbsDifference(nums []int, goal int) int {
 	}
 
 	m := n >> 1
-	lp := partition(nums[:m])
-	rp := partition(nums[m:])
-
-	set := map[int]struct{}{}
-	for num := range lp {
-		out = Min(out, Abs(num-goal))
-		set[num] = struct{}{}
-	}
-	arr := make([]int, 0, len(set))
-	for num := range set {
-		arr = append(arr, num)
-	}
-	sort.Ints(arr)
-
-	for num := range rp {
-		out = Min(out, Abs(num-goal))
-		i := sort.Search(len(arr), func(i int) bool { return num+arr[i] >= goal })
-		if i == len(arr) {
-			out = Min(out, Abs(arr[i-1]+num-goal))
-			continue
+	ls, rs := m, n-m
+	lSum := make([]int, 1<<ls)
+	rSum := make([]int, 1<<rs)
+	for i := 1; i < 1<<ls; i++ {
+		for j := 0; j < ls; j++ {
+			if i&(1<<j) > 0 {
+				lSum[i] = lSum[i-(1<<j)] + nums[j]
+				break
+			}
 		}
-		out = Min(out, Abs(arr[i]+num-goal))
-		if i > 0 {
-			out = Min(out, Abs(arr[i-1]+num-goal))
+	}
+	for i := 1; i < 1<<rs; i++ {
+		for j := 0; j < rs; j++ {
+			if i&(1<<j) > 0 {
+				rSum[i] = rSum[i-(1<<j)] + nums[ls+j]
+				break
+			}
+		}
+	}
+
+	for _, sum := range lSum {
+		out = Min(out, Abs(sum-goal))
+	}
+	for _, sum := range rSum {
+		out = Min(out, Abs(sum-goal))
+	}
+	sort.Ints(lSum)
+	sort.Ints(rSum)
+
+	fmt.Println(lSum)
+	fmt.Println(rSum)
+
+	for i, j := 0, 1<<rs-1; i < 1<<ls && j >= 0; {
+		sum := lSum[i] + rSum[j]
+		out = Min(out, Abs(sum-goal))
+		if sum <= goal {
+			i++
+		} else {
+			j--
 		}
 	}
 	return out
-}
-
-func partition(nums []int) map[int]struct{} {
-	n := len(nums)
-	if n == 1 {
-		return map[int]struct{}{nums[0]: {}}
-	}
-	m := n >> 1
-	lp := partition(nums[:m])
-	rp := partition(nums[m:])
-	set := map[int]struct{}{}
-	for num1 := range lp {
-		set[num1] = struct{}{}
-		for num2 := range rp {
-			set[num2] = struct{}{}
-			set[num1+num2] = struct{}{}
-		}
-	}
-	return set
 }
 
 func Min(a, b int) int {

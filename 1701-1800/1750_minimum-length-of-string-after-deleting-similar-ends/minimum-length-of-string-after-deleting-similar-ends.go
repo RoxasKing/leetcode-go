@@ -40,23 +40,19 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+// Two Pointers
+
 func minimumLength(s string) int {
 	n := len(s)
 	l, r := 0, n-1
-	for l < r {
-		if s[l] != s[r] {
-			break
-		}
-		ch := s[l]
-		for l <= r && s[l] == ch {
+	for l < r && s[l] == s[r] {
+		c := s[l]
+		for l <= r && s[l] == c {
 			l++
 		}
-		for l <= r && s[r] == ch {
+		for l < r && s[r] == c {
 			r--
 		}
 	}
-	if l > r {
-		return 0
-	}
-	return r - l + 1
+	return r + 1 - l
 }

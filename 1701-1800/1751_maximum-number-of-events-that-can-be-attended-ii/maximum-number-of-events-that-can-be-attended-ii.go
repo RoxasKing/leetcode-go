@@ -38,13 +38,14 @@ import "sort"
 
 // Important!
 
+// Discretization
 // Dynamic Programming
 
 func maxValue(events [][]int, k int) int {
 	if k == 1 {
 		out := 0
-		for _, event := range events {
-			out = Max(out, event[2])
+		for _, e := range events {
+			out = Max(out, e[2])
 		}
 		return out
 	}
@@ -57,17 +58,18 @@ func maxValue(events [][]int, k int) int {
 		set[event[1]] = struct{}{}
 	}
 
-	points := make([]int, 0, len(set))
-	for point := range set {
-		points = append(points, point)
+	pts := make([]int, 0, len(set))
+	for pt := range set {
+		pts = append(pts, pt)
 	}
-	sort.Ints(points)
-	dict := map[int]int{}
-	for i, point := range points {
-		dict[point] = i + 1
+	sort.Ints(pts)
+
+	dict := make(map[int]int)
+	for i, pt := range pts {
+		dict[pt] = i + 1
 	}
 
-	n := len(points)
+	n := len(pts)
 	f := make([][]int, n+1)
 	for i := range f {
 		f[i] = make([]int, k+1)
@@ -76,9 +78,9 @@ func maxValue(events [][]int, k int) int {
 	for i := 1; i <= n; i++ {
 		copy(f[i], f[i-1])
 		for ; len(events) > 0 && dict[events[0][1]] <= i; events = events[1:] {
-			event := events[0]
-			for j := 1; j <= k; j++ {
-				f[i][j] = Max(f[i][j], f[dict[event[0]]-1][j-1]+event[2])
+			st, val := events[0][0], events[0][2]
+			for j := 0; j < k; j++ {
+				f[i][j+1] = Max(f[i][j+1], f[dict[st]-1][j]+val)
 			}
 		}
 	}

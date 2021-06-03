@@ -33,22 +33,19 @@ package main
 
 // Important!
 
-// Prefix Sum + Hash
+// Prefix Sum
+// Hash
+
 func checkSubarraySum(nums []int, k int) bool {
-	if len(nums) < 2 {
-		return false
-	}
 	dict := map[int]int{0: -1}
 	sum := 0
-	for r, num := range nums {
+	for j, num := range nums {
 		sum += num
 		sum %= k
-		if l, ok := dict[sum]; ok {
-			if r-l >= 2 {
-				return true
-			}
-		} else {
-			dict[sum] = r
+		if i, ok := dict[sum]; !ok {
+			dict[sum] = j
+		} else if j-i > 1 {
+			return true
 		}
 	}
 	return false
