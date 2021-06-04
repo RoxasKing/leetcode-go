@@ -47,8 +47,8 @@ import "sort"
 
 func kthLargestValue(matrix [][]int, k int) int {
 	m, n := len(matrix), len(matrix[0])
-	f := make([][]int, m)
 	cnt := map[int]int{}
+	f := make([][]int, m)
 	for i := 0; i < m; i++ {
 		f[i] = make([]int, n)
 		for j := 0; j < n; j++ {
@@ -72,12 +72,11 @@ func kthLargestValue(matrix [][]int, k int) int {
 	}
 	sort.Sort(sort.Reverse(sort.IntSlice(arr)))
 
-	for _, num := range arr {
-		k -= cnt[num]
-		if k <= 0 {
-			return num
-		}
+	var out int
+	for k > 0 {
+		out = arr[0]
+		k -= cnt[arr[0]]
+		arr = arr[1:]
 	}
-
-	return 0
+	return out
 }
