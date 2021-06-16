@@ -43,9 +43,9 @@ package main
 */
 
 // Binary Search
+
 func peakIndexInMountainArray(arr []int) int {
-	n := len(arr)
-	l, r := 0, n-1
+	l, r := 0, len(arr)-1
 	for l+1 < r {
 		m := (l + r) >> 1
 		if arr[m] > arr[m-1] && arr[m] > arr[m+1] {
