@@ -33,22 +33,17 @@ package main
 // Math
 
 func isSelfCrossing(dist []int) bool {
-	if len(dist) < 4 {
+	n := len(dist)
+	if n < 4 {
 		return false
 	}
-	i, n := 2, len(dist)
-	for ; i < n && dist[i] > dist[i-2]; i++ {
+	for i := 3; i < n; i++ {
+		if i >= 3 && dist[i-1] <= dist[i-3] && dist[i] >= dist[i-2] ||
+			i >= 4 && dist[i-3] == dist[i-1] && dist[i]+dist[i-4] >= dist[i-2] ||
+			i >= 5 && dist[i-2] > dist[i-4] && dist[i-3] > dist[i-1] &&
+				dist[i]+dist[i-4] >= dist[i-2] && dist[i-1]+dist[i-5] >= dist[i-3] {
+			return true
+		}
 	}
-	if i == n {
-		return false
-	}
-
-	if i == 3 && dist[i] == dist[i-2] || i >= 4 && dist[i] >= dist[i-2]-dist[i-4] {
-		dist[i-1] -= dist[i-3]
-	}
-
-	for i++; i < n && dist[i] < dist[i-2]; i++ {
-	}
-
-	return i < n
+	return false
 }
