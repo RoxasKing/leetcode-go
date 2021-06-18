@@ -2,6 +2,7 @@ package main
 
 import (
 	"math"
+	"math/bits"
 	"strconv"
 )
 
@@ -26,7 +27,7 @@ import (
     Explanation: 1000000000000000000 base 999999999999999999 is 11.
 
   Constraints:
-    1. n is an integer in the range [3, 1018].
+    1. n is an integer in the range [3, 10^18].
     2. n does not contain any leading zeros.
 
   来源：力扣（LeetCode）
@@ -34,25 +35,22 @@ import (
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
-// Math + Binary Search
+// Important!
+
+// Math
+
 func smallestGoodBase(n string) string {
-	num, _ := strconv.Atoi(n)
-	for i := int(math.Log2(float64(num))) + 1; i >= 2; i-- {
-		l, r := 2, int(math.Pow(float64(num), 1/float64(i)))
-		for l <= r {
-			k := (l + r) >> 1
-			sum := 1
-			for j := 0; j < i; j++ {
-				sum = sum*k + 1
-			}
-			if sum < num {
-				l = k + 1
-			} else if sum > num {
-				r = k - 1
-			} else {
-				return strconv.Itoa(k)
-			}
+	nVal, _ := strconv.Atoi(n)
+	for m := bits.Len(uint(nVal)) - 1; m > 1; m-- {
+		k := int(math.Pow(float64(nVal), 1/float64(m)))
+		mul, sum := 1, 1
+		for i := 0; i < m; i++ {
+			mul *= k
+			sum += mul
+		}
+		if sum == nVal {
+			return strconv.Itoa(k)
 		}
 	}
-	return strconv.Itoa(num - 1)
+	return strconv.Itoa(nVal - 1)
 }
