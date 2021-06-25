@@ -1,78 +1,64 @@
 package main
 
 /*
-  给定一个二维平面，平面上有 n 个点，求最多有多少个点在同一条直线上。
+  Given an array of points where points[i] = [xi, yi] represents a point on the X-Y plane, return the maximum number of points that lie on the same straight line.
+
+  Example 1:
+    Input: points = [[1,1],[2,2],[3,3]]
+    Output: 3
+
+  Example 2:
+    Input: points = [[1,1],[3,2],[5,3],[4,1],[2,3],[1,4]]
+    Output: 4
+
+  Constraints:
+    1. 1 <= points.length <= 300
+    2. points[i].length == 2
+    3. -10^4 <= xi, yi <= 10^4
+    4. All the points are unique.
+
+  来源：力扣（LeetCode）
+  链接：https://leetcode-cn.com/problems/max-points-on-a-line
+  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+// Hash
+
 func maxPoints(points [][]int) int {
-	pointCount := make(map[[2]int]int)
-	for _, point := range points {
-		pointCount[[2]int{point[0], point[1]}]++
-	}
-	n := len(pointCount)
-	if n < 3 {
-		return len(points)
-	}
-	pointSet := make([][3]int, 0, n)
-	for point, count := range pointCount {
-		pointSet = append(pointSet, [3]int{point[0], point[1], count})
-	}
-	var max int
-	for i, point := range pointSet {
-		x0, y0, count0 := point[0], point[1], point[2]
-		slopeCount := make(map[float64]int)
-		pointWithSameXCount := 0
-		for j := 0; j < i; j++ {
-			x, y, count := pointSet[j][0], pointSet[j][1], pointSet[j][2]
-			if x0 == x {
-				pointWithSameXCount += count
-				max = Max(max, pointWithSameXCount+count0)
-			} else {
-				slope := float64(y0-y) / float64(x0-x)
-				slopeCount[slope] += count
-				max = Max(max, slopeCount[slope]+count0)
+	out := 1
+	cntX := map[int]int{}
+	cnty := map[int]int{}
+	for i, p1 := range points {
+		cntX[p1[0]]++
+		cnty[p1[1]]++
+		for j, p2 := range points[i+1:] {
+			if p2[0] == p1[0] || p2[1] == p1[1] {
+				continue
 			}
+			cnt := 2
+			for _, p3 := range points[j+1:] {
+				if p3[0] == p1[0] || p3[1] == p1[1] || p3[0] == p2[0] || p3[1] == p2[1] {
+					continue
+				}
+				if (p2[0]-p1[0])*(p3[1]-p1[1]) == (p3[0]-p1[0])*(p2[1]-p1[1]) {
+					cnt++
+				}
+			}
+			out = Max(out, cnt)
 		}
 	}
-	return max
+	for _, cnt := range cntX {
+		out = Max(out, cnt)
+	}
+	for _, cnt := range cnty {
+		out = Max(out, cnt)
+	}
+	return out
 }
 
 func Max(a, b int) int {
-	if a < b {
-		return b
+	if a > b {
+		return a
 	}
-	return a
-}
-
-func maxPoints2(points [][]int) int {
-	n := len(points)
-	if n < 3 {
-		return n
-	}
-	var max int
-	for i := 0; i < n; i++ {
-		var cur, countCenter int
-		dict := make(map[[2]int]int)
-		for j := i + 1; j < n; j++ {
-			a, b := points[j][0]-points[i][0], points[j][1]-points[i][1]
-			if a == 0 && b == 0 {
-				countCenter++
-				continue
-			}
-			div := Gcd(a, b)
-			key := [2]int{a / div, b / div}
-			dict[key]++
-			cur = Max(cur, dict[key])
-		}
-		max = Max(max, cur+countCenter+1)
-	}
-	return max
-}
-
-// Gcd: the greatest common divisor of a and b
-func Gcd(a, b int) int {
-	for b != 0 {
-		a, b = b, a%b
-	}
-	return a
+	return b
 }

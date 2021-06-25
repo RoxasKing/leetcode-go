@@ -26,13 +26,12 @@ package main
   著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 */
 
+// Bit Manipulation
+
 func hammingWeight(num uint32) int {
 	out := 0
-	for num > 0 {
-		if num&1 == 1 {
-			out++
-		}
-		num >>= 1
+	for ; num > 0; num &= num - 1 {
+		out++
 	}
 	return out
 }
