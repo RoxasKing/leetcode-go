@@ -1,28 +1,6 @@
 package main
 
-/*
-  The beauty of a string is the difference in frequencies between the most frequent and least frequent characters.
-    For example, the beauty of "abaacc" is 3 - 1 = 2.
-  Given a string s, return the sum of beauty of all of its substrings.
-
-  Example 1:
-    Input: s = "aabcb"
-    Output: 5
-    Explanation: The substrings with non-zero beauty are ["aab","aabc","aabcb","abcb","bcb"], each with beauty equal to 1.
-
-  Example 2:
-    Input: s = "aabcbaa"
-    Output: 17
-
-  Constraints:
-    1. 1 <= s.length <= 500
-    2. s consists of only lowercase English letters.
-
-  来源：力扣（LeetCode）
-  链接：https://leetcode-cn.com/problems/sum-of-beauty-of-all-substrings
-  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
-*/
-
+// Tags:
 // Sliding Window
 func beautySum(s string) int {
 	out := 0

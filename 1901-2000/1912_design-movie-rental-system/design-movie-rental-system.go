@@ -5,8 +5,7 @@ import (
 	"sort"
 )
 
-// Important!
-
+// Tags:
 // Priority Queue
 
 type MovieRentingSystem struct {

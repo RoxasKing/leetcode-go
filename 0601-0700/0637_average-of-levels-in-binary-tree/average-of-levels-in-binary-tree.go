@@ -1,12 +1,6 @@
 package main
 
-/*
-  给定一个非空二叉树, 返回一个由每层节点平均值组成的数组。
-
-  提示：
-    节点值的范围在32位有符号整数范围内。
-*/
-
+// Tags:
 // BFS
 func averageOfLevels(root *TreeNode) []float64 {
 	var out []float64

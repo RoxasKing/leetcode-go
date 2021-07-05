@@ -1,32 +1,6 @@
 package main
 
-/*
-  You are given a nested list of integers nestedList. Each element is either an integer or a list whose elements may also be integers or other lists. Implement an iterator to flatten it.
-
-  Implement the NestedIterator class:
-    1. NestedIterator(List<NestedInteger> nestedList) Initializes the iterator with the nested list nestedList.
-    2. int next() Returns the next integer in the nested list.
-    3. boolean hasNext() Returns true if there are still some integers in the nested list and false otherwise.
-
-  Example 1:
-    Input: nestedList = [[1,1],2,[1,1]]
-    Output: [1,1,2,1,1]
-    Explanation: By calling next repeatedly until hasNext returns false, the order of elements returned by next should be: [1,1,2,1,1].
-
-  Example 2:
-    Input: nestedList = [1,[4,[6]]]
-    Output: [1,4,6]
-    Explanation: By calling next repeatedly until hasNext returns false, the order of elements returned by next should be: [1,4,6].
-
-  Constraints:
-    1. 1 <= nestedList.length <= 500
-    2. The values of the integers in the nested list is in the range [-10^6, 10^6].
-
-  来源：力扣（LeetCode）
-  链接：https://leetcode-cn.com/problems/flatten-nested-list-iterator
-  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
-*/
-
+// Tags:
 // Recursion
 
 /**

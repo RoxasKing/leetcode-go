@@ -2,34 +2,6 @@ package main
 
 import "sort"
 
-/*
-  Given a string array words, return the maximum value of length(word[i]) * length(word[j]) where the two words do not share common letters. If no such two words exist, return 0.
-
-  Example 1:
-    Input: words = ["abcw","baz","foo","bar","xtfn","abcdef"]
-    Output: 16
-    Explanation: The two words can be "abcw", "xtfn".
-
-  Example 2:
-    Input: words = ["a","ab","abc","d","cd","bcd","abcd"]
-    Output: 4
-    Explanation: The two words can be "ab", "cd".
-
-  Example 3:
-    Input: words = ["a","aa","aaa","aaaa"]
-    Output: 0
-    Explanation: No such pair of words.
-
-  Constraints:
-    1. 2 <= words.length <= 1000
-    2. 1 <= words[i].length <= 1000
-    3. words[i] consists only of lowercase English letters.
-
-  来源：力扣（LeetCode）
-  链接：https://leetcode-cn.com/problems/maximum-product-of-word-lengths
-  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
-*/
-
 // Bit Maniputlation
 // Sort
 

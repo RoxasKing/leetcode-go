@@ -1,5 +1,6 @@
 package main
 
+// Tags:
 // ListNode : Linked list data structure
 type ListNode struct {
 	Val  int

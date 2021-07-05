@@ -1,40 +1,6 @@
 package main
 
-/*
-  Given an integer array nums, handle multiple queries of the following types:
-    1. Update the value of an element in nums.
-    2. Calculate the sum of the elements of nums between indices left and right inclusive where left <= right.
-
-  Implement the NumArray class:
-    1. NumArray(int[] nums) Initializes the object with the integer array nums.
-    2. void update(int index, int val) Updates the value of nums[index] to be val.
-    3. int sumRange(int left, int right) Returns the sum of the elements of nums between indices left and right inclusive (i.e. nums[left] + nums[left + 1] + ... + nums[right]).
-
-  Example 1:
-    Input
-      ["NumArray", "sumRange", "update", "sumRange"]
-      [[[1, 3, 5]], [0, 2], [1, 2], [0, 2]]
-    Output
-      [null, 9, null, 8]
-    Explanation
-      NumArray numArray = new NumArray([1, 3, 5]);
-      numArray.sumRange(0, 2); // return 1 + 3 + 5 = 9
-      numArray.update(1, 2);   // nums = [1, 2, 5]
-      numArray.sumRange(0, 2); // return 1 + 2 + 5 = 8
-
-  Constraints:
-    1. 1 <= nums.length <= 3 * 10^4
-    2. -100 <= nums[i] <= 100
-    3. 0 <= index < nums.length
-    4. -100 <= val <= 100
-    5. 0 <= left <= right < nums.length
-    6. At most 3 * 10^4 calls will be made to update and sumRange.
-
-  来源：力扣（LeetCode）
-  链接：https://leetcode-cn.com/problems/range-sum-query-mutable
-  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
-*/
-
+// Tags:
 // Segment Tree
 
 type NumArray struct {

@@ -1,34 +1,5 @@
 package main
 
-/*
-  Given a string s, return the longest palindromic substring in s.
-
-  Example 1:
-    Input: s = "babad"
-    Output: "bab"
-    Note: "aba" is also a valid answer.
-
-  Example 2:
-    Input: s = "cbbd"
-    Output: "bb"
-
-  Example 3:
-    Input: s = "a"
-    Output: "a"
-
-  Example 4:
-    Input: s = "ac"
-    Output: "a"
-
-  Constraints:
-    1. 1 <= s.length <= 1000
-    2. s consist of only digits and English letters (lower-case and/or upper-case),
-
-  来源：力扣（LeetCode）
-  链接：https://leetcode-cn.com/problems/longest-palindromic-substring
-  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
-*/
-
 func longestPalindrome(s string) string {
 	out := ""
 	for i := range s {

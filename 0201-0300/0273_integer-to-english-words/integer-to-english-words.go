@@ -2,33 +2,6 @@ package main
 
 import "strings"
 
-/*
-  Convert a non-negative integer num to its English words representation.
-
-  Example 1:
-    Input: num = 123
-    Output: "One Hundred Twenty Three"
-
-  Example 2:
-    Input: num = 12345
-    Output: "Twelve Thousand Three Hundred Forty Five"
-
-  Example 3:
-    Input: num = 1234567
-    Output: "One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven"
-
-  Example 4:
-    Input: num = 1234567891
-    Output: "One Billion Two Hundred Thirty Four Million Five Hundred Sixty Seven Thousand Eight Hundred Ninety One"
-
-  Constraints:
-    0 <= num <= 2^31 - 1
-
-  来源：力扣（LeetCode）
-  链接：https://leetcode-cn.com/problems/integer-to-english-words
-  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
-*/
-
 var nameMap = map[int]string{
 	1000000000: "Billion",
 	1000000:    "Million",

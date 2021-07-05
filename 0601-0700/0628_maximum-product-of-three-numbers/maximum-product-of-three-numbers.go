@@ -1,29 +1,5 @@
 package main
 
-/*
-  Given an integer array nums, find three numbers whose product is maximum and return the maximum product.
-
-  Example 1:
-    Input: nums = [1,2,3]
-    Output: 6
-
-  Example 2:
-    Input: nums = [1,2,3,4]
-    Output: 24
-
-  Example 3:
-    Input: nums = [-1,-2,-3]
-    Output: -6
-
-  Constraints:
-    3 <= nums.length <= 10^4
-    -1000 <= nums[i] <= 1000
-
-  来源：力扣（LeetCode）
-  链接：https://leetcode-cn.com/problems/maximum-product-of-three-numbers
-  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
-*/
-
 func maximumProduct(nums []int) int {
 	max0, max1, max2 := -1<<31, -1<<31, -1<<31
 	min0, min1 := 1<<31-1, 1<<31-1

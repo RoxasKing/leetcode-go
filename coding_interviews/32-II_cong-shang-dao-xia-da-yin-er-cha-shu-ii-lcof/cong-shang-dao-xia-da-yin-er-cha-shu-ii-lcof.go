@@ -1,12 +1,5 @@
 package main
 
-/*
-  从上到下按层打印二叉树，同一层的节点按从左到右的顺序打印，每一层打印到一行。
-
-  提示：
-    节点总数 <= 1000
-*/
-
 /**
  * Definition for a binary tree node.
  * type TreeNode struct {

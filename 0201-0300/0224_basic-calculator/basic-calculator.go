@@ -1,32 +1,6 @@
 package main
 
-/*
-  Given a string s representing an expression, implement a basic calculator to evaluate it.
-
-  Example 1:
-    Input: s = "1 + 1"
-    Output: 2
-
-  Example 2:
-    Input: s = " 2-1 + 2 "
-    Output: 3
-
-  Example 3:
-    Input: s = "(1+(4+5+2)-3)+(6+8)"
-    Output: 23
-
-  Constraints:
-    1. 1 <= s.length <= 3 * 105
-    2. s consists of digits, '+', '-', '(', ')', and ' '.
-    3. s represents a valid expression.
-
-  来源：力扣（LeetCode）
-  链接：https://leetcode-cn.com/problems/basic-calculator
-  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
-*/
-
-// Important!
-
+// Tags:
 // Stack
 func calculate(s string) int {
 	out := 0

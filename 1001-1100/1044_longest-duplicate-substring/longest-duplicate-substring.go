@@ -1,18 +1,6 @@
 package main
 
-/*
-  给出一个字符串 S，考虑其所有重复子串（S 的连续子串，出现两次或多次，可能会有重叠）。
-  返回任何具有最长可能长度的重复子串。（如果 S 不含重复子串，那么答案为 ""。）
-
-  提示：
-    2 <= S.length <= 10^5
-    S 由小写英文字母组成。
-
-  来源：力扣（LeetCode）
-  链接：https://leetcode-cn.com/problems/longest-duplicate-substring
-  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
-*/
-
+// Tags:
 // Rabin-Karp
 func longestDupSubstring(S string) string {
 	n := len(S)

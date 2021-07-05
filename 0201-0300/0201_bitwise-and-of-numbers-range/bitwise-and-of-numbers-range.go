@@ -1,9 +1,6 @@
 package main
 
-/*
-  给定范围 [m, n]，其中 0 <= m <= n <= 2147483647，返回此范围内所有数字的按位与（包含 m, n 两端点）。
-*/
-
+// Tags:
 // Bit Manipulation
 func rangeBitwiseAnd(m int, n int) int {
 	var shift int

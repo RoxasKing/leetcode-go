@@ -1,34 +1,6 @@
 package main
 
-/*
-  Design a special dictionary which has some words and allows you to search the words in it by a prefix and a suffix.
-
-  Implement the WordFilter class:
-    1. WordFilter(string[] words) Initializes the object with the words in the dictionary.
-    2. f(string prefix, string suffix) Returns the index of the word in the dictionary which has the prefix prefix and the suffix suffix. If there is more than one valid index, return the largest of them. If there is no such word in the dictionary, return -1.
-
-  Example 1:
-    Input
-      ["WordFilter", "f"]
-      [[["apple"]], ["a", "e"]]
-    Output
-      [null, 0]
-    Explanation
-      WordFilter wordFilter = new WordFilter(["apple"]);
-      wordFilter.f("a", "e"); // return 0, because the word at index 0 has prefix = "a" and suffix = 'e".
-
-  Constraints:
-    1. 1 <= words.length <= 15000
-    2. 1 <= words[i].length <= 10
-    3. 1 <= prefix.length, suffix.length <= 10
-    4. words[i], prefix and suffix consist of lower-case English letters only.
-    5. At most 15000 calls will be made to the function f.
-
-  来源：力扣（LeetCode）
-  链接：https://leetcode-cn.com/problems/prefix-and-suffix-search
-  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
-*/
-
+// Tags:
 // Trie
 type WordFilter struct {
 	trie *Trie

@@ -1,26 +1,6 @@
 package main
 
-/*
-  Given a non-negative integer, you could swap two digits at most once to get the maximum valued number. Return the maximum valued number you could get.
-
-  Example 1:
-    Input: 2736
-    Output: 7236
-    Explanation: Swap the number 2 and the number 7.
-
-  Example 2:
-    Input: 9973
-    Output: 9973
-    Explanation: No swap.
-
-  Note:
-    The given number is in the range [0, 108]
-
-  来源：力扣（LeetCode）
-  链接：https://leetcode-cn.com/problems/maximum-swap
-  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
-*/
-
+// Tags:
 // Math + Greedy Algorithm
 func maximumSwap(num int) int {
 	arr := []int{}

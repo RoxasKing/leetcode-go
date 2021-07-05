@@ -1,24 +1,6 @@
 package main
 
-/*
-  Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
-
-  Example 1:
-    Input: n = 3
-    Output: ["((()))","(()())","(())()","()(())","()()()"]
-
-  Example 2:
-    Input: n = 1
-    Output: ["()"]
-
-  Constraints:
-    1 <= n <= 8
-
-  来源：力扣（LeetCode）
-  链接：https://leetcode-cn.com/problems/generate-parentheses
-  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
-*/
-
+// Tags:
 // Backtracking
 func generateParenthesis(n int) []string {
 	out := []string{}

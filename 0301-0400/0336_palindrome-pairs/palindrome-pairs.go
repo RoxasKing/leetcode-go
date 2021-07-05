@@ -1,32 +1,6 @@
 package main
 
-/*
-  Given a list of unique words, return all the pairs of the distinct indices (i, j) in the given list, so that the concatenation of the two words words[i] + words[j] is a palindrome.
-
-  Example 1:
-    Input: words = ["abcd","dcba","lls","s","sssll"]
-    Output: [[0,1],[1,0],[3,2],[2,4]]
-    Explanation: The palindromes are ["dcbaabcd","abcddcba","slls","llssssll"]
-
-  Example 2:
-    Input: words = ["bat","tab","cat"]
-    Output: [[0,1],[1,0]]
-    Explanation: The palindromes are ["battab","tabbat"]
-
-  Example 3:
-    Input: words = ["a",""]
-    Output: [[0,1],[1,0]]
-
-  Constraints:
-    1. 1 <= words.length <= 5000
-    2. 0 <= words[i].length <= 300
-    3. words[i] consists of lower-case English letters.
-
-  来源：力扣（LeetCode）
-  链接：https://leetcode-cn.com/problems/palindrome-pairs
-  著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
-*/
-
+// Tags:
 // Trie
 func palindromePairs(words []string) [][]int {
 	trie := NewTrie()

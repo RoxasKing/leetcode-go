@@ -4,16 +4,7 @@ import (
 	"math/rand"
 )
 
-/*
-  给定一个无序的数组 nums，将它重新排列成 nums[0] < nums[1] > nums[2] < nums[3]... 的顺序。
-
-  说明:
-    你可以假设所有输入都会得到有效的结果。
-
-  进阶:
-    你能用 O(n) 时间复杂度和 / 或原地 O(1) 额外空间来实现吗？
-*/
-
+// Tags:
 // 3-Way Quick Sort
 func wiggleSort(nums []int) {
 	n := len(nums)

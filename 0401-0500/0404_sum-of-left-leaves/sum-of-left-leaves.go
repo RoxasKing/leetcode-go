@@ -1,9 +1,6 @@
 package main
 
-/*
-  计算给定二叉树的所有左叶子之和。
-*/
-
+// Tags:
 // DFS + Recursion
 func sumOfLeftLeaves(root *TreeNode) int {
 	if root == nil {
