@@ -1,49 +1,46 @@
 package main
 
-import "sort"
-
+// Tags:
+// Binary Search
 // Backtracking
-func minimumTimeRequired(jobs []int, k int) int {
-	n := len(jobs)
-	sort.Ints(jobs)
-	max, sum := jobs[n-1], 0
-	for _, job := range jobs {
-		sum += job
-	}
 
-	l, r := max, sum
+func minimumTimeRequired(jobs []int, k int) int {
+	l, r := 1, 12*int(1e7)
 	for l < r {
-		maxWorkTime := (l + r) >> 1
-		if !valid(jobs, n, k, maxWorkTime) {
-			l = maxWorkTime + 1
+		limit := l + (r-l)>>1
+		if !isValid(jobs, k, limit) {
+			l = limit + 1
 		} else {
-			r = maxWorkTime
+			r = limit
 		}
 	}
 	return l
 }
 
-func valid(jobs []int, n, k, maxWorkTime int) bool {
-	return backtrack(jobs, n, maxWorkTime, 0, make([]int, k))
+func isValid(jobs []int, k, limit int) bool {
+	return backtrack(jobs, make([]int, k), limit, 0)
 }
 
-func backtrack(jobs []int, n, maxWorkTime, idx int, worker []int) bool {
-	if idx == n {
+func backtrack(jobs []int, workers []int, limit, idx int) bool {
+	if idx == len(jobs) {
+		for _, worker := range workers {
+			if worker > limit {
+				return false
+			}
+		}
 		return true
 	}
-
-	for i := range worker {
-		if worker[i]+jobs[idx] <= maxWorkTime {
-			worker[i] += jobs[idx]
-			if backtrack(jobs, n, maxWorkTime, idx+1, worker) {
+	for i := range workers {
+		if workers[i]+jobs[idx] <= limit {
+			workers[i] += jobs[idx]
+			if backtrack(jobs, workers, limit, idx+1) {
 				return true
 			}
-			worker[i] -= jobs[idx]
+			workers[i] -= jobs[idx]
 		}
-		if worker[i] == 0 || worker[i]+jobs[idx] == maxWorkTime {
+		if workers[i] == 0 || workers[i]+jobs[idx] == limit {
 			return false
 		}
 	}
-
 	return false
 }

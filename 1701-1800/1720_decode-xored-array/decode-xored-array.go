@@ -2,6 +2,7 @@ package main
 
 // Tags:
 // Bit Manipulation
+
 func decode(encoded []int, first int) []int {
 	n := len(encoded)
 	out := make([]int, n+1)

@@ -2,7 +2,9 @@ package main
 
 import "math/bits"
 
+// Tags:
 // Dynamic Programming
+
 func minimumTimeRequired(jobs []int, k int) int {
 	n := len(jobs)
 	sum := make([]int, 1<<n)
