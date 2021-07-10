@@ -2,15 +2,18 @@ package main
 
 import "sort"
 
+// Tags:
 // Two Pointers
+// Sort
+
 func countPairs(deliciousness []int) int {
-	arr := []int{}
-	cnt := make(map[int]int)
+	cnt := map[int]int{}
 	for _, d := range deliciousness {
-		if cnt[d] == 0 {
-			arr = append(arr, d)
-		}
 		cnt[d]++
+	}
+	arr := make([]int, 0, len(cnt))
+	for x := range cnt {
+		arr = append(arr, x)
 	}
 	sort.Ints(arr)
 
@@ -20,17 +23,19 @@ func countPairs(deliciousness []int) int {
 			sum := arr[l] + arr[r]
 			if sum < good {
 				l++
+				continue
 			} else if sum > good {
 				r--
-			} else {
-				if l == r {
-					out = (out + cnt[arr[l]]*(cnt[arr[l]]-1)/2) % (1e9 + 7)
-				} else {
-					out = (out + cnt[arr[l]]*cnt[arr[r]]) % (1e9 + 7)
-				}
-				l++
-				r--
+				continue
 			}
+			if l == r {
+				out += cnt[arr[l]] * (cnt[arr[l]] - 1) >> 1
+			} else {
+				out += cnt[arr[l]] * cnt[arr[r]]
+			}
+			out %= 1e9 + 7
+			l++
+			r--
 		}
 	}
 	return out
