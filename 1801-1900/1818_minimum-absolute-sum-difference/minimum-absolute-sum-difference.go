@@ -1,81 +1,44 @@
 package main
 
 import (
-	"container/heap"
 	"sort"
 )
 
 // Tags:
-// Greedy Algorithm + Binary Search + Priority Queue
+// Binary Search
+
 func minAbsoluteSumDiff(nums1 []int, nums2 []int) int {
-	out := 0
-	pq := &PriorityQueue{}
-	mark := make(map[int]bool)
-	nums := []int{}
+	n := len(nums1)
+	arr := make([]int, n)
+	copy(arr, nums1)
+	sort.Ints(arr)
 
-	for i := range nums1 {
-		diff := Abs(nums1[i] - nums2[i])
-		out = (out + diff) % (1e9 + 7)
-		heap.Push(pq, [2]int{diff, i})
-		if !mark[nums1[i]] {
-			mark[nums1[i]] = true
-			nums = append(nums, nums1[i])
+	var max int
+	for i := 0; i < n; i++ {
+		cur := Abs(nums1[i] - nums2[i])
+		j := sort.Search(n, func(j int) bool { return arr[j] >= nums2[i] })
+		if j < n && cur-Abs(arr[j]-nums2[i]) > max {
+			max = cur - Abs(arr[j]-nums2[i])
+		}
+		if j > 0 && cur-Abs(arr[j-1]-nums2[i]) > max {
+			max = cur - Abs(arr[j-1]-nums2[i])
 		}
 	}
 
-	if out == 0 {
-		return 0
+	var out int
+	for i := 0; i < n; i++ {
+		out += Abs(nums1[i] - nums2[i])
+		out %= mod
 	}
 
-	sort.Ints(nums)
-
-	max := 0
-	for pq.Len() > 0 {
-		e := heap.Pop(pq).([2]int)
-		diff, j := e[0], e[1]
-		if Abs(diff) <= max {
-			break
-		}
-
-		i := sort.Search(len(nums), func(i int) bool { return nums[i] >= nums2[j] })
-
-		if i >= 0 && i < len(nums) {
-			max = Max(max, Abs(diff)-Abs(nums[i]-nums2[j]))
-		}
-		if i-1 >= 0 {
-			max = Max(max, Abs(diff)-Abs(nums[i-1]-nums2[j]))
-		}
-		if i+1 < len(nums) {
-			max = Max(max, Abs(diff)-Abs(nums[i+1]-nums2[j]))
-		}
-	}
-
-	return out - max
+	return (out - max + mod) % mod
 }
 
-func Max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
+var mod = int(1e9 + 7)
 
 func Abs(num int) int {
 	if num < 0 {
 		return -num
 	}
 	return num
-}
-
-type PriorityQueue [][2]int
-
-func (pq PriorityQueue) Len() int            { return len(pq) }
-func (pq PriorityQueue) Less(i, j int) bool  { return pq[i][0] > pq[j][0] }
-func (pq PriorityQueue) Swap(i, j int)       { pq[i], pq[j] = pq[j], pq[i] }
-func (pq *PriorityQueue) Push(x interface{}) { *pq = append(*pq, x.([2]int)) }
-func (pq *PriorityQueue) Pop() interface{} {
-	top := pq.Len() - 1
-	out := (*pq)[top]
-	*pq = (*pq)[:top]
-	return out
 }
