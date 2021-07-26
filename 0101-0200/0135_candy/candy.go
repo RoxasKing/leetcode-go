@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Greedy Algorithm
+// Greedy
 func candy(ratings []int) int {
 	n := len(ratings)
 	dp := make([]int, n)

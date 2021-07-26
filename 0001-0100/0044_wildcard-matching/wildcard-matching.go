@@ -24,7 +24,7 @@ func isMatch(s string, p string) bool {
 	return dp[ns][np]
 }
 
-// Greedy Algorithm
+// Greedy
 func isMatch2(s string, p string) bool {
 	for len(s) > 0 && len(p) > 0 && p[len(p)-1] != '*' {
 		if s[len(s)-1] == p[len(p)-1] || '?' == p[len(p)-1] {

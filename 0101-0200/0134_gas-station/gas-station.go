@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Greedy Algorithm
+// Greedy
 func canCompleteCircuit(gas []int, cost []int) int {
 	var total, cur, start int
 	for i := range gas {

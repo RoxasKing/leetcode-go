@@ -5,6 +5,7 @@ package main
 
 func minDifference(nums []int, queries [][]int) []int {
 	m, n := len(nums), len(queries)
+	cnt := make([][101]int16, m+1)
 	for i := 1; i <= m; i++ {
 		for j := 1; j <= 100; j++ {
 			cnt[i][j] = cnt[i-1][j]
@@ -12,28 +13,17 @@ func minDifference(nums []int, queries [][]int) []int {
 		cnt[i][nums[i-1]]++
 	}
 	out := make([]int, n)
-	for i := 0; i < n; i++ {
+	for i, q := range queries {
 		out[i] = -1
-		l, r := queries[i][0], queries[i][1]
-		pre, ans := -int(1e9), int(1e9)
+		l, r, pre := q[0], q[1], 0
 		for j := 1; j <= 100; j++ {
 			if cnt[r+1][j] != cnt[l][j] {
-				ans = Min(ans, j-pre)
+				if pre > 0 && (out[i] == -1 || j-pre < out[i]) {
+					out[i] = j - pre
+				}
 				pre = j
 			}
 		}
-		if ans != int(1e9) {
-			out[i] = ans
-		}
 	}
 	return out
-}
-
-var cnt = [1e5 + 1][101]int{}
-
-func Min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
 }

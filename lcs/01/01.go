@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Greedy Algorithm
+// Greedy
 
 func leastMinutes(n int) int {
 	out := 1

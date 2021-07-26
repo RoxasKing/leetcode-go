@@ -2,7 +2,7 @@ package main
 
 import "sort"
 
-// Greedy Algorithm
+// Greedy
 
 func halfQuestions(questions []int) int {
 	n := len(questions)

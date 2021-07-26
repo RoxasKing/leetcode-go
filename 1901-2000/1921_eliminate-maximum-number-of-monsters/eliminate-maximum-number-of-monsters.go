@@ -2,7 +2,7 @@ package main
 
 // Tags:
 // Tags:
-// Greedy Algorithm
+// Greedy
 
 func eliminateMaximum(dist []int, speed []int) int {
 	cnt := make([]int, 1e5+1)

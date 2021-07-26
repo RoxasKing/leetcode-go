@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Greedy Algorithm
+// Greedy
 
 func mergeTriplets(triplets [][]int, target []int) bool {
 	t0, t1, t2 := target[0], target[1], target[2]

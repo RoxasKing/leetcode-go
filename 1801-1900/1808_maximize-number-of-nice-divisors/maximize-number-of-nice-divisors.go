@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Greedy Algorithm
+// Greedy
 func maxNiceDivisors(primeFactors int) int {
 	if primeFactors == 1 {
 		return 1

@@ -5,7 +5,7 @@ import (
 )
 
 // Tags:
-// Greedy Algorithm
+// Greedy
 func maxBuilding(n int, restrictions [][]int) int {
 	m := len(restrictions)
 	if m == 0 {

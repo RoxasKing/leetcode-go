@@ -2,7 +2,7 @@ package main
 
 import "sort"
 
-// Greedy Algorithm
+// Greedy
 
 func maximumElementAfterDecrementingAndRearranging(arr []int) int {
 	n := len(arr)

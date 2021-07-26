@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Greedy Algorithm
+// Greedy
 
 func sumGame(num string) bool {
 	var cnt, sum int

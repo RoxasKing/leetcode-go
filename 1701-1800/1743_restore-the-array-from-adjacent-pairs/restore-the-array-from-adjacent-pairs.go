@@ -1,33 +1,34 @@
 package main
 
+import "bytes"
+
+// Tags:
+// Hash
+
+const base int = 1e5
+
 func restoreArray(adjacentPairs [][]int) []int {
-	edges := map[int][]int{}
+	g := [base<<1 + 1][2]int{}
+	idx := [base<<1 + 1]byte{}
 	for _, p := range adjacentPairs {
-		u, v := p[0], p[1]
-		edges[u] = append(edges[u], v)
-		edges[v] = append(edges[v], u)
+		u, v := p[0]+base, p[1]+base
+		g[u][idx[u]] = v
+		idx[u]++
+		g[v][idx[v]] = u
+		idx[v]++
 	}
 
-	var u int
-	for num, arr := range edges {
-		if len(arr) == 1 {
-			u = num
-			break
-		}
-	}
+	n := len(adjacentPairs) + 1
+	out := make([]int, n)
+	out[0] = bytes.IndexByte(idx[:], 1) - base
+	out[1] = g[out[0]+base][0] - base
 
-	out := make([]int, 0, len(adjacentPairs)+1)
-
-	for {
-		out = append(out, u)
-		for _, v := range edges[u] {
-			if len(out) > 1 && out[len(out)-2] == v {
-				continue
-			}
-			u = v
-		}
-		if u == out[len(out)-1] {
-			break
+	for i := 2; i < n; i++ {
+		arr := g[out[i-1]+base]
+		if out[i-2] == arr[0]-base {
+			out[i] = arr[1] - base
+		} else {
+			out[i] = arr[0] - base
 		}
 	}
 

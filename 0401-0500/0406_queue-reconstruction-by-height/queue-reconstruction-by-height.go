@@ -5,7 +5,7 @@ import (
 )
 
 // Tags:
-// Greedy Algorithm + Array
+// Greedy + Array
 func reconstructQueue(people [][]int) [][]int {
 	sort.Slice(people, func(i, j int) bool {
 		if people[i][0] != people[j][0] {
@@ -21,7 +21,7 @@ func reconstructQueue(people [][]int) [][]int {
 	return out
 }
 
-// Greedy Algorithm + Linked List
+// Greedy + Linked List
 func reconstructQueue2(people [][]int) [][]int {
 	sort.Slice(people, func(i, j int) bool {
 		if people[i][0] == people[j][0] {

@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Greedy Algorithm + Monotone Stack
+// Greedy + Monotone Stack
 func maxNumber(nums1 []int, nums2 []int, k int) []int {
 	out := []int{}
 	n1, n2 := len(nums1), len(nums2)

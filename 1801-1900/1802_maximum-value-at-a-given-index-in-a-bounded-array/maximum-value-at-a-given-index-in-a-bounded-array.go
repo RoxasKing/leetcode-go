@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Greedy Algorithm + Binary Search + Math
+// Greedy + Binary Search + Math
 func maxValue(n int, index int, maxSum int) int {
 	maxSum -= n
 	lLen := index

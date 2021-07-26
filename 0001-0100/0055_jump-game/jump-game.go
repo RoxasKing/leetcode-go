@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Greedy Algorithm
+// Greedy
 func canJump(nums []int) bool {
 	n, lastPos := len(nums), 0
 	for i := 0; i < n && i <= lastPos && lastPos < n-1; i++ {

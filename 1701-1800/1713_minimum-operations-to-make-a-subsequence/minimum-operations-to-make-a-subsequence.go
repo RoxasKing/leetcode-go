@@ -1,13 +1,11 @@
 package main
 
-import (
-	"sort"
-)
+import "sort"
 
 // Tags:
-// Binary Search
+// Greedy
 // Hash
-// Greedy Algoritm
+// Binary Search
 
 func minOperations(target []int, arr []int) int {
 	dict := map[int]int{}

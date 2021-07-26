@@ -2,7 +2,7 @@ package main
 
 import "sort"
 
-// Greedy Algorithm
+// Greedy
 // Prefix Sum
 // Binary Search
 

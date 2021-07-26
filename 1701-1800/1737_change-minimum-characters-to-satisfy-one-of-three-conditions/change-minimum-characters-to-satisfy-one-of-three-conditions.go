@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Greedy Algorithm
+// Greedy
 
 func minCharacters(a string, b string) int {
 	freqA := [26]int{}

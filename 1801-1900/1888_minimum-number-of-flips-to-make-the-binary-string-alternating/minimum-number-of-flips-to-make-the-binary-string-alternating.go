@@ -2,7 +2,7 @@ package main
 
 // Tags:
 // Prefix Sum
-// Greedy Algorithm
+// Greedy
 
 func minFlips(s string) int {
 	n := len(s)

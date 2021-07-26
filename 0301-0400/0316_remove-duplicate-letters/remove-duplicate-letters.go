@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Greedy Algorithm + Stack
+// Greedy + Stack
 func removeDuplicateLetters(s string) string {
 	count := [26]int{}
 	for i := range s {

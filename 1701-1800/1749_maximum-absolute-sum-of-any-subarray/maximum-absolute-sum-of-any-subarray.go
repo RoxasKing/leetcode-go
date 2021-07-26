@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Greedy Algoritm
+// Greedy
 
 func maxAbsoluteSum(nums []int) int {
 	out := 0

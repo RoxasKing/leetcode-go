@@ -20,7 +20,7 @@ func wiggleMaxLength(nums []int) int {
 	return len(stack)
 }
 
-// Greedy Algorithm
+// Greedy
 func wiggleMaxLength2(nums []int) int {
 	out := 0
 	a, b := -1<<31, -1<<31

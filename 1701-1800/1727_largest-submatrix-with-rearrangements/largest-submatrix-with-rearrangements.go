@@ -2,7 +2,7 @@ package main
 
 import "sort"
 
-// Greedy Algorithm
+// Greedy
 // Sort
 
 func largestSubmatrix(matrix [][]int) int {

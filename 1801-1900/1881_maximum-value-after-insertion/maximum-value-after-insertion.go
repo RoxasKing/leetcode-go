@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Greedy Algorithm
+// Greedy
 
 func maxValue(n string, x int) string {
 	flg := 1

@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Greedy Algorithm
+// Greedy
 func minPatches(nums []int, n int) int {
 	patches := 0
 	x := 1

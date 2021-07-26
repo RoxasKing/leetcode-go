@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Greedy Algorithm
+// Greedy
 
 func isCovered(ranges [][]int, left int, right int) bool {
 	for i := range ranges {
