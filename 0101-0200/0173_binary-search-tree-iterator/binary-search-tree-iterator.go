@@ -14,33 +14,30 @@ type BSTIterator struct {
 }
 
 func Constructor(root *TreeNode) BSTIterator {
-	return BSTIterator{node: root}
+	return BSTIterator{
+		node: root,
+	}
 }
 
-/** @return the next smallest number */
 func (this *BSTIterator) Next() int {
-	n := this.node
-	for n != nil {
-		if n.Left != nil {
-			pre := n.Left
-			for pre.Right != nil && pre.Right != n {
-				pre = pre.Right
-			}
-			if pre.Right != n {
-				pre.Right = n
-				n = n.Left
-				continue
-			}
-			pre.Right = nil
+START:
+	if this.node.Left != nil {
+		prev := this.node.Left
+		for prev.Right != nil && prev.Right != this.node {
+			prev = prev.Right
 		}
-		break
+		if prev.Right != this.node {
+			prev.Right = this.node
+			this.node = this.node.Left
+			goto START
+		}
+		prev.Right = nil
 	}
-	out := n.Val
-	this.node = n.Right
+	out := this.node.Val
+	this.node = this.node.Right
 	return out
 }
 
-/** @return whether we have a next smallest number */
 func (this *BSTIterator) HasNext() bool {
 	return this.node != nil
 }

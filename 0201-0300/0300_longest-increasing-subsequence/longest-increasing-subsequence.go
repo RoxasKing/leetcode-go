@@ -2,7 +2,10 @@ package main
 
 import "sort"
 
+// Tags:
+// Greedy
 // Binary Search
+
 func lengthOfLIS(nums []int) int {
 	mins := []int{}
 	for _, num := range nums {

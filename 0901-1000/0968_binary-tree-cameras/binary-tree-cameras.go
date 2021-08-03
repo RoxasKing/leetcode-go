@@ -1,51 +1,34 @@
 package main
 
 // Tags:
-// DFS + Recursion
-func minCameraCover(root *TreeNode) int {
-	if root == nil {
-		return 0
-	} else if isLeaf(root) {
-		return 1
-	}
-	out, leafHaveCamera, leafLeafHaveCamera := dfs(root)
-	if !(leafHaveCamera || leafLeafHaveCamera) {
-		out++
-	}
-	return out
-}
-
-func dfs(node *TreeNode) (int, bool, bool) {
-	if isLeaf(node) {
-		return 0, false, false
-	}
-	var lCount, rCount int
-	var lChildHaveCamera, lChildChildHaveCamera, rChildHaveCamera, rChildChildHaveCamera bool
-	if node.Left != nil {
-		lCount, lChildHaveCamera, lChildChildHaveCamera = dfs(node.Left)
-	}
-	if node.Right != nil {
-		rCount, rChildHaveCamera, rChildChildHaveCamera = dfs(node.Right)
-	}
-	count := lCount + rCount
-	// 若当前节点有一个子节点是叶子节点
-	// 或当前节点的非空子节点的子节点，以及其子节点的子节点没有摄像头
-	// 则当前节点必须有摄像头
-	curNodeHaveCamera :=
-		node.Left != nil && (isLeaf(node.Left) || !lChildHaveCamera && !lChildChildHaveCamera) ||
-			node.Right != nil && (isLeaf(node.Right) || !rChildHaveCamera && !rChildChildHaveCamera)
-	if curNodeHaveCamera {
-		count++
-	}
-	return count, curNodeHaveCamera, lChildHaveCamera || rChildHaveCamera
-}
-
-func isLeaf(node *TreeNode) bool {
-	return node.Left == nil && node.Right == nil
-}
+// DFS
 
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
 	Right *TreeNode
+}
+
+func minCameraCover(root *TreeNode) int {
+	_, out, _ := dfs(root)
+	return out
+}
+
+func dfs(root *TreeNode) (a, b, c int) {
+	if root == nil {
+		return 1000, 0, 0
+	}
+	la, lb, lc := dfs(root.Left)
+	ra, rb, rc := dfs(root.Right)
+	a = lc + rc + 1               // root must install camera
+	b = Min(a, Min(la+rb, ra+lb)) // minimum number of cameras needed contain root
+	c = Min(a, lb+rb)             // minimum number of cameras needed except root
+	return
+}
+
+func Min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
 }
