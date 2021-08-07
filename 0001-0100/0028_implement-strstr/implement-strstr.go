@@ -1,17 +1,9 @@
 package main
 
-func strStr(haystack string, needle string) int {
-	m, n := len(haystack), len(needle)
-	for i := 0; i < m-n+1; i++ {
-		if haystack[i:i+n] == needle {
-			return i
-		}
-	}
-	return -1
-}
-
+// Tags:
 // KMP
-func strStr2(haystack string, needle string) int {
+
+func strStr(haystack string, needle string) int {
 	m, n := len(haystack), len(needle)
 	if n == 0 {
 		return 0

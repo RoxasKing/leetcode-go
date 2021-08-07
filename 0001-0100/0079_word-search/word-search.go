@@ -2,11 +2,12 @@ package main
 
 // Tags:
 // Backtracking
+
 func exist(board [][]byte, word string) bool {
-	m, n := len(board), len(board[0])
+	m, n, k := len(board), len(board[0]), len(word)
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
-			if dfs(board, m, n, word, 0, i, j) {
+			if backtrack(board, word, m, n, k, 0, i, j) {
 				return true
 			}
 		}
@@ -14,8 +15,8 @@ func exist(board [][]byte, word string) bool {
 	return false
 }
 
-func dfs(board [][]byte, m, n int, word string, i, x, y int) bool {
-	if i == len(word) {
+func backtrack(board [][]byte, word string, m, n, k int, i, x, y int) bool {
+	if i == k {
 		return true
 	}
 
@@ -24,16 +25,14 @@ func dfs(board [][]byte, m, n int, word string, i, x, y int) bool {
 	}
 
 	ch := board[x][y]
-	board[x][y] = '$'
+	defer func() { board[x][y] = ch }()
+	board[x][y] = ' '
 
-	if dfs(board, m, n, word, i+1, x-1, y) ||
-		dfs(board, m, n, word, i+1, x+1, y) ||
-		dfs(board, m, n, word, i+1, x, y-1) ||
-		dfs(board, m, n, word, i+1, x, y+1) {
+	if backtrack(board, word, m, n, k, i+1, x-1, y) ||
+		backtrack(board, word, m, n, k, i+1, x+1, y) ||
+		backtrack(board, word, m, n, k, i+1, x, y-1) ||
+		backtrack(board, word, m, n, k, i+1, x, y+1) {
 		return true
 	}
-
-	board[x][y] = ch
-
 	return false
 }
