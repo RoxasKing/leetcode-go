@@ -5,7 +5,7 @@ import (
 )
 
 // Tags:
-// Priority Queue(Heap Sort) + Sliding Window
+// Priority Queue + Sliding Window
 func medianSlidingWindow(nums []int, k int) []float64 {
 	n := len(nums)
 	out := make([]float64, 0, n+1-k)

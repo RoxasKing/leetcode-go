@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Priority Queue(Heap Sort)
+// Priority Queue
 
 type MedianFinder struct {
 	max []int

@@ -2,7 +2,7 @@ package main
 
 import "container/heap"
 
-// Priority Queue(Heap Sort)
+// Priority Queue
 
 type FreqStack struct {
 	cnt map[int]int

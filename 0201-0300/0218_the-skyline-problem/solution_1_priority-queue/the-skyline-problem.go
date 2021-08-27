@@ -6,7 +6,7 @@ import (
 )
 
 // Tags:
-// Priority Queue(Heap Sort)
+// Priority Queue
 func getSkyline(buildings [][]int) [][]int {
 	n := len(buildings)
 	points := make([]int, 0, n<<1)

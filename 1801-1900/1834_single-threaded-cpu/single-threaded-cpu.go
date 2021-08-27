@@ -6,7 +6,7 @@ import (
 )
 
 // Tags:
-// Priority Queue(Heap Sort)
+// Priority Queue
 func getOrder(tasks [][]int) []int {
 	n := len(tasks)
 	idxs := make([]int, n)

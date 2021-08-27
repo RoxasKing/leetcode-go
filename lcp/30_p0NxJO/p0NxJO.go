@@ -2,7 +2,7 @@ package main
 
 import "container/heap"
 
-// Priority Queue(Heap Sort)
+// Priority Queue
 func magicTower(nums []int) int {
 	h := MinHeap{}
 	blood := 1

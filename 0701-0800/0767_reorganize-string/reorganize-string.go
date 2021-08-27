@@ -5,7 +5,7 @@ import (
 )
 
 // Tags:
-// Priority Queue(Heap Sort)
+// Priority Queue
 func reorganizeString(S string) string {
 	n := len(S)
 

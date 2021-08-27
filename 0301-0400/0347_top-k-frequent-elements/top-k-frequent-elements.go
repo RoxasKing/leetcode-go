@@ -5,7 +5,7 @@ import (
 )
 
 // Tags:
-// Priority Queue(Heap Sort)
+// Priority Queue
 
 func topKFrequent(nums []int, k int) []int {
 	cnt := make(map[int]int)

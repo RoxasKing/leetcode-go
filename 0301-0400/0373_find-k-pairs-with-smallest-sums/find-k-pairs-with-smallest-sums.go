@@ -6,7 +6,7 @@ import (
 )
 
 // Tags:
-// Priority Queue(Heap Sort)
+// Priority Queue
 
 func kSmallestPairs(nums1 []int, nums2 []int, k int) [][]int {
 	h := MaxHeap{}

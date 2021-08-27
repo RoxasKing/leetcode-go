@@ -2,7 +2,7 @@ package main
 
 import "container/heap"
 
-// Priority Queue(Heap Sort)
+// Priority Queue
 type MKAverage struct {
 	m, k int
 	arr  []int       // record last m number

@@ -6,7 +6,7 @@ import (
 )
 
 // Tags:
-// Priority Queue(Heap Sort)
+// Priority Queue
 func minInterval(intervals [][]int, queries []int) []int {
 	m, n := len(intervals), len(queries)
 

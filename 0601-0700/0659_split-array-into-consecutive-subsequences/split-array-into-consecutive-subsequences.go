@@ -2,7 +2,7 @@ package main
 
 import "container/heap"
 
-// Priority Queue(Heap Sort) + Hash
+// Priority Queue + Hash
 func isPossible(nums []int) bool {
 	pqs := make(map[int]*priorityQueue)
 	for _, num := range nums {

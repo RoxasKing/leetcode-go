@@ -120,7 +120,7 @@ func checkByDFS(grid [][]int, limit int) bool {
 	return dfs(0, 0)
 }
 
-// Priority Queue(Heap Sort) + BFS
+// Priority Queue + BFS
 func swimInWater3(grid [][]int) int {
 	n := len(grid)
 	visited := [50][50]bool{}

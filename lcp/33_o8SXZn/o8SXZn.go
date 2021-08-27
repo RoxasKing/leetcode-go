@@ -6,7 +6,7 @@ import (
 )
 
 // Tags:
-// Priority Queue(Heap Sort)
+// Priority Queue
 func storeWater(bucket []int, vat []int) int {
 	h := MaxHeap{}
 	op := 0

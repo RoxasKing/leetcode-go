@@ -3,7 +3,7 @@ package main
 import "container/heap"
 
 // Tags:
-// Priority Queue(Heap Sort)
+// Priority Queue
 // Dynamic Programming
 
 func minCost(maxTime int, edges [][]int, passingFees []int) int {

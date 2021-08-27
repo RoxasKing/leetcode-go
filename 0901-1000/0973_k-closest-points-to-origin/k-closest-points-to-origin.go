@@ -35,7 +35,7 @@ func quickSort(points [][]int, l, r int, k int) {
 
 func isCloser(a, b []int) bool { return a[0]*a[0]+a[1]*a[1] < b[0]*b[0]+b[1]*b[1] }
 
-// Priority Queue(Heap Sort)
+// Priority Queue
 func kClosest2(points [][]int, K int) [][]int {
 	n := len(points)
 	pq := make(PriorityQueue, n)

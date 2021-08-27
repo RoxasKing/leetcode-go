@@ -5,7 +5,7 @@ import (
 )
 
 // Tags:
-// Priority Queue(Heap Sort)
+// Priority Queue
 func maxIceCream(costs []int, coins int) int {
 	pq := PriorityQueue{}
 	for _, c := range costs {

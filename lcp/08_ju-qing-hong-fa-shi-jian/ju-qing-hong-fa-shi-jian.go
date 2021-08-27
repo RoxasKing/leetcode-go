@@ -32,7 +32,7 @@ func getTriggerTime(increase [][]int, requirements [][]int) []int {
 	return out
 }
 
-// Priority Queue(Heap Sort)
+// Priority Queue
 func getTriggerTime2(increase [][]int, requirements [][]int) []int {
 	n := len(requirements)
 	pqC := NewPriorityQueue(requirements, 0)

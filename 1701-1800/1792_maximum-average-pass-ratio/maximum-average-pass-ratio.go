@@ -2,7 +2,7 @@ package main
 
 import "container/heap"
 
-// Priority Queue(Heap Sort)
+// Priority Queue
 func maxAverageRatio(classes [][]int, extraStudents int) float64 {
 	sum := float64(0)
 	pq := PriorityQueue{}

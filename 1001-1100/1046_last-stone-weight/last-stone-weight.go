@@ -2,7 +2,7 @@ package main
 
 import "container/heap"
 
-// Priority Queue(Heap Sort)
+// Priority Queue
 func lastStoneWeight(stones []int) int {
 	pq := &PriorityQueue{}
 	for _, stone := range stones {

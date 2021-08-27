@@ -6,7 +6,7 @@ import (
 )
 
 // Tags:
-// Priority Queue(Heap Sort)
+// Priority Queue
 func processTasks(tasks [][]int) int {
 	sort.Slice(tasks, func(i, j int) bool { return tasks[i][0] < tasks[j][0] })
 	tasks = append(tasks, []int{1e9 + 1, 1e9 + 1, 1})
