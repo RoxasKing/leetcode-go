@@ -2,7 +2,7 @@ package main
 
 // Tags:
 // Dynamic Programming
-// Greedy algorithm
+// Greedy
 // Bit Manipulation
 
 func minChanges(nums []int, k int) int {

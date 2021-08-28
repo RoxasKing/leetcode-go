@@ -1,7 +1,8 @@
 package main
 
 // Tags:
-// Greedy Algrorithm
+// Greedy
+
 func minOperations(nums1 []int, nums2 []int) int {
 	sum1, sum2 := 0, 0
 	cnt1, cnt2 := [7]int{}, [7]int{}

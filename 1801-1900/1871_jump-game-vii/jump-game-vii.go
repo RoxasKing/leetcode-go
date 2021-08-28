@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Greedy Algoritym
+// Greedy
 
 func canReach(s string, minJump int, maxJump int) bool {
 	n := len(s)

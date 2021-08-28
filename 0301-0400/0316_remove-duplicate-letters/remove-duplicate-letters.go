@@ -1,7 +1,9 @@
 package main
 
 // Tags:
-// Greedy + Stack
+// Greedy
+// Stack
+
 func removeDuplicateLetters(s string) string {
 	count := [26]int{}
 	for i := range s {

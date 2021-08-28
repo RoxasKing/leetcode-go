@@ -1,64 +1,68 @@
 package main
 
 // Tags:
-// Dynamic Programming + DFS
+// Dynamic Programming
+// Backtracking
+
 func escapeMaze(maze [][]string) bool {
-	t, m, n := len(maze), len(maze[0]), len(maze[0][0])
-	dp := make([][][][2][2][2]bool, t) // [times][row][col][scroll1][scroll2][isStop]
-	for i := range dp {
-		dp[i] = make([][][2][2][2]bool, m)
-		for j := range dp[i] {
-			dp[i][j] = make([][2][2][2]bool, n)
+	G = maze
+	T, M, N = len(maze), len(maze[0]), len(maze[0][0])
+	V = make([][][][6]bool, T)
+	for i := 0; i < T; i++ {
+		V[i] = make([][][6]bool, M)
+		for j := 0; j < M; j++ {
+			V[i][j] = make([][6]bool, N)
 		}
 	}
+	return dp(0, 0, 0, 0)
+}
 
-	dfs(maze, t, m, n, dp, 0, 0, 0, 0, 0, 0)
+var G [][]string
+var T, M, N int
+var V [][][][6]bool /* [t][r][c][s] */
+/* s: 0-未使用永久消除术 1-已使用永久消除术并驻留 2-已使用永久消除术并跳出 | 0-未使用临时消除术， 1-已使用临时消除术 */
 
-	for i := 0; i < t; i++ {
-		for j := 0; j < 2; j++ {
-			for k := 0; k < 2; k++ {
-				for l := 0; l < 2; l++ {
-					if dp[i][m-1][n-1][j][k][l] {
-						return true
-					}
-				}
+var dr = [4]int{-1, 1, 0, 0}
+var dc = [4]int{0, 0, -1, 1}
+
+func dp(t, r, c, s int) bool {
+	if r < 0 || M-1 < r || c < 0 || N-1 < c || T <= t+M-1-r+N-1-c || V[t][r][c][s] {
+		return false
+	}
+
+	if r == M-1 && c == N-1 {
+		return true
+	}
+
+	V[t][r][c][s] = true
+
+	/* 已使用永久消除术并驻留 */
+	if s>>1 == 1 {
+		for i := 0; i < 4; i++ {
+			if dp(t+1, r+dr[i], c+dc[i], s^0b110) { /* 跳出 */
+				return true
 			}
 		}
+		return dp(t+1, r, c, s) /* 驻留 */
 	}
-	return false
+
+	/* 尝试使用永久消除术 */
+	if s>>1 == 0 && G[t][r][c] == '#' && dp(t, r, c, s|0b010) {
+		return true
+	}
+
+	/* 使用永久消除术无法抵达终点，尝试使用临时消除术 */
+	if G[t][r][c] == '#' {
+		if s&1 == 1 {
+			return false
+		}
+		s |= 1
+	}
+
+	for i := 0; i < 4; i++ {
+		if dp(t+1, r+dr[i], c+dc[i], s) {
+			return true
+		}
+	}
+	return dp(t+1, r, c, s)
 }
-
-func dfs(maze [][]string, t, m, n int, dp [][][][2][2][2]bool, times, row, col int, scroll1, scroll2, isStop int) {
-	if dp[times][row][col][scroll1][scroll2][isStop] {
-		return
-	}
-
-	dp[times][row][col][scroll1][scroll2][isStop] = true
-
-	if times == t-1 {
-		return
-	}
-
-	if isStop == 1 || maze[times+1][row][col] == '.' {
-		dfs(maze, t, m, n, dp, times+1, row, col, scroll1, scroll2, isStop)
-	}
-
-	for _, f := range forwards {
-		i, j := row+f[0], col+f[1]
-		if i < 0 || i > m-1 || j < 0 || j > n-1 {
-			continue
-		}
-		if maze[times+1][i][j] == '.' {
-			dfs(maze, t, m, n, dp, times+1, i, j, scroll1, scroll2, 0)
-			continue
-		}
-		if scroll1 == 0 {
-			dfs(maze, t, m, n, dp, times+1, i, j, 1, scroll2, 0)
-		}
-		if scroll2 == 0 {
-			dfs(maze, t, m, n, dp, times+1, i, j, scroll1, 1, 1)
-		}
-	}
-}
-
-var forwards = [][]int{{-1, 0}, {1, 0}, {0, -1}, {0, 1}}
