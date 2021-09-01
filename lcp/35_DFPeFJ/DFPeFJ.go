@@ -1,54 +1,54 @@
 package main
 
-import "container/heap"
+import (
+	"container/heap"
+	"runtime/debug"
+)
 
-// Dijkstra's algorithm + Priority Queue
+// Tags:
+// Dijkstra
+// Priority Queue
+
 func electricCarPlan(paths [][]int, cnt int, start int, end int, charge []int) int {
 	n := len(charge)
-	edges := make([][][2]int, n)
+	g := make([][]*pair, n)
 	for _, p := range paths {
 		u, v, w := p[0], p[1], p[2]
-		edges[u] = append(edges[u], [2]int{v, w})
-		edges[v] = append(edges[v], [2]int{u, w})
+		g[u] = append(g[u], &pair{v: v, w: w})
+		g[v] = append(g[v], &pair{v: u, w: w})
 	}
 
-	pq := PriorityQueue{}
-	heap.Push(&pq, [3]int{0, start, 0})
-
-	minT := make([][]int, n) // 记录到达不同地点不同电量的最少耗时
-	for i := range minT {
-		minT[i] = make([]int, cnt+1)
-		for j := range minT[i] {
-			minT[i][j] = 1<<31 - 1
+	f := make([][]int, n)
+	for i := range f {
+		f[i] = make([]int, cnt+1)
+		for j := range f[i] {
+			f[i][j] = 1e9
 		}
 	}
-	minT[start][0] = 0
+	f[start][0] = 0
 
-	for pq.Len() > 0 {
-		e := heap.Pop(&pq).([3]int)
-		t, u, c := e[0], e[1], e[2] // 耗时， 地点， 电量
-
-		if t > minT[u][c] { // 大于已记录的最佳耗时，跳过
+	h := MinHeap{&state{t: 0, u: start, e: 0}}
+	for h.Len() > 0 {
+		x := heap.Pop(&h).(*state)
+		t, u, e := x.t, x.u, x.e
+		if t > f[u][e] {
 			continue
 		}
-
 		if u == end {
 			return t
 		}
-
-		if c < cnt { // 充电
-			newT := t + charge[u]
-			if newT < minT[u][c+1] {
-				minT[u][c+1] = newT
-				heap.Push(&pq, [3]int{newT, u, c + 1})
+		if e < cnt {
+			tt := t + charge[u]
+			if tt < f[u][e+1] {
+				f[u][e+1] = tt
+				heap.Push(&h, &state{t: tt, u: u, e: e + 1})
 			}
 		}
-
-		for _, next := range edges[u] {
-			v, w := next[0], next[1]
-			if c >= w && t+w < minT[v][c-w] { // 电量足够，可达，并且比记录的耗时低，更新记录，并入队
-				minT[v][c-w] = t + w
-				heap.Push(&pq, [3]int{t + w, v, c - w})
+		for _, x := range g[u] {
+			v, w := x.v, x.w
+			if w <= e && t+w < f[v][e-w] {
+				f[v][e-w] = t + w
+				heap.Push(&h, &state{t: t + w, u: v, e: e - w})
 			}
 		}
 	}
@@ -56,15 +56,25 @@ func electricCarPlan(paths [][]int, cnt int, start int, end int, charge []int) i
 	return -1
 }
 
-type PriorityQueue [][3]int // 耗时， 地点， 电量
+type pair struct {
+	v, w int
+}
 
-func (pq PriorityQueue) Len() int            { return len(pq) }
-func (pq PriorityQueue) Less(i, j int) bool  { return pq[i][0] < pq[j][0] }
-func (pq PriorityQueue) Swap(i, j int)       { pq[i], pq[j] = pq[j], pq[i] }
-func (pq *PriorityQueue) Push(x interface{}) { *pq = append(*pq, x.([3]int)) }
-func (pq *PriorityQueue) Pop() interface{} {
-	top := pq.Len() - 1
-	out := (*pq)[top]
-	*pq = (*pq)[:top]
+type state struct {
+	t, u, e int
+}
+
+type MinHeap []*state
+
+func (h MinHeap) Len() int            { return len(h) }
+func (h MinHeap) Less(i, j int) bool  { return h[i].t < h[j].t }
+func (h MinHeap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }
+func (h *MinHeap) Push(x interface{}) { *h = append(*h, x.(*state)) }
+func (h *MinHeap) Pop() interface{} {
+	i := h.Len() - 1
+	out := (*h)[i]
+	*h = (*h)[:i]
 	return out
 }
+
+func init() { debug.SetGCPercent(-1) }

@@ -2,7 +2,10 @@ package main
 
 import "container/heap"
 
-// Dijkstra's Algorithm + Priority Queue
+// Tags:
+// Dijkstra
+// Priority Queue
+
 func networkDelayTime(times [][]int, N int, K int) int {
 	edges := make([][][2]int, N+1)
 	for _, t := range times {
