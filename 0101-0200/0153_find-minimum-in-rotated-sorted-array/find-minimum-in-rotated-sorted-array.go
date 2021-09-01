@@ -2,10 +2,9 @@ package main
 
 // Tags:
 // Binary Search
+
 func findMin(nums []int) int {
-	n := len(nums)
-	l, r := 0, n-1
-	for l < r {
+	for l, r := 0, len(nums)-1; l < r; {
 		m := (l + r) >> 1
 		if nums[m] > nums[m+1] {
 			return nums[m+1]

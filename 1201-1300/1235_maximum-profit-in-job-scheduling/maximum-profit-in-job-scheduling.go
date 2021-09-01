@@ -2,48 +2,45 @@ package main
 
 import "sort"
 
+// Tags:
+// Discretization
 // Dynamic Programming
 
 func jobScheduling(startTime []int, endTime []int, profit []int) int {
-	n := len(startTime)
+	m := len(startTime)
+	jobs := make([]*Job, m)
 	set := map[int]struct{}{}
-	for i := 0; i < n; i++ {
-		set[startTime[i]] = struct{}{}
-		set[endTime[i]] = struct{}{}
+	for i := 0; i < m; i++ {
+		st, ed := startTime[i], endTime[i]
+		jobs[i] = &Job{st: st, ed: ed, pf: profit[i]}
+		set[st] = struct{}{}
+		set[ed] = struct{}{}
 	}
+	sort.Slice(jobs, func(i, j int) bool { return jobs[i].ed < jobs[j].ed })
 
-	times := make([]int, 0, len(set))
+	n := len(set)
+	ts := make([]int, 0, n)
 	for t := range set {
-		times = append(times, t)
+		ts = append(ts, t)
 	}
-	sort.Ints(times)
-
+	sort.Ints(ts)
 	dict := map[int]int{}
-	for i, point := range times {
-		dict[point] = i
+	for i, t := range ts {
+		dict[t] = i + 1
 	}
 
-	jobs := make([][3]int, n)
-	for i := 0; i < n; i++ {
-		jobs[i] = [3]int{startTime[i], endTime[i], profit[i]}
-	}
-	sort.Slice(jobs, func(i, j int) bool {
-		return jobs[i][1] < jobs[j][1]
-	})
-
-	m := len(times)
-	f := make([]int, m)
-
-	for i := 1; i < m; i++ {
-		f[i] = f[i-1]
-		for len(jobs) > 0 && jobs[0][1] == times[i] {
-			job := jobs[0]
-			jobs = jobs[1:]
-			f[i] = Max(f[i], f[dict[job[0]]]+job[2])
+	f := make([]int, n+1)
+	for i, j := 1, 0; i <= n; i++ {
+		f[i] = Max(f[i], f[i-1])
+		for ; j < m && jobs[j].ed <= ts[i-1]; j++ {
+			f[i] = Max(f[i], f[dict[jobs[j].st]]+jobs[j].pf)
 		}
 	}
+	return f[n]
+}
 
-	return f[m-1]
+type Job struct {
+	st, ed, pf int
 }
 
 func Max(a, b int) int {

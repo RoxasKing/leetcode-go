@@ -6,25 +6,23 @@ import (
 )
 
 // Tags:
-// Prefix Sum + Binary Search
+// Prefix Sum
+// Binary Search
 
 type Solution struct {
-	pSum []int
+	p []int
 }
 
 func Constructor(w []int) Solution {
-	n := len(w)
-	pSum := make([]int, n+1)
-	for i := range w {
-		pSum[i+1] = pSum[i] + w[i]
+	for i := 1; i < len(w); i++ {
+		w[i] += w[i-1]
 	}
-	return Solution{pSum: pSum}
+	return Solution{p: w}
 }
 
 func (this *Solution) PickIndex() int {
-	num := rand.Intn(this.pSum[len(this.pSum)-1]) + 1
-	i := sort.Search(len(this.pSum), func(i int) bool { return this.pSum[i] >= num })
-	return i - 1
+	x := rand.Intn(this.p[len(this.p)-1]) + 1
+	return sort.SearchInts(this.p, x)
 }
 
 /**
