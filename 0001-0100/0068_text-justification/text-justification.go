@@ -1,58 +1,45 @@
 package main
 
+import "strings"
+
 func fullJustify(words []string, maxWidth int) []string {
-	n := len(words)
-	lens := make([]int, n)
-	for i := range lens {
-		lens[i] = countChar(words[i])
-	}
-	var out []string
-	for l, r := 0, 0; l < n; l = r {
-		count := lens[l]
-		for r = l + 1; r < n && count+(r-l)+lens[r] <= maxWidth; r++ {
-			count += lens[r]
-		}
-		if r-1-l == 0 {
-			out = append(out, words[l]+makeSpace(maxWidth-count))
-			continue
-		}
-		remain := (maxWidth - count) % (r - 1 - l)
-		width := (maxWidth - count) / (r - 1 - l)
-		space := makeSpace(width)
-		tmp := words[l]
-		for i := l + 1; i < r; i++ {
-			if r == n {
-				tmp += " "
+	var out, tmp []string
+	var x int
+	for _, word := range words {
+		if x+len(word)+len(tmp) > maxWidth {
+			var s string
+			if len(tmp) == 1 {
+				s = tmp[0]
+				for len(s) < maxWidth {
+					s += " "
+				}
 			} else {
-				tmp += space
-				if remain > 0 {
-					tmp += " "
-					remain--
+				spaces := maxWidth - x
+				space := spaces / (len(tmp) - 1)
+				remain := spaces - space*(len(tmp)-1)
+				s = tmp[0]
+				for _, w := range tmp[1:] {
+					if remain > 0 {
+						s += " "
+						remain--
+					}
+					for i := 0; i < space; i++ {
+						s += " "
+					}
+					s += w
 				}
 			}
-			tmp += words[i]
+			out = append(out, s)
+			tmp = []string{}
+			x = 0
 		}
-		if r == n {
-			tmp += makeSpace(maxWidth - len(tmp))
-		}
-		out = append(out, tmp)
+		tmp = append(tmp, word)
+		x += len(word)
 	}
-	return out
-}
-
-func countChar(s string) int {
-	count := 0
-	for s != "" {
-		s = s[1:]
-		count++
+	s := strings.Join(tmp, " ")
+	for len(s) < maxWidth {
+		s += " "
 	}
-	return count
-}
-
-func makeSpace(width int) string {
-	var out string
-	for i := 0; i < width; i++ {
-		out += " "
-	}
+	out = append(out, s)
 	return out
 }

@@ -4,32 +4,32 @@ import "sort"
 
 // Tags:
 // Monotone Chain
+// Sort
 
-func outerTrees(P [][]int) [][]int {
-	n, x := len(P), 0
-	H := make([][]int, 0, n<<1)
-	sort.Slice(P, func(i, j int) bool { return P[i][0] < P[j][0] || P[i][0] == P[j][0] && P[i][1] < P[j][1] })
+func outerTrees(T [][]int) [][]int {
+	n := len(T)
+	O := make([][]int, 0, n<<1)
+	sort.Slice(T, func(i, j int) bool { return T[i][0] < T[j][0] || T[i][0] == T[j][0] && T[i][1] < T[j][1] })
 	for i := 0; i < n; i++ {
-		for ; len(H) >= 2 && cross(H[len(H)-2], H[len(H)-1], P[i]); H = H[:len(H)-1] {
+		for ; len(O) > 1 && cross(O[len(O)-2], O[len(O)-1], T[i]); O = O[:len(O)-1] {
 		}
-		H = append(H, P[i])
+		O = append(O, T[i])
 	}
-	for i, t := n-2, len(H)+1; i >= 0; i-- {
-		for ; len(H) >= t && cross(H[len(H)-2], H[len(H)-1], P[i]); H = H[:len(H)-1] {
+	for i, m := n-2, len(O); i >= 0; i-- {
+		for ; len(O) > m && cross(O[len(O)-2], O[len(O)-1], T[i]); O = O[:len(O)-1] {
 		}
-		H = append(H, P[i])
+		O = append(O, T[i])
 	}
-	sort.Slice(H, func(i, j int) bool { return H[i][0] < H[j][0] || H[i][0] == H[j][0] && H[i][1] < H[j][1] })
-	for i := range H {
-		if H[x][0] == H[i][0] && H[x][1] == H[i][1] {
+	sort.Slice(O, func(i, j int) bool { return O[i][0] < O[j][0] || O[i][0] == O[j][0] && O[i][1] < O[j][1] })
+	x := 0
+	for i := 1; i < len(O); i++ {
+		if O[i][0] == O[x][0] && O[i][1] == O[x][1] {
 			continue
 		}
 		x++
-		H[x] = H[i]
+		O[x] = O[i]
 	}
-	return H[:x+1]
+	return O[:x+1]
 }
 
-func cross(t0, t1, t2 []int) bool { return (t1[0]-t0[0])*(t2[1]-t0[1]) < (t1[1]-t0[1])*(t2[0]-t0[0]) }
-
-// func init() { debug.SetGCPercent(-1) }
+func cross(C, A, B []int) bool { return (B[1]-C[1])*(A[0]-C[0]) < (A[1]-C[1])*(B[0]-C[0]) }

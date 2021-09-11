@@ -1,54 +1,60 @@
 package main
 
-import "fmt"
-
+// Tags:
 // Dynamic Programming
-func sumOfDistancesInTree(N int, edges [][]int) []int {
-	graph := make([][]int, N)
+// DFS
+
+func sumOfDistancesInTree(n int, edges [][]int) []int {
+	g = make([][]int, n)
 	for _, e := range edges {
 		u, v := e[0], e[1]
-		graph[u] = append(graph[u], v)
-		graph[v] = append(graph[v], u)
+		g[u] = append(g[u], v)
+		g[v] = append(g[v], u)
 	}
 
-	sz := make([]int, N)
-	dp := make([]int, N)
-	var dfs func(int, int)
-	dfs = func(u, f int) {
-		sz[u] = 1
-		for _, v := range graph[u] {
-			if v == f {
-				continue
-			}
-			dfs(v, u)
-			dp[u] += dp[v] + sz[v]
-			sz[u] += sz[v]
-		}
-	}
-	dfs(0, -1)
+	c = make([]int, n)
+	f = make([]int, n)
+	out = make([]int, n)
 
-	out := make([]int, N)
-	dfs = func(u, f int) {
-		out[u] = dp[u]
-		fmt.Println(u, graph[u])
-		for _, v := range graph[u] {
-			if v == f {
-				continue
-			}
-			pu, pv := dp[u], dp[v]
-			su, sv := sz[u], sz[v]
+	dfs1(0, -1)
+	dfs2(0, -1)
 
-			dp[u] -= dp[v] + sz[v]
-			sz[u] -= sz[v]
-			dp[v] += dp[u] + sz[u]
-			sz[v] += sz[u]
-
-			dfs(v, u)
-
-			dp[u], dp[v] = pu, pv
-			sz[u], sz[v] = su, sv
-		}
-	}
-	dfs(0, -1)
 	return out
+}
+
+var g [][]int
+var c, f, out []int
+
+func dfs1(u, x int) {
+	c[u] = 1
+	for _, v := range g[u] {
+		if v == x {
+			continue
+		}
+		dfs1(v, u)
+		c[u] += c[v]
+		f[u] += f[v] + c[v]
+	}
+}
+
+func dfs2(u, x int) {
+	out[u] = f[u]
+	for _, v := range g[u] {
+		if v == x {
+			continue
+		}
+
+		cu, fu := c[u], f[u]
+		cv, fv := c[v], f[v]
+
+		c[u] -= c[v]
+		f[u] -= f[v] + c[v]
+		c[v] += c[u]
+		f[v] += f[u] + c[u]
+
+		dfs2(v, u)
+
+		c[u], f[u] = cu, fu
+		c[v], f[v] = cv, fv
+	}
 }
