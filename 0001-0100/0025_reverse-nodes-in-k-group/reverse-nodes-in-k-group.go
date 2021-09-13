@@ -1,49 +1,40 @@
 package main
 
-func reverseKGroup(head *ListNode, k int) *ListNode {
-	node := head
-	nodePre := &ListNode{Next: node}
-	var out *ListNode
-	for {
-		ptr := node
-		pre := nodePre
-		i := 0
-		for i < k && pre.Next != nil {
-			pre = pre.Next
-			i++
-		}
-		if i == k {
-			node = pre.Next
-			pre.Next = nil
-			first, last := revList(ptr)
-			if out == nil {
-				out = first
-			}
-			nodePre.Next = first
-			last.Next = node
-			nodePre = last
-		} else {
-			break
-		}
-	}
-	return out
-}
-
-func revList(head *ListNode) (*ListNode, *ListNode) {
-	var first, last *ListNode
-	for head != nil {
-		next := head.Next
-		head.Next = first
-		first = head
-		if last == nil {
-			last = head
-		}
-		head = next
-	}
-	return first, last
-}
-
 type ListNode struct {
 	Val  int
 	Next *ListNode
+}
+
+func reverseKGroup(head *ListNode, k int) *ListNode {
+	var out, l, r, p *ListNode
+	t := &ListNode{}
+	i := 0
+	for p = head; p != nil; {
+		next := p.Next
+		p.Next = l
+		l = p
+		if r == nil {
+			r = p
+		}
+		p = next
+		i++
+		if i == k {
+			i = 0
+			t.Next = l
+			t = r
+			if out == nil {
+				out = l
+			}
+			l = nil
+			r = nil
+		}
+	}
+	for p = nil; l != nil; {
+		next := l.Next
+		l.Next = p
+		p = l
+		l = next
+	}
+	t.Next = p
+	return out
 }
