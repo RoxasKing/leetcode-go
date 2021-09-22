@@ -11,25 +11,24 @@ func findNumberOfLIS(nums []int) int {
 	}
 	lens := make([]int, n)
 	for i := 0; i < n; i++ {
-		for j := 0; j < i; j++ {
-			if nums[j] >= nums[i] {
+		for j := i + 1; j < n; j++ {
+			if nums[i] >= nums[j] {
 				continue
 			}
-			if lens[j] >= lens[i] {
-				lens[i] = lens[j] + 1
-				cnts[i] = cnts[j]
-			} else if lens[j]+1 == lens[i] {
-				cnts[i] += cnts[j]
+			if lens[i] >= lens[j] {
+				lens[j] = lens[i] + 1
+				cnts[j] = cnts[i]
+			} else if lens[i]+1 == lens[j] {
+				cnts[j] += cnts[i]
 			}
 		}
 	}
-
 	var max, out int
 	for _, len := range lens {
 		max = Max(max, len)
 	}
-	for i := 0; i < n; i++ {
-		if lens[i] == max {
+	for i, len := range lens {
+		if len == max {
 			out += cnts[i]
 		}
 	}

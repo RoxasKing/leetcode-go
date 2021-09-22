@@ -1,8 +1,6 @@
 package main
 
-import (
-	"testing"
-)
+import "testing"
 
 func Test_numDistinct(t *testing.T) {
 	type args struct {
