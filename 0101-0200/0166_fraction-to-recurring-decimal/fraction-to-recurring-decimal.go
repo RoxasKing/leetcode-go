@@ -1,41 +1,41 @@
 package main
 
-import (
-	"strconv"
-)
+import "strconv"
+
+// Difficulty:
+// Medium
 
 // Tags:
-// Math + Hash
+// Math
+// Hash
+
 func fractionToDecimal(numerator int, denominator int) string {
 	out := ""
-	if numerator < 0 && denominator > 0 || numerator > 0 && denominator < 0 {
+	if numerator != 0 && numerator^denominator < 0 {
 		out += "-"
 	}
-	numerator = Abs(numerator)
-	denominator = Abs(denominator)
-	out += strconv.Itoa(numerator / denominator)
-	remain := numerator % denominator
-	if remain == 0 {
+	if numerator < 0 {
+		numerator = -numerator
+	}
+	if denominator < 0 {
+		denominator = -denominator
+	}
+	div := func() {
+		out += strconv.Itoa(numerator / denominator)
+		numerator %= denominator
+	}
+	if div(); numerator == 0 {
 		return out
 	}
-
 	out += "."
-	memo := make(map[int]int)
-	for remain > 0 {
-		if i, ok := memo[remain]; ok {
+	dict := map[int]int{}
+	for numerator > 0 {
+		if i, ok := dict[numerator]; ok {
 			return out[:i] + "(" + out[i:] + ")"
 		}
-		memo[remain] = len(out)
-		remain *= 10
-		out += strconv.Itoa(remain / denominator)
-		remain %= denominator
+		dict[numerator] = len(out)
+		numerator *= 10
+		div()
 	}
 	return out
-}
-
-func Abs(num int) int {
-	if num < 0 {
-		return -num
-	}
-	return num
 }

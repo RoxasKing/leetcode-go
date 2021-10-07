@@ -15,6 +15,8 @@ func Test_fractionToDecimal(t *testing.T) {
 		{"1", args{1, 2}, "0.5"},
 		{"2", args{2, 1}, "2"},
 		{"3", args{2, 3}, "0.(6)"},
+		{"4", args{-22, -2}, "11"},
+		{"5", args{0, -5}, "0"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
