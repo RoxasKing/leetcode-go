@@ -2,6 +2,12 @@ package main
 
 import "strings"
 
+// Difficulty:
+// Hard
+
+// Tags:
+// Hash
+
 var nameMap = map[int]string{
 	1000000000: "Billion",
 	1000000:    "Million",

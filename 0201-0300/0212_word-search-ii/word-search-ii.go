@@ -1,5 +1,8 @@
 package main
 
+// Difficulty:
+// Hard
+
 // Tags:
 // Trie
 // Backtracking
@@ -9,38 +12,31 @@ func findWords(board [][]byte, words []string) []string {
 	for _, w := range words {
 		t.Insert(w)
 	}
-	m, n := len(board), len(board[0])
-	out := make([]string, 0, len(words))
-	for i := 0; i < m; i++ {
-		for j := 0; j < n; j++ {
-			backtrack(board, t, m, n, i, j, &out)
+	out := []string{}
+	for i := range board {
+		for j := range board[i] {
+			dfs(board, t, &out, i, j)
 		}
 	}
 	return out
 }
 
-func backtrack(board [][]byte, t *Trie, m, n, x, y int, out *[]string) {
-	if x < 0 || m-1 < x || y < 0 || n-1 < y || board[x][y] == '#' {
+func dfs(b [][]byte, t *Trie, out *[]string, i, j int) {
+	if i < 0 || len(b)-1 < i || j < 0 || len(b[0])-1 < j || b[i][j] == '#' || t.next[b[i][j]-'a'] == nil {
 		return
 	}
-
-	if t = t.next[board[x][y]-'a']; t == nil {
-		return
-	}
-
-	tmp := board[x][y]
-	board[x][y] = '#'
-	defer func() { board[x][y] = tmp }()
-
+	t = t.next[b[i][j]-'a']
 	if t.hasW {
 		*out = append(*out, t.word)
 		t.hasW = false
 	}
-
-	backtrack(board, t, m, n, x-1, y, out)
-	backtrack(board, t, m, n, x+1, y, out)
-	backtrack(board, t, m, n, x, y-1, out)
-	backtrack(board, t, m, n, x, y+1, out)
+	tmp := b[i][j]
+	b[i][j] = '#'
+	defer func() { b[i][j] = tmp }()
+	dfs(b, t, out, i-1, j)
+	dfs(b, t, out, i+1, j)
+	dfs(b, t, out, i, j-1)
+	dfs(b, t, out, i, j+1)
 }
 
 type Trie struct {

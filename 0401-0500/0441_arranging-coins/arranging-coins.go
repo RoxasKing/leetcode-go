@@ -1,7 +1,11 @@
 package main
 
+// Difficulty:
+// Easy
+
 // Tags:
 // Binary Search
+
 func arrangeCoins(n int) int {
 	l, r := 0, n+1
 	for l < r {

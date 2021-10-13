@@ -2,7 +2,12 @@ package main
 
 import "sort"
 
+// Difficulty:
+// Hard
+
+// Tags:
 // Binary Search
+
 type SummaryRanges struct {
 	ranges [][]int
 }
