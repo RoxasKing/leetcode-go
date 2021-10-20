@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Monotone Stack
+// Monotonic Stack
 
 func nextGreaterElements(nums []int) []int {
 	n := len(nums)

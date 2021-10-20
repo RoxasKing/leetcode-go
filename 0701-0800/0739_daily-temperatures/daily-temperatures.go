@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Monotone Stack
+// Monotonic Stack
 func dailyTemperatures(T []int) []int {
 	n := len(T)
 	out := make([]int, n)

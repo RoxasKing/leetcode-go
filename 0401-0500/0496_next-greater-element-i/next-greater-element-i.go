@@ -1,7 +1,11 @@
 package main
 
+// Difficulty:
+// Easy
+
 // Tags:
-// Monotone Stack
+// Hash
+// Monotonic Stack
 
 func nextGreaterElement(nums1 []int, nums2 []int) []int {
 	next := [10001]int{}

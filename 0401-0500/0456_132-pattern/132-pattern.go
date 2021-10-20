@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Monotone Stack
+// Monotonic Stack
 func find132pattern(nums []int) bool {
 	n := len(nums)
 	stk := []int{}

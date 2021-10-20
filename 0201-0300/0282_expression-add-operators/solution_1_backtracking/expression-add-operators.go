@@ -2,55 +2,47 @@ package main
 
 import "strconv"
 
+// Difficulty:
+// Hard
+
 // Tags:
 // Backtracking
 
 func addOperators(num string, target int) []string {
-	n := len(num)
-	arr := make([]int, 0, n)
-	for i := range num {
-		arr = append(arr, int(num[i]-'0'))
-	}
 	out := []string{}
-	backtrack(arr, n, 0, "", 0, []int{}, target, &out)
+	dfs(num, "", 0, 0, target, []int{}, &out)
 	return out
 }
 
-func backtrack(arr []int, n, i int, formula string, cur int, nums []int, target int, out *[]string) {
-	if i == n {
+func dfs(num, exp string, i, v, target int, nums []int, out *[]string) {
+	if len(num) == i {
 		res := 0
 		for _, num := range nums {
 			res += num
 		}
 		if res == target {
-			*out = append(*out, formula)
+			*out = append(*out, exp)
 		}
 		return
 	}
 
-	preCur := cur
-	cur = cur*10 + arr[i]
-
-	if (preCur != 0 || cur != 0) && i < n-1 {
-		backtrack(arr, n, i+1, formula, cur, nums, target, out)
+	pv := v
+	v = v*10 + int(num[i]-'0')
+	if (pv != 0 || v != 0) && i < len(num)-1 {
+		dfs(num, exp, i+1, v, target, nums, out)
 	}
 
 	if len(nums) == 0 {
-		nums = append(nums, cur)
-		backtrack(arr, n, i+1, strconv.Itoa(cur), 0, nums, target, out)
+		dfs(num, strconv.Itoa(v), i+1, 0, target, []int{v}, out)
 		return
 	}
 
-	nums = append(nums, cur)
-	backtrack(arr, n, i+1, formula+"+"+strconv.Itoa(cur), 0, nums, target, out)
-	nums = nums[:len(nums)-1]
-
-	nums = append(nums, -cur)
-	backtrack(arr, n, i+1, formula+"-"+strconv.Itoa(cur), 0, nums, target, out)
-	nums = nums[:len(nums)-1]
-
-	pre := nums[len(nums)-1]
-	nums[len(nums)-1] = pre * cur
-	backtrack(arr, n, i+1, formula+"*"+strconv.Itoa(cur), 0, nums, target, out)
-	nums[len(nums)-1] = pre
+	t := nums[len(nums)-1]
+	nums[len(nums)-1] *= v
+	dfs(num, exp+"*"+strconv.Itoa(v), i+1, 0, target, nums, out)
+	nums[len(nums)-1] = t
+	nums = append(nums, v)
+	dfs(num, exp+"+"+strconv.Itoa(v), i+1, 0, target, nums, out)
+	nums[len(nums)-1] = -v
+	dfs(num, exp+"-"+strconv.Itoa(v), i+1, 0, target, nums, out)
 }

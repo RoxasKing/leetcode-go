@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Monotone Stack
+// Monotonic Stack
 func trap(height []int) int {
 	stack := []int{}
 	out := 0

@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Monotone Stack
+// Monotonic Stack
 func removeKdigits(num string, k int) string {
 	stk := CharStack{}
 

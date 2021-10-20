@@ -1,26 +1,27 @@
 package main
 
-import "strings"
+// Difficulty:
+// Medium
+
+// Tags:
+// Two Pointers
 
 func reverseWords(s string) string {
-	arr := []string{}
 	n := len(s)
-
-	for i := 0; i < n; i++ {
-		if s[i] == ' ' {
-			continue
+	arr := []string{}
+	for l, r := 0, 0; l < n; l = r {
+		for ; l < n && s[l] == ' '; l++ {
 		}
-		j := i
-		for j+1 < n && s[j+1] != ' ' {
-			j++
+		for r = l; r < n && s[r] != ' '; r++ {
 		}
-		arr = append(arr, s[i:j+1])
-		i = j
+		arr = append(arr, s[l:r])
 	}
-
-	for l, r := 0, len(arr)-1; l < r; l, r = l+1, r-1 {
-		arr[l], arr[r] = arr[r], arr[l]
+	chs := make([]byte, 0, n)
+	for i := len(arr) - 1; i >= 0; i-- {
+		if len(chs) > 0 {
+			chs = append(chs, ' ')
+		}
+		chs = append(chs, []byte(arr[i])...)
 	}
-
-	return strings.Join(arr, " ")
+	return string(chs)
 }

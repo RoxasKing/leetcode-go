@@ -2,6 +2,9 @@ package main
 
 import "math"
 
+// Difficulty:
+// Hard
+
 // Tags:
 // Enumeration
 

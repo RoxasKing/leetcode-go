@@ -5,7 +5,7 @@ import (
 )
 
 // Tags:
-// Monotone Stack
+// Monotonic Stack
 func getCollisionTimes(cars [][]int) []float64 {
 	n := len(cars)
 	out := make([]float64, n)

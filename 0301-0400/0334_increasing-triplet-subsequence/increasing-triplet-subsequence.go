@@ -20,7 +20,7 @@ func increasingTriplet(nums []int) bool {
 	return false
 }
 
-// Monotone Stack
+// Monotonic Stack
 func increasingTriplet2(nums []int) bool {
 	if len(nums) < 3 {
 		return false

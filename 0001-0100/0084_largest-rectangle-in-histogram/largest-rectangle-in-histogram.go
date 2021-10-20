@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Monotone Stack
+// Monotonic Stack
 func largestRectangleArea(heights []int) int {
 	out := 0
 	s := IntStack{-1}

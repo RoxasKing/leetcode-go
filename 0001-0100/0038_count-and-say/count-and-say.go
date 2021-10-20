@@ -1,23 +1,24 @@
 package main
 
-import (
-	"strconv"
-)
+import "strconv"
+
+// Difficulty:
+// Medium
 
 func countAndSay(n int) string {
-	out := "1"
-	for i := 1; i < n; i++ {
-		newOut, cur, count := "", out[0:1], 1
-		for j := 1; j < len(out); j++ {
-			if out[j:j+1] == cur {
-				count++
-				continue
+	x := "1"
+	for k := 2; k <= n; k++ {
+		t := ""
+		p, c := x[0], 0
+		for i := range x {
+			if x[i] == p {
+				c++
+			} else {
+				t += strconv.Itoa(c) + string(p)
+				p, c = x[i], 1
 			}
-			newOut += strconv.Itoa(count) + cur
-			cur, count = out[j:j+1], 1
 		}
-		newOut += strconv.Itoa(count) + cur
-		out = newOut
+		x = t + strconv.Itoa(c) + string(p)
 	}
-	return out
+	return x
 }

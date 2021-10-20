@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Monotone Stack
+// Monotonic Stack
 func maxSlidingWindow(nums []int, k int) []int {
 	n := len(nums)
 	out := make([]int, 0, n+1-k)

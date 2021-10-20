@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Monotone Stack
+// Monotonic Stack
 type StockSpanner struct {
 	prices []int
 	counts []int

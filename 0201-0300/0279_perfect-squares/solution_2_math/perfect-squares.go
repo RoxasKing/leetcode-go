@@ -2,6 +2,10 @@ package main
 
 import "math"
 
+// Difficulty:
+// Medium
+
+// Tags:
 // Math
 // Lagrange's four-square theorem
 

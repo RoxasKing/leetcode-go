@@ -1,7 +1,10 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
-// Backtracking
+// DFS
 
 type TreeNode struct {
 	Val   int
@@ -20,12 +23,9 @@ func dfs(root *TreeNode, targetSum int) int {
 	if root == nil {
 		return 0
 	}
-	targetSum -= root.Val
-	var out int
-	if targetSum == 0 {
-		out++
+	x := 0
+	if targetSum -= root.Val; targetSum == 0 {
+		x++
 	}
-	out += dfs(root.Left, targetSum)
-	out += dfs(root.Right, targetSum)
-	return out
+	return x + dfs(root.Left, targetSum) + dfs(root.Right, targetSum)
 }

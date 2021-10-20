@@ -1,17 +1,20 @@
 package main
 
+// Difficulty:
+// Hard
+
 // Tags:
 // Dynamic Programming
 
 func maxProfit(prices []int) int {
-	buy1, sell1, buy2, sell2 := -1<<31, 0, -1<<31, 0
-	for _, price := range prices {
-		buy1 = Max(buy1, -price)
-		sell1 = Max(sell1, buy1+price)
-		buy2 = Max(buy2, sell1-price)
-		sell2 = Max(sell2, buy2+price)
+	f0, f1, f2, f3 := -1<<31, 0, -1<<31, 0
+	for _, p := range prices {
+		f0 = Max(f0, -p)
+		f1 = Max(f1, f0+p)
+		f2 = Max(f2, f1-p)
+		f3 = Max(f3, f2+p)
 	}
-	return sell2
+	return f3
 }
 
 func Max(a, b int) int {
