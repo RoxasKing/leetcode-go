@@ -1,19 +1,20 @@
 package main
 
+// Difficulty:
+// Hard
+
 // Tags:
 // Binary Search
+
 func findMin(nums []int) int {
 	l, r := 0, len(nums)-1
-	for l < r && nums[l] == nums[r] {
-		l++
+	for ; l < r && nums[l] == nums[r]; r-- {
 	}
-	return bSearchRotateNum(nums, l, r)
-}
-
-func bSearchRotateNum(nums []int, l, r int) int {
-	start := l
+	if nums[l] <= nums[r] {
+		return nums[l]
+	}
 	for l < r {
-		m := (l + r) >> 1
+		m := l + (r-l)>>1
 		if nums[m] > nums[m+1] {
 			return nums[m+1]
 		}
@@ -23,5 +24,5 @@ func bSearchRotateNum(nums []int, l, r int) int {
 			r = m
 		}
 	}
-	return nums[start]
+	return nums[l]
 }

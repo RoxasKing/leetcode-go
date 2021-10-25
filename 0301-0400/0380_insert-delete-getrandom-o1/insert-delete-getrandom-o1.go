@@ -2,52 +2,48 @@ package main
 
 import "math/rand"
 
+// Difficulty:
+// Medium
+
+// Tags:
+// Hash
+
 type RandomizedSet struct {
-	hash map[int]int
-	list []int
+	idx map[int]int
+	arr []int
 }
 
-/** Initialize your data structure here. */
 func Constructor() RandomizedSet {
 	return RandomizedSet{
-		hash: make(map[int]int),
-		list: []int{},
+		idx: map[int]int{},
+		arr: []int{},
 	}
 }
 
-/** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
 func (this *RandomizedSet) Insert(val int) bool {
-	if _, ok := this.hash[val]; ok {
+	if _, ok := this.idx[val]; ok {
 		return false
 	}
-	this.hash[val] = len(this.list)
-	this.list = append(this.list, val)
+	this.idx[val] = len(this.arr)
+	this.arr = append(this.arr, val)
 	return true
 }
 
-/** Removes a value from the set. Returns true if the set contained the specified element. */
 func (this *RandomizedSet) Remove(val int) bool {
-	var index int
-	var ok bool
-	if index, ok = this.hash[val]; !ok {
+	if _, ok := this.idx[val]; !ok {
 		return false
 	}
-	last := len(this.list) - 1
-	lastVal := this.list[last]
-	this.hash[lastVal] = index
-	this.list[index], this.list[last] = this.list[last], this.list[index]
-	this.list = this.list[:last]
-	delete(this.hash, val)
+	idx := this.idx[val]
+	end := len(this.arr) - 1
+	this.idx[this.arr[end]] = idx
+	this.arr[idx], this.arr[end] = this.arr[end], this.arr[idx]
+	delete(this.idx, val)
+	this.arr = this.arr[:end]
 	return true
 }
 
-/** Get a random element from the set. */
 func (this *RandomizedSet) GetRandom() int {
-	if len(this.list) == 0 {
-		return -1
-	}
-	randIndex := rand.Intn(len(this.list))
-	return this.list[randIndex]
+	return this.arr[rand.Intn(len(this.arr))]
 }
 
 /**

@@ -1,5 +1,11 @@
 package main
 
+// Difficulty:
+// Easy
+
+// Tags:
+// Stack
+
 type MinStack struct {
 	nums []int
 	mins []int

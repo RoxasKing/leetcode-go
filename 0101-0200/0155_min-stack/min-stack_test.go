@@ -1,8 +1,6 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 func ExampleMinStack() {
 	minstack := Constructor()

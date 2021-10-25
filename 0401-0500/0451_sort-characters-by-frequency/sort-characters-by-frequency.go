@@ -2,29 +2,32 @@ package main
 
 import "sort"
 
+// Difficulty:
+// Medium
+
+// Tags:
 // Hash
 // Sort
 
 func frequencySort(s string) string {
-	cnt := [128]int{}
-	arr := make([]byte, 128)
-	for i := range arr {
-		arr[i] = byte(i)
+	freq := make([][2]int, 128)
+	for i := range freq {
+		freq[i][0] = i
 	}
 	for i := range s {
-		cnt[s[i]]++
+		freq[s[i]][1]++
 	}
-	sort.Slice(arr, func(i, j int) bool {
-		if cnt[arr[i]] != cnt[arr[j]] {
-			return cnt[arr[i]] > cnt[arr[j]]
-		}
-		return arr[i] < arr[j]
+	sort.Slice(freq, func(i, j int) bool {
+		return freq[i][1] > freq[j][1] || freq[i][1] == freq[j][1] && freq[i][0] < freq[j][0]
 	})
-	out := make([]byte, 0, len(s))
-	for _, c := range arr {
-		for ; cnt[c] > 0; cnt[c]-- {
-			out = append(out, c)
+	chs := make([]byte, 0, len(s))
+	for i := range freq {
+		if freq[i][1] == 0 {
+			break
+		}
+		for ; freq[i][1] > 0; freq[i][1]-- {
+			chs = append(chs, byte(freq[i][0]))
 		}
 	}
-	return string(out)
+	return string(chs)
 }

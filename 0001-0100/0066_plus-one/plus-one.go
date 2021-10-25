@@ -1,25 +1,21 @@
 package main
 
+// Difficulty:
+// Easy
+
 func plusOne(digits []int) []int {
-	reverse(digits)
+	n := len(digits)
 	remain := 1
-	for i := range digits {
-		remain += digits[i]
-		digits[i] = remain % 10
-		remain /= 10
+	for i := n - 1; i >= 0 && remain > 0; i-- {
+		digits[i] += remain
+		remain = digits[i] / 10
+		digits[i] %= 10
 	}
 	if remain > 0 {
-		digits = append(digits, remain)
+		tmp := make([]int, n+1)
+		copy(tmp[1:], digits)
+		tmp[0] = remain
+		digits = tmp
 	}
-	reverse(digits)
 	return digits
-}
-
-func reverse(arr []int) {
-	l, r := 0, len(arr)-1
-	for l < r {
-		arr[l], arr[r] = arr[r], arr[l]
-		l++
-		r--
-	}
 }

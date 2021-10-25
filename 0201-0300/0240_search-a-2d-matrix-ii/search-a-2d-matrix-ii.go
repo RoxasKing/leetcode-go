@@ -1,5 +1,8 @@
 package main
 
+// Difficulty:
+// Medium
+
 func searchMatrix(matrix [][]int, target int) bool {
 	m, n := len(matrix), len(matrix[0])
 	i, j := m-1, 0
