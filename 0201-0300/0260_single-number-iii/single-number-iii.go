@@ -2,6 +2,10 @@ package main
 
 import "math/bits"
 
+// Difficulty:
+// Medium
+
+// Tags:
 // Bit Manipulation
 
 func singleNumber(nums []int) []int {

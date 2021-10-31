@@ -1,21 +1,23 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Two Pointers
 
 func sortColors(nums []int) {
-	n := len(nums)
-	l, m, r := 0, 0, n-1
-	for m <= r {
-		if nums[m] == 0 {
-			nums[l], nums[m] = nums[m], nums[l]
-			l++
-			m++
-		} else if nums[m] == 2 {
-			nums[m], nums[r] = nums[r], nums[m]
-			r--
+	r, w, b := 0, 0, len(nums)-1
+	for w <= b {
+		if nums[w] == 0 {
+			nums[r], nums[w] = nums[w], nums[r]
+			r++
+			w++
+		} else if nums[w] == 1 {
+			w++
 		} else {
-			m++
+			nums[w], nums[b] = nums[b], nums[w]
+			b--
 		}
 	}
 }

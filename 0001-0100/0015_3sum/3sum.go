@@ -2,6 +2,13 @@ package main
 
 import "sort"
 
+// Difficulty:
+// Medium
+
+// Tags:
+// Sort
+// Two Pointers
+
 func threeSum(nums []int) [][]int {
 	sort.Ints(nums)
 	out := [][]int{}

@@ -1,7 +1,11 @@
 package main
 
+// Difficulty:
+// Hard
+
 // Tags:
 // Rabin-Karp
+
 func longestDupSubstring(S string) string {
 	n := len(S)
 	base, module := 26, int(1e9+7)
