@@ -1,16 +1,18 @@
 package main
 
-func deleteNode(node *ListNode) {
-	cur := node
-	pre := &ListNode{Next: cur}
-	for cur.Next != nil {
-		cur.Val = cur.Next.Val
-		cur, pre = cur.Next, pre.Next
-	}
-	pre.Next = nil
-}
+// Difficulty:
+// Easy
 
 type ListNode struct {
 	Val  int
 	Next *ListNode
+}
+
+func deleteNode(node *ListNode) {
+	pre := &ListNode{}
+	for cur := node; cur.Next != nil; cur = cur.Next {
+		cur.Val = cur.Next.Val
+		pre = cur
+	}
+	pre.Next = nil
 }
