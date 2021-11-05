@@ -1,7 +1,11 @@
 package main
 
+// Difficulty:
+// Easy
+
 // Tags:
 // Binary Search
+
 func isPerfectSquare(num int) bool {
 	l, r := 0, num
 	for l < r {
