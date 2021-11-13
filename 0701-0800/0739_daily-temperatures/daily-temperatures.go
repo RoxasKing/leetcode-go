@@ -1,18 +1,21 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Monotonic Stack
-func dailyTemperatures(T []int) []int {
-	n := len(T)
-	out := make([]int, n)
+
+func dailyTemperatures(temperatures []int) []int {
+	out := make([]int, len(temperatures))
 	stk := []int{}
-	for i := range T {
-		for len(stk) > 0 && T[i] > T[stk[len(stk)-1]] {
-			j := stk[len(stk)-1]
+	for j := range temperatures {
+		for len(stk) > 0 && temperatures[j] > temperatures[stk[len(stk)-1]] {
+			i := stk[len(stk)-1]
 			stk = stk[:len(stk)-1]
-			out[j] = i - j
+			out[i] = j - i
 		}
-		stk = append(stk, i)
+		stk = append(stk, j)
 	}
 	return out
 }

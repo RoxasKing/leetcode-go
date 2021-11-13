@@ -1,5 +1,8 @@
 package main
 
+// Difficulty:
+// Easy
+
 func maxCount(m int, n int, ops [][]int) int {
 	r, c := m, n
 	for _, op := range ops {

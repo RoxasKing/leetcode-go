@@ -1,5 +1,11 @@
 package main
 
+// Difficulty:
+// Easy
+
+// Tags:
+// Sort
+
 func missingNumber(nums []int) int {
 	for i := range nums {
 		for nums[i] != i && nums[i] < len(nums) {

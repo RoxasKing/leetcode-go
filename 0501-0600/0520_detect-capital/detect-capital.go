@@ -1,28 +1,16 @@
 package main
 
+// Difficulty:
+// Easy
+
 func detectCapitalUse(word string) bool {
-	f := word[0]
-	word = word[1:]
-	if isUpperCase(f) {
-		cnt := 0
-		for i := range word {
-			if isUpperCase(word[i]) {
-				cnt++
-			}
-		}
-		if 0 < cnt && cnt < len(word) {
-			return false
-		}
-	} else {
-		for i := range word {
-			if isUpperCase(word[i]) {
-				return false
-			}
+	a, b := 0, 0
+	for i := range word {
+		if 'a' <= word[i] && word[i] <= 'z' {
+			a++
+		} else {
+			b++
 		}
 	}
-	return true
-}
-
-func isUpperCase(ch byte) bool {
-	return 'A' <= ch && ch <= 'Z'
+	return a == 0 || b == 0 || b == 1 && word[0] < 'a'
 }

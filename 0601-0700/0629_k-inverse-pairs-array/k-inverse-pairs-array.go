@@ -1,22 +1,26 @@
 package main
 
+// Difficulty:
+// Hard
+
 // Tags:
 // Dynamic Programming
+
+var mod int = 1e9 + 7
+
 func kInversePairs(n int, k int) int {
-	mod := int(1e9 + 7)
-	dp := make([]int, k+1)
-	dp[0] = 1
-	for num := 1; num <= n; num++ {
-		dpNew := make([]int, k+1)
-		dpNew[0] = 1
-		for pair := 1; pair <= k && pair <= num*(num-1)>>1; pair++ {
-			dpNew[pair] = dpNew[pair-1] + dp[pair]
-			if pair-num >= 0 {
-				dpNew[pair] -= dp[pair-num]
+	f0 := make([]int, k+1)
+	f1 := make([]int, k+1)
+	f0[0], f1[0] = 1, 1
+	for x := 1; x <= n; x++ {
+		for p := 1; p <= k && p <= x*(x-1)>>1; p++ {
+			f1[p] = f1[p-1] + f0[p]
+			if p-x >= 0 {
+				f1[p] -= f0[p-x]
 			}
-			dpNew[pair] = (dpNew[pair] + mod) % mod
+			f1[p] = (f1[p] + mod) % mod
 		}
-		dp = dpNew
+		f0, f1 = f1, f0
 	}
-	return dp[k]
+	return f0[k]
 }

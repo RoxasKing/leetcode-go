@@ -1,14 +1,18 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Dynamic Programming
+
 func numTrees(n int) int {
-	dp := make([]int, n+1)
-	dp[0] = 1
-	for i := 1; i <= n; i++ { // number of nodes
-		for j := 1; j <= i; j++ { // root node's index
-			dp[i] += dp[j-1] * dp[i-j]
+	f := make([]int, n+1)
+	f[0] = 1
+	for i := 1; i <= n; i++ {
+		for j := 0; j < i; j++ {
+			f[i] += f[j] * f[i-1-j]
 		}
 	}
-	return dp[n]
+	return f[n]
 }

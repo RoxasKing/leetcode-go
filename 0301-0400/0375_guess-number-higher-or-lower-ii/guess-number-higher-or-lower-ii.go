@@ -1,23 +1,24 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Dynamic Programming
 
 func getMoneyAmount(n int) int {
-	f := make([][]int, n+2)
+	f := make([][]int, n+1)
 	for i := range f {
-		f[i] = make([]int, n+2)
+		f[i] = make([]int, n+1)
 	}
-
-	for i := 1; i < n; i++ {
-		for j := 1; i+j <= n; j++ {
-			f[j][j+i] = 1<<31 - 1
-			for k := j; k <= i+j; k++ {
-				f[j][j+i] = Min(f[j][j+i], k+Max(f[j][k-1], f[k+1][j+i]))
+	for l := 1; l < n; l++ {
+		for i := 1; i+l <= n; i++ {
+			f[i][i+l] = 1<<31 - 1
+			for k := i; k < i+l; k++ {
+				f[i][i+l] = Min(f[i][i+l], k+Max(f[i][k-1], f[k+1][i+l]))
 			}
 		}
 	}
-
 	return f[1][n]
 }
 
