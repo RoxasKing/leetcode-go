@@ -6,7 +6,7 @@ import "sort"
 // Medium
 
 // Tags:
-// Sort
+// Sorting
 // Two Pointers
 
 func threeSum(nums []int) [][]int {

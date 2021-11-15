@@ -4,7 +4,7 @@ import "sort"
 
 // Bit Manipulation
 // Prefix Sum
-// Sort
+// Sorting
 
 func kthLargestValue(matrix [][]int, k int) int {
 	m, n := len(matrix), len(matrix[0])

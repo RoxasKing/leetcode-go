@@ -4,7 +4,7 @@ import "sort"
 
 // Tags:
 // Two Pointers
-// Sort
+// Sorting
 
 func countPairs(deliciousness []int) int {
 	cnt := map[int]int{}

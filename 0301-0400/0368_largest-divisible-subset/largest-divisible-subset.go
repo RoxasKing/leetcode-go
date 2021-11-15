@@ -1,11 +1,15 @@
 package main
 
-import (
-	"sort"
-)
+import "sort"
+
+// Difficulty:
+// Medium
 
 // Tags:
-// Math + Dynamic Programming
+// Dynamic Programming
+// Math
+// Sorting
+
 func largestDivisibleSubset(nums []int) []int {
 	sort.Ints(nums)
 	n := len(nums)
@@ -25,7 +29,6 @@ func largestDivisibleSubset(nums []int) []int {
 			idx, max = i, cnt[i]
 		}
 	}
-
 	out := make([]int, max)
 	for i := max - 1; i >= 0; i-- {
 		out[i] = nums[idx]

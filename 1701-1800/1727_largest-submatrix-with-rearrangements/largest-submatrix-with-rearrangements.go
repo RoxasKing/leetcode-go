@@ -3,7 +3,7 @@ package main
 import "sort"
 
 // Greedy
-// Sort
+// Sorting
 
 func largestSubmatrix(matrix [][]int) int {
 	m, n := len(matrix), len(matrix[0])

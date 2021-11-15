@@ -4,7 +4,7 @@ import "sort"
 
 // Tags:
 // Math
-// Sort
+// Sorting
 
 func orderlyQueue(s string, k int) string {
 	n := len(s)

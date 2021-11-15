@@ -4,7 +4,7 @@ import "sort"
 
 // Tags:
 // Monotone Chain
-// Sort
+// Sorting
 
 func outerTrees(T [][]int) [][]int {
 	n := len(T)

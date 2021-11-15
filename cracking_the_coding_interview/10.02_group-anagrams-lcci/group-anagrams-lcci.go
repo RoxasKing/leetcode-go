@@ -4,7 +4,7 @@ import "sort"
 
 // Tags:
 // Hash
-// Sort
+// Sorting
 
 func groupAnagrams(strs []string) [][]string {
 	dict := map[string][]string{}

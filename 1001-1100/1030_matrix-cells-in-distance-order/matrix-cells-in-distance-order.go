@@ -19,7 +19,7 @@ func allCellsDistOrder(R int, C int, r0 int, c0 int) [][]int {
 	return out
 }
 
-// Sort
+// Sorting
 func allCellsDistOrder2(R int, C int, r0 int, c0 int) [][]int {
 	out := make([][]int, 0, R*C)
 	for i := 0; i < R; i++ {

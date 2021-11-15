@@ -2,7 +2,7 @@ package main
 
 import "sort"
 
-// Sort
+// Sorting
 
 func reductionOperations(nums []int) int {
 	sort.Sort(sort.Reverse(sort.IntSlice(nums)))

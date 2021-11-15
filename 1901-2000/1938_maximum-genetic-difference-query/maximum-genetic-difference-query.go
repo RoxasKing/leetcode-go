@@ -3,7 +3,7 @@ package main
 // Tags:
 // Trie
 // DFS
-// Sort
+// Sorting
 
 func maxGeneticDifference(parents []int, queries [][]int) []int {
 	var root int

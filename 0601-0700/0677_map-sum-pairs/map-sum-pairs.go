@@ -1,59 +1,77 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
-// Trie + Queue
+// Trie
+
 type MapSum struct {
-	trie *Trie
+	t *Trie
 }
 
-type Trie struct {
-	child [26]*Trie
-	num   int
-}
-
-/** Initialize your data structure here. */
 func Constructor() MapSum {
-	return MapSum{
-		trie: &Trie{},
-	}
+	return MapSum{t: &Trie{}}
 }
 
 func (this *MapSum) Insert(key string, val int) {
-	t := this.trie
-	for i := range key {
-		idx := int(key[i] - 'a')
-		if t.child[idx] == nil {
-			t.child[idx] = &Trie{}
-		}
-		t = t.child[idx]
-	}
-	t.num = val
+	this.t.insert(key, val)
 }
 
 func (this *MapSum) Sum(prefix string) int {
-	t := this.trie
+	return this.t.getSum(prefix)
+}
+
+type Trie struct {
+	next     [26]*Trie
+	hasK     bool
+	val, sum int
+}
+
+func (t *Trie) getSum(prefix string) int {
 	for i := range prefix {
-		idx := int(prefix[i] - 'a')
-		if t.child[idx] == nil {
+		if t == nil {
 			return 0
 		}
-		t = t.child[idx]
-	}
-
-	sum := 0
-	q := []*Trie{t}
-	for len(q) > 0 {
-		t := q[0]
-		q = q[1:]
-
-		sum += t.num
-		for i := 0; i < 26; i++ {
-			if t.child[i] != nil {
-				q = append(q, t.child[i])
-			}
+		k := prefix[i] - 'a'
+		if t.next[k] == nil {
+			return 0
 		}
+		t = t.next[k]
 	}
-	return sum
+	return t.sum
+}
+
+func (t *Trie) insert(key string, val int) {
+	kVal := val
+	if ok, v := t.getVal(key); ok {
+		val -= v
+	}
+	for i := range key {
+		t.sum += val
+		k := key[i] - 'a'
+		if t.next[k] == nil {
+			t.next[k] = &Trie{}
+		}
+		t = t.next[k]
+	}
+	t.hasK = true
+	t.val = kVal
+	t.sum += val
+}
+
+func (t *Trie) getVal(key string) (bool, int) {
+	for i := range key {
+		if t == nil {
+			return false, 0
+		}
+		k := key[i] - 'a'
+		if t.next[k] == nil {
+			return false, 0
+		}
+		t = t.next[k]
+	}
+	return t.hasK, t.val
 }
 
 /**

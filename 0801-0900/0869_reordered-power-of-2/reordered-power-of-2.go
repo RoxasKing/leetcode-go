@@ -6,7 +6,7 @@ import "sort"
 // Medium
 
 // Tags:
-// Sort
+// Sorting
 
 func reorderedPowerOf2(n int) bool {
 	reorder := func(x int) string {

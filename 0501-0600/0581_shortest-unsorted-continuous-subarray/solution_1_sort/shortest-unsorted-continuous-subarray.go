@@ -3,7 +3,7 @@ package main
 import "sort"
 
 // Tags:
-// Sort
+// Sorting
 
 func findUnsortedSubarray(nums []int) int {
 	n := len(nums)

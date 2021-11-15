@@ -4,7 +4,7 @@ package main
 // Medium
 
 // Tags:
-// Sort
+// Sorting
 
 func findDuplicates(nums []int) []int {
 	out := []int{}

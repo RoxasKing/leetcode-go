@@ -4,7 +4,7 @@ import "sort"
 
 // Tags:
 // Greedy
-// Sort
+// Sorting
 // Prefix Sum
 
 func maxmiumScore(cards []int, cnt int) int {

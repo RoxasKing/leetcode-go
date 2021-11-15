@@ -3,7 +3,7 @@ package main
 import "sort"
 
 // Bit Maniputlation
-// Sort
+// Sorting
 
 func maxProduct(words []string) int {
 	sort.Slice(words, func(i, j int) bool { return len(words[i]) > len(words[j]) })

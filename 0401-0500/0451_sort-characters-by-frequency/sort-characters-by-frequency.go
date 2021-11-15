@@ -7,7 +7,7 @@ import "sort"
 
 // Tags:
 // Hash
-// Sort
+// Sorting
 
 func frequencySort(s string) string {
 	freq := make([][2]int, 128)

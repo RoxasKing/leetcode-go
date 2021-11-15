@@ -2,7 +2,7 @@ package main
 
 import "sort"
 
-// Sort
+// Sorting
 
 func maxProductDifference(nums []int) int {
 	n := len(nums)

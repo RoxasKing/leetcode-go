@@ -2,7 +2,7 @@ package main
 
 import "sort"
 
-// Sort
+// Sorting
 
 func hIndex(citations []int) int {
 	sort.Sort(sort.Reverse(sort.IntSlice(citations)))

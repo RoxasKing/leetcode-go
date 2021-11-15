@@ -7,7 +7,7 @@ import (
 )
 
 // Tags:
-// Sort
+// Sorting
 // Greedy
 
 func minRecSize(lines [][]int) float64 {

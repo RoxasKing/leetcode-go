@@ -4,7 +4,7 @@ package main
 // Easy
 
 // Tags:
-// Sort
+// Sorting
 
 func missingNumber(nums []int) int {
 	for i := range nums {
