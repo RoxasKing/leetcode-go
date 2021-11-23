@@ -2,35 +2,34 @@ package main
 
 import "math/rand"
 
+// Difficulty:
+// Medium
+
+// Tags:
+// Math
+// Radomized
+
 type Solution struct {
-	origin []int
-	array  []int
+	arr, cur []int
 }
 
 func Constructor(nums []int) Solution {
-	array := make([]int, len(nums))
-	copy(array, nums)
-	return Solution{
-		origin: nums,
-		array:  array,
-	}
+	cur := make([]int, len(nums))
+	copy(cur, nums)
+	return Solution{arr: nums, cur: cur}
 }
 
-/** Resets the array to its original configuration and return it. */
 func (this *Solution) Reset() []int {
-	this.array = this.origin
-	this.origin = make([]int, len(this.array))
-	copy(this.origin, this.array)
-	return this.origin
+	copy(this.cur, this.arr)
+	return this.arr
 }
 
-/** Returns a random shuffling of the array. */
 func (this *Solution) Shuffle() []int {
-	for i := range this.array {
-		tmp := rand.Intn(len(this.array))
-		this.array[i], this.array[tmp] = this.array[tmp], this.array[i]
+	for i := range this.cur {
+		j := rand.Intn(len(this.cur))
+		this.cur[i], this.cur[j] = this.cur[j], this.cur[i]
 	}
-	return this.array
+	return this.cur
 }
 
 /**

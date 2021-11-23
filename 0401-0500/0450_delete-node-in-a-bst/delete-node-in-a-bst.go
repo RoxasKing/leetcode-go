@@ -1,5 +1,8 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // DFS
 
@@ -10,6 +13,9 @@ type TreeNode struct {
 }
 
 func deleteNode(root *TreeNode, key int) *TreeNode {
+	if root == nil {
+		return nil
+	}
 	if root.Val > key {
 		root.Left = deleteNode(root.Left, key)
 	} else if root.Val < key {
@@ -19,18 +25,16 @@ func deleteNode(root *TreeNode, key int) *TreeNode {
 			return nil
 		}
 		if root.Left != nil {
-			pre := root.Left
-			for pre.Right != nil {
-				pre = pre.Right
+			prev := root.Left
+			for ; prev.Right != nil; prev = prev.Right {
 			}
-			root.Val = pre.Val
+			root.Val = prev.Val
 			root.Left = deleteNode(root.Left, root.Val)
 		} else {
-			nxt := root.Right
-			for nxt.Left != nil {
-				nxt = nxt.Left
+			next := root.Right
+			for ; next.Left != nil; next = next.Left {
 			}
-			root.Val = nxt.Val
+			root.Val = next.Val
 			root.Right = deleteNode(root.Right, root.Val)
 		}
 	}

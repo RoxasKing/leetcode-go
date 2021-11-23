@@ -1,7 +1,11 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Dynamic Programming
+
 func uniquePaths(m int, n int) int {
 	dp := make([]int, n)
 	for i := 0; i < m; i++ {

@@ -1,6 +1,10 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
+// Greedy
 // Bit Manipulation
 
 func integerReplacement(n int) int {

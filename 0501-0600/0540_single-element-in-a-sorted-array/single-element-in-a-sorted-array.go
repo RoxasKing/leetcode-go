@@ -1,7 +1,11 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Binary Search
+
 func singleNonDuplicate(nums []int) int {
 	n := len(nums)
 	l, r := 0, n-1

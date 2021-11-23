@@ -1,7 +1,11 @@
 package main
 
+// Difficulty:
+// Hard
+
 // Tags:
 // Binary Search
+
 func findKthNumber(m int, n int, k int) int {
 	l, r := 1, m*n
 	for l < r {
