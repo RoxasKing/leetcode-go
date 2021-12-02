@@ -1,7 +1,11 @@
 package main
 
+// Difficulty:
+// Easy
+
 // Tags:
 // Dynamic Programming
+
 func maxSubArray(nums []int) int {
 	out := -1 << 31
 	cur := -1 << 31

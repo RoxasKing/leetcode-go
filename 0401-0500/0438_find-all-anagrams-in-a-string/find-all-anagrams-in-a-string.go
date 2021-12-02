@@ -1,23 +1,24 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Sliding Window
+
 func findAnagrams(s string, p string) []int {
-	cnt := [26]int{}
-	for _, c := range p {
-		cnt[c-'a']++
+	freq := [26]int{}
+	for i := range p {
+		freq[p[i]-'a']++
 	}
 	out := []int{}
 	for l, r := 0, 0; r < len(s); r++ {
-		cnt[s[r]-'a']--
-		for l <= r && cnt[s[r]-'a'] < 0 {
-			cnt[s[l]-'a']++
-			l++
+		freq[s[r]-'a']--
+		for ; l <= r && freq[s[r]-'a'] < 0; l++ {
+			freq[s[l]-'a']++
 		}
 		if r+1-l == len(p) {
 			out = append(out, l)
-			cnt[s[l]-'a']++
-			l++
 		}
 	}
 	return out

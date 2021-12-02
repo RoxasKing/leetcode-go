@@ -1,18 +1,19 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Dynamic Programming
-func rob(nums []int) int {
-	dp0, dp1 := 0, 0
-	for _, num := range nums {
-		dp0, dp1 = dp1, Max(dp1, dp0+num)
-	}
-	return dp1
-}
 
-func Max(a, b int) int {
-	if a > b {
-		return a
+func rob(nums []int) int {
+	f0, f1 := 0, 0
+	for _, num := range nums {
+		t := f0
+		f0 = f1
+		if t+num > f1 {
+			f1 = t + num
+		}
 	}
-	return b
+	return f1
 }

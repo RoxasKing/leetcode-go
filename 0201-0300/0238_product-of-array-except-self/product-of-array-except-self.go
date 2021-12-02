@@ -1,20 +1,21 @@
 package main
 
+// Difficulty:
+// Medium
+
+// Tags:
+// Prefix Sum
+
 func productExceptSelf(nums []int) []int {
 	n := len(nums)
-	if n == 0 {
-		return nil
-	}
-	rev := make([]int, n)
-	rev[n-1] = 1
-	for i := n - 2; i >= 0; i-- {
-		rev[i] = rev[i+1] * nums[i+1]
-	}
-	pos := 1
 	out := make([]int, n)
-	for i := range out {
-		out[i] = pos * rev[i]
-		pos *= nums[i]
+	out[n-1] = 1
+	for i := n - 2; i >= 0; i-- {
+		out[i] = nums[i+1] * out[i+1]
+	}
+	for i, mul := 0, 1; i < n; i++ {
+		out[i] *= mul
+		mul *= nums[i]
 	}
 	return out
 }

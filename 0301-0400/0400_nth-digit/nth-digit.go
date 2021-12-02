@@ -1,22 +1,30 @@
 package main
 
-import (
-	"strconv"
-)
+import "strconv"
+
+// Difficulty:
+// Medium
 
 // Tags:
-// Bit Manipulation
 // Math
 
 func findNthDigit(n int) int {
-	b, i := 1, 1
-	for ; n > i*9*b; b, i = b*10, i+1 {
-		n -= i * 9 * b
+	size, base := 1, 1
+	for n > size*9*base {
+		n -= size * 9 * base
+		size++
+		base *= 10
 	}
-	x := n / i
-	n -= x * i
+	x := n / size
+	n -= x * size
 	if n == 0 {
-		return int(strconv.Itoa(b + x - 1)[i-1] - '0')
+		x--
+		n = size
 	}
-	return int(strconv.Itoa(b + x)[n-1] - '0')
+	return int(strconv.Itoa(base + x)[n-1] - '0')
 }
+
+// 1*9 1~9
+// 2*90 10~99
+// 3*900 100~999
+// 4*9000 1000~9999

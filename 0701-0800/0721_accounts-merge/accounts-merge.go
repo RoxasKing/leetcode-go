@@ -2,81 +2,75 @@ package main
 
 import "sort"
 
+// Difficulty:
+// Medium
+
+// Tags:
+// Hash
 // Union-Find
+
 func accountsMerge(accounts [][]string) [][]string {
 	n := len(accounts)
-
-	// union all related accounts
-	uf := newUnionFind(n)
-
-	// record all emails account index
-	emails := make(map[string]int)
-
-	for i, account := range accounts {
-		for _, email := range account[1:] {
-			if idx, ok := emails[email]; ok {
-				uf.union(idx, i)
+	uf := NewUnionFind(n)
+	emailMap := map[string]int{}
+	for x, arr := range accounts {
+		for _, email := range arr[1:] {
+			if y, ok := emailMap[email]; ok {
+				uf.Union(x, y)
 			} else {
-				emails[email] = i
+				emailMap[email] = x
 			}
 		}
 	}
-
-	accountsMap := make(map[int][]string)
-
+	accountMap := map[int][]string{}
 	for i := range accounts {
-		idx := uf.find(i)
-		if _, ok := accountsMap[idx]; ok {
-			continue
+		x := uf.Find(i)
+		if _, ok := accountMap[x]; !ok {
+			accountMap[x] = append(accountMap[x], accounts[i][0])
 		}
-		name := accounts[i][0]
-		accountsMap[idx] = append(accountsMap[idx], name)
 	}
-
-	for email, i := range emails {
-		idx := uf.find(i)
-		accountsMap[idx] = append(accountsMap[idx], email)
+	for email, x := range emailMap {
+		x = uf.Find(x)
+		accountMap[x] = append(accountMap[x], email)
 	}
-
-	out := make([][]string, 0, len(accountsMap))
-	for _, account := range accountsMap {
-		sort.Strings(account)
-		out = append(out, account)
+	out := make([][]string, 0, len(accountMap))
+	for _, a := range accountMap {
+		sort.Strings(a[1:])
+		out = append(out, a)
 	}
-
 	return out
 }
 
-type unionFind struct {
-	ancestor []int
-	isEnd    []bool
+type UnionFind struct {
+	parent, size []int
 }
 
-func newUnionFind(n int) unionFind {
-	ancestor := make([]int, n)
-	for i := range ancestor {
-		ancestor[i] = i
+func NewUnionFind(n int) UnionFind {
+	parent := make([]int, n)
+	size := make([]int, n)
+	for i := 0; i < n; i++ {
+		parent[i] = i
+		size[i] = 1
 	}
-	isEnd := make([]bool, n)
-	return unionFind{ancestor: ancestor, isEnd: isEnd}
+	return UnionFind{parent: parent, size: size}
 }
 
-func (uf unionFind) find(x int) int {
-	if uf.isEnd[uf.ancestor[x]] {
-		return uf.ancestor[x]
+func (uf UnionFind) Find(x int) int {
+	if uf.parent[x] != x {
+		uf.parent[x] = uf.Find(uf.parent[x])
 	}
-	if uf.ancestor[x] != x {
-		uf.ancestor[x] = uf.find(uf.ancestor[x])
-		uf.isEnd[x] = false
-		uf.isEnd[uf.ancestor[x]] = true
-	}
-	return uf.ancestor[x]
+	return uf.parent[x]
 }
 
-func (uf unionFind) union(x, y int) {
-	ancestorX := uf.find(x)
-	ancestorY := uf.find(y)
-	uf.ancestor[ancestorX] = ancestorY
-	uf.isEnd[ancestorX] = false
-	uf.isEnd[ancestorY] = true
+func (uf UnionFind) Union(x, y int) {
+	x = uf.Find(x)
+	y = uf.Find(y)
+	if x == y {
+		return
+	}
+	if uf.size[x] < uf.size[y] {
+		x, y = y, x
+	}
+	uf.parent[y] = x
+	uf.size[x] += uf.parent[y]
 }

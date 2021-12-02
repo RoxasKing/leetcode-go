@@ -1,5 +1,11 @@
 package main
 
+// Difficulty:
+// Easy
+
+// Tags:
+// Binary Search
+
 func searchInsert(nums []int, target int) int {
 	l, r := 0, len(nums)
 	for l < r {

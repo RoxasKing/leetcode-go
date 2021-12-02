@@ -1,14 +1,32 @@
 package main
 
+// Difficulty:
+// Hard
+
 // Tags:
-// Stack
+// Monotonic Stack
+
 func maximalRectangle(matrix [][]byte) int {
 	if len(matrix) == 0 || len(matrix[0]) == 0 {
 		return 0
 	}
-	var out int
 	m, n := len(matrix), len(matrix[0])
 	heights := make([]int, n)
+	out := 0
+	cal := func() {
+		max := 0
+		stk := IntStack{-1}
+		for i, height := range heights {
+			for stk.Top() != -1 && heights[stk.Top()] >= height {
+				max = Max(max, heights[stk.Pop()]*(i-1-stk.Top()))
+			}
+			stk.Push(i)
+		}
+		for stk.Top() != -1 {
+			max = Max(max, heights[stk.Pop()]*(n-1-stk.Top()))
+		}
+		out = Max(out, max)
+	}
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
 			if matrix[i][j] == '1' {
@@ -17,51 +35,21 @@ func maximalRectangle(matrix [][]byte) int {
 				heights[j] = 0
 			}
 		}
-		out = Max(out, largestRectangleArea(heights))
-	}
-	return out
-}
-
-func largestRectangleArea(heights []int) int {
-	out := 0
-	stack := MakeIntStack()
-	stack.Push(-1)
-	for i := range heights {
-		for stack.Top() != -1 && heights[i] <= heights[stack.Top()] {
-			out = Max(out, heights[stack.Pop()]*(i-1-stack.Top()))
-		}
-		stack.Push(i)
-	}
-	for stack.Top() != -1 {
-		out = Max(out, heights[stack.Pop()]*(len(heights)-1-stack.Top()))
+		cal()
 	}
 	return out
 }
 
 type IntStack []int
 
-func MakeIntStack() IntStack {
-	return IntStack{}
-}
-
-func (s IntStack) Size() int {
-	return len(s)
-}
-
-func (s IntStack) Top() int {
-	last := len(s) - 1
-	return s[last]
-}
-
+func (s IntStack) Len() int      { return len(s) }
+func (s IntStack) Top() int      { return s[s.Len()-1] }
+func (s *IntStack) Push(num int) { *s = append(*s, num) }
 func (s *IntStack) Pop() int {
-	last := len(*s) - 1
-	out := (*s)[last]
-	*s = (*s)[:last]
+	top := s.Len() - 1
+	out := (*s)[top]
+	*s = (*s)[:top]
 	return out
-}
-
-func (s *IntStack) Push(num int) {
-	*s = append(*s, num)
 }
 
 func Max(a, b int) int {

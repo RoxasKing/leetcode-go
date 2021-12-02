@@ -1,7 +1,16 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Linked List
+
+type ListNode struct {
+	Val  int
+	Next *ListNode
+}
+
 func oddEvenList(head *ListNode) *ListNode {
 	if head == nil {
 		return nil
@@ -16,9 +25,4 @@ func oddEvenList(head *ListNode) *ListNode {
 	}
 	odd.Next = evenHead
 	return head
-}
-
-type ListNode struct {
-	Val  int
-	Next *ListNode
 }

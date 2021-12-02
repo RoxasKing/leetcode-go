@@ -15,9 +15,8 @@ func Test_productExceptSelf(t *testing.T) {
 		want []int
 	}{
 		{"1", args{[]int{1, 2, 3, 4}}, []int{24, 12, 8, 6}},
-		{"2", args{nil}, nil},
-		{"3", args{[]int{0, 0}}, []int{0, 0}},
-		{"4", args{[]int{1, 0}}, []int{0, 1}},
+		{"2", args{[]int{0, 0}}, []int{0, 0}},
+		{"3", args{[]int{1, 0}}, []int{0, 1}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
