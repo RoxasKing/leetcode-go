@@ -1,30 +1,29 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Math
 
 func superPow(a int, b []int) int {
-	a %= mod
+	a %= MOD
 	out := quickMul(a, b[0])
 	for _, n := range b[1:] {
-		out = quickMul(out, 10) * quickMul(a, n)
-		out %= mod
+		out = quickMul(out, 10) * quickMul(a, n) % MOD
 	}
 	return out
 }
 
-func quickMul(x, n int) int {
+const MOD = 1337
+
+func quickMul(a, n int) int {
 	out := 1
-	for n > 0 {
+	for ; n > 0; n >>= 1 {
 		if n&1 == 1 {
-			out *= x
-			out %= mod
+			out = (out * a) % MOD
 		}
-		x *= x
-		x %= mod
-		n >>= 1
+		a = (a * a) % MOD
 	}
 	return out
 }
-
-var mod = 1337

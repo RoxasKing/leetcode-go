@@ -1,7 +1,12 @@
 package main
 
+// Difficulty:
+// Hard
+
 // Tags:
-// Math + Binary Search
+// Math
+// Binary Search
+
 func nthMagicalNumber(n int, a int, b int) int {
 	c := a / Gcd(a, b) * b
 	l, r := 1, int(1e15)

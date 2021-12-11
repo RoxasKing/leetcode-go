@@ -1,33 +1,32 @@
 package main
 
-// Tags:
-// Dynamic Programming + DFS
+// Difficulty:
+// Medium
 
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func rob(root *TreeNode) int {
-	a, b := dfs(root)
-	return Max(a, b)
+// Tags:
+// DFS
+// Dynamic Programming
+
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
 }
 
-func dfs(root *TreeNode) (int, int) {
-	if root == nil {
-		return 0, 0
+func rob(root *TreeNode) int {
+	var dfs func(*TreeNode) (int, int)
+	dfs = func(node *TreeNode) (int, int) {
+		if node == nil {
+			return 0, 0
+		}
+		la, lb := dfs(node.Left)
+		ra, rb := dfs(node.Right)
+		b := la + ra
+		a := Max(b, node.Val+lb+rb)
+		return a, b // a: with root node ; b: without root node
 	}
-
-	l0, l1 := dfs(root.Left)
-	r0, r1 := dfs(root.Right)
-
-	a := root.Val + l1 + r1
-	b := Max(l0, l1) + Max(r0, r1)
-
-	return a, b
+	out, _ := dfs(root)
+	return out
 }
 
 func Max(a, b int) int {
@@ -35,10 +34,4 @@ func Max(a, b int) int {
 		return a
 	}
 	return b
-}
-
-type TreeNode struct {
-	Val   int
-	Left  *TreeNode
-	Right *TreeNode
 }

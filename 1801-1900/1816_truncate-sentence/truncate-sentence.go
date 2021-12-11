@@ -1,11 +1,17 @@
 package main
 
-import "strings"
+// Difficulty:
+// Easy
 
 func truncateSentence(s string, k int) string {
-	ss := strings.Split(s, " ")
-	if len(ss) <= k {
-		return s
+	i := 0
+	for ; i < len(s); i++ {
+		if s[i] == ' ' {
+			k--
+		}
+		if k == 0 {
+			break
+		}
 	}
-	return strings.Join(ss[:k], " ")
+	return s[:i]
 }

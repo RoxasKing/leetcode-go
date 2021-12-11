@@ -1,7 +1,11 @@
 package main
 
+// Difficulty:
+// Hard
+
 // Tags:
-// Aho–Corasick Algorithm + Trie
+// Aho–Corasick
+
 type StreamChecker struct {
 	t *Trie
 }
@@ -12,7 +16,6 @@ func Constructor(words []string) StreamChecker {
 		t.Insert(w)
 	}
 	t.Build()
-
 	return StreamChecker{t: t}
 }
 
@@ -57,9 +60,8 @@ func (t *Trie) Build() {
 		}
 	}
 
-	for len(q) > 0 {
+	for ; len(q) > 0; q = q[1:] {
 		t := q[0]
-		q = q[1:]
 		t.isEnd = t.isEnd || t.fail.isEnd
 		for i := 0; i < 26; i++ {
 			if t.child[i] != nil {
