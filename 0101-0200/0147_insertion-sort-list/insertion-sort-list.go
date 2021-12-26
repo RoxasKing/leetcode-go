@@ -1,36 +1,30 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
-// Insertion Sort + Linked List
-func insertionSortList(head *ListNode) *ListNode {
-	if head == nil || head.Next == nil {
-		return head
-	}
-	headPre := &ListNode{Next: head}
-	last := head
-	ptr := head.Next
-	head.Next = nil
-	for ptr != nil {
-		ptrNext := ptr.Next
-		if ptr.Val > last.Val {
-			last.Next = ptr
-			last = last.Next
-			last.Next = nil
-		} else {
-			n := headPre
-			for n.Next != nil && n.Next.Val <= ptr.Val {
-				n = n.Next
-			}
-			nNext := n.Next
-			n.Next = ptr
-			ptr.Next = nNext
-		}
-		ptr = ptrNext
-	}
-	return headPre.Next
-}
+// Linked List
+// Insertion Sort
 
 type ListNode struct {
 	Val  int
 	Next *ListNode
+}
+
+func insertionSortList(head *ListNode) *ListNode {
+	outPre := &ListNode{}
+	for cur := head; cur != nil; {
+		next := cur.Next
+		cur.Next = nil
+		ptr := outPre
+		for ptr.Next != nil && ptr.Next.Val < cur.Val {
+			ptr = ptr.Next
+		}
+		tmp := ptr.Next
+		ptr.Next = cur
+		cur.Next = tmp
+		cur = next
+	}
+	return outPre.Next
 }

@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Topological sorting
+// Topological Sort
 // Math
 
 func waysToBuildRooms(prevRoom []int) int {

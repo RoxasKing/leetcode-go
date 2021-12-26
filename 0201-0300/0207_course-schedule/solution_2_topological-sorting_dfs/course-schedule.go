@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Topological Sorting + DFS
+// Topological Sort + DFS
 func canFinish(numCourses int, prerequisites [][]int) bool {
 	edges := make([][]int, numCourses)
 	visited := make([]int, numCourses) // 0: not visited 1: visiting 2: visited

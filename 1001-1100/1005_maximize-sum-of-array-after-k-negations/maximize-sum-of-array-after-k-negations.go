@@ -6,7 +6,7 @@ import "sort"
 // Easy
 
 // Tags:
-// Sort
+// Sorting
 
 func largestSumAfterKNegations(nums []int, k int) int {
 	sort.Ints(nums)

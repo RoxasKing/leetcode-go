@@ -1,39 +1,38 @@
 package main
 
+// Dfficulty:
+// Medium
+
 // Tags:
 // BFS
 
 func findMinHeightTrees(n int, edges [][]int) []int {
-	indeg := make([]int, n)
-	next := make([][]int, n)
+	d := make([]int, n)
+	g := make([][]int, n)
 	for _, e := range edges {
 		a, b := e[0], e[1]
-		indeg[a]++
-		indeg[b]++
-		next[a] = append(next[a], b)
-		next[b] = append(next[b], a)
+		d[a]++
+		d[b]++
+		g[a] = append(g[a], b)
+		g[b] = append(g[b], a)
 	}
-
-	q := []int{}
+	var q []int
 	for i := 0; i < n; i++ {
-		if indeg[i] <= 1 {
+		if d[i] <= 1 {
 			q = append(q, i)
 		}
 	}
-
 	var out []int
 	for len(q) > 0 {
-		out = q
-		nq := []int{}
+		var t []int
 		for _, u := range q {
-			for _, v := range next[u] {
-				indeg[v]--
-				if indeg[v] == 1 {
-					nq = append(nq, v)
+			for _, v := range g[u] {
+				if d[v]--; d[v] == 1 {
+					t = append(t, v)
 				}
 			}
 		}
-		q = nq
+		out, q = q, t
 	}
 	return out
 }

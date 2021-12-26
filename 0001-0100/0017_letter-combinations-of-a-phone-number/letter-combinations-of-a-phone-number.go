@@ -1,7 +1,8 @@
 package main
 
 // Tags:
-// Iteration
+// Iterator
+
 func letterCombinations(digits string) []string {
 	if digits == "" {
 		return nil

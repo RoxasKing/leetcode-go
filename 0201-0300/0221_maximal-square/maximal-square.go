@@ -1,7 +1,11 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Dynamic Programming
+
 func maximalSquare(matrix [][]byte) int {
 	side := 0
 	m, n := len(matrix), len(matrix[0])

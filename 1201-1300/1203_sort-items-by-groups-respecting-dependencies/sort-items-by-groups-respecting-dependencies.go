@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Topological Sorting + BFS
+// Topological Sort + BFS
 func sortItems(n int, m int, group []int, beforeItems [][]int) []int {
 	iEdges := make([][]int, n)
 	iIndeg := make([]int, n)

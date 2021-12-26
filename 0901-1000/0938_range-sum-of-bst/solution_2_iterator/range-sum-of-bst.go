@@ -1,13 +1,17 @@
 package main
 
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
+// Difficulty:
+// Easy
+
+// Tags:
+// Iterator
+
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
+
 func rangeSumBST(root *TreeNode, low int, high int) int {
 	out := 0
 	for root != nil {
@@ -29,10 +33,4 @@ func rangeSumBST(root *TreeNode, low int, high int) int {
 		root = root.Right
 	}
 	return out
-}
-
-type TreeNode struct {
-	Val   int
-	Left  *TreeNode
-	Right *TreeNode
 }

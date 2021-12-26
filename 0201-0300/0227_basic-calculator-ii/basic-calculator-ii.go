@@ -1,12 +1,26 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Stack
+
+type IntStack []int
+
+func (s IntStack) Len() int    { return len(s) }
+func (s IntStack) Top() int    { return s[s.Len()-1] }
+func (s *IntStack) Push(x int) { *s = append(*s, x) }
+func (s *IntStack) Pop() int {
+	top := s.Len() - 1
+	out := (*s)[top]
+	*s = (*s)[:top]
+	return out
+}
+
 func calculate(s string) int {
 	stk := IntStack{}
-	num := 0
-	op := '+'
-
+	num, op := 0, '+'
 	for _, ch := range s + "+" {
 		if ch == ' ' {
 			continue
@@ -25,25 +39,11 @@ func calculate(s string) int {
 		case '/':
 			stk.Push(stk.Pop() / num)
 		}
-		num = 0
-		op = ch
+		num, op = 0, ch
 	}
-
 	out := 0
 	for _, num := range stk {
 		out += num
 	}
-	return out
-}
-
-type IntStack []int
-
-func (s IntStack) Len() int    { return len(s) }
-func (s IntStack) Top() int    { return s[s.Len()-1] }
-func (s *IntStack) Push(x int) { *s = append(*s, x) }
-func (s *IntStack) Pop() int {
-	top := s.Len() - 1
-	out := (*s)[top]
-	*s = (*s)[:top]
 	return out
 }

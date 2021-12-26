@@ -5,8 +5,13 @@ import (
 	"sort"
 )
 
+// Dfficulty:
+// Hard
+
 // Tags:
+// Math
 // Two Pointerss
+
 func visiblePoints(points [][]int, angle int, location []int) int {
 	duplicate := 0
 	angles := []float64{}
@@ -25,8 +30,7 @@ func visiblePoints(points [][]int, angle int, location []int) int {
 	}
 	max := 0
 	for l, r := 0, 0; l < len(angles); l++ {
-		for r < len(angles) && (angles[r]-angles[l])-float64(angle) < 1e-8 {
-			r++
+		for ; r < len(angles) && (angles[r]-angles[l])-float64(angle) < 1e-8; r++ {
 		}
 		if r-l > max {
 			max = r - l

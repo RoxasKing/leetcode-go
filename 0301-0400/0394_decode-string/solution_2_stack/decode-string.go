@@ -5,8 +5,12 @@ import (
 	"strings"
 )
 
+// Dfficulty:
+// Medium
+
 // Tags:
 // Stack
+
 func decodeString(s string) string {
 	stack := []string{}
 	for r := 0; r < len(s); {

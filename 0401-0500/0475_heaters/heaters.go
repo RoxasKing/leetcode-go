@@ -2,15 +2,20 @@ package main
 
 import "sort"
 
+// Difficulty:
+// Medium
+
+// Tags:
 // Binary Search
+// Two Pointers
+
 func findRadius(houses []int, heaters []int) int {
-	m, n := len(houses), len(heaters)
 	sort.Ints(houses)
 	sort.Ints(heaters)
 	l, r := 0, int(1e9)
 	for l < r {
 		radius := (l + r) >> 1
-		if !isValid(houses, heaters, m, n, radius) {
+		if !isValid(houses, heaters, radius) {
 			l = radius + 1
 		} else {
 			r = radius
@@ -19,15 +24,21 @@ func findRadius(houses []int, heaters []int) int {
 	return l
 }
 
-func isValid(houses, heaters []int, m, n, radius int) bool {
+func isValid(houses, heaters []int, radius int) bool {
 	i, j := 0, 0
-	for i < m && j < n {
-		l, r := heaters[j]-radius, heaters[j]+radius
-		if l <= houses[i] && houses[i] <= r {
+	for i < len(houses) && j < len(heaters) {
+		if Abs(houses[i]-heaters[j]) <= radius {
 			i++
 		} else {
 			j++
 		}
 	}
-	return i == m
+	return i == len(houses)
+}
+
+func Abs(a int) int {
+	if a < 0 {
+		return -a
+	}
+	return a
 }

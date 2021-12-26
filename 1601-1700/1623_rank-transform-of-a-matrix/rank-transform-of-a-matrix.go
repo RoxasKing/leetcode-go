@@ -4,7 +4,7 @@ import "sort"
 
 // Tags:
 // Union-Find
-// Topological Sorting
+// Topological Sort
 // BFS
 
 func matrixRankTransform(mat [][]int) [][]int {

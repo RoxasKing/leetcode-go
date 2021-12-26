@@ -1,5 +1,11 @@
 package main
 
+// Difficulty:
+// Medium
+
+// Tags:
+// Iterator
+
 func countBattleships(board [][]byte) int {
 	out := 0
 	m, n := len(board), len(board[0])

@@ -9,7 +9,7 @@ import (
 // Easy
 
 // Tags:
-// Sort
+// Sorting
 
 func findRelativeRanks(score []int) []string {
 	n := len(score)

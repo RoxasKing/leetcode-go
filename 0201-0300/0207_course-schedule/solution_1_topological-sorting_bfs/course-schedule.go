@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Topological Sorting + BFS
+// Topological Sort + BFS
 func canFinish(numCourses int, prerequisites [][]int) bool {
 	edges := make([][]int, numCourses)
 	indeg := make([]int, numCourses)

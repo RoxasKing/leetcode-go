@@ -1,7 +1,7 @@
 package main
 
 // Tags:
-// Topological Sorting
+// Topological Sort
 // BFS
 
 func longestIncreasingPath(mat [][]int) int {

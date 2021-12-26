@@ -1,40 +1,36 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
-// Topological Sorting + BFS
+// Topological Sort
+
 func findOrder(numCourses int, prerequisites [][]int) []int {
-	edges := make([][]int, numCourses)
-	indeg := make([]int, numCourses)
+	g := make([][]int, numCourses)
+	d := make([]int, numCourses)
 	for _, p := range prerequisites {
 		v, u := p[0], p[1]
-		edges[u] = append(edges[u], v)
-		indeg[v]++
+		g[u] = append(g[u], v)
+		d[v]++
 	}
-
-	q := []int{}
+	var out, q []int
 	for i := 0; i < numCourses; i++ {
-		if indeg[i] == 0 {
+		if d[i] == 0 {
 			q = append(q, i)
 		}
 	}
-
-	out := make([]int, 0, numCourses)
-	for len(q) > 0 {
-		if len(out) == numCourses {
-			return nil
-		}
+	for ; len(q) > 0; q = q[1:] {
 		u := q[0]
-		q = q[1:]
 		out = append(out, u)
-		for _, v := range edges[u] {
-			indeg[v]--
-			if indeg[v] == 0 {
+		for _, v := range g[u] {
+			if d[v]--; d[v] == 0 {
 				q = append(q, v)
 			}
 		}
 	}
 	if len(out) < numCourses {
-		return nil
+		return []int{}
 	}
 	return out
 }

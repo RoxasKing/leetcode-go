@@ -1,23 +1,24 @@
 package main
 
-import (
-	"sort"
-)
+import "sort"
+
+// Difficulty:
+// Medium
+
+// Tags:
+// Sorting
 
 func merge(intervals [][]int) [][]int {
-	sort.Slice(intervals, func(i, j int) bool {
-		return intervals[i][0] < intervals[j][0]
-	})
-
-	i := 0
-	for j := 1; j < len(intervals); j++ {
-		if intervals[j][0] > intervals[i][1] {
-			i++
-			intervals[i] = intervals[j]
-		} else if intervals[j][1] > intervals[i][1] {
-			intervals[i][1] = intervals[j][1]
+	sort.Slice(intervals, func(i, j int) bool { return intervals[i][0] < intervals[j][0] })
+	out := [][]int{}
+	tail := -1
+	for _, e := range intervals {
+		if tail < 0 || out[tail][1] < e[0] {
+			out = append(out, e)
+			tail++
+		} else if out[tail][1] < e[1] {
+			out[tail][1] = e[1]
 		}
 	}
-
-	return intervals[:i+1]
+	return out
 }
