@@ -1,30 +1,31 @@
 package main
 
+// Difficulty:
+// Hard
+
 // Tags:
 // Dynamic Programming
+
 func maxCoins(nums []int) int {
+	nums = append([]int{1}, append(nums, 1)...)
 	n := len(nums)
-	vals := make([]int, n+2)
-	copy(vals[1:n+1], nums)
-	vals[0], vals[n+1] = 1, 1
-	dp := make([][]int, n+2)
-	for i := range dp {
-		dp[i] = make([]int, n+2)
+	f := make([][]int, n)
+	for i := range f {
+		f[i] = make([]int, n)
 	}
-	for l := n - 1; l >= 0; l-- {
-		for r := l + 2; r < n+2; r++ {
+	for l := n - 3; l >= 0; l-- {
+		for r := l + 2; r < n; r++ {
 			for m := l + 1; m < r; m++ {
-				tmp := vals[l]*vals[m]*vals[r] + dp[l][m] + dp[m][r]
-				dp[l][r] = Max(dp[l][r], tmp)
+				f[l][r] = Max(f[l][r], nums[l]*nums[m]*nums[r]+f[l][m]+f[m][r])
 			}
 		}
 	}
-	return dp[0][n+1]
+	return f[0][n-1]
 }
 
 func Max(a, b int) int {
-	if a < b {
-		return b
+	if a > b {
+		return a
 	}
-	return a
+	return b
 }
