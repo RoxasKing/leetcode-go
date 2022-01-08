@@ -1,5 +1,12 @@
 package main
 
+// Difficulty:
+// Medium
+
+// Tags:
+// Bit Manipulation
+// Math
+
 func grayCode(n int) []int {
 	out := []int{0}
 	head := 1

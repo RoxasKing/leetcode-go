@@ -2,15 +2,17 @@ package main
 
 import "math/rand"
 
+// Difficulty:
+// Medium
+
+// Tags:
 // Reservoir Sampling
 
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
+type ListNode struct {
+	Val  int
+	Next *ListNode
+}
+
 type Solution struct {
 	head *ListNode
 }
@@ -23,8 +25,7 @@ func Constructor(head *ListNode) Solution {
 
 /** Returns a random node's value. */
 func (this *Solution) GetRandom() int {
-	out := 0
-	cnt := 0
+	var out, cnt int
 	for ptr := this.head; ptr != nil; ptr = ptr.Next {
 		cnt++
 		i := rand.Intn(cnt) + 1
@@ -40,8 +41,3 @@ func (this *Solution) GetRandom() int {
  * obj := Constructor(head);
  * param_1 := obj.GetRandom();
  */
-
-type ListNode struct {
-	Val  int
-	Next *ListNode
-}

@@ -2,6 +2,12 @@ package main
 
 import "strings"
 
+// Difficulty:
+// Medium
+
+// Tags:
+// Stack
+
 func simplifyPath(path string) string {
 	dirs := strings.Split(path, "/")
 	tmp := []string{}
