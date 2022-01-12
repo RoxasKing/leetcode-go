@@ -1,5 +1,17 @@
 package main
 
+// Difficulty:
+// Medium
+
+// Tags:
+// DFS
+
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
+
 func insertIntoBST(root *TreeNode, val int) *TreeNode {
 	if root == nil {
 		return &TreeNode{Val: val}
@@ -22,10 +34,4 @@ func insert(root *TreeNode, val int) {
 			insert(root.Right, val)
 		}
 	}
-}
-
-type TreeNode struct {
-	Val   int
-	Left  *TreeNode
-	Right *TreeNode
 }

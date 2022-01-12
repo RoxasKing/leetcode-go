@@ -1,34 +1,22 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Backtracking
 
 func isAdditiveNumber(num string) bool {
-	return dfs(num, len(num), 0, -1, -1, 0)
-}
-
-func dfs(num string, n, i, p1, p2, cur int) bool {
-	if i == n {
-		return p1 != -1 && p2 != -1 && p1+p2 == cur
+	var dfs func(int, int, int, int) bool
+	dfs = func(i, a, b, c int) bool {
+		if i == len(num) {
+			return a != -1 && b != -1 && a+b == c
+		}
+		c = c*10 + int(num[i]-'0')
+		return c != 0 && dfs(i+1, a, b, c) ||
+			a == -1 && dfs(i+1, c, b, 0) ||
+			a != -1 && b == -1 && dfs(i+1, a, c, 0) ||
+			a != -1 && b != -1 && a+b == c && dfs(i+1, b, c, 0)
 	}
-
-	cur = cur*10 + int(num[i]-'0')
-
-	if cur != 0 && dfs(num, n, i+1, p1, p2, cur) {
-		return true
-	}
-
-	if p1 == -1 {
-		return dfs(num, n, i+1, cur, p2, 0)
-	}
-
-	if p2 == -1 {
-		return dfs(num, n, i+1, p1, cur, 0)
-	}
-
-	if p1+p2 == cur {
-		return dfs(num, n, i+1, p2, cur, 0)
-	}
-
-	return false
+	return dfs(0, -1, -1, 0)
 }

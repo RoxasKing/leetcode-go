@@ -1,8 +1,6 @@
 package main
 
-import (
-	"testing"
-)
+import "testing"
 
 func Test_insertIntoBST(t *testing.T) {
 	type args struct {
