@@ -26,11 +26,10 @@ func Constructor(head *ListNode) Solution {
 /** Returns a random node's value. */
 func (this *Solution) GetRandom() int {
 	var out, cnt int
-	for ptr := this.head; ptr != nil; ptr = ptr.Next {
+	for p := this.head; p != nil; p = p.Next {
 		cnt++
-		i := rand.Intn(cnt) + 1
-		if i == cnt {
-			out = ptr.Val
+		if i := rand.Intn(cnt) + 1; i == cnt {
+			out = p.Val
 		}
 	}
 	return out
