@@ -4,13 +4,11 @@ package main
 // Easy
 
 func detectCapitalUse(word string) bool {
-	a, b := 0, 0
+	cnt := 0
 	for i := range word {
-		if 'a' <= word[i] && word[i] <= 'z' {
-			a++
-		} else {
-			b++
+		if 'A' <= word[i] && word[i] <= 'Z' {
+			cnt++
 		}
 	}
-	return a == 0 || b == 0 || b == 1 && word[0] < 'a'
+	return cnt == 0 || cnt == len(word) || cnt == 1 && 'A' <= word[0] && word[0] <= 'Z'
 }
