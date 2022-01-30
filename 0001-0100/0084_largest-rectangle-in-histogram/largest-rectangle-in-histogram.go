@@ -1,31 +1,27 @@
 package main
 
+// Difficulty:
+// Hard
+
 // Tags:
 // Monotonic Stack
+
 func largestRectangleArea(heights []int) int {
 	out := 0
-	s := IntStack{-1}
+	stk := []int{-1}
 	for i := range heights {
-		for s.Len() > 1 && heights[i] <= heights[s.Top()] {
-			out = Max(out, heights[s.Pop()]*(i-1-s.Top()))
+		for len(stk) > 1 && heights[stk[len(stk)-1]] > heights[i] {
+			height := heights[stk[len(stk)-1]]
+			stk = stk[:len(stk)-1]
+			out = Max(out, height*(i-1-stk[len(stk)-1]))
 		}
-		s.Push(i)
+		stk = append(stk, i)
 	}
-	for s.Len() > 1 {
-		out = Max(out, heights[s.Pop()]*(len(heights)-1-s.Top()))
+	for len(stk) > 1 {
+		height := heights[stk[len(stk)-1]]
+		stk = stk[:len(stk)-1]
+		out = Max(out, height*(len(heights)-1-stk[len(stk)-1]))
 	}
-	return out
-}
-
-type IntStack []int
-
-func (s IntStack) Len() int    { return len(s) }
-func (s IntStack) Top() int    { return s[s.Len()-1] }
-func (s *IntStack) Push(x int) { *s = append(*s, x) }
-func (s *IntStack) Pop() int {
-	top := s.Len() - 1
-	out := (*s)[top]
-	*s = (*s)[:top]
 	return out
 }
 

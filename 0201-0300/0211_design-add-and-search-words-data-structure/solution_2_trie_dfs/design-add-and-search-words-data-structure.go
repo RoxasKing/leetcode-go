@@ -8,50 +8,50 @@ package main
 // DFS
 
 type WordDictionary struct {
-	t *Trie
+	t *trie
 }
 
 func Constructor() WordDictionary {
-	return WordDictionary{t: &Trie{}}
+	return WordDictionary{t: &trie{}}
 }
 
 func (this *WordDictionary) AddWord(word string) {
-	this.t.Insert(word)
+	this.t.insert(word)
 }
 
 func (this *WordDictionary) Search(word string) bool {
-	return dfs(this.t, word, 0)
+	return this.t.query(word, 0)
 }
 
-type Trie struct {
-	next [26]*Trie
-	hasW bool
+type trie struct {
+	child [26]*trie
+	isEnd bool
 }
 
-func (t *Trie) Insert(word string) {
+func (t *trie) insert(word string) {
 	for i := range word {
 		x := word[i] - 'a'
-		if t.next[x] == nil {
-			t.next[x] = &Trie{}
+		if t.child[x] == nil {
+			t.child[x] = &trie{}
 		}
-		t = t.next[x]
+		t = t.child[x]
 	}
-	t.hasW = true
+	t.isEnd = true
 }
 
-func dfs(t *Trie, word string, i int) bool {
+func (t *trie) query(word string, i int) bool {
 	if i == len(word) {
-		return t.hasW
+		return t.isEnd
 	}
 	if word[i] != '.' {
-		t = t.next[word[i]-'a']
+		t = t.child[word[i]-'a']
 		if t == nil {
 			return false
 		}
-		return dfs(t, word, i+1)
+		return t.query(word, i+1)
 	}
 	for j := 0; j < 26; j++ {
-		if t.next[j] != nil && dfs(t.next[j], word, i+1) {
+		if t.child[j] != nil && t.child[j].query(word, i+1) {
 			return true
 		}
 	}

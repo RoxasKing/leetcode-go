@@ -1,5 +1,8 @@
 package main
 
+// Difficulty:
+// Medium
+
 func rotate(nums []int, k int) {
 	k %= len(nums)
 	reverse(nums)
