@@ -1,28 +1,31 @@
 package main
 
-func longestNiceSubstring(s string) string {
-	out := ""
-	n := len(s)
-	for i := 0; i < n; i++ {
-		f1 := [26]bool{}
-		f2 := [26]bool{}
-		for j := i; j < n; j++ {
-			if 'a' <= s[j] && s[j] <= 'z' {
-				f1[s[j]-'a'] = true
-			} else {
-				f2[s[j]-'A'] = true
-			}
+// Difficulty:
+// Easy
 
+func longestNiceSubstring(s string) string {
+	var out string
+	n := len(s)
+	for l := 0; l < n; l++ {
+		for r := l; r < n; r++ {
+			has1 := [26]bool{}
+			has2 := [26]bool{}
+			for i := l; i <= r; i++ {
+				if 'a' <= s[i] && s[i] <= 'z' {
+					has1[s[i]-'a'] = true
+				} else {
+					has2[s[i]-'A'] = true
+				}
+			}
 			ok := true
 			for i := 0; i < 26; i++ {
-				if f1[i] && !f2[i] || !f1[i] && f2[i] {
+				if has1[i] && !has2[i] || !has1[i] && has2[i] {
 					ok = false
 					break
 				}
 			}
-
-			if ok && j+1-i > len(out) {
-				out = s[i : j+1]
+			if ok && len(out) < r+1-l {
+				out = s[l : r+1]
 			}
 		}
 	}

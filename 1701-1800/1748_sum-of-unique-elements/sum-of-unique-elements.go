@@ -1,15 +1,20 @@
 package main
 
+// Difficulty:
+// Easy
+
+// Tags:
+// Hash
+
 func sumOfUnique(nums []int) int {
-	out := 0
-	cnt := [101]int{}
+	freq := [101]int{}
+	sum := 0
 	for _, num := range nums {
-		if cnt[num] == 0 {
-			out += num
-		} else if cnt[num] == 1 {
-			out -= num
+		if freq[num]++; freq[num] == 1 {
+			sum += num
+		} else if freq[num] == 2 {
+			sum -= num
 		}
-		cnt[num]++
 	}
-	return out
+	return sum
 }

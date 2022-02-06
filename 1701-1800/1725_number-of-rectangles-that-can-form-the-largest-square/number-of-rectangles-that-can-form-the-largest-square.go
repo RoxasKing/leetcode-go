@@ -1,5 +1,8 @@
 package main
 
+// Difficulty:
+// Easy
+
 func countGoodRectangles(rectangles [][]int) int {
 	max, out := 0, 0
 	for _, r := range rectangles {

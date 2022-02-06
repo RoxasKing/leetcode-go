@@ -1,9 +1,11 @@
 package main
 
+// Difficulty:
+// Hard
+
 // Tags:
-// Merge Sort
 // Divide and conquer
-// Recursion
+// Merge Sort
 
 type ListNode struct {
 	Val  int
@@ -11,19 +13,14 @@ type ListNode struct {
 }
 
 func mergeKLists(lists []*ListNode) *ListNode {
-	if len(lists) == 0 {
-		return nil
-	}
-	return solve(lists)
-}
-
-func solve(lists []*ListNode) *ListNode {
 	n := len(lists)
-	if n == 1 {
+	if n == 0 {
+		return nil
+	} else if n == 1 {
 		return lists[0]
 	}
 	m := n >> 1
-	return merge(solve(lists[:m]), solve(lists[m:]))
+	return merge(mergeKLists(lists[:m]), mergeKLists(lists[m:]))
 }
 
 func merge(a, b *ListNode) *ListNode {

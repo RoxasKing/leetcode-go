@@ -1,8 +1,6 @@
 package main
 
-import (
-	"testing"
-)
+import "testing"
 
 func Test_maxProfit(t *testing.T) {
 	type args struct {
@@ -14,7 +12,7 @@ func Test_maxProfit(t *testing.T) {
 		want int
 	}{
 		{"1", args{[]int{7, 1, 5, 3, 6, 4}}, 5},
-		{"2", args{nil}, 0},
+		{"2", args{[]int{7, 6, 4, 3, 1}}, 0},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

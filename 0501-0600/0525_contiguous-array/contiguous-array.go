@@ -1,30 +1,26 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Hash
 
 func findMaxLength(nums []int) int {
 	out := 0
-	dict := map[int]int{0: -1}
-	diff := 0
+	h := map[int]int{0: -1}
+	c := 0
 	for i, num := range nums {
 		if num == 0 {
-			diff--
+			c--
 		} else {
-			diff++
+			c++
 		}
-		if j, ok := dict[diff]; ok {
-			out = Max(out, i-j)
-		} else {
-			dict[diff] = i
+		if j, ok := h[c]; !ok {
+			h[c] = i
+		} else if out < i-j {
+			out = i - j
 		}
 	}
 	return out
-}
-
-func Max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
 }
