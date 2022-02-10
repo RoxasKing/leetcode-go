@@ -1,18 +1,21 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
-// Prefix Sum + Hash
+// Prefix Sum
+// Hash
+
 func subarraySum(nums []int, k int) int {
-	out := 0
-	pSum := make(map[int]int)
-	pSum[0] = 1
-	sum := 0
+	out, sum := 0, 0
+	freq := map[int]int{0: 1}
 	for _, num := range nums {
 		sum += num
-		if cnt, ok := pSum[sum-k]; ok {
+		if cnt, ok := freq[sum-k]; ok {
 			out += cnt
 		}
-		pSum[sum]++
+		freq[sum]++
 	}
 	return out
 }
