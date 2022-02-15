@@ -1,5 +1,17 @@
 package main
 
+// Difficulty:
+// Easy
+
+// Tags:
+// DFS
+
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
+
 func maxDepth(root *TreeNode) int {
 	if root == nil {
 		return 0
@@ -12,10 +24,4 @@ func Max(a, b int) int {
 		return a
 	}
 	return b
-}
-
-type TreeNode struct {
-	Val   int
-	Left  *TreeNode
-	Right *TreeNode
 }

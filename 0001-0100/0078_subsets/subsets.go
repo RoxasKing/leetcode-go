@@ -1,24 +1,34 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Backtracking
+
 func subsets(nums []int) [][]int {
+	n := len(nums)
 	out := [][]int{}
-	dfs(nums, len(nums), 0, []int{}, &out)
-	return out
-}
-
-func dfs(nums []int, n, i int, cur []int, out *[][]int) {
-	if i == n {
-		tmp := make([]int, len(cur))
-		copy(tmp, cur)
-		*out = append(*out, tmp)
-		return
+	cur := []int{}
+	var k int
+	var backtrack func(int)
+	backtrack = func(i int) {
+		if len(cur) == k {
+			tmp := make([]int, len(cur))
+			copy(tmp, cur)
+			out = append(out, tmp)
+			return
+		}
+		if i == n {
+			return
+		}
+		cur = append(cur, nums[i])
+		backtrack(i + 1)
+		cur = cur[:len(cur)-1]
+		backtrack(i + 1)
 	}
-
-	cur = append(cur, nums[i])
-	dfs(nums, n, i+1, cur, out)
-	cur = cur[:len(cur)-1]
-
-	dfs(nums, n, i+1, cur, out)
+	for k = 0; k <= n; k++ {
+		backtrack(0)
+	}
+	return out
 }
