@@ -1,27 +1,21 @@
 package main
 
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
-func swapPairs(head *ListNode) *ListNode {
-	headPre := &ListNode{Next: head}
-	ptr := headPre
-	for ptr.Next != nil && ptr.Next.Next != nil {
-		next := ptr.Next.Next.Next
-		a, b := ptr.Next, ptr.Next.Next
-		ptr.Next = b
-		b.Next = a
-		a.Next = next
-		ptr = a
-	}
-	return headPre.Next
-}
+// Difficulty:
+// Medium
 
 type ListNode struct {
 	Val  int
 	Next *ListNode
+}
+
+func swapPairs(head *ListNode) *ListNode {
+	headPre := &ListNode{Next: head}
+	for p := headPre; p != nil && p.Next != nil && p.Next.Next != nil; {
+		a, b := p.Next, p.Next.Next
+		a.Next = b.Next
+		p.Next = b
+		b.Next = a
+		p = a
+	}
+	return headPre.Next
 }
