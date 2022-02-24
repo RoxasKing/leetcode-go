@@ -1,15 +1,16 @@
 package main
 
-// Tags:
-// BFS + Hash
+// Difficulty:
+// Medium
 
-/**
- * Definition for a Node.
- * type Node struct {
- *     Val int
- *     Neighbors []*Node
- * }
- */
+// Tags:
+// Hash
+// BFS
+
+type Node struct {
+	Val       int
+	Neighbors []*Node
+}
 
 func cloneGraph(node *Node) *Node {
 	if node == nil {
@@ -30,9 +31,4 @@ func cloneGraph(node *Node) *Node {
 		}
 	}
 	return dict[node.Val]
-}
-
-type Node struct {
-	Val       int
-	Neighbors []*Node
 }

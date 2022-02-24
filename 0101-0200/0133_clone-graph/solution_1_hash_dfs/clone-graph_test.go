@@ -1,8 +1,6 @@
 package main
 
-import (
-	"testing"
-)
+import "testing"
 
 func Test_cloneGraph(t *testing.T) {
 	node1 := &Node{Val: 1}

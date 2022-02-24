@@ -1,15 +1,17 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
+// Divide and Conquer
 // Merge Sort
 
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
+type ListNode struct {
+	Val  int
+	Next *ListNode
+}
+
 func sortList(head *ListNode) *ListNode {
 	if head == nil || head.Next == nil {
 		return head
@@ -42,9 +44,4 @@ func merge(l1, l2 *ListNode) *ListNode {
 		ptr.Next = l2
 	}
 	return outPre.Next
-}
-
-type ListNode struct {
-	Val  int
-	Next *ListNode
 }
