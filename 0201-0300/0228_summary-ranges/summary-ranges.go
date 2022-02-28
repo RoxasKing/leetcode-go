@@ -2,29 +2,29 @@ package main
 
 import "strconv"
 
+// Difficulty:
+// Easy
+
 func summaryRanges(nums []int) []string {
-	out := []string{}
 	n := len(nums)
 	if n == 0 {
-		return out
+		return nil
 	}
-	l, r := nums[0], nums[0]
-	for i := 1; i < n; i++ {
-		if nums[i] != nums[i-1]+1 {
-			if l != r {
-				out = append(out, strconv.Itoa(l)+"->"+strconv.Itoa(r))
-			} else {
-				out = append(out, strconv.Itoa(l))
-			}
-			l, r = nums[i], nums[i]
-		} else {
-			r = nums[i]
+	l, r := 0, 1
+	out := []string{}
+	add := func() {
+		str := strconv.Itoa(nums[l])
+		if l != r-1 {
+			str += "->" + strconv.Itoa(nums[r-1])
+		}
+		out = append(out, str)
+	}
+	for ; r < n; r++ {
+		if nums[r-1]+1 != nums[r] {
+			add()
+			l = r
 		}
 	}
-	if l != r {
-		out = append(out, strconv.Itoa(l)+"->"+strconv.Itoa(r))
-	} else {
-		out = append(out, strconv.Itoa(l))
-	}
+	add()
 	return out
 }

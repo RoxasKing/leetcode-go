@@ -1,40 +1,37 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // BFS
 
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
+
 func widthOfBinaryTree(root *TreeNode) int {
-	q := []*AnnotatedNode{{node: root, depth: 0, pos: 0}}
-	out, curDepth, left := 0, 0, 0
-	for len(q) > 0 {
-		an := q[0]
-		q = q[1:]
-		node, depth, pos := an.node, an.depth, an.pos
-		if node != nil {
-			q = append(q, &AnnotatedNode{node: node.Left, depth: depth + 1, pos: pos << 1})
-			q = append(q, &AnnotatedNode{node: node.Right, depth: depth + 1, pos: pos<<1 + 1})
-			if curDepth != depth {
-				curDepth = depth
-				left = pos
-			}
-			out = Max(out, pos+1-left)
+	out, cur_d, l_p := 0, 0, 0
+	for q := []*pair{{root, 0, 0}}; len(q) > 0; q = q[1:] {
+		e := q[0]
+		node, d, p := e.node, e.d, e.p
+		if node == nil {
+			continue
 		}
+		if cur_d != d {
+			cur_d, l_p = d, p
+		}
+		out = Max(out, p+1-l_p)
+		q = append(q, &pair{node.Left, d + 1, p << 1}, &pair{node.Right, d + 1, p<<1 + 1})
 	}
 	return out
 }
 
-type AnnotatedNode struct {
-	node  *TreeNode
-	depth int
-	pos   int
+type pair struct {
+	node *TreeNode
+	d, p int
 }
 
 func Max(a, b int) int {
@@ -42,10 +39,4 @@ func Max(a, b int) int {
 		return a
 	}
 	return b
-}
-
-type TreeNode struct {
-	Val   int
-	Left  *TreeNode
-	Right *TreeNode
 }
