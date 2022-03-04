@@ -1,22 +1,24 @@
 package main
 
+// Difficulty:
+// Medium
+
 func convert(s string, numRows int) string {
 	n := len(s)
-	if numRows >= n || numRows == 1 {
+	if n <= numRows || 1 == numRows {
 		return s
 	}
-	out := make([]byte, 0, n)
-	for i := 0; i < numRows; i++ {
-		for j := i; j < n; j += (numRows - 1) * 2 {
-			out = append(out, s[j])
-			if i == 0 || i == numRows-1 {
+	arr := make([]byte, 0, n)
+	for row := 0; row < numRows; row++ {
+		for i := row; i < n; i += (numRows - 1) << 1 {
+			arr = append(arr, s[i])
+			if row == 0 || row == numRows-1 {
 				continue
 			}
-			next := j + (numRows-1-i)*2
-			if next < len(s) {
-				out = append(out, s[next])
+			if j := i + (numRows-1-row)<<1; j < len(s) {
+				arr = append(arr, s[j])
 			}
 		}
 	}
-	return string(out)
+	return string(arr)
 }
