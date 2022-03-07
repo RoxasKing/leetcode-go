@@ -1,5 +1,8 @@
 package main
 
+// Difficulty:
+// Easy
+
 // Tags:
 // Brain Teaser
 

@@ -1,28 +1,48 @@
 package main
 
-func mergeTwoLists(l1, l2 *ListNode) *ListNode {
-	pre := new(ListNode)
-	cur := pre
-	for l1 != nil && l2 != nil {
-		if l1.Val <= l2.Val {
-			cur.Next = l1
-			l1 = l1.Next
-		} else {
-			cur.Next = l2
-			l2 = l2.Next
-		}
-		cur = cur.Next
-	}
-	if l1 != nil {
-		cur.Next = l1
-	}
-	if l2 != nil {
-		cur.Next = l2
-	}
-	return pre.Next
-}
+// Difficulty:
+// Easy
+
+// Tags:
+// Two Pointers
 
 type ListNode struct {
 	Val  int
 	Next *ListNode
+}
+
+func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
+	if list1 == nil {
+		return list2
+	}
+	if list2 == nil {
+		return list1
+	}
+	var out, ptr *ListNode
+	for list1 != nil && list2 != nil {
+		if list1.Val < list2.Val {
+			if out == nil {
+				out, ptr = list1, list1
+			} else {
+				ptr.Next = list1
+				ptr = list1
+			}
+			list1 = list1.Next
+		} else {
+			if out == nil {
+				out, ptr = list2, list2
+			} else {
+				ptr.Next = list2
+				ptr = list2
+			}
+			list2 = list2.Next
+		}
+	}
+	if list1 != nil {
+		ptr.Next = list1
+	}
+	if list2 != nil {
+		ptr.Next = list2
+	}
+	return out
 }
