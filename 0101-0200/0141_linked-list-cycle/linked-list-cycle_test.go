@@ -1,8 +1,6 @@
 package main
 
-import (
-	"testing"
-)
+import "testing"
 
 func Test_hasCycle(t *testing.T) {
 	node1 := &ListNode{Val: 1, Next: nil}

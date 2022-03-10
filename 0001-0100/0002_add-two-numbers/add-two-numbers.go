@@ -1,15 +1,15 @@
 package main
 
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
+// Difficulty:
+// Medium
+
+type ListNode struct {
+	Val  int
+	Next *ListNode
+}
+
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
-	headPre := &ListNode{}
-	ptr := headPre
+	var out, ptr *ListNode
 	remain := 0
 	for l1 != nil || l2 != nil {
 		if l1 != nil {
@@ -20,17 +20,17 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 			remain += l2.Val
 			l2 = l2.Next
 		}
-		ptr.Next = &ListNode{Val: remain % 10}
-		ptr = ptr.Next
+		if ptr != nil {
+			ptr.Next = &ListNode{Val: remain % 10}
+			ptr = ptr.Next
+		} else {
+			ptr = &ListNode{Val: remain % 10}
+			out = ptr
+		}
 		remain /= 10
 	}
 	if remain > 0 {
 		ptr.Next = &ListNode{Val: remain}
 	}
-	return headPre.Next
-}
-
-type ListNode struct {
-	Val  int
-	Next *ListNode
+	return out
 }
