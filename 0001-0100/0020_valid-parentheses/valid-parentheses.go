@@ -1,23 +1,26 @@
 package main
 
+// Difficulty:
+// Easy
+
 // Tags:
 // Stack
+
 func isValid(s string) bool {
 	stk := []byte{}
 	for i := range s {
-		if s[i] == '[' || s[i] == '(' || s[i] == '{' {
-			stk = append(stk, s[i])
+		c := s[i]
+		if c == '(' || c == '[' || c == '{' {
+			stk = append(stk, c)
 			continue
 		}
 		if len(stk) == 0 {
 			return false
 		}
-		top := len(stk) - 1
-		ch := stk[top]
-		if ch == '[' && s[i] != ']' || ch == '(' && s[i] != ')' || ch == '{' && s[i] != '}' {
+		if t := stk[len(stk)-1]; t == '(' && c != ')' || t == '[' && c != ']' || t == '{' && c != '}' {
 			return false
 		}
-		stk = stk[:top]
+		stk = stk[:len(stk)-1]
 	}
 	return len(stk) == 0
 }

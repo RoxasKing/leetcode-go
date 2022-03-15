@@ -1,5 +1,7 @@
 package main
 
+import "strings"
+
 // Difficulty:
 // Medium
 
@@ -7,32 +9,24 @@ package main
 // Stack
 
 func simplifyPath(path string) string {
-	stack := []string{}
+	stk := []string{}
 	n := len(path)
-	for i := 0; i < n; {
+	for i, j := 0, 0; i < n; i = j {
 		for ; i < n && path[i] == '/'; i++ {
 		}
-		if i < n && path[i] == '.' && (i+1 == n || path[i+1] == '/') {
-			i++
-		} else if i < n && path[i] == '.' && (i+1 < n && path[i+1] == '.') && (i+2 == n || path[i+2] == '/') {
-			if len(stack) > 0 {
-				stack = stack[:len(stack)-1]
+		for j = i; j < n && path[j] != '/'; j++ {
+		}
+		if i == j {
+			continue
+		}
+		if path[i] == '.' && i+1 == j {
+		} else if path[i] == '.' && i < n-1 && path[i+1] == '.' && i+2 == j {
+			if len(stk) > 0 {
+				stk = stk[:len(stk)-1]
 			}
-			i += 2
-		} else if i < n {
-			j := i
-			for ; j < n && path[j] != '/'; j++ {
-			}
-			stack = append(stack, path[i:j])
-			i = j
+		} else {
+			stk = append(stk, path[i:j])
 		}
 	}
-	var out string
-	for _, name := range stack {
-		out += "/" + name
-	}
-	if len(out) == 0 {
-		return "/"
-	}
-	return out
+	return "/" + strings.Join(stk, "/")
 }

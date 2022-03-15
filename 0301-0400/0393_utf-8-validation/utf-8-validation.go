@@ -1,27 +1,27 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Bit Manipulation
 
 func validUtf8(data []int) bool {
-	for i := 0; i < len(data); i++ {
-		t := 0
-		if (data[i]>>3)^30 == 0 {
-			t = 3
-		} else if (data[i]>>4)^14 == 0 {
-			t = 2
-		} else if (data[i]>>5)^6 == 0 {
-			t = 1
+	n := len(data)
+	for i := 0; i < n; i++ {
+		head := data[i]
+		cnt := 0
+		for k := 7; k >= 0 && (head>>k)&1 == 1; k-- {
+			cnt++
 		}
-
-		if t == 0 && (data[i]>>7) != 0 {
+		if cnt == 1 || cnt > 4 || cnt > n-i {
 			return false
 		}
-
-		for ; t > 0; t-- {
-			if i++; i == len(data) || (data[i]>>6)^2 != 0 {
-				return false
+		for ; cnt > 1; cnt-- {
+			if i++; data[i]&0b11000000 == 0b10000000 {
+				continue
 			}
+			return false
 		}
 	}
 	return true
