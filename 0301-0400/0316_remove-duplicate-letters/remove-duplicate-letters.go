@@ -1,29 +1,34 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Greedy
-// Stack
+// Monotonic Stack
 
 func removeDuplicateLetters(s string) string {
-	count := [26]int{}
+	freq := [26]int{}
 	for i := range s {
-		count[s[i]-'a']++
+		freq[s[i]-'a']++
 	}
-	mark := [26]bool{}
-	stack := []byte{}
+	vis := [26]bool{}
+	stk := []byte{}
+	top := func() int { return len(stk) - 1 }
 	for i := range s {
-		if mark[s[i]-'a'] {
-			count[s[i]-'a']--
+		c := s[i]
+		if vis[c-'a'] {
+			freq[c-'a']--
 			continue
 		}
-		for len(stack) > 0 && stack[len(stack)-1] >= s[i] && count[stack[len(stack)-1]-'a'] > 1 {
-			index := stack[len(stack)-1] - 'a'
-			mark[index] = false
-			count[index]--
-			stack = stack[:len(stack)-1]
+		for len(stk) > 0 && stk[top()] > c && freq[stk[top()]-'a'] > 1 {
+			idx := stk[top()] - 'a'
+			stk = stk[:top()]
+			vis[idx] = false
+			freq[idx]--
 		}
-		mark[s[i]-'a'] = true
-		stack = append(stack, s[i])
+		vis[c-'a'] = true
+		stk = append(stk, c)
 	}
-	return string(stack)
+	return string(stk)
 }

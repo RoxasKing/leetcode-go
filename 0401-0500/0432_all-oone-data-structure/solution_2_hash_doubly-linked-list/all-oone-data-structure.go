@@ -1,8 +1,11 @@
 package main
 
+// Difficulty:
+// Hard
+
 // Tags:
-// Doubly Linked List
 // Hash
+// Doubly Linked List
 
 type AllOne struct {
 	nodeAddr   map[string]*dataNode

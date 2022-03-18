@@ -1,43 +1,45 @@
 package main
 
+// Difficulty:
+// Easy
+
 // Tags:
 // Trie
 
 func longestWord(words []string) string {
-	t := &Trie{}
-	for _, word := range words {
-		t.Insert(word)
+	t := &trie{}
+	for _, w := range words {
+		t.insert(w)
 	}
-
-	var out string
-	for _, word := range words {
-		if t.IsValid(word) && (len(word) > len(out) || len(word) == len(out) && word < out) {
-			out = word
+	out := ""
+	for _, w := range words {
+		if t.valid(w) && (len(w) > len(out) || len(w) == len(out) && w < out) {
+			out = w
 		}
 	}
 	return out
 }
 
-type Trie struct {
-	child [26]*Trie
+type trie struct {
+	child [26]*trie
 	isEnd bool
 }
 
-func (t *Trie) Insert(word string) {
-	for i := range word {
-		idx := int(word[i] - 'a')
-		if t.child[idx] == nil {
-			t.child[idx] = &Trie{}
+func (t *trie) insert(word string) {
+	for k := range word {
+		i := int(word[k] - 'a')
+		if t.child[i] == nil {
+			t.child[i] = &trie{}
 		}
-		t = t.child[idx]
+		t = t.child[i]
 	}
 	t.isEnd = true
 }
 
-func (t *Trie) IsValid(word string) bool {
-	for i := range word {
-		idx := int(word[i] - 'a')
-		t = t.child[idx]
+func (t *trie) valid(word string) bool {
+	for k := range word {
+		i := int(word[k] - 'a')
+		t = t.child[i]
 		if !t.isEnd {
 			return false
 		}
