@@ -2,32 +2,46 @@ package main
 
 import "container/heap"
 
+// Difficulty:
+// Hard
+
+// Tags:
 // Priority Queue
 
 type FreqStack struct {
-	cnt map[int]int
-	idx int
-	h   MaxHeap
+	c map[int]int
+	h MaxHeap
+	i int
 }
 
 func Constructor() FreqStack {
-	return FreqStack{
-		cnt: map[int]int{},
-		idx: -1,
-		h:   MaxHeap{},
-	}
+	return FreqStack{c: map[int]int{}}
 }
 
 func (this *FreqStack) Push(val int) {
-	this.cnt[val]++
-	this.idx++
-	heap.Push(&this.h, [3]int{val, this.cnt[val], this.idx})
+	this.c[val]++
+	this.i++
+	heap.Push(&this.h, Entry{val, this.c[val], this.i})
 }
 
 func (this *FreqStack) Pop() int {
-	top := heap.Pop(&this.h).([3]int)
-	this.cnt[top[0]]--
-	return top[0]
+	e := heap.Pop(&this.h).(Entry)
+	this.c[e.v]--
+	return e.v
+}
+
+type Entry struct{ v, c, i int }
+type MaxHeap []Entry
+
+func (h MaxHeap) Len() int            { return len(h) }
+func (h MaxHeap) Less(i, j int) bool  { return h[i].c > h[j].c || h[i].c == h[j].c && h[i].i > h[j].i }
+func (h MaxHeap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }
+func (h *MaxHeap) Push(x interface{}) { *h = append(*h, x.(Entry)) }
+func (h *MaxHeap) Pop() interface{} {
+	i := h.Len() - 1
+	out := (*h)[i]
+	*h = (*h)[:i]
+	return out
 }
 
 /**
@@ -36,21 +50,3 @@ func (this *FreqStack) Pop() int {
  * obj.Push(val);
  * param_2 := obj.Pop();
  */
-
-type MaxHeap [][3]int // [val, freq, lastIdx]
-
-func (h MaxHeap) Len() int { return len(h) }
-func (h MaxHeap) Less(i, j int) bool {
-	if h[i][1] != h[j][1] {
-		return h[i][1] > h[j][1]
-	}
-	return h[i][2] > h[j][2]
-}
-func (h MaxHeap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }
-func (h *MaxHeap) Push(x interface{}) { *h = append(*h, x.([3]int)) }
-func (h *MaxHeap) Pop() interface{} {
-	top := h.Len() - 1
-	out := (*h)[top]
-	*h = (*h)[:top]
-	return out
-}
