@@ -1,21 +1,24 @@
 package main
 
+// Difficulty:
+// Medium
+
+// Tags:
+// Trie
+
 func findKthNumber(n int, k int) int {
 	out := 1
-	k--
-	for k > 0 {
-		step, head, tail := 0, out, out+1
-		for head <= n {
-			step += Min(n+1, tail) - head
-			head *= 10
-			tail *= 10
+	for k--; k > 0; {
+		c := 0
+		for l, r := out, out+1; l <= n; l, r = l*10, r*10 {
+			c += Min(n+1, r) - l
 		}
-		if step > k {
+		if c > k {
 			out *= 10
 			k--
 		} else {
 			out++
-			k -= step
+			k -= c
 		}
 	}
 	return out

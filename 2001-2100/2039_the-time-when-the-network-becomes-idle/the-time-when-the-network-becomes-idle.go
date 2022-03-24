@@ -1,7 +1,5 @@
 package main
 
-import "runtime/debug"
-
 // Difficulty:
 // Medium
 
@@ -22,7 +20,7 @@ func networkBecomesIdle(edges [][]int, patience []int) int {
 	for i := 1; i < n; i++ {
 		f[i] = 1e9
 	}
-	for q := [][]int{{0, 0}}; len(q) > 0; q = q[1:] {
+	for q := [][2]int{{0, 0}}; len(q) > 0; q = q[1:] {
 		e := q[0]
 		u, d := e[0], e[1]+1
 		for _, v := range g[u] {
@@ -30,13 +28,12 @@ func networkBecomesIdle(edges [][]int, patience []int) int {
 				continue
 			}
 			f[v] = d
-			q = append(q, []int{v, d})
+			q = append(q, [2]int{v, d})
 		}
 	}
 	out := 0
 	for i := 1; i < n; i++ {
 		t0 := f[i] << 1
-		out = Max(out, t0)
 		tt := t0 / patience[i]
 		if t0%patience[i] == 0 {
 			tt--
@@ -52,5 +49,3 @@ func Max(a, b int) int {
 	}
 	return b
 }
-
-func init() { debug.SetGCPercent(-1) }
