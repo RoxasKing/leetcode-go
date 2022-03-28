@@ -2,40 +2,31 @@ package main
 
 import "strconv"
 
+// Difficulty:
+// Easy
+
+// Tags:
 // Stack
 
 func calPoints(ops []string) int {
-	s := IntStack{}
+	stk := []int{}
+	top := func() int { return len(stk) - 1 }
 	for _, op := range ops {
-		switch op {
-		case "+":
-			top := s.Len() - 1
-			s.Push(s[top] + s[top-1])
-		case "D":
-			s.Push(s.Top() << 1)
-		case "C":
-			s.Pop()
+		switch op[0] {
+		case '+':
+			stk = append(stk, stk[top()]+stk[top()-1])
+		case 'D':
+			stk = append(stk, stk[top()]<<1)
+		case 'C':
+			stk = stk[:top()]
 		default:
-			num, _ := strconv.Atoi(op)
-			s.Push(num)
+			x, _ := strconv.Atoi(op)
+			stk = append(stk, x)
 		}
 	}
-
-	out := 0
-	for _, num := range s {
-		out += num
+	sum := 0
+	for _, x := range stk {
+		sum += x
 	}
-	return out
-}
-
-type IntStack []int
-
-func (s IntStack) Len() int    { return len(s) }
-func (s IntStack) Top() int    { return s[s.Len()-1] }
-func (s *IntStack) Push(x int) { *s = append(*s, x) }
-func (s *IntStack) Pop() int {
-	top := s.Len() - 1
-	out := (*s)[top]
-	*s = (*s)[:top]
-	return out
+	return sum
 }

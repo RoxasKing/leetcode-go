@@ -2,26 +2,29 @@ package main
 
 import "sort"
 
-// Binary Search
+// Difficulty:
+// Easy
+
+// Tags:
+// Sorting
 
 func kWeakestRows(mat [][]int, k int) []int {
-	n, m := len(mat), len(mat[0])
-	arr := make([]int, n)
-	for i := range arr {
-		arr[i] = sort.Search(m, func(j int) bool { return mat[i][j] == 0 })
-	}
-
-	out := make([]int, n)
-	for i := range out {
-		out[i] = i
-	}
-
-	sort.Slice(out, func(i, j int) bool {
-		if arr[out[i]] != arr[out[j]] {
-			return arr[out[i]] < arr[out[j]]
+	m, n := len(mat), len(mat[0])
+	type entry struct{ x, i int }
+	entries := make([]entry, m)
+	for i := 0; i < m; i++ {
+		cnt := 0
+		for j := 0; j < n && mat[i][j] == 1; j++ {
+			cnt++
 		}
-		return out[i] < out[j]
+		entries[i] = entry{cnt, i}
+	}
+	sort.Slice(entries, func(i, j int) bool {
+		return entries[i].x < entries[j].x || entries[i].x == entries[j].x && entries[i].i < entries[j].i
 	})
-
-	return out[:k]
+	out := make([]int, k)
+	for i := range out {
+		out[i] = entries[i].i
+	}
+	return out
 }
