@@ -1,8 +1,13 @@
 package main
 
+// Difficulty:
+// Easy
+
+// Tags:
+// Two Pointers
+
 func reverseString(s []byte) {
-	n := len(s)
-	for i := 0; i < n>>1; i++ {
-		s[i], s[n-1-i] = s[n-1-i], s[i]
+	for l, r := 0, len(s)-1; l < r; l, r = l+1, r-1 {
+		s[l], s[r] = s[r], s[l]
 	}
 }
