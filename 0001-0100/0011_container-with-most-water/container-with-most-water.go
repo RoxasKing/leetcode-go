@@ -1,7 +1,11 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Two Pointers
+
 func maxArea(height []int) int {
 	out := 0
 	for l, r := 0, len(height)-1; l < r; {
