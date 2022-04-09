@@ -2,62 +2,50 @@ package main
 
 import "container/heap"
 
+// Difficulty:
+// Easy
+
+// Tags:
 // Priority Queue
+
 type KthLargest struct {
-	maxh MaxHeap
-	minh MinHeap
+	k int
+	h minh
 }
 
 func Constructor(k int, nums []int) KthLargest {
-	maxh := MaxHeap{}
-	minh := MinHeap(nums)
-	heap.Init(&minh)
-	for minh.Len() > k-1 {
-		heap.Push(&maxh, heap.Pop(&minh))
+	h := minh{}
+	for _, x := range nums {
+		if h.Len() < k {
+			heap.Push(&h, x)
+		} else if x > h[0] {
+			heap.Pop(&h)
+			heap.Push(&h, x)
+		}
 	}
-	return KthLargest{maxh: maxh, minh: minh}
+	return KthLargest{k, h}
 }
 
 func (this *KthLargest) Add(val int) int {
-	if this.minh.Len() > 0 && val > this.minh.Top() {
-		heap.Push(&this.maxh, heap.Pop(&this.minh))
-		heap.Push(&this.minh, val)
-	} else {
-		heap.Push(&this.maxh, val)
+	if this.h.Len() < this.k {
+		heap.Push(&this.h, val)
+	} else if val > this.h[0] {
+		heap.Pop(&this.h)
+		heap.Push(&this.h, val)
 	}
-	return this.maxh.Top()
+	return this.h[0]
 }
+
+type minh []int
+
+func (h minh) Len() int            { return len(h) }
+func (h minh) Less(i, j int) bool  { return h[i] < h[j] }
+func (h minh) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }
+func (h *minh) Push(x interface{}) { *h = append(*h, x.(int)) }
+func (h *minh) Pop() interface{}   { i := len(*h) - 1; o := (*h)[i]; *h = (*h)[:i]; return o }
 
 /**
  * Your KthLargest object will be instantiated and called as such:
  * obj := Constructor(k, nums);
  * param_1 := obj.Add(val);
  */
-
-type MaxHeap []int
-
-func (mh MaxHeap) Len() int            { return len(mh) }
-func (mh MaxHeap) Less(i, j int) bool  { return mh[i] > mh[j] }
-func (mh MaxHeap) Swap(i, j int)       { mh[i], mh[j] = mh[j], mh[i] }
-func (mh *MaxHeap) Push(x interface{}) { *mh = append(*mh, x.(int)) }
-func (mh *MaxHeap) Pop() interface{} {
-	last := len(*mh) - 1
-	out := (*mh)[last]
-	*mh = (*mh)[:last]
-	return out
-}
-func (mh MaxHeap) Top() int { return mh[0] }
-
-type MinHeap []int
-
-func (mh MinHeap) Len() int            { return len(mh) }
-func (mh MinHeap) Less(i, j int) bool  { return mh[i] < mh[j] }
-func (mh MinHeap) Swap(i, j int)       { mh[i], mh[j] = mh[j], mh[i] }
-func (mh *MinHeap) Push(x interface{}) { *mh = append(*mh, x.(int)) }
-func (mh *MinHeap) Pop() interface{} {
-	last := len(*mh) - 1
-	out := (*mh)[last]
-	*mh = (*mh)[:last]
-	return out
-}
-func (mh MinHeap) Top() int { return mh[0] }

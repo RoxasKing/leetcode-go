@@ -12,6 +12,8 @@ func Test_lastStoneWeight(t *testing.T) {
 		want int
 	}{
 		{"1", args{[]int{2, 7, 4, 1, 8, 1}}, 1},
+		{"2", args{[]int{1}}, 1},
+		{"3", args{[]int{2, 2}}, 0},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

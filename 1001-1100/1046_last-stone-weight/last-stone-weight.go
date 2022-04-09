@@ -2,41 +2,30 @@ package main
 
 import "container/heap"
 
+// Difficulty:
+// Easy
+
+// Tags:
 // Priority Queue
+
 func lastStoneWeight(stones []int) int {
-	pq := &PriorityQueue{}
-	for _, stone := range stones {
-		heap.Push(pq, stone)
-	}
-	for pq.Len() > 1 {
-		a := heap.Pop(pq).(int)
-		b := heap.Pop(pq).(int)
+	stones = append(stones, 0)
+	h := maxq(stones)
+	heap.Init(&h)
+	for h.Len() > 1 {
+		a := heap.Pop(&h).(int)
+		b := heap.Pop(&h).(int)
 		if a != b {
-			heap.Push(pq, Abs(a-b))
+			heap.Push(&h, a-b)
 		}
 	}
-	if pq.Len() == 0 {
-		return 0
-	}
-	return heap.Pop(pq).(int)
+	return h[0]
 }
 
-type PriorityQueue []int
+type maxq []int
 
-func (q PriorityQueue) Len() int            { return len(q) }
-func (q PriorityQueue) Less(i, j int) bool  { return q[i] > q[j] }
-func (q PriorityQueue) Swap(i, j int)       { q[i], q[j] = q[j], q[i] }
-func (q *PriorityQueue) Push(x interface{}) { *q = append(*q, x.(int)) }
-func (q *PriorityQueue) Pop() interface{} {
-	last := len(*q) - 1
-	out := (*q)[last]
-	*q = (*q)[:last]
-	return out
-}
-
-func Abs(x int) int {
-	if x < 0 {
-		return -x
-	}
-	return x
-}
+func (h maxq) Len() int            { return len(h) }
+func (h maxq) Less(i, j int) bool  { return h[i] > h[j] }
+func (h maxq) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }
+func (h *maxq) Push(x interface{}) { *h = append(*h, x.(int)) }
+func (h *maxq) Pop() interface{}   { i := h.Len() - 1; o := (*h)[i]; *h = (*h)[:i]; return o }

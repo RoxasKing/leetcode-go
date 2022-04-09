@@ -12,12 +12,11 @@ func bestRotation(nums []int) int {
 	for i, num := range nums {
 		h[(i-num+n+1)%n]++
 	}
-	out := 0
+	o := 0
 	for i := 1; i < n; i++ {
-		h[i] += h[i-1] - 1
-		if h[out] > h[i] {
-			out = i
+		if h[i] += h[i-1] - 1; h[o] > h[i] {
+			o = i
 		}
 	}
-	return out
+	return o
 }
