@@ -9,41 +9,40 @@ import "math/rand"
 // Hash
 
 type RandomizedSet struct {
-	idx map[int]int
-	arr []int
+	h map[int]int
+	a []int
 }
 
 func Constructor() RandomizedSet {
-	return RandomizedSet{
-		idx: map[int]int{},
-		arr: []int{},
-	}
+	return RandomizedSet{h: map[int]int{}}
 }
 
 func (this *RandomizedSet) Insert(val int) bool {
-	if _, ok := this.idx[val]; ok {
+	if _, ok := this.h[val]; ok {
 		return false
 	}
-	this.idx[val] = len(this.arr)
-	this.arr = append(this.arr, val)
+	i := len(this.a)
+	this.a = append(this.a, val)
+	this.h[val] = i
 	return true
 }
 
 func (this *RandomizedSet) Remove(val int) bool {
-	if _, ok := this.idx[val]; !ok {
+	if i, ok := this.h[val]; !ok {
 		return false
+	} else if i != len(this.a)-1 {
+		x := this.a[len(this.a)-1]
+		j := this.h[x]
+		this.a[i], this.a[j] = this.a[j], this.a[i]
+		this.h[x] = i
 	}
-	idx := this.idx[val]
-	end := len(this.arr) - 1
-	this.idx[this.arr[end]] = idx
-	this.arr[idx], this.arr[end] = this.arr[end], this.arr[idx]
-	delete(this.idx, val)
-	this.arr = this.arr[:end]
+	this.a = this.a[:len(this.a)-1]
+	delete(this.h, val)
 	return true
 }
 
 func (this *RandomizedSet) GetRandom() int {
-	return this.arr[rand.Intn(len(this.arr))]
+	return this.a[rand.Intn(len(this.a))]
 }
 
 /**

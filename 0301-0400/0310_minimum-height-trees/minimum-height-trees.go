@@ -7,6 +7,9 @@ package main
 // BFS
 
 func findMinHeightTrees(n int, edges [][]int) []int {
+	if n == 1 {
+		return []int{0}
+	}
 	d := make([]int, n)
 	g := make([][]int, n)
 	for _, e := range edges {
@@ -18,11 +21,11 @@ func findMinHeightTrees(n int, edges [][]int) []int {
 	}
 	q := []int{}
 	for i := 0; i < n; i++ {
-		if d[i] <= 1 {
+		if d[i] == 1 {
 			q = append(q, i)
 		}
 	}
-	out := []int{}
+	o := []int{}
 	for len(q) > 0 {
 		t := []int{}
 		for _, u := range q {
@@ -32,7 +35,7 @@ func findMinHeightTrees(n int, edges [][]int) []int {
 				}
 			}
 		}
-		out, q = q, t
+		o, q = q, t
 	}
-	return out
+	return o
 }

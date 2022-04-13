@@ -1,40 +1,47 @@
 package main
 
+// Difficulty:
+// Medium
+
+// Tags:
+// Simulation
+
 func generateMatrix(n int) [][]int {
-	out := make([][]int, n)
-	for i := range out {
-		out[i] = make([]int, n)
+	o := make([][]int, n)
+	for i := range o {
+		o[i] = make([]int, n)
 	}
-	u, d, l, r := 0, n-1, 0, n-1
-	num, move := 1, 0
-	for u <= d && l <= r {
-		switch move {
+	l, r, u, d := 0, n-1, 0, n-1
+	dir := 0
+	idx := 1
+	for l <= r && u <= d {
+		switch dir {
 		case 0:
 			for i := l; i <= r; i++ {
-				out[u][i] = num
-				num++
+				o[u][i] = idx
+				idx++
 			}
 			u++
 		case 1:
 			for i := u; i <= d; i++ {
-				out[i][r] = num
-				num++
+				o[i][r] = idx
+				idx++
 			}
 			r--
 		case 2:
 			for i := r; i >= l; i-- {
-				out[d][i] = num
-				num++
+				o[d][i] = idx
+				idx++
 			}
 			d--
 		case 3:
 			for i := d; i >= u; i-- {
-				out[i][l] = num
-				num++
+				o[i][l] = idx
+				idx++
 			}
 			l++
 		}
-		move = (move + 1) % 4
+		dir = (dir + 1) % 4
 	}
-	return out
+	return o
 }
