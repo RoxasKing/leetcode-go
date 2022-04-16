@@ -2,6 +2,10 @@ package main
 
 import "strconv"
 
+// Dfficulty:
+// Medium
+
+// Tags:
 // Stack
 
 /**
@@ -30,71 +34,51 @@ import "strconv"
  * func (n NestedInteger) GetList() []*NestedInteger {}
  */
 func deserialize(s string) *NestedInteger {
-	stk := []*NestedInteger{}
 	n := len(s)
-	cnt := 0
-
-	for i := 0; i < n; i++ {
-		if s[i] == ',' {
+	stk := []NestedInteger{}
+	top := func() int { return len(stk) - 1 }
+	for c, i := 0, 0; i < n; i++ {
+		switch s[i] {
+		case ',':
 			continue
-		} else if s[i] == '[' {
-			stk = append(stk, &NestedInteger{})
-			cnt++
+		case '[':
+			c++
+			stk = append(stk, NestedInteger{})
 			continue
-		} else if s[i] == ']' {
-			cnt--
-		} else {
+		case ']':
+			c--
+		default:
 			j := i
-			for j+1 < n && ('0' <= s[j+1] && s[j+1] <= '9' || s[j+1] == '-') {
-				j++
+			for ; j+1 < n && ('0' <= s[j+1] && s[j+1] <= '9' || s[j+1] == '-'); j++ {
 			}
-			num, _ := strconv.Atoi(s[i : j+1])
-			ni := &NestedInteger{}
-			ni.SetInteger(num)
-			stk = append(stk, ni)
+			v, _ := strconv.Atoi(s[i : j+1])
+			e := NestedInteger{}
+			e.SetInteger(v)
+			stk = append(stk, e)
 			i = j
 		}
-
-		if cnt == 0 || len(stk) < 2 {
+		if c == 0 || len(stk) == 1 {
 			continue
 		}
-
-		top := len(stk) - 1
-		ni := stk[top]
-		stk = stk[:top]
-		pni := stk[top-1]
-		pni.Add(*ni)
+		e := stk[top()]
+		stk = stk[:top()]
+		stk[top()].Add(e)
 	}
-
-	return stk[0]
+	return &stk[0]
 }
 
 type NestedInteger struct {
-	isInteger bool
-	value     int
-	list      []*NestedInteger
+	isInt bool
+	value int
+	nlist []*NestedInteger
 }
 
-func (this NestedInteger) IsInteger() bool {
-	return this.isInteger
+func (n NestedInteger) IsInteger() bool       { return n.isInt }
+func (n NestedInteger) GetInteger() int       { return n.value }
+func (n *NestedInteger) SetInteger(value int) { n.isInt = true; n.value = value; n.nlist = nil }
+func (n *NestedInteger) Add(elem NestedInteger) {
+	n.isInt = false
+	n.value = -1 << 31
+	n.nlist = append(n.nlist, &elem)
 }
-
-func (this NestedInteger) GetInteger() int {
-	return this.value
-}
-
-func (n *NestedInteger) SetInteger(value int) {
-	n.isInteger = true
-	n.value = value
-	n.list = nil
-}
-
-func (this *NestedInteger) Add(elem NestedInteger) {
-	this.isInteger = false
-	this.value = -1 << 31
-	this.list = append(this.list, &elem)
-}
-
-func (this NestedInteger) GetList() []*NestedInteger {
-	return this.list
-}
+func (n NestedInteger) GetList() []*NestedInteger { return n.nlist }

@@ -11,48 +11,52 @@ import "container/heap"
 
 type AllOne struct {
 	freq       map[string]int
-	maxh, minh *ps
+	maxh, minh ph
 }
 
 func Constructor() AllOne {
-	return AllOne{freq: map[string]int{}, maxh: &ps{f: bigger}, minh: &ps{f: smaller}}
+	return AllOne{
+		freq: map[string]int{},
+		maxh: ph{f: func(a, b int) bool { return a > b }},
+		minh: ph{f: func(a, b int) bool { return a < b }},
+	}
 }
 
 func (this *AllOne) Inc(key string) {
 	this.freq[key]++
-	for ; this.maxh.Len() > 0 && this.maxh.Top().v != this.freq[this.maxh.Top().k]; heap.Pop(this.maxh) {
+	for ; this.maxh.Len() > 0 && this.maxh.a[0].v != this.freq[this.maxh.a[0].k]; heap.Pop(&this.maxh) {
 	}
-	for ; this.minh.Len() > 0 && this.minh.Top().v != this.freq[this.minh.Top().k]; heap.Pop(this.minh) {
+	for ; this.minh.Len() > 0 && this.minh.a[0].v != this.freq[this.minh.a[0].k]; heap.Pop(&this.minh) {
 	}
-	heap.Push(this.maxh, &pair{key, this.freq[key]})
-	heap.Push(this.minh, &pair{key, this.freq[key]})
+	heap.Push(&this.maxh, &pair{key, this.freq[key]})
+	heap.Push(&this.minh, &pair{key, this.freq[key]})
 }
 
 func (this *AllOne) Dec(key string) {
 	this.freq[key]--
-	for ; this.maxh.Len() > 0 && this.maxh.Top().v != this.freq[this.maxh.Top().k]; heap.Pop(this.maxh) {
+	for ; this.maxh.Len() > 0 && this.maxh.a[0].v != this.freq[this.maxh.a[0].k]; heap.Pop(&this.maxh) {
 	}
-	for ; this.minh.Len() > 0 && this.minh.Top().v != this.freq[this.minh.Top().k]; heap.Pop(this.minh) {
+	for ; this.minh.Len() > 0 && this.minh.a[0].v != this.freq[this.minh.a[0].k]; heap.Pop(&this.minh) {
 	}
 	if this.freq[key] == 0 {
 		return
 	}
-	heap.Push(this.maxh, &pair{key, this.freq[key]})
-	heap.Push(this.minh, &pair{key, this.freq[key]})
+	heap.Push(&this.maxh, &pair{key, this.freq[key]})
+	heap.Push(&this.minh, &pair{key, this.freq[key]})
 }
 
 func (this *AllOne) GetMaxKey() string {
 	if this.maxh.Len() == 0 {
 		return ""
 	}
-	return this.maxh.Top().k
+	return this.maxh.a[0].k
 }
 
 func (this *AllOne) GetMinKey() string {
 	if this.minh.Len() == 0 {
 		return ""
 	}
-	return this.minh.Top().k
+	return this.minh.a[0].k
 }
 
 type pair struct {
@@ -60,20 +64,16 @@ type pair struct {
 	v int
 }
 
-type ps struct {
+type ph struct {
 	a []*pair
 	f func(i, j int) bool
 }
 
-func (s ps) Len() int            { return len(s.a) }
-func (s ps) Less(i, j int) bool  { return s.f(s.a[i].v, s.a[j].v) }
-func (s ps) Swap(i, j int)       { s.a[i], s.a[j] = s.a[j], s.a[i] }
-func (s *ps) Push(x interface{}) { s.a = append(s.a, x.(*pair)) }
-func (s *ps) Pop() interface{}   { i := s.Len() - 1; o := s.a[i]; s.a = s.a[:i]; return o }
-func (s ps) Top() *pair          { return s.a[0] }
-
-func bigger(a, b int) bool  { return a > b }
-func smaller(a, b int) bool { return a < b }
+func (h ph) Len() int            { return len(h.a) }
+func (h ph) Less(i, j int) bool  { return h.f(h.a[i].v, h.a[j].v) }
+func (h ph) Swap(i, j int)       { h.a[i], h.a[j] = h.a[j], h.a[i] }
+func (h *ph) Push(x interface{}) { h.a = append(h.a, x.(*pair)) }
+func (h *ph) Pop() interface{}   { i := h.Len() - 1; o := (h.a)[i]; h.a = (h.a)[:i]; return o }
 
 /**
  * Your AllOne object will be instantiated and called as such:

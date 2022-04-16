@@ -4,15 +4,15 @@ package main
 // Easy
 
 func maximumWealth(accounts [][]int) int {
-	out := 0
-	for i := range accounts {
-		sum := 0
-		for j := range accounts[i] {
-			sum += accounts[i][j]
+	o := 0
+	for _, acc := range accounts {
+		c := 0
+		for _, cash := range acc {
+			c += cash
 		}
-		if out < sum {
-			out = sum
+		if o < c {
+			o = c
 		}
 	}
-	return out
+	return o
 }

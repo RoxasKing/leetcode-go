@@ -18,7 +18,7 @@ func Test_deserialize(t *testing.T) {
 			"1",
 			args{"324"},
 			&NestedInteger{
-				isInteger: true,
+				isInt: true,
 				value:     324,
 			},
 		},
@@ -27,23 +27,23 @@ func Test_deserialize(t *testing.T) {
 			args{"[123,[456,[789]]]"},
 			&NestedInteger{
 				value: -1 << 31,
-				list: []*NestedInteger{
+				nlist: []*NestedInteger{
 					{
-						isInteger: true,
+						isInt: true,
 						value:     123,
 					},
 					{
 						value: -1 << 31,
-						list: []*NestedInteger{
+						nlist: []*NestedInteger{
 							{
-								isInteger: true,
+								isInt: true,
 								value:     456,
 							},
 							{
 								value: -1 << 31,
-								list: []*NestedInteger{
+								nlist: []*NestedInteger{
 									{
-										isInteger: true,
+										isInt: true,
 										value:     789,
 									},
 								},

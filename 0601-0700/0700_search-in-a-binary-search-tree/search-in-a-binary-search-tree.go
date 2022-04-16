@@ -1,7 +1,7 @@
 package main
 
 // Difficulty:
-// Medium
+// Easy
 
 // Tags:
 // DFS
