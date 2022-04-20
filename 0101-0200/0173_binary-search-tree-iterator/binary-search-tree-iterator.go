@@ -1,5 +1,8 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Morris Traversal
 
@@ -10,36 +13,33 @@ type TreeNode struct {
 }
 
 type BSTIterator struct {
-	node *TreeNode
+	t *TreeNode
 }
 
 func Constructor(root *TreeNode) BSTIterator {
-	return BSTIterator{
-		node: root,
-	}
+	return BSTIterator{root}
 }
 
 func (this *BSTIterator) Next() int {
 START:
-	if this.node.Left != nil {
-		prev := this.node.Left
-		for prev.Right != nil && prev.Right != this.node {
-			prev = prev.Right
+	if this.t.Left != nil {
+		p := this.t.Left
+		for ; p.Right != nil && p.Right != this.t; p = p.Right {
 		}
-		if prev.Right != this.node {
-			prev.Right = this.node
-			this.node = this.node.Left
+		if p.Right != this.t {
+			p.Right = this.t
+			this.t = this.t.Left
 			goto START
 		}
-		prev.Right = nil
+		p.Right = nil
 	}
-	out := this.node.Val
-	this.node = this.node.Right
-	return out
+	o := this.t.Val
+	this.t = this.t.Right
+	return o
 }
 
 func (this *BSTIterator) HasNext() bool {
-	return this.node != nil
+	return this.t != nil
 }
 
 /**

@@ -1,21 +1,23 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Math
 
 func lexicalOrder(n int) []int {
-	out := make([]int, n)
-	for i, num := 0, 1; i < n; i++ {
-		out[i] = num
-		if num*10 <= n {
-			num *= 10
-		} else {
-			if num >= n {
-				num /= 10
-			}
-			for num++; num%10 == 0; num /= 10 {
-			}
+	o := make([]int, n)
+	for i, x := 0, 1; i < n; i++ {
+		o[i] = x
+		if x*10 <= n {
+			x *= 10
+			continue
 		}
+		for x%10 == 9 || x+1 > n {
+			x /= 10
+		}
+		x++
 	}
-	return out
+	return o
 }

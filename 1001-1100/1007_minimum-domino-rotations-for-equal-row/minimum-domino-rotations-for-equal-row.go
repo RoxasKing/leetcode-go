@@ -4,37 +4,34 @@ package main
 // Medium
 
 // Tags:
-// Greedy
+// Enumeration
 
 func minDominoRotations(tops []int, bottoms []int) int {
-	n := len(tops)
-	freq := [7]int{}
-	for i := 0; i < n; i++ {
-		freq[tops[i]]++
-		if tops[i] != bottoms[i] {
-			freq[bottoms[i]]++
-		}
-	}
-	out := -1
+	o := -1
 	for k := 1; k <= 6; k++ {
-		if freq[k] != n {
-			continue
-		}
-		c1, c2 := 0, 0
-		for i := 0; i < n; i++ {
+		a, b := 0, 0
+		ok := true
+		for i := range tops {
+			if tops[i] != k && bottoms[i] != k {
+				ok = false
+				break
+			}
 			if tops[i] != k {
-				c1++
+				a++
 			}
 			if bottoms[i] != k {
-				c2++
+				b++
 			}
 		}
-		if out == -1 || out > c1 {
-			out = c1
+		if !ok {
+			continue
 		}
-		if out > c2 {
-			out = c2
+		if o == -1 || o > a {
+			o = a
+		}
+		if o == -1 || o > b {
+			o = b
 		}
 	}
-	return out
+	return o
 }

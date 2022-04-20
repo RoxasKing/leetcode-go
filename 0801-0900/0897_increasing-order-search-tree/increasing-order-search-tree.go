@@ -1,41 +1,39 @@
 package main
 
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func increasingBST(root *TreeNode) *TreeNode {
-	var head, pre *TreeNode
-	for root != nil {
-		if root.Left != nil {
-			pre := root.Left
-			for pre.Right != nil && pre.Right != root {
-				pre = pre.Right
-			}
-			if pre.Right != root {
-				pre.Right = root
-				root = root.Left
-				continue
-			}
-			root.Left = nil
-		}
-		if head == nil {
-			head = root
-		}
-		if pre != nil {
-			pre.Right = root
-		}
-		pre, root = root, root.Right
-	}
-	return head
-}
+// Difficulty:
+// Easy
+
+// Tags:
+// Morris Traversal
 
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
 	Right *TreeNode
+}
+
+func increasingBST(root *TreeNode) *TreeNode {
+	var o, p *TreeNode
+	for t := root; t != nil; {
+		if t.Left != nil {
+			pre := t.Left
+			for ; pre.Right != nil && pre.Right != t; pre = pre.Right {
+			}
+			if pre.Right != t {
+				pre.Right = t
+				t = t.Left
+				continue
+			}
+			pre.Right = nil
+		}
+		t.Left = nil
+		if p == nil {
+			o, p = t, t
+		} else {
+			p.Right = t
+			p = p.Right
+		}
+		t = t.Right
+	}
+	return o
 }
