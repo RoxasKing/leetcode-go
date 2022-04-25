@@ -1,29 +1,23 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Math
 
 func maxRotateFunction(nums []int) int {
+	val, sum := 0, 0
+	for i, x := range nums {
+		val += i * x
+		sum += x
+	}
 	n := len(nums)
-	sum := 0
-	f := 0
-	for i, num := range nums {
-		sum += num
-		f += i * num
-	}
-
-	out := f
+	o := val
 	for i := 1; i < n; i++ {
-		f -= sum - nums[i-1]
-		f += nums[i-1] * (n - 1)
-		out = Max(out, f)
+		if val += nums[i-1]*n - sum; o < val {
+			o = val
+		}
 	}
-	return out
-}
-
-func Max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
+	return o
 }

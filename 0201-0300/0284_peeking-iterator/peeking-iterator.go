@@ -1,5 +1,11 @@
 package main
 
+// Difficulty:
+// Medium
+
+// Tags:
+// Design
+
 /*   Below is the interface for Iterator, which is already defined for you.
  *
  *   type Iterator struct {
@@ -16,50 +22,50 @@ package main
  */
 
 type PeekingIterator struct {
+	val  int
 	iter *Iterator
-	cur  int
 }
 
 func Constructor(iter *Iterator) *PeekingIterator {
-	return &PeekingIterator{iter: iter, cur: -1}
+	return &PeekingIterator{-1, iter}
 }
 
 func (this *PeekingIterator) hasNext() bool {
-	return this.cur != -1 || this.iter.hasNext()
+	return this.val != -1 || this.iter.hasNext()
 }
 
 func (this *PeekingIterator) next() int {
-	if this.cur != -1 {
-		out := this.cur
-		this.cur = -1
-		return out
+	if this.val != -1 {
+		o := this.val
+		this.val = -1
+		return o
 	}
 	return this.iter.next()
 }
 
 func (this *PeekingIterator) peek() int {
-	if this.cur != -1 {
-		return this.cur
+	if this.val != -1 {
+		return this.val
 	}
-	this.cur = this.iter.next()
-	return this.cur
+	this.val = this.iter.next()
+	return this.val
 }
 
 // ------------------------------------------------------------------------------------------------
 
 type Iterator struct {
-	arr []int
-	i   int
+	a []int
+	i int
 }
 
 func (this *Iterator) hasNext() bool {
 	// Returns true if the iteration has more elements.
-	return this.i < len(this.arr)
+	return this.i < len(this.a)
 }
 
 func (this *Iterator) next() int {
 	// Returns the next element in the iteration.
-	out := this.arr[this.i]
+	o := this.a[this.i]
 	this.i++
-	return out
+	return o
 }

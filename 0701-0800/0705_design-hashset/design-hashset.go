@@ -1,39 +1,39 @@
 package main
 
+// Difficulty:
+// Easy
+
+// Tags:
+// Design
+// Bit Manipulation
+
 type MyHashSet struct {
-	bitset []uint64
+	bitset []int
 }
 
-/** Initialize your data structure here. */
 func Constructor() MyHashSet {
-	return MyHashSet{
-		bitset: []uint64{},
-	}
+	return MyHashSet{}
 }
 
 func (this *MyHashSet) Add(key int) {
-	bit := key % 64
-	idx := key / 64
-	for i := len(this.bitset); i <= idx; i++ {
+	idx, bit := key/64, key%64
+	for i := len(this.bitset) - 1; i < idx; i++ {
 		this.bitset = append(this.bitset, 0)
 	}
 	this.bitset[idx] |= 1 << bit
 }
 
 func (this *MyHashSet) Remove(key int) {
-	bit := key % 64
-	idx := key / 64
-	if idx >= len(this.bitset) {
+	idx, bit := key/64, key%64
+	if len(this.bitset) <= idx {
 		return
 	}
 	this.bitset[idx] &= ^(1 << bit)
 }
 
-/** Returns true if this set contains the specified element */
 func (this *MyHashSet) Contains(key int) bool {
-	bit := key % 64
-	idx := key / 64
-	if idx >= len(this.bitset) {
+	idx, bit := key/64, key%64
+	if len(this.bitset) <= idx {
 		return false
 	}
 	return this.bitset[idx]&(1<<bit) != 0

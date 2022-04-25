@@ -2,29 +2,33 @@ package main
 
 import "math/rand"
 
+// Difficulty:
+// Medium
+
+// Tags:
 // Reservoir Sampling
 
 type Solution struct {
-	nums []int
+	a []int
+	i int
 }
 
 func Constructor(nums []int) Solution {
-	return Solution{nums: nums}
+	return Solution{nums, -1}
 }
 
 func (this *Solution) Pick(target int) int {
-	out := -1
-	idx := 0
-	for i, num := range this.nums {
-		if num != target {
+	o, i := -1, 0
+	for o == -1 {
+		this.i = (this.i + 1) % len(this.a)
+		if this.a[this.i] != target {
 			continue
 		}
-		idx++
-		if rand.Intn(idx)+1 == idx {
-			out = i
+		if i++; rand.Intn(i)+1 == i {
+			o = this.i
 		}
 	}
-	return out
+	return o
 }
 
 /**

@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func ExamplePeekingIterator() {
-	iter := &Iterator{arr: []int{1, 2, 3}}
+	iter := &Iterator{a: []int{1, 2, 3}}
 	pi := Constructor(iter)
 	fmt.Println(pi.next())
 	fmt.Println(pi.peek())

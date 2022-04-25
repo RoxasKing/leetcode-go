@@ -4,6 +4,7 @@ package main
 // Medium
 
 // Tags:
+// Graph
 // DFS
 
 func countHighestScoreNodes(parents []int) int {
@@ -25,27 +26,20 @@ func countHighestScoreNodes(parents []int) int {
 		}
 	}
 	dfs(0)
-	out, cnt := 1, 1
+	o, x := 1, 1
 	for _, v := range g[0] {
-		out *= c[v]
+		x *= c[v]
 	}
-	for i := 1; i < n; i++ {
-		score := c[0] - c[i]
-		for _, v := range g[i] {
-			score *= c[v]
+	for u := 1; u < n; u++ {
+		t := c[0] - c[u]
+		for _, v := range g[u] {
+			t *= c[v]
 		}
-		if out == score {
-			cnt++
-		} else if out < score {
-			out, cnt = score, 1
+		if x == t {
+			o++
+		} else if x < t {
+			o, x = 1, t
 		}
 	}
-	return cnt
-}
-
-func Max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
+	return o
 }
