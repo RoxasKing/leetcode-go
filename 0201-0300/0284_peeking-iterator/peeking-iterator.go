@@ -44,10 +44,9 @@ func (this *PeekingIterator) next() int {
 }
 
 func (this *PeekingIterator) peek() int {
-	if this.val != -1 {
-		return this.val
+	if this.val == -1 {
+		this.val = this.iter.next()
 	}
-	this.val = this.iter.next()
 	return this.val
 }
 

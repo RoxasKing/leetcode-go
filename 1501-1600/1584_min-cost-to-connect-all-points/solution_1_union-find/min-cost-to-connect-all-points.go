@@ -2,34 +2,42 @@ package main
 
 import "sort"
 
-// Difficulty:
+// Difficult:
 // Medium
 
 // Tags:
 // Union-Find
-// Sorting
 
-func smallestStringWithSwaps(s string, pairs [][]int) string {
-	n := len(s)
-	uf := newUnionFind(n)
-	for _, p := range pairs {
-		uf.union(p[0], p[1])
-	}
-	h := map[int][]int{}
+func minCostConnectPoints(points [][]int) int {
+	n := len(points)
+	dists := []dist{}
 	for i := 0; i < n; i++ {
-		x := uf.find(i)
-		h[x] = append(h[x], i)
-	}
-	o := make([]byte, n)
-	for _, a := range h {
-		b := make([]int, len(a))
-		copy(b, a)
-		sort.Slice(a, func(i, j int) bool { return s[a[i]] < s[a[j]] })
-		for i, k := range b {
-			o[k] = s[a[i]]
+		for j := i + 1; j < n; j++ {
+			v := Abs(points[i][0]-points[j][0]) + Abs(points[i][1]-points[j][1])
+			dists = append(dists, dist{i, j, v})
 		}
 	}
-	return string(o)
+	sort.Slice(dists, func(i, j int) bool { return dists[i].v < dists[j].v })
+	uf := newUnionFind(n)
+	out := 0
+	for _, dist := range dists {
+		a, b := dist.a, dist.b
+		if uf.find(a) == uf.find(b) {
+			continue
+		}
+		uf.union(a, b)
+		out += dist.v
+	}
+	return out
+}
+
+type dist struct{ a, b, v int }
+
+func Abs(a int) int {
+	if a < 0 {
+		return -a
+	}
+	return a
 }
 
 type unionFind struct{ parent, size []int }
