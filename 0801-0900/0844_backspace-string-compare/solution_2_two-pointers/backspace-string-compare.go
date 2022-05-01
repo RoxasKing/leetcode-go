@@ -1,23 +1,12 @@
 package main
 
-func backspaceCompare(S string, T string) bool {
-	return reBuild(S) == reBuild(T)
-}
+// Difficulty:
+// Easy
 
-func reBuild(s string) string {
-	var out string
-	for i := range s {
-		if s[i] != '#' {
-			out += s[i : i+1]
-		} else if len(out) > 0 {
-			out = out[:len(out)-1]
-		}
-	}
-	return out
-}
-
+// Tags:
 // Two Pointers
-func backspaceCompare2(S string, T string) bool {
+
+func backspaceCompare(S string, T string) bool {
 	sPtr, tPtr := len(S)-1, len(T)-1
 	sCnt, tCnt := 0, 0
 	for sPtr >= 0 || tPtr >= 0 {
