@@ -17,21 +17,18 @@ type Node struct {
 }
 
 func construct(grid [][]int) *Node {
-	var dfs func(int, int, int) *Node
-	dfs = func(x, y, b int) *Node {
-		node := &Node{Val: true, IsLeaf: false}
-		if b == 1 {
-			node.Val = grid[x][y] == 1
-			node.IsLeaf = true
-			return node
+	var dfs func(x, y, d int) *Node
+	dfs = func(x, y, d int) *Node {
+		if d == 1 {
+			return &Node{Val: grid[x][y] == 1, IsLeaf: true}
 		}
-		b >>= 1
-		tl := dfs(x, y, b)
-		tr := dfs(x, y+b, b)
-		bl := dfs(x+b, y, b)
-		br := dfs(x+b, y+b, b)
-		if tl.Val == tr.Val && tl.Val == bl.Val && tl.Val == br.Val {
-			node.Val = tl.Val
+		d /= 2
+		tl := dfs(x, y, d)
+		tr := dfs(x, y+d, d)
+		bl := dfs(x+d, y, d)
+		br := dfs(x+d, y+d, d)
+		node := &Node{Val: tl.Val || tr.Val || bl.Val || br.Val}
+		if tl.Val == tr.Val && tl.Val == bl.Val && bl.Val == br.Val {
 			node.IsLeaf = tl.IsLeaf && tr.IsLeaf && bl.IsLeaf && br.IsLeaf
 		}
 		if !node.IsLeaf {

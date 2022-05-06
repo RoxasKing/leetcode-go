@@ -1,52 +1,51 @@
 package main
 
+// Difficulty:
+// Easy
+
+// Tags:
+// Queue
+
 type MyStack struct {
-	q1, q2 *IntQueue
+	a, b []int
 }
 
-/** Initialize your data structure here. */
 func Constructor() MyStack {
-	return MyStack{
-		q1: &IntQueue{},
-		q2: &IntQueue{},
-	}
+	return MyStack{}
 }
 
-/** Push element x onto stack. */
 func (this *MyStack) Push(x int) {
-	for this.q2.Len() > 0 {
-		this.q1.PushBack(this.q2.Shift())
-	}
-	this.q1.PushBack(x)
+	this.a = append(this.a, x)
 }
 
-/** Removes the element on top of the stack and returns that element. */
 func (this *MyStack) Pop() int {
-	for this.q2.Len() > 0 {
-		this.q1.PushBack(this.q2.Shift())
+	if len(this.a) == 0 {
+		for ; len(this.b) > 0; this.b = this.b[1:] {
+			this.a = append(this.a, this.b[0])
+		}
 	}
-	for this.q1.Len() > 1 {
-		this.q2.PushBack(this.q1.Shift())
+	for ; len(this.a) > 1; this.a = this.a[1:] {
+		this.b = append(this.b, this.a[0])
 	}
-	return this.q1.Shift()
+	o := this.a[0]
+	this.a = this.a[1:]
+	return o
 }
 
-/** Get the top element. */
 func (this *MyStack) Top() int {
-	for this.q2.Len() > 0 {
-		this.q1.PushBack(this.q2.Shift())
+	if len(this.a) == 0 {
+		for ; len(this.b) > 0; this.b = this.b[1:] {
+			this.a = append(this.a, this.b[0])
+		}
 	}
-	for this.q1.Len() > 1 {
-		this.q2.PushBack(this.q1.Shift())
+	for ; len(this.a) > 1; this.a = this.a[1:] {
+		this.b = append(this.b, this.a[0])
 	}
-	out := this.q1.Head()
-	this.q2.PushBack(this.q1.Shift())
-	return out
+	return this.a[0]
 }
 
-/** Returns whether the stack is empty. */
 func (this *MyStack) Empty() bool {
-	return this.q1.Len() == 0 && this.q2.Len() == 0
+	return len(this.a) == 0 && len(this.b) == 0
 }
 
 /**
@@ -57,14 +56,3 @@ func (this *MyStack) Empty() bool {
  * param_3 := obj.Top();
  * param_4 := obj.Empty();
  */
-
-type IntQueue []int
-
-func (q IntQueue) Len() int        { return len(q) }
-func (q IntQueue) Head() int       { return q[0] }
-func (q *IntQueue) PushBack(x int) { *q = append(*q, x) }
-func (q *IntQueue) Shift() int {
-	out := (*q)[0]
-	*q = (*q)[1:]
-	return out
-}

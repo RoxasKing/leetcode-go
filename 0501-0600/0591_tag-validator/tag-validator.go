@@ -1,84 +1,66 @@
 package main
 
+// Difficulty:
+// Hard
+
 // Tags:
 // Stack
 
 func isValid(code string) bool {
+	stk := []string{}
+	top := func() int { return len(stk) - 1 }
 	n := len(code)
-	ss := StringStack{}
-
 	for i := 0; i < n; {
 		if code[i] != '<' {
-			if ss.Len() == 0 {
+			if len(stk) == 0 {
 				return false
 			}
 			i++
 			continue
 		}
-		i++
-		switch {
-		case isUpperCaseLetter(code[i]):
+		if i++; i == n {
+			return false
+		}
+		if isUpperCaseLetter(code[i]) {
 			j := i
-			for j < n && isUpperCaseLetter(code[j]) {
-				j++
+			for ; j < n && isUpperCaseLetter(code[j]); j++ {
 			}
-			if j == n || j-i < 1 || j-i > 9 || code[j] != '>' {
+			if i == j || j-i > 9 || j == n || code[j] != '>' {
 				return false
 			}
-			ss.Push(code[i:j])
+			stk = append(stk, code[i:j])
 			i = j + 1
-		case code[i] == '/':
-			i++
-			j := i
-			for j < n && isUpperCaseLetter(code[j]) {
-				j++
-			}
-			if j == n || j-i < 1 || j-i > 9 || code[j] != '>' {
-				return false
-			}
-			if ss.Len() == 0 || ss.Pop() != code[i:j] {
-				return false
-			}
-			i = j + 1
-			if ss.Len() == 0 {
-				return i == n
-			}
-		case code[i] == '!':
-			if ss.Len() == 0 {
+		} else if code[i] == '/' {
+			if len(stk) == 0 {
 				return false
 			}
 			i++
-			if i+7 > n || code[i:i+7] != "[CDATA[" {
+			j := i
+			for ; j < n && isUpperCaseLetter(code[j]); j++ {
+			}
+			if i == j || j-i > 9 || j == n || code[j] != '>' || stk[top()] != code[i:j] {
 				return false
 			}
-			i += 7
-			for i+2 < n && code[i:i+3] != "]]>" {
-				i++
-			}
-			if i == n {
+			if i, stk = j+1, stk[:top()]; i < n && len(stk) == 0 {
 				return false
 			}
-			i += 3
-		default:
+		} else if code[i] == '!' {
+			if len(stk) == 0 {
+				return false
+			}
+			if i++; i+7 > n || code[i:i+7] != "[CDATA[" {
+				return false
+			}
+			for i += 7; i+2 < n && code[i:i+3] != "]]>"; i++ {
+			}
+			if i += 3; i > n {
+				return false
+			}
+		} else {
 			return false
 		}
 	}
-
-	return ss.Len() == 0
+	return len(stk) == 0
 }
 
-type StringStack []string
-
-func (s StringStack) Len() int       { return len(s) }
-func (s StringStack) Top() string    { return s[s.Len()-1] }
-func (s *StringStack) Push(x string) { *s = append(*s, x) }
-func (s *StringStack) Pop() string {
-	top := s.Len() - 1
-	out := (*s)[top]
-	*s = (*s)[:top]
-	return out
-}
-
-func isUpperCaseLetter(letter byte) bool {
-	return 'A' <= letter && letter <= 'Z'
-}
+func isUpperCaseLetter(c byte) bool { return 'A' <= c && c <= 'Z' }

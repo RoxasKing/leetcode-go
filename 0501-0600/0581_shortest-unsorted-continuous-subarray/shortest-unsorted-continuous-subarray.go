@@ -1,17 +1,19 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Two Pointers
 
 func findUnsortedSubarray(nums []int) int {
-	n := len(nums)
-	min, max := 1<<63-1, -1<<63
 	l, r := -1, -1
-	for i, num := range nums {
-		if max > num {
+	n := len(nums)
+	for min, max, i := 1<<63-1, -1<<63, 0; i < n; i++ {
+		if max > nums[i] {
 			r = i
 		} else {
-			max = num
+			max = nums[i]
 		}
 		if min < nums[n-1-i] {
 			l = n - 1 - i
