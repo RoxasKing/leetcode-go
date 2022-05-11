@@ -1,8 +1,6 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 func ExampleNestedIterator() {
 	a := NestedInteger{}

@@ -1,7 +1,10 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
-// Recursion
+// Stack
 
 /**
  * // This is the interface that allows for creating nested lists.
@@ -30,45 +33,38 @@ package main
  */
 
 type NestedIterator struct {
-	list []*NestedInteger
-	idx  int
-	iter *NestedIterator
+	stk []*NestedInteger
 }
 
 func Constructor(nestedList []*NestedInteger) *NestedIterator {
-	return &NestedIterator{list: nestedList}
+	for l, r := 0, len(nestedList)-1; l < r; l, r = l+1, r-1 {
+		nestedList[l], nestedList[r] = nestedList[r], nestedList[l]
+	}
+	return &NestedIterator{nestedList}
 }
 
 func (this *NestedIterator) Next() int {
-	if !this.list[this.idx].IsInteger() {
-		return this.iter.Next()
-	}
-	out := this.list[this.idx].GetInteger()
-	this.idx++
+	this.help()
+	i := len(this.stk) - 1
+	out := this.stk[i].GetInteger()
+	this.stk = this.stk[:i]
 	return out
 }
 
 func (this *NestedIterator) HasNext() bool {
-START:
-	if this.idx == len(this.list) {
-		return false
-	}
+	this.help()
+	return len(this.stk) > 0
+}
 
-	if this.list[this.idx].IsInteger() {
-		return true
+func (this *NestedIterator) help() {
+	for i := len(this.stk) - 1; i >= 0 && !this.stk[i].IsInteger(); i = len(this.stk) - 1 {
+		nl := this.stk[i].GetList()
+		this.stk = this.stk[:i]
+		for l, r := 0, len(nl)-1; l < r; l, r = l+1, r-1 {
+			nl[l], nl[r] = nl[r], nl[l]
+		}
+		this.stk = append(this.stk, nl...)
 	}
-
-	if this.iter == nil {
-		this.iter = Constructor(this.list[this.idx].GetList())
-	}
-
-	if this.iter.HasNext() {
-		return true
-	}
-
-	this.idx++
-	this.iter = nil
-	goto START
 }
 
 type NestedInteger struct {

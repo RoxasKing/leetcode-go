@@ -1,32 +1,36 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Backtracking
+
 func combinationSum3(k int, n int) [][]int {
-	var out [][]int
-	var cur []int
-	var curSum int
+	o := [][]int{}
+	t := []int{}
+	x := 0
 	var backtrack func(int)
-	backtrack = func(index int) {
-		if len(cur) == k {
-			if curSum == n {
-				tmp := make([]int, k)
-				copy(tmp, cur)
-				out = append(out, tmp)
+	backtrack = func(i int) {
+		if len(t) == k {
+			if x == n {
+				e := make([]int, k)
+				copy(e, t)
+				o = append(o, e)
 			}
 			return
 		}
-		if index == 10 {
+		if i == 10 {
 			return
 		}
-		for i := index; i <= 9; i++ {
-			cur = append(cur, i)
-			curSum += i
+		for ; i <= 9; i++ {
+			t = append(t, i)
+			x += i
 			backtrack(i + 1)
-			cur = cur[:len(cur)-1]
-			curSum -= i
+			x -= i
+			t = t[:len(t)-1]
 		}
 	}
 	backtrack(1)
-	return out
+	return o
 }

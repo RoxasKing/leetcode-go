@@ -1,20 +1,24 @@
 package main
 
+// Difficulty:
+// Easy
+
 // Tags:
 // Math
+
 func diStringMatch(s string) []int {
 	n := len(s)
-	out := make([]int, 0, n+1)
+	o := make([]int, 0, n+1)
 	l, r := 0, n
-	for i := range s {
-		if s[i] == 'I' {
-			out = append(out, l)
+	for _, c := range s {
+		if c == 'I' {
+			o = append(o, l)
 			l++
 		} else {
-			out = append(out, r)
+			o = append(o, r)
 			r--
 		}
 	}
-	out = append(out, l)
-	return out
+	o = append(o, l)
+	return o
 }

@@ -1,44 +1,53 @@
 package main
 
-import "sort"
+import "container/heap"
 
 // Difficult:
 // Medium
 
 // Tags:
 // Union-Find
+// Priority Queue
 
 func minCostConnectPoints(points [][]int) int {
+	h := minh{}
 	n := len(points)
-	dists := []dist{}
-	for i := 0; i < n; i++ {
-		for j := i + 1; j < n; j++ {
-			v := Abs(points[i][0]-points[j][0]) + Abs(points[i][1]-points[j][1])
-			dists = append(dists, dist{i, j, v})
+	for a := 0; a < n; a++ {
+		for b := a + 1; b < n; b++ {
+			d := abs(points[a][0]-points[b][0]) + abs(points[a][1]-points[b][1])
+			heap.Push(&h, edge{a, b, d})
 		}
 	}
-	sort.Slice(dists, func(i, j int) bool { return dists[i].v < dists[j].v })
+	o := 0
 	uf := newUnionFind(n)
-	out := 0
-	for _, dist := range dists {
-		a, b := dist.a, dist.b
+	for c := 0; c < n-1; {
+		e := heap.Pop(&h).(edge)
+		a, b := e.a, e.b
 		if uf.find(a) == uf.find(b) {
 			continue
 		}
 		uf.union(a, b)
-		out += dist.v
+		o += e.d
+		c++
 	}
-	return out
+	return o
 }
 
-type dist struct{ a, b, v int }
-
-func Abs(a int) int {
-	if a < 0 {
-		return -a
+func abs(x int) int {
+	if x < 0 {
+		return -x
 	}
-	return a
+	return x
 }
+
+type edge struct{ a, b, d int }
+type minh []edge
+
+func (h minh) Len() int            { return len(h) }
+func (h minh) Less(i, j int) bool  { return h[i].d < h[j].d }
+func (h minh) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }
+func (h *minh) Push(x interface{}) { *h = append(*h, x.(edge)) }
+func (h *minh) Pop() interface{}   { i := h.Len() - 1; o := (*h)[i]; *h = (*h)[:i]; return o }
 
 type unionFind struct{ parent, size []int }
 

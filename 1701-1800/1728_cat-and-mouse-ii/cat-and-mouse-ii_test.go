@@ -30,3 +30,8 @@ func Test_canMouseWin(t *testing.T) {
 		})
 	}
 }
+
+// ####.##
+// .#C#F#.
+// ######.
+// ##M.###
