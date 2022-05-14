@@ -1,36 +1,45 @@
 package main
 
-import (
-	"sort"
-)
+import "sort"
+
+// Difficulty:
+// Medium
 
 // Tags:
 // Backtracking
-func permuteUnique(nums []int) [][]int {
-	var out [][]int
-	n := len(nums)
-	sort.Ints(nums)
-	used := make([]bool, n)
-	cur := make([]int, 0, n)
-	backtrack(nums, n, &out, used, &cur, 0)
-	return out
-}
 
-func backtrack(nums []int, n int, out *[][]int, used []bool, cur *[]int, index int) {
-	if index == n {
-		tmp := make([]int, n)
-		copy(tmp, *cur)
-		*out = append(*out, tmp)
-		return
-	}
-	for i := 0; i < n; i++ {
-		if used[i] || i > 0 && nums[i] == nums[i-1] && !used[i-1] {
-			continue
+func permuteUnique(nums []int) [][]int {
+	a := []int{}
+	freq := [21]int{}
+	for _, x := range nums {
+		if freq[x+10] == 0 {
+			a = append(a, x)
 		}
-		*cur = append(*cur, nums[i])
-		used[i] = true
-		backtrack(nums, n, out, used, cur, index+1)
-		used[i] = false
-		*cur = (*cur)[:len(*cur)-1]
+		freq[x+10]++
 	}
+	n := len(nums)
+	c := make([]int, 0, n)
+	var o [][]int
+	var backtrack func()
+	backtrack = func() {
+		if len(c) == n {
+			t := make([]int, n)
+			copy(t, c)
+			o = append(o, t)
+			return
+		}
+		for _, x := range a {
+			if freq[x+10] == 0 {
+				continue
+			}
+			c = append(c, x)
+			freq[x+10]--
+			backtrack()
+			freq[x+10]++
+			c = c[:len(c)-1]
+		}
+	}
+	sort.Ints(a)
+	backtrack()
+	return o
 }

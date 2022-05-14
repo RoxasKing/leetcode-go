@@ -10,13 +10,14 @@ package main
 
 func canMouseWin(grid []string, catJump int, mouseJump int) bool {
 	m, n := len(grid), len(grid[0])
-	f := map[[5]int]int{}
-	var dp func(xc, yc, xm, ym, t int) int // 0: cat win ; 1: mouse win
-	dp = func(xc, yc, xm, ym, t int) int {
+	f := map[[5]int]bool{}
+	var dp func(xc, yc, xm, ym, t int) bool
+	dp = func(xc, yc, xm, ym, t int) bool {
 		if t >= 68 {
-			return 0
+			return false
 		}
-		if v, ok := f[[5]int{xc, yc, xm, ym, t}]; ok {
+		key := [5]int{xc, yc, xm, ym, t}
+		if v, ok := f[key]; ok {
 			return v
 		}
 		x0, y0 := xc, yc
@@ -25,9 +26,9 @@ func canMouseWin(grid []string, catJump int, mouseJump int) bool {
 			x0, y0 = xm, ym
 			jump = mouseJump
 		}
-		for k := 0; k < 4; k++ {
+		for i := 0; i < 4; i++ {
 			for j := 0; j <= jump; j++ {
-				x, y := x0+j*dirs[k], y0+j*dirs[k+1]
+				x, y := x0+dirs[i]*j, y0+dirs[i+1]*j
 				if x < 0 || m-1 < x || y < 0 || n-1 < y || grid[x][y] == '#' {
 					break
 				}
@@ -35,28 +36,28 @@ func canMouseWin(grid []string, catJump int, mouseJump int) bool {
 					continue
 				}
 				if grid[x][y] == 'F' ||
-					t&1 == 0 && x == xm && y == ym ||
-					t&1 == 0 && dp(x, y, xm, ym, t+1) == 0 ||
-					t&1 == 1 && dp(xc, yc, x, y, t+1) == 1 {
-					f[[5]int{xc, yc, xm, ym, t}] = t & 1
-					return t & 1
+					t&1 == 0 && (x == xm && y == ym || !dp(x, y, xm, ym, t+1)) ||
+					t&1 == 1 && dp(xc, yc, x, y, t+1) {
+					f[key] = t&1 == 1
+					return t&1 == 1
 				}
 			}
 		}
-		f[[5]int{xc, yc, xm, ym, t}] = 1 - t&1
-		return 1 - t&1
+		f[key] = (1 - t&1) == 1
+		return (1 - t&1) == 1
 	}
 	var xc, yc, xm, ym int
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
 			if grid[i][j] == 'C' {
 				xc, yc = i, j
-			} else if grid[i][j] == 'M' {
+			}
+			if grid[i][j] == 'M' {
 				xm, ym = i, j
 			}
 		}
 	}
-	return dp(xc, yc, xm, ym, 1) == 1
+	return dp(xc, yc, xm, ym, 1)
 }
 
 var dirs = []int{-1, 0, 1, 0, -1}

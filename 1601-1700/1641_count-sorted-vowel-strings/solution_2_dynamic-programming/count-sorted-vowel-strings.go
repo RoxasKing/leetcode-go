@@ -7,16 +7,15 @@ package main
 // Dynamic Programming
 
 func countVowelStrings(n int) int {
-	f0, f1 := [5]int{}, [5]int{}
-	for i := 0; i < 5; i++ {
-		f0[i] = i + 1
-	}
-	for k := 1; k < n; k++ {
-		f1[0] = 1
-		for i := 1; i < 5; i++ {
-			f1[i] = f1[i-1] + f0[i]
+	f := [5]int{1, 1, 1, 1, 1}
+	for t := 2; t <= n; t++ {
+		for i := 3; i >= 0; i-- {
+			f[i] += f[i+1]
 		}
-		f0, f1 = f1, f0
 	}
-	return f0[4]
+	o := 0
+	for i := 0; i < 5; i++ {
+		o += f[i]
+	}
+	return o
 }

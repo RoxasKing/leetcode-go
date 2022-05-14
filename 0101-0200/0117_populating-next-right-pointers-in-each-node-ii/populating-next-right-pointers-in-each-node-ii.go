@@ -1,15 +1,27 @@
 package main
 
+// Difficulty:
+// Medium
+
+// Tags:
+// BFS
+
+type Node struct {
+	Val   int
+	Left  *Node
+	Right *Node
+	Next  *Node
+}
+
 func connect(root *Node) *Node {
 	if root == nil {
-		return root
+		return nil
 	}
-	q := []*Node{root}
-	for len(q) != 0 {
-		curSize := len(q)
-		for i := 0; i < curSize; i++ {
-			if i > 0 {
-				q[i-1].Next = q[i]
+	for q := []*Node{root}; len(q) > 0; {
+		n := len(q)
+		for i := 0; i < n; i++ {
+			if i+1 < n {
+				q[i].Next = q[i+1]
 			}
 			if q[i].Left != nil {
 				q = append(q, q[i].Left)
@@ -18,14 +30,7 @@ func connect(root *Node) *Node {
 				q = append(q, q[i].Right)
 			}
 		}
-		q = q[curSize:]
+		q = q[n:]
 	}
 	return root
-}
-
-type Node struct {
-	Val   int
-	Left  *Node
-	Right *Node
-	Next  *Node
 }
