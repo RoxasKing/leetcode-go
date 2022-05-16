@@ -15,10 +15,10 @@ func minStickers(stickers []string, target string) int {
 		f[i] = -1
 	}
 	f[0] = 0
-	var dp func(int) int
-	dp = func(mask int) int {
+	var backtrack func(int)
+	backtrack = func(mask int) {
 		if f[mask] != -1 {
-			return f[mask]
+			return
 		}
 		f[mask] = n + 1
 		for _, s := range stickers {
@@ -33,14 +33,13 @@ func minStickers(stickers []string, target string) int {
 					left ^= 1 << i
 				}
 			}
-			if left < mask && f[mask] > dp(left)+1 {
+			if backtrack(left); f[mask] > f[left]+1 {
 				f[mask] = f[left] + 1
 			}
 		}
-		return f[mask]
 	}
-	if o := dp(1<<n - 1); o <= n {
-		return o
+	if backtrack(1<<n - 1); f[1<<n-1] <= n {
+		return f[1<<n-1]
 	}
 	return -1
 }

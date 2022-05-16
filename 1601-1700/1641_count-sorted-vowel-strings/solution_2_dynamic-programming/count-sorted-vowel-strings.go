@@ -13,9 +13,8 @@ func countVowelStrings(n int) int {
 			f[i] += f[i+1]
 		}
 	}
-	o := 0
-	for i := 0; i < 5; i++ {
-		o += f[i]
+	for i := 3; i >= 0; i-- {
+		f[i] += f[i+1]
 	}
-	return o
+	return f[0]
 }
