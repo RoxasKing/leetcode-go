@@ -1,0 +1,60 @@
+package main
+
+// Difficulty:
+// Hard
+
+// Tags:
+// Biconnected Component
+// DFS
+
+func criticalConnections(n int, connections [][]int) [][]int {
+	g := make([][]int, n)
+	for _, e := range connections {
+		u, v := e[0], e[1]
+		g[u] = append(g[u], v)
+		g[v] = append(g[v], u)
+	}
+	idx := 0
+	d := make([]int, n)
+	low := make([]int, n)
+	vis := make([]bool, n)
+	parent := make([]int, n)
+	for i := range parent {
+		parent[i] = -1
+	}
+	var dfs func(int)
+	dfs = func(u int) {
+		idx++
+		d[u] = idx
+		low[u] = idx
+		vis[u] = true
+		for _, v := range g[u] {
+			if !vis[v] {
+				parent[v] = u
+				dfs(v)
+				low[u] = min(low[u], low[v])
+			} else if v != parent[u] {
+				low[u] = min(low[u], d[v])
+			}
+		}
+	}
+	for u := 0; u < n; u++ {
+		if !vis[u] {
+			dfs(u)
+		}
+	}
+	o := [][]int{}
+	for v := 0; v < n; v++ {
+		if u := parent[v]; u != -1 && d[v] == low[v] {
+			o = append(o, []int{u, v})
+		}
+	}
+	return o
+}
+
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}

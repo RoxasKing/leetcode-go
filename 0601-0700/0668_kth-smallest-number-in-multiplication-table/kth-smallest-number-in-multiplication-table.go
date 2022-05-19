@@ -9,26 +9,21 @@ package main
 func findKthNumber(m int, n int, k int) int {
 	l, r := 1, m*n
 	for l < r {
-		limit := (l + r) >> 1
-		if countNoBigger(m, n, limit) < k {
-			l = limit + 1
+		mid := l + (r-l)>>1
+		c := 0
+		for i, j := m, 1; i >= 1 && j <= n; {
+			if i*j <= mid {
+				c += i
+				j++
+			} else {
+				i--
+			}
+		}
+		if c < k {
+			l = mid + 1
 		} else {
-			r = limit
+			r = mid
 		}
 	}
 	return l
-}
-
-func countNoBigger(m, n, limit int) int {
-	out := 0
-	row, col := m, 1
-	for row >= 1 && col <= n {
-		if row*col <= limit {
-			out += row
-			col++
-		} else {
-			row--
-		}
-	}
-	return out
 }
