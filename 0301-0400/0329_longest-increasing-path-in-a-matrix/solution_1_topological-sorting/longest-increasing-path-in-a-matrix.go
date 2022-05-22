@@ -8,21 +8,24 @@ package main
 // BFS
 
 func longestIncreasingPath(matrix [][]int) int {
-	dirs := []int{-1, 0, 1, 0, -1}
 	m, n := len(matrix), len(matrix[0])
 	g := make([][]int, m*n)
 	d := make([]int, m*n)
+	add := func(x1, y1, x2, y2 int) {
+		u, v := x1*n+y1, x2*n+y2
+		if matrix[x1][y1] > matrix[x2][y2] {
+			u, v = v, u
+		}
+		g[u] = append(g[u], v)
+		d[v]++
+	}
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
-			u := i*n + j
-			for k := 0; k < 4; k++ {
-				x, y := i+dirs[k], j+dirs[k+1]
-				if x < 0 || m-1 < x || y < 0 || n-1 < y || matrix[x][y] <= matrix[i][j] {
-					continue
-				}
-				v := x*n + y
-				g[u] = append(g[u], v)
-				d[v]++
+			if i+1 < m && matrix[i][j] != matrix[i+1][j] {
+				add(i, j, i+1, j)
+			}
+			if j+1 < n && matrix[i][j] != matrix[i][j+1] {
+				add(i, j, i, j+1)
 			}
 		}
 	}

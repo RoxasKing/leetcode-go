@@ -2,30 +2,28 @@ package main
 
 import "sort"
 
+// Difficulty:
+// Medium
+
+// Tags:
 // Dynamic Programming
+
 func coinChange(coins []int, amount int) int {
 	sort.Ints(coins)
-	dp := make([]int, amount+1)
-
+	f := make([]int, amount+1)
 	for i := 1; i <= amount; i++ {
-		dp[i] = 1<<31 - 1
-		for _, coin := range coins {
-			if coin > i {
+		f[i] = amount + 1
+		for _, x := range coins {
+			if x > i {
 				break
 			}
-			dp[i] = Min(dp[i], dp[i-coin]+1)
+			if f[i] > f[i-x]+1 {
+				f[i] = f[i-x] + 1
+			}
 		}
 	}
-
-	if dp[amount] == 1<<31-1 {
+	if f[amount] == amount+1 {
 		return -1
 	}
-	return dp[amount]
-}
-
-func Min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
+	return f[amount]
 }

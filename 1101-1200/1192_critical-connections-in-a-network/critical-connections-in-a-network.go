@@ -17,9 +17,8 @@ func criticalConnections(n int, connections [][]int) [][]int {
 	idx := 0
 	d := make([]int, n)
 	low := make([]int, n)
-	vis := make([]bool, n)
 	parent := make([]int, n)
-	for i := range parent {
+	for i := 0; i < n; i++ {
 		parent[i] = -1
 	}
 	var dfs func(int)
@@ -27,9 +26,8 @@ func criticalConnections(n int, connections [][]int) [][]int {
 		idx++
 		d[u] = idx
 		low[u] = idx
-		vis[u] = true
 		for _, v := range g[u] {
-			if !vis[v] {
+			if d[v] == 0 {
 				parent[v] = u
 				dfs(v)
 				low[u] = min(low[u], low[v])
@@ -39,7 +37,7 @@ func criticalConnections(n int, connections [][]int) [][]int {
 		}
 	}
 	for u := 0; u < n; u++ {
-		if !vis[u] {
+		if d[u] == 0 {
 			dfs(u)
 		}
 	}
