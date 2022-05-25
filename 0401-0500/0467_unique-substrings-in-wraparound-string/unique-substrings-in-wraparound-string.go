@@ -1,28 +1,27 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Dynamic Programming
+
 func findSubstringInWraproundString(p string) int {
-	dp := [26]int{}
-	k := 0
+	f := [26]int{}
+	c := 0
 	for i := range p {
 		if i > 0 && (int(p[i-1]-'a')+1)%26 == int(p[i]-'a') {
-			k++
+			c++
 		} else {
-			k = 1
+			c = 1
 		}
-		dp[p[i]-'a'] = Max(dp[p[i]-'a'], k)
+		if f[p[i]-'a'] < c {
+			f[p[i]-'a'] = c
+		}
 	}
-	out := 0
+	o := 0
 	for i := 0; i < 26; i++ {
-		out += dp[i]
+		o += f[i]
 	}
-	return out
-}
-
-func Max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
+	return o
 }

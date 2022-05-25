@@ -10,21 +10,20 @@ package main
 
 func canMouseWin(grid []string, catJump int, mouseJump int) bool {
 	m, n := len(grid), len(grid[0])
+	dirs := []int{-1, 0, 1, 0, -1}
 	f := map[[5]int]bool{}
 	var dp func(xc, yc, xm, ym, t int) bool
 	dp = func(xc, yc, xm, ym, t int) bool {
-		if t >= 68 {
+		if t >= 75 {
 			return false
 		}
 		key := [5]int{xc, yc, xm, ym, t}
 		if v, ok := f[key]; ok {
 			return v
 		}
-		x0, y0 := xc, yc
-		jump := catJump
+		x0, y0, jump := xc, yc, catJump
 		if t&1 == 1 {
-			x0, y0 = xm, ym
-			jump = mouseJump
+			x0, y0, jump = xm, ym, mouseJump
 		}
 		for i := 0; i < 4; i++ {
 			for j := 0; j <= jump; j++ {
@@ -59,5 +58,3 @@ func canMouseWin(grid []string, catJump int, mouseJump int) bool {
 	}
 	return dp(xc, yc, xm, ym, 1)
 }
-
-var dirs = []int{-1, 0, 1, 0, -1}

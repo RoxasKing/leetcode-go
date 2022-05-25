@@ -1,28 +1,35 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Dynamic Programming
 
 func findMaxForm(strs []string, m int, n int) int {
-	dp := make([][]int, m+1)
-	for i := range dp {
-		dp[i] = make([]int, n+1)
+	f := make([][]int, m+1)
+	for i := range f {
+		f[i] = make([]int, n+1)
 	}
 	for _, s := range strs {
-		cnt := [2]int{}
-		for k := range s {
-			cnt[s[k]-'0']++
+		a, b := 0, 0
+		for _, c := range s {
+			if c == '0' {
+				a++
+			} else {
+				b++
+			}
 		}
-		for i := m; i >= cnt[0]; i-- {
-			for j := n; j >= cnt[1]; j-- {
-				dp[i][j] = Max(dp[i][j], dp[i-cnt[0]][j-cnt[1]]+1)
+		for i := m; i >= a; i-- {
+			for j := n; j >= b; j-- {
+				f[i][j] = max(f[i][j], f[i-a][j-b]+1)
 			}
 		}
 	}
-	return dp[m][n]
+	return f[m][n]
 }
 
-func Max(a, b int) int {
+func max(a, b int) int {
 	if a > b {
 		return a
 	}

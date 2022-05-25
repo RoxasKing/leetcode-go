@@ -1,29 +1,29 @@
 package main
 
+// Difficulty:
+// Hard
+
 // Tags:
 // Stack
+
 func longestValidParentheses(s string) int {
-	out := 0
 	stk := []int{-1}
-	for i := range s {
-		if s[i] == '(' {
+	top := func() int { return len(stk) - 1 }
+	o := 0
+	for i, c := range s {
+		if c == '(' {
 			stk = append(stk, i)
 			continue
 		}
-
-		if len(stk) == 1 {
-			stk[0] = i
-			continue
+		if stk = stk[:top()]; len(stk) == 0 {
+			stk = append(stk, i)
 		}
-
-		stk = stk[:len(stk)-1]
-		out = Max(out, i-stk[len(stk)-1])
+		o = max(o, i-stk[top()])
 	}
-
-	return out
+	return o
 }
 
-func Max(a, b int) int {
+func max(a, b int) int {
 	if a > b {
 		return a
 	}

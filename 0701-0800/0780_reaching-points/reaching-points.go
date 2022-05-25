@@ -9,17 +9,17 @@ package main
 func reachingPoints(sx int, sy int, tx int, ty int) bool {
 	for (sx < tx || sy < ty) && tx != ty {
 		if tx < ty {
-			if res := sy + (ty-sy)%tx; res == ty {
-				break
-			} else {
-				ty = res
+			t := (ty-sy)%tx + sy
+			if t == ty {
+				return false
 			}
+			ty = t
 		} else {
-			if res := sx + (tx-sx)%ty; res == tx {
-				break
-			} else {
-				tx = res
+			t := (tx-sx)%ty + sx
+			if t == tx {
+				return false
 			}
+			tx = t
 		}
 	}
 	return sx == tx && sy == ty

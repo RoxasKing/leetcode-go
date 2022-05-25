@@ -1,7 +1,5 @@
 package main
 
-import "strings"
-
 // DiffiCulty:
 // Medium
 
@@ -9,33 +7,30 @@ import "strings"
 // Manacher
 
 func countSubstrings(s string) int {
-	ss := strings.Split(s, "")
-	t := strings.Join(ss, "#")
-	t = "$#" + t + "#!"
-	n := len(t) - 1
-
-	f := make([]int, n)
-	iMax, rMax, out := 0, 0, 0
-	for i := 1; i < n; i++ {
-		if i < rMax {
-			f[i] = Min(rMax-i+1, f[iMax-(i-iMax)])
-		} else {
-			f[i] = 1
-		}
-
-		for t[i+f[i]] == t[i-f[i]] {
-			f[i]++
-		}
-		if i+f[i]-1 > rMax {
-			iMax = i
-			rMax = i + f[i] - 1
-		}
-		out += f[i] / 2
+	t := append(make([]byte, 0, len(s)*2+1), '#')
+	for i := range s {
+		t = append(t, s[i], '#')
 	}
-	return out
+	n := len(t)
+	armLen := make([]int, n)
+	o := 0
+	for i, k, r := 0, -1, -1; i < n; i++ {
+		x := 0
+		if i < r {
+			x = min(armLen[k*2-i], r-i)
+		}
+		for ; i-x-1 >= 0 && i+x+1 < n && t[i-x-1] == t[i+x+1]; x++ {
+		}
+		armLen[i] = x
+		if i+x > r {
+			k, r = i, i+x
+		}
+		o += (x + 1) / 2
+	}
+	return o
 }
 
-func Min(a, b int) int {
+func min(a, b int) int {
 	if a < b {
 		return a
 	}
