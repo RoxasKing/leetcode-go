@@ -4,16 +4,16 @@ package main
 // Easy
 
 // Tags:
-// Dynamic Programming
+// Bit Manipulation
 
 func numberOfSteps(num int) int {
-	f := make([]int, num+1)
-	for i := 1; i <= num; i++ {
-		if i&1 == 1 {
-			f[i] = f[i-1] + 1
+	o := 0
+	for ; num > 0; o++ {
+		if num&1 == 1 {
+			num--
 		} else {
-			f[i] = f[i>>1] + 1
+			num >>= 1
 		}
 	}
-	return f[num]
+	return o
 }

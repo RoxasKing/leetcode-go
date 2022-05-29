@@ -12,19 +12,21 @@ import "sort"
 func maxProduct(words []string) int {
 	sort.Slice(words, func(i, j int) bool { return len(words[i]) > len(words[j]) })
 	n := len(words)
-	mask := make([]int, n)
-	for i, word := range words {
-		for j := range word {
-			mask[i] |= 1 << int(word[j]-'a')
+	a := make([]int, n)
+	for i := range a {
+		x := 0
+		for _, c := range words[i] {
+			x |= 1 << int(c-'a')
 		}
+		a[i] = x
 	}
-	out := 0
+	o := 0
 	for i := 0; i < n; i++ {
-		for j := i + 1; j < n && len(words[i])*len(words[j]) > out; j++ {
-			if mask[i]^mask[j] == mask[i]+mask[j] {
-				out = len(words[i]) * len(words[j])
+		for j := i + 1; j < n && o < len(words[i])*len(words[j]); j++ {
+			if a[i]&a[j] == 0 {
+				o = len(words[i]) * len(words[j])
 			}
 		}
 	}
-	return out
+	return o
 }

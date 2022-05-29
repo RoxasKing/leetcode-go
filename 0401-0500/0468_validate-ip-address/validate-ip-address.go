@@ -2,50 +2,59 @@ package main
 
 import "strings"
 
-func validIPAddress(IP string) string {
-	if arr := strings.Split(IP, "."); len(arr) == 4 {
-		if ok := validIPv4(arr); ok {
+// Difficulty:
+// Medium
+
+func validIPAddress(queryIP string) string {
+	if a := strings.Split(queryIP, "."); len(a) == 4 {
+		ok := true
+		for _, s := range a {
+			if len(s) < 1 || 3 < len(s) {
+				ok = false
+				break
+			}
+			for _, c := range s {
+				if c < '0' || '9' < c {
+					ok = false
+					break
+				}
+			}
+			if len(s) > 1 && s[0] == '0' {
+				ok = false
+				break
+			}
+			if len(s) == 3 && (s[0] > '2' || s[0] == '2' && (s[1] > '5' || s[1] == '5' && s[2] > '5')) {
+				ok = false
+				break
+			}
+			if !ok {
+				break
+			}
+		}
+		if ok {
 			return "IPv4"
 		}
 	}
-	if arr := strings.Split(IP, ":"); len(arr) == 8 {
-		if ok := validIPv6(arr); ok {
+	if a := strings.Split(queryIP, ":"); len(a) == 8 {
+		ok := true
+		for _, s := range a {
+			if len(s) < 1 || 4 < len(s) {
+				ok = false
+				break
+			}
+			for _, c := range s {
+				if !('0' <= c && c <= '9' || 'a' <= c && c <= 'f' || 'A' <= c && c <= 'F') {
+					ok = false
+					break
+				}
+			}
+			if !ok {
+				break
+			}
+		}
+		if ok {
 			return "IPv6"
 		}
 	}
 	return "Neither"
-}
-
-func validIPv4(arr []string) bool {
-	for _, n := range arr {
-		if len(n) < 1 || 3 < len(n) {
-			return false
-		}
-		for i := range n {
-			if !('0' <= n[i] && n[i] <= '9') {
-				return false
-			}
-		}
-		if len(n) > 1 && n[0] == '0' {
-			return false
-		}
-		if len(n) == 3 && (n[0] > '2' || n[0] == '2' && (n[1] > '5' || n[1] == '5' && n[2] > '5')) {
-			return false
-		}
-	}
-	return true
-}
-
-func validIPv6(arr []string) bool {
-	for _, n := range arr {
-		if len(n) < 1 || 4 < len(n) {
-			return false
-		}
-		for i := range n {
-			if !('0' <= n[i] && n[i] <= '9' || 'a' <= n[i] && n[i] <= 'f' || 'A' <= n[i] && n[i] <= 'F') {
-				return false
-			}
-		}
-	}
-	return true
 }
