@@ -7,32 +7,30 @@ package main
 // Bit Manipulation
 
 func divide(dividend int, divisor int) int {
-	flg := false
+	if dividend == -1<<31 && divisor == -1 {
+		return 1<<31 - 1
+	}
+	flg := 1
 	if dividend < 0 && divisor > 0 || dividend > 0 && divisor < 0 {
-		flg = true
+		flg = -1
 	}
-	if dividend < 0 {
-		dividend = -dividend
-	}
-	if divisor < 0 {
-		divisor = -divisor
-	}
-	out := 0
+	dividend, divisor = abs(dividend), abs(divisor)
+	val := 0
 	for dividend >= divisor {
-		i := 1
-		x := divisor
+		i, x := 1, divisor
 		for x<<1 <= dividend {
 			x <<= 1
 			i <<= 1
 		}
 		dividend -= x
-		out += i
+		val += i
 	}
-	if flg {
-		out = -out
+	return flg * val
+}
+
+func abs(x int) int {
+	if x < 0 {
+		return -x
 	}
-	if out > 1<<31-1 {
-		return 1<<31 - 1
-	}
-	return out
+	return x
 }

@@ -16,6 +16,7 @@ func Test_divide(t *testing.T) {
 		{"2", args{7, -3}, -2},
 		{"3", args{-2147483648, -2147483648}, 1},
 		{"4", args{0, -2147483648}, 0},
+		{"5", args{-2147483648, -1}, 2147483647},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

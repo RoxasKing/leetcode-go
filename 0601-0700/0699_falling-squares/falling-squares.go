@@ -12,24 +12,24 @@ import "sort"
 
 func fallingSquares(positions [][]int) []int {
 	set := map[int]struct{}{}
-	arr := []int{}
-	for _, pos := range positions {
-		a, b := pos[0], pos[0]+pos[1]-1
-		if _, ok := set[a]; !ok {
-			set[a] = struct{}{}
-			arr = append(arr, a)
+	a := []int{}
+	for _, p := range positions {
+		x, y := p[0], p[0]+p[1]-1
+		if _, ok := set[x]; !ok {
+			set[x] = struct{}{}
+			a = append(a, x)
 		}
-		if _, ok := set[b]; !ok {
-			set[b] = struct{}{}
-			arr = append(arr, b)
+		if _, ok := set[y]; !ok {
+			set[y] = struct{}{}
+			a = append(a, y)
 		}
 	}
-	sort.Ints(arr)
+	sort.Ints(a)
 	h := map[int]int{}
-	for i, v := range arr {
-		h[v] = i
+	for i, x := range a {
+		h[x] = i
 	}
-	n := len(arr)
+	n := len(a)
 	f := make([]int, n*4)
 	b := make([]int, n*4)
 	s, t := 0, n-1
@@ -41,14 +41,12 @@ func fallingSquares(positions [][]int) []int {
 		if l <= s && t <= r {
 			return f[i]
 		}
-		m := (s + t) / 2
-		if b[i] != 0 {
-			f[i*2] = b[i]
-			f[i*2+1] = b[i]
-			b[i*2] = b[i]
-			b[i*2+1] = b[i]
+		if b[i] != 0 && s != t {
+			f[i*2], f[i*2+1] = b[i], b[i]
+			b[i*2], b[i*2+1] = b[i], b[i]
 			b[i] = 0
 		}
+		m := (s + t) / 2
 		return max(query(i*2, s, m, l, r), query(i*2+1, m+1, t, l, r))
 	}
 	var update func(i, s, t, l, r, v int)
@@ -57,33 +55,29 @@ func fallingSquares(positions [][]int) []int {
 			return
 		}
 		if l <= s && t <= r {
-			f[i] = v
-			b[i] = v
+			f[i], b[i] = v, v
 			return
 		}
-		m := (s + t) / 2
 		if b[i] != 0 && s != t {
-			f[i*2] = b[i]
-			f[i*2+1] = b[i]
-			b[i*2] = b[i]
-			b[i*2+1] = b[i]
+			f[i*2], f[i*2+1] = b[i], b[i]
+			b[i*2], b[i*2+1] = b[i], b[i]
 			b[i] = 0
 		}
+		m := (s + t) / 2
 		update(i*2, s, m, l, r, v)
 		update(i*2+1, m+1, t, l, r, v)
 		f[i] = max(f[i], max(f[i*2], f[i*2+1]))
 	}
+	max := 0
 	o := make([]int, len(positions))
-	tall := 0
 	for i, p := range positions {
 		l, r := h[p[0]], h[p[0]+p[1]-1]
 		v := query(1, s, t, l, r)
-		v += p[1]
-		update(1, s, t, l, r, v)
-		if tall < v {
-			tall = v
+		if v += p[1]; max < v {
+			max = v
 		}
-		o[i] = tall
+		o[i] = max
+		update(1, s, t, l, r, v)
 	}
 	return o
 }
