@@ -1,50 +1,53 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
+// Prefix Sum
 // Dynamic Programming
+
 type NumMatrix struct {
-	dp [][]int
+	a [][]int
 }
 
 func Constructor(matrix [][]int) NumMatrix {
-	if len(matrix) == 0 || len(matrix[0]) == 0 {
-		return NumMatrix{}
-	}
 	m, n := len(matrix), len(matrix[0])
-	dp := make([][]int, m)
-	for i := range dp {
-		dp[i] = make([]int, n)
+	a := make([][]int, m)
+	for i := range a {
+		a[i] = make([]int, n)
 	}
 	for i := 0; i < m; i++ {
 		for j := 0; j < n; j++ {
-			dp[i][j] = matrix[i][j]
+			val := matrix[i][j]
 			if i > 0 {
-				dp[i][j] += dp[i-1][j]
+				val += a[i-1][j]
 			}
 			if j > 0 {
-				dp[i][j] += dp[i][j-1]
+				val += a[i][j-1]
 			}
 			if i > 0 && j > 0 {
-				dp[i][j] -= dp[i-1][j-1]
+				val -= a[i-1][j-1]
 			}
+			a[i][j] = val
 		}
 	}
-	return NumMatrix{dp: dp}
+	return NumMatrix{a}
 }
 
 func (this *NumMatrix) SumRegion(row1 int, col1 int, row2 int, col2 int) int {
-	dp := this.dp
-	out := dp[row2][col2]
+	a := this.a
+	o := a[row2][col2]
 	if row1 > 0 {
-		out -= dp[row1-1][col2]
+		o -= a[row1-1][col2]
 	}
 	if col1 > 0 {
-		out -= dp[row2][col1-1]
+		o -= a[row2][col1-1]
 	}
 	if row1 > 0 && col1 > 0 {
-		out += dp[row1-1][col1-1]
+		o += a[row1-1][col1-1]
 	}
-	return out
+	return o
 }
 
 /**
