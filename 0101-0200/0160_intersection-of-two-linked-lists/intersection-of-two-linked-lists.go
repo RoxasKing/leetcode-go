@@ -1,33 +1,29 @@
 package main
 
+// Difficulty:
+// Easy
+
 // Tags:
 // Two Pointers
-
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
-func getIntersectionNode(headA, headB *ListNode) *ListNode {
-	pa, pb := headA, headB
-	for pa != pb {
-		if pa == nil {
-			pa = headB
-		} else {
-			pa = pa.Next
-		}
-		if pb == nil {
-			pb = headA
-		} else {
-			pb = pb.Next
-		}
-	}
-	return pa
-}
 
 type ListNode struct {
 	Val  int
 	Next *ListNode
+}
+
+func getIntersectionNode(headA, headB *ListNode) *ListNode {
+	a, b := headA, headB
+	for a != b {
+		if a == nil {
+			a = headB
+		} else {
+			a = a.Next
+		}
+		if b == nil {
+			b = headA
+		} else {
+			b = b.Next
+		}
+	}
+	return a
 }

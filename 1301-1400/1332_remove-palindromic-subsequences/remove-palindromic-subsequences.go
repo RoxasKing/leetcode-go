@@ -5,34 +5,12 @@ package main
 
 // Tags:
 // Two Pointers
-// Hash
 
 func removePalindromeSub(s string) int {
-	out := 0
-	for p := []byte(s); len(p) != 0; {
-		out++
-		t := []byte{}
-		for l, r := 0, len(p)-1; l < r; l++ {
-			if p[l] == p[r] {
-				r--
-			} else {
-				t = append(t, p[l])
-			}
-		}
-		p = t
-	}
-	has := [26]bool{}
-	for i := range s {
-		has[s[i]-'a'] = true
-	}
-	cnt := 0
-	for i := 0; i < 26; i++ {
-		if has[i] {
-			cnt++
+	for l, r := 0, len(s)-1; l < r; l, r = l+1, r-1 {
+		if s[l] != s[r] {
+			return 2
 		}
 	}
-	if out > cnt {
-		out = cnt
-	}
-	return out
+	return 1
 }

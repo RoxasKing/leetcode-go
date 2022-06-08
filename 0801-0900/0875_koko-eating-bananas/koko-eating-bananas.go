@@ -9,15 +9,14 @@ package main
 func minEatingSpeed(piles []int, h int) int {
 	l, r := 1, int(1e9)
 	for l < r {
-		m := l + (r-l)>>1
-		cnt := 0
-		for _, pile := range piles {
-			cnt += pile / m
-			if pile%m != 0 {
-				cnt++
+		m := (l + r) / 2
+		c := 0
+		for _, x := range piles {
+			if c += x / m; x%m > 0 {
+				c++
 			}
 		}
-		if cnt > h {
+		if c > h {
 			l = m + 1
 		} else {
 			r = m

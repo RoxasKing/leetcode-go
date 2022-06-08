@@ -17,10 +17,10 @@ func makesquare(matchsticks []int) bool {
 		return false
 	}
 	avg := sum / 4
-	n := len(matchsticks)
-	vis := make([]bool, 1<<n)
-	mask := 1<<n - 1
-	cur, cnt := 0, 0
+	n := 1 << len(matchsticks)
+	vis := make([]bool, n)
+	mask := n - 1
+	var cur, cnt int
 	var backtrack func() bool
 	backtrack = func() bool {
 		if cnt == 4 {
@@ -30,26 +30,21 @@ func makesquare(matchsticks []int) bool {
 			return false
 		}
 		vis[mask] = true
-		for i := 0; i < n; i++ {
-			if (mask>>i)&1 == 0 || cur+matchsticks[i] > avg {
+		for i, x := range matchsticks {
+			if (mask>>i)&1 == 0 || cur+x > avg {
 				continue
 			}
 			mask ^= 1 << i
-			if cur+matchsticks[i] < avg {
-				cur += matchsticks[i]
-				if backtrack() {
-					return true
-				}
-				cur -= matchsticks[i]
-			} else {
-				tmp := cur
+			if cur += x; cur == avg {
 				cur, cnt = 0, cnt+1
-				if backtrack() {
-					return true
-				}
-				cur, cnt = tmp, cnt-1
 			}
-			mask |= 1 << i
+			if backtrack() {
+				return true
+			}
+			if cur -= x; cur < 0 {
+				cur, cnt = avg-x, cnt-1
+			}
+			mask ^= 1 << i
 		}
 		return false
 	}
