@@ -1,18 +1,20 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Two Pointers
+
 func twoSum(numbers []int, target int) []int {
-	n := len(numbers)
-	l, r := 0, n-1
+	l, r := 0, len(numbers)-1
 	for l < r {
-		sum := numbers[l] + numbers[r]
-		if sum < target {
-			l++
-		} else if sum > target {
-			r--
-		} else {
+		if sum := numbers[l] + numbers[r]; sum == target {
 			break
+		} else if sum < target {
+			l++
+		} else {
+			r--
 		}
 	}
 	return []int{l + 1, r + 1}
