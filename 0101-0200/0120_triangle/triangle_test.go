@@ -1,8 +1,6 @@
 package main
 
-import (
-	"testing"
-)
+import "testing"
 
 func Test_minimumTotal(t *testing.T) {
 	type args struct {
@@ -25,8 +23,6 @@ func Test_minimumTotal(t *testing.T) {
 			},
 			11,
 		},
-		{"2", args{[][]int{}}, 0},
-		{"3", args{[][]int{{0}}}, 0},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

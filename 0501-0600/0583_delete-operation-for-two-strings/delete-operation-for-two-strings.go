@@ -14,14 +14,14 @@ func minDistance(word1 string, word2 string) int {
 			if word1[i] == word2[j] {
 				f[i+1][j+1] = f[i][j] + 1
 			} else {
-				f[i+1][j+1] = Max(f[i][j+1], f[i+1][j])
+				f[i+1][j+1] = max(f[i+1][j], f[i][j+1])
 			}
 		}
 	}
-	return m + n - 2*f[m][n]
+	return m + n - f[m][n]*2
 }
 
-func Max(a, b int) int {
+func max(a, b int) int {
 	if a > b {
 		return a
 	}

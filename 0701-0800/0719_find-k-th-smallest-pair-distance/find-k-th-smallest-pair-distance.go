@@ -2,29 +2,30 @@ package main
 
 import "sort"
 
+// Difficulty:
+// Hard
+
+// Tags:
 // Binary Search
+// Two Pointers
+
 func smallestDistancePair(nums []int, k int) int {
 	sort.Ints(nums)
 	n := len(nums)
 	l, r := 0, int(1e6)
 	for l < r {
-		dist := (l + r) >> 1
-		if countSmaller(nums, n, dist) < k {
-			l = dist + 1
+		m := (l + r) / 2
+		c := 0
+		for i, j := 0, 1; j < n; j++ {
+			for ; i < n && nums[j]-nums[i] > m; i++ {
+			}
+			c += j - i
+		}
+		if c < k {
+			l = m + 1
 		} else {
-			r = dist
+			r = m
 		}
 	}
 	return l
-}
-
-func countSmaller(nums []int, n, dist int) int {
-	out := 0
-	for l, r := 0, 1; r < n; r++ {
-		for nums[r]-nums[l] > dist {
-			l++
-		}
-		out += r - l
-	}
-	return out
 }

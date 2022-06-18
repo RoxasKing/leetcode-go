@@ -1,5 +1,8 @@
 package main
 
+// Difficulty:
+// Medium
+
 func longestPalindrome(s string) string {
 	out := ""
 	for i := range s {

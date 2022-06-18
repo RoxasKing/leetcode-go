@@ -1,55 +1,42 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Manacher
 
 func longestPalindrome(s string) string {
-	t := append(make([]byte, 0, len(s)<<1+1), '#')
-	for i := range s {
-		t = append(t, s[i], '#')
+	t := append(make([]rune, 0, len(s)*2+1), '#')
+	for _, c := range s {
+		t = append(t, c, '#')
 	}
-
 	n := len(t)
 	armLen := make([]int, n)
-	head, tail := 0, -1
-
-	for i, j, right := 0, -1, -1; i < n; i++ {
-		curArmLen := 0
-		if i > right {
-			curArmLen = expand(t, i, i)
-		} else {
-			iSym := j<<1 - i
-			minArmLen := Min(armLen[iSym], right-i)
-			curArmLen = expand(t, i-minArmLen, i+minArmLen)
+	var mi, mx int
+	for i, k, r := 0, -1, -1; i < n; i++ {
+		x := 0
+		if i < r {
+			x = min(armLen[k*2-i], r-i)
 		}
-		armLen[i] = curArmLen
-		if i+curArmLen > right {
-			j = i
-			right = i + curArmLen
+		for ; i-x-1 >= 0 && i+x+1 < n && t[i-x-1] == t[i+x+1]; x++ {
 		}
-		if curArmLen<<1+1 > tail+1-head {
-			head, tail = i-curArmLen, i+curArmLen
+		armLen[i] = x
+		if i+x > r {
+			k, r = i, i+x
+		}
+		if mx < x {
+			mi, mx = i, x
 		}
 	}
-
-	chs := make([]byte, 0, (tail-head)>>1)
-	for i := head; i <= tail; i++ {
-		if t[i] != '#' {
-			chs = append(chs, t[i])
-		}
+	o := make([]rune, 0, mx)
+	for i := mi - mx + 1; i < mi+mx; i += 2 {
+		o = append(o, t[i])
 	}
-	return string(chs)
+	return string(o)
 }
 
-func expand(x []byte, l, r int) int {
-	for 0 <= l-1 && r+1 < len(x) && x[l-1] == x[r+1] {
-		l--
-		r++
-	}
-	return (r - l) >> 1
-}
-
-func Min(a, b int) int {
+func min(a, b int) int {
 	if a < b {
 		return a
 	}

@@ -1,5 +1,8 @@
 package main
 
+// Difficulty:
+// Hard
+
 // Tags:
 // DFS
 
@@ -10,23 +13,24 @@ type TreeNode struct {
 }
 
 func minCameraCover(root *TreeNode) int {
-	_, out, _ := dfs(root)
-	return out
-}
-
-func dfs(root *TreeNode) (a, b, c int) {
-	if root == nil {
-		return 1000, 0, 0
+	var dfs func(t *TreeNode) (a, b, c int)
+	dfs = func(t *TreeNode) (a int, b int, c int) {
+		if t == nil {
+			return 1000, 0, 0
+			// Attention: The return of 'a' must be maximized in case its parent and grandparent don't install a camera.
+		}
+		la, lb, lc := dfs(t.Left)
+		ra, rb, rc := dfs(t.Right)
+		a = lc + rc + 1               // current TreeNode install a camera
+		b = min(a, min(la+rb, ra+lb)) // current TreeNode's children install cameras
+		c = min(a, lb+rb)             // current TreeNode's children don't install cameras
+		return
 	}
-	la, lb, lc := dfs(root.Left)
-	ra, rb, rc := dfs(root.Right)
-	a = lc + rc + 1               // root must install camera
-	b = Min(a, Min(la+rb, ra+lb)) // minimum number of cameras needed contain root
-	c = Min(a, lb+rb)             // minimum number of cameras needed except root
-	return
+	_, o, _ := dfs(root)
+	return o
 }
 
-func Min(a, b int) int {
+func min(a, b int) int {
 	if a < b {
 		return a
 	}

@@ -1,23 +1,22 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Dynamic Programming
+
 func minimumTotal(triangle [][]int) int {
 	n := len(triangle)
-	if n == 0 {
-		return 0
-	}
-	dp := make([]int, n)
-	copy(dp, triangle[n-1])
 	for i := n - 2; i >= 0; i-- {
-		for j := range triangle[i] {
-			dp[j] = Min(dp[j], dp[j+1]) + triangle[i][j]
+		for j := 0; j <= i; j++ {
+			triangle[i][j] += min(triangle[i+1][j], triangle[i+1][j+1])
 		}
 	}
-	return dp[0]
+	return triangle[0][0]
 }
 
-func Min(a, b int) int {
+func min(a, b int) int {
 	if a < b {
 		return a
 	}

@@ -1,7 +1,11 @@
 package main
 
+// Difficulty:
+// Hash
+
 // Tags:
 // Trie
+
 type WordFilter struct {
 	trie *Trie
 }
@@ -13,9 +17,7 @@ func Constructor(words []string) WordFilter {
 			t.Insert(word[j:]+"#"+word, i)
 		}
 	}
-	return WordFilter{
-		trie: t,
-	}
+	return WordFilter{t}
 }
 
 func (this *WordFilter) F(prefix string, suffix string) int {
