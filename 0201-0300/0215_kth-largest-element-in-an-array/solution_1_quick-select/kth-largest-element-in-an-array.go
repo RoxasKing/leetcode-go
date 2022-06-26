@@ -2,6 +2,9 @@ package main
 
 import "math/rand"
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Quick Select
 

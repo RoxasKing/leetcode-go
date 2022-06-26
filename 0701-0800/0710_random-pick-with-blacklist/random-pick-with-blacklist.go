@@ -5,6 +5,9 @@ import (
 	"sort"
 )
 
+// Difficulty:
+// Hard
+
 // Tags:
 // Binary Search
 
@@ -15,27 +18,24 @@ type Solution struct {
 
 func Constructor(n int, blacklist []int) Solution {
 	sort.Ints(blacklist)
-	return Solution{
-		n: n,
-		b: blacklist,
-	}
+	return Solution{n, blacklist}
 }
 
 func (this *Solution) Pick() int {
-	x := rand.Intn(this.n - len(this.b))
+	o := rand.Intn(this.n - len(this.b))
 	l, r := 0, len(this.b)-1
 	for l < r {
 		m := (l + r + 1) >> 1
-		if this.b[m]-m <= x {
+		if this.b[m]-m <= o {
 			l = m
 		} else {
 			r = m - 1
 		}
 	}
-	if l == r && this.b[l]-l <= x {
-		return x + l + 1
+	if this.b[l]-l <= o {
+		o += l + 1
 	}
-	return x
+	return o
 }
 
 /**

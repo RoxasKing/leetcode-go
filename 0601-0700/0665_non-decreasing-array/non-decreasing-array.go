@@ -1,24 +1,17 @@
 package main
 
+// Difficulty:
+// Medium
+
+// Tags:
+// Two Pointers
+
 func checkPossibility(nums []int) bool {
 	n := len(nums)
-	changed := false
-	for i := 0; i < n-1; i++ {
-		if nums[i] > nums[i+1] {
-			if changed {
-				return false
-			}
-			if i-1 >= 0 {
-				if nums[i+1] >= nums[i-1] {
-					nums[i] = nums[i-1]
-				} else {
-					nums[i+1] = nums[i]
-				}
-			} else {
-				nums[i] = nums[i+1]
-			}
-			changed = true
-		}
+	l, r := 0, n-1
+	for ; l+1 < n && nums[l] <= nums[l+1]; l++ {
 	}
-	return true
+	for ; r-1 >= 0 && nums[r-1] <= nums[r]; r-- {
+	}
+	return l == n-1 || l+1 == r && ((l == 0 || nums[l-1] <= nums[r]) || (r == n-1 || nums[l] <= nums[r+1]))
 }

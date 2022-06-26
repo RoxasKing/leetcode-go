@@ -1,7 +1,11 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Sliding Window
+
 func maxScore(cardPoints []int, k int) int {
 	n := len(cardPoints)
 	sum := 0
@@ -12,12 +16,12 @@ func maxScore(cardPoints []int, k int) int {
 	for i := 0; i < k; i++ {
 		sum += cardPoints[i]
 		sum -= cardPoints[i-k+n]
-		out = Max(out, sum)
+		out = max(out, sum)
 	}
 	return out
 }
 
-func Max(a, b int) int {
+func max(a, b int) int {
 	if a > b {
 		return a
 	}

@@ -14,29 +14,26 @@ import (
 
 func scheduleCourse(courses [][]int) int {
 	sort.Slice(courses, func(i, j int) bool { return courses[i][1] < courses[j][1] })
-	h := MaxHeap{}
-	current := 0
+	curDay := 0
+	h := maxh{}
 	for _, course := range courses {
 		duration, lastDay := course[0], course[1]
-		if current+duration <= lastDay {
-			current += duration
+		if curDay+duration <= lastDay {
+			curDay += duration
 			heap.Push(&h, duration)
-		} else if h.IntSlice.Len() > 0 && duration < h.IntSlice[0] {
-			current -= h.IntSlice[0] - duration
-			h.IntSlice[0] = duration
+		} else if h.Len() > 0 && h[0] > duration {
+			curDay -= h[0] - duration
+			h[0] = duration
 			heap.Fix(&h, 0)
 		}
 	}
 	return h.Len()
 }
 
-type MaxHeap struct{ sort.IntSlice }
+type maxh []int
 
-func (h MaxHeap) Less(i, j int) bool  { return h.IntSlice[i] > h.IntSlice[j] }
-func (h *MaxHeap) Push(x interface{}) { h.IntSlice = append(h.IntSlice, x.(int)) }
-func (h *MaxHeap) Pop() interface{} {
-	top := h.IntSlice.Len() - 1
-	out := h.IntSlice[top]
-	h.IntSlice = h.IntSlice[:top]
-	return out
-}
+func (h maxh) Len() int            { return len(h) }
+func (h maxh) Less(i, j int) bool  { return h[i] > h[j] }
+func (h maxh) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }
+func (h *maxh) Push(x interface{}) { *h = append(*h, x.(int)) }
+func (h *maxh) Pop() interface{}   { i := h.Len() - 1; o := (*h)[i]; *h = (*h)[:i]; return o }

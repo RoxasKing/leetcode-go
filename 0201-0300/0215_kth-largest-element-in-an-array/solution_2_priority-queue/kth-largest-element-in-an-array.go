@@ -2,32 +2,29 @@ package main
 
 import "container/heap"
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Priority Queue
 
 func findKthLargest(nums []int, k int) int {
-	h := make(MinHeap, 0, k)
-	for _, num := range nums {
+	h := minh{}
+	for _, x := range nums {
 		if h.Len() < k {
-			heap.Push(&h, num)
-		} else if h.Len() == k && h[0] < num {
+			heap.Push(&h, x)
+		} else if h[0] < x {
 			heap.Pop(&h)
-			heap.Push(&h, num)
+			heap.Push(&h, x)
 		}
 	}
-
 	return h[0]
 }
 
-type MinHeap []int
+type minh []int
 
-func (h MinHeap) Len() int            { return len(h) }
-func (h MinHeap) Less(i, j int) bool  { return h[i] < h[j] }
-func (h MinHeap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }
-func (h *MinHeap) Push(x interface{}) { *h = append(*h, x.(int)) }
-func (h *MinHeap) Pop() interface{} {
-	top := h.Len() - 1
-	out := (*h)[top]
-	*h = (*h)[:top]
-	return out
-}
+func (h minh) Len() int            { return len(h) }
+func (h minh) Less(i, j int) bool  { return h[i] < h[j] }
+func (h minh) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }
+func (h *minh) Push(x interface{}) { *h = append(*h, x.(int)) }
+func (h *minh) Pop() interface{}   { i := h.Len() - 1; o := (*h)[i]; *h = (*h)[:i]; return o }
