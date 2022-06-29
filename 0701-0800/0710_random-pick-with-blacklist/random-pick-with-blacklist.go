@@ -23,6 +23,9 @@ func Constructor(n int, blacklist []int) Solution {
 
 func (this *Solution) Pick() int {
 	o := rand.Intn(this.n - len(this.b))
+	if len(this.b) == 0 {
+		return o
+	}
 	l, r := 0, len(this.b)-1
 	for l < r {
 		m := (l + r + 1) >> 1

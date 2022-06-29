@@ -4,17 +4,46 @@ import (
 	"math/rand"
 )
 
+// Difficulty:
+// Medium
+
 // Tags:
 // 3-Way Quick Sort
+
 func wiggleSort(nums []int) {
 	n := len(nums)
 	k := (n - 1) >> 1
-
-	threeWayQuickSort(nums, n, k)
-
-	reverse(nums[:k+1], n)
-	reverse(nums[k+1:], n)
-
+	for l, r := 0, n-1; l < r; {
+		pi := rand.Intn(r+1-l) + l
+		pv := nums[pi]
+		s, t := l, r
+		for i := s; i <= t; {
+			if nums[i] < pv {
+				nums[i], nums[s] = nums[s], nums[i]
+				i++
+				s++
+			} else if nums[i] > pv {
+				nums[i], nums[t] = nums[t], nums[i]
+				t--
+			} else {
+				i++
+			}
+		}
+		if t < k {
+			l = t + 1
+		} else {
+			if nums[t] == nums[k] {
+				break
+			}
+			r = t
+		}
+	}
+	for l, r := 0, k; l < r; l, r = l+1, r-1 {
+		nums[l], nums[r] = nums[r], nums[l]
+	}
+	for l, r := k+1, n-1; l < r; l, r = l+1, r-1 {
+		nums[l], nums[r] = nums[r], nums[l]
+	}
 	tmp := make([]int, n)
 	copy(tmp, nums)
 	for i := 0; i < n; i += 2 {
@@ -25,43 +54,4 @@ func wiggleSort(nums []int) {
 		nums[i] = tmp[0]
 		tmp = tmp[1:]
 	}
-}
-
-func reverse(nums []int, n int) {
-	for i := 0; i < n>>1; i++ {
-		nums[i], nums[n-1-i] = nums[n-1-i], nums[i]
-	}
-}
-
-func threeWayQuickSort(nums []int, n, k int) {
-	l, r := 0, n-1
-	for l < r {
-		i := partition(nums, l, r)
-		if i < k {
-			l = i + 1
-		} else {
-			if nums[i] == nums[k] {
-				break
-			}
-			r = i
-		}
-	}
-}
-
-func partition(nums []int, l, r int) int {
-	pivotIndex := l + rand.Intn(r+1-l)
-	pivot := nums[pivotIndex]
-	for i := l; i <= r; {
-		if nums[i] < pivot {
-			nums[i], nums[l] = nums[l], nums[i]
-			l++
-			i++
-		} else if nums[i] > pivot {
-			nums[i], nums[r] = nums[r], nums[i]
-			r--
-		} else {
-			i++
-		}
-	}
-	return r
 }

@@ -2,8 +2,12 @@ package main
 
 import "sort"
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Greedy
+// Sorting
 // Linked List
 
 func reconstructQueue(people [][]int) [][]int {
