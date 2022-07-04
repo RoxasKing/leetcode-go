@@ -1,24 +1,24 @@
 package main
 
-import (
-	"sort"
-)
+import "sort"
+
+// Difficulty:
+// Easy
 
 // Tags:
+// Sorting
 // Greedy
 
 func maximumUnits(boxTypes [][]int, truckSize int) int {
 	sort.Slice(boxTypes, func(i, j int) bool { return boxTypes[i][1] > boxTypes[j][1] })
-	var out int
-	for truckSize > 0 && len(boxTypes) > 0 {
-		if truckSize >= boxTypes[0][0] {
-			out += boxTypes[0][0] * boxTypes[0][1]
-			truckSize -= boxTypes[0][0]
-			boxTypes = boxTypes[1:]
-		} else {
-			out += truckSize * boxTypes[0][1]
-			truckSize = 0
+	o := 0
+	for ; truckSize > 0 && len(boxTypes) > 0; boxTypes = boxTypes[1:] {
+		c := boxTypes[0][0]
+		if c > truckSize {
+			c = truckSize
 		}
+		truckSize -= c
+		o += c * boxTypes[0][1]
 	}
-	return out
+	return o
 }

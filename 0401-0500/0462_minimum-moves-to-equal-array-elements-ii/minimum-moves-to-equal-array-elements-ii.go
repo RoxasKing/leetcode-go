@@ -12,22 +12,14 @@ import "sort"
 func minMoves2(nums []int) int {
 	sort.Ints(nums)
 	n := len(nums)
-	psum := make([]int, n)
-	psum[0] = nums[0]
-	for i := 1; i < n; i++ {
-		psum[i] = psum[i-1] + nums[i]
+	pSum := make([]int, n+1)
+	for i, x := range nums {
+		pSum[i+1] = pSum[i] + x
 	}
-	o := 1<<31 - 1
-	for i := 0; i < n; i++ {
-		d := 0
-		if i > 0 {
-			d += i*nums[i] - psum[i-1]
-		}
-		if i+1 < n {
-			d += psum[n-1] - psum[i] - (n-1-i)*nums[i]
-		}
-		if o > d {
-			o = d
+	o := pSum[n] - nums[0]*n
+	for i, x := range nums {
+		if t := (x*i - pSum[i]) + (pSum[n] - pSum[i] - (n-i)*x); o > t {
+			o = t
 		}
 	}
 	return o
