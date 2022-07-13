@@ -1,7 +1,11 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Trie
+
 type MagicDictionary struct {
 	t *trie
 }

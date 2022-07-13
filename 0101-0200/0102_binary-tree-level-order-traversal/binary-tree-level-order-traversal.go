@@ -1,27 +1,27 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // BFS
 
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
+
 func levelOrder(root *TreeNode) [][]int {
+	o := [][]int{}
 	if root == nil {
-		return nil
+		return o
 	}
-	out := [][]int{}
-	q := []*TreeNode{root}
-	for len(q) > 0 {
-		size := len(q)
-		tmp := []int{}
-		for _, t := range q {
-			tmp = append(tmp, t.Val)
+	for q := []*TreeNode{root}; len(q) > 0; {
+		n := len(q)
+		a := make([]int, n)
+		for i, t := range q {
+			a[i] = t.Val
 			if t.Left != nil {
 				q = append(q, t.Left)
 			}
@@ -29,14 +29,8 @@ func levelOrder(root *TreeNode) [][]int {
 				q = append(q, t.Right)
 			}
 		}
-		out = append(out, tmp)
-		q = q[size:]
+		o = append(o, a)
+		q = q[n:]
 	}
-	return out
-}
-
-type TreeNode struct {
-	Val   int
-	Left  *TreeNode
-	Right *TreeNode
+	return o
 }

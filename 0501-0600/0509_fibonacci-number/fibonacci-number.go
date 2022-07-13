@@ -1,9 +1,15 @@
 package main
 
-func fib(N int) int {
-	dp0, dp1 := 0, 1
-	for i := 1; i <= N; i++ {
-		dp0, dp1 = dp1, dp0+dp1
+// Difficulty:
+// Easy
+
+// Tags:
+// Dynamic Programming
+
+func fib(n int) int {
+	a, b := 0, 1
+	for ; n > 0; n-- {
+		a, b = b, a+b
 	}
-	return dp0
+	return a
 }

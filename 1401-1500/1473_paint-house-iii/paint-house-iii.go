@@ -1,65 +1,64 @@
 package main
 
+// Difficulty:
+// Hard
+
 // Tags:
 // Dynamic Programming
 
 func minCost(houses []int, cost [][]int, m int, n int, target int) int {
-	dp := make([][][]int, m)
-	for i := range dp {
-		dp[i] = make([][]int, n)
-		for j := range dp[i] {
-			dp[i][j] = make([]int, target+1)
-			for k := 1; k <= target; k++ {
-				dp[i][j][k] = 1<<31 - 1
-			}
+	f0, f1 := make([][]int, target+1), make([][]int, target+1)
+	for i := 1; i <= target; i++ {
+		f0[i], f1[i] = make([]int, n+1), make([]int, n+1)
+		for j := 1; j <= n; j++ {
+			f0[i][j], f1[i][j] = 1<<31-1, 1<<31-1
 		}
 	}
-
+	f0[1][houses[0]] = 0
 	if houses[0] == 0 {
-		for j := 0; j < n; j++ {
-			dp[0][j][1] = cost[0][j]
-		}
-	} else {
-		dp[0][houses[0]-1][1] = 0
+		copy(f0[1][1:], cost[0])
 	}
-
-	for i := 1; i < m; i++ {
-		for j := 0; j < n; j++ {
-			for k := 1; k <= target; k++ {
-				if dp[i-1][j][k] == 1<<31-1 {
+	for k := 1; k < m; k++ {
+		for i := 1; i <= target; i++ {
+			for j := 1; j <= n; j++ {
+				if f0[i][j] == 1<<31-1 {
 					continue
 				}
-				if houses[i] > 0 {
-					if j == houses[i]-1 {
-						dp[i][houses[i]-1][k] = Min(dp[i][houses[i]-1][k], dp[i-1][j][k])
-					} else if k < target {
-						dp[i][houses[i]-1][k+1] = Min(dp[i][houses[i]-1][k+1], dp[i-1][j][k])
+				if houses[k] > 0 {
+					if j == houses[k] {
+						f1[i][j] = min(f1[i][j], f0[i][j])
+					} else if i < target {
+						f1[i+1][houses[k]] = min(f1[i+1][houses[k]], f0[i][j])
 					}
 					continue
 				}
-				for nj := 0; nj < n; nj++ {
-					if nj == j {
-						dp[i][nj][k] = Min(dp[i][nj][k], dp[i-1][j][k]+cost[i][nj])
-					} else if k < target {
-						dp[i][nj][k+1] = Min(dp[i][nj][k+1], dp[i-1][j][k]+cost[i][nj])
+				for nj := 1; nj <= n; nj++ {
+					if j == nj {
+						f1[i][j] = min(f1[i][j], f0[i][j]+cost[k][nj-1])
+					} else if i < target {
+						f1[i+1][nj] = min(f1[i+1][nj], f0[i][j]+cost[k][nj-1])
 					}
 				}
 			}
 		}
+		f0, f1 = f1, f0
+		for i := 1; i <= target; i++ {
+			for j := 1; j <= n; j++ {
+				f1[i][j] = 1<<31 - 1
+			}
+		}
 	}
-
-	out := 1<<31 - 1
-	for j := 0; j < n; j++ {
-		out = Min(out, dp[m-1][j][target])
+	o := 1<<31 - 1
+	for j := 1; j <= n; j++ {
+		o = min(o, f0[target][j])
 	}
-
-	if out == 1<<31-1 {
+	if o == 1<<31-1 {
 		return -1
 	}
-	return out
+	return o
 }
 
-func Min(a, b int) int {
+func min(a, b int) int {
 	if a < b {
 		return a
 	}

@@ -33,6 +33,8 @@ func Test_levelOrder(t *testing.T) {
 				{15, 7},
 			},
 		},
+		{"2", args{&TreeNode{Val: 1}}, [][]int{{1}}},
+		{"3", args{nil}, [][]int{}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
