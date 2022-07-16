@@ -15,27 +15,27 @@ func Constructor(words []string) WordFilter {
 	for i, word := range words {
 		n := len(word)
 		for l := 1; l <= n; l++ {
-			prefix := word[:l]
-			if _, ok := h[prefix]; !ok {
-				h[prefix] = map[string]int{}
+			pref := word[:l]
+			if _, ok := h[pref]; !ok {
+				h[pref] = map[string]int{}
 			}
 			for r := n - 1; r >= 0; r-- {
-				suffix := word[r:]
-				h[prefix][suffix] = i
+				suff := word[r:]
+				h[pref][suff] = i
 			}
 		}
 	}
 	return WordFilter{h}
 }
 
-func (this *WordFilter) F(prefix string, suffix string) int {
-	if _, ok := this.h[prefix]; !ok {
+func (this *WordFilter) F(pref string, suff string) int {
+	if _, ok := this.h[pref]; !ok {
 		return -1
 	}
-	if _, ok := this.h[prefix][suffix]; !ok {
+	if _, ok := this.h[pref][suff]; !ok {
 		return -1
 	}
-	return this.h[prefix][suffix]
+	return this.h[pref][suff]
 }
 
 /**

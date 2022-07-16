@@ -1,8 +1,6 @@
 package main
 
-import (
-	"testing"
-)
+import "testing"
 
 func Test_maxAreaOfIsland(t *testing.T) {
 	type args struct {
@@ -13,9 +11,8 @@ func Test_maxAreaOfIsland(t *testing.T) {
 		args args
 		want int
 	}{
-		{"1", args{nil}, 0},
 		{
-			"2",
+			"1",
 			args{
 				[][]int{
 					{0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
@@ -29,6 +26,11 @@ func Test_maxAreaOfIsland(t *testing.T) {
 				},
 			},
 			6,
+		},
+		{
+			"2",
+			args{[][]int{{0, 0, 0, 0, 0, 0, 0, 0}}},
+			0,
 		},
 	}
 	for _, tt := range tests {

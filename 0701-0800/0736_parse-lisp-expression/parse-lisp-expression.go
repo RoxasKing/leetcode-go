@@ -9,12 +9,14 @@ package main
 // Stack
 
 func evaluate(expression string) int {
-	i, n := 0, len(expression)
+	isNumber := func(ch byte) bool { return '0' <= ch && ch <= '9' }
+	isLetter := func(ch byte) bool { return 'a' <= ch && ch <= 'z' }
+	i := 0
 	parseStr := func() string {
-		bg := i
-		for ; i < n && expression[i] != ' ' && expression[i] != ')'; i++ {
+		i0 := i
+		for ; expression[i] != ' ' && expression[i] != ')'; i++ {
 		}
-		return expression[bg:i]
+		return expression[i0:i]
 	}
 	parseInt := func() int {
 		sign, v := 1, 0
@@ -22,19 +24,19 @@ func evaluate(expression string) int {
 			sign = -1
 			i++
 		}
-		for ; i < n && '0' <= expression[i] && expression[i] <= '9'; i++ {
+		for ; isNumber(expression[i]); i++ {
 			v = v*10 + int(expression[i]-'0')
 		}
 		return sign * v
 	}
-	stk := map[string][]int{}
-	top := func(k string) int { return stk[k][len(stk[k])-1] }
+	h := map[string][]int{}
+	getV := func(k string) int { return h[k][len(h[k])-1] }
 	var innerEvaluate func() int
 	innerEvaluate = func() int {
 		var o int
 		if expression[i] != '(' {
-			if 'a' <= expression[i] && expression[i] <= 'z' {
-				return top(parseStr())
+			if isLetter(expression[i]) {
+				return getV(parseStr())
 			}
 			return parseInt()
 		}
@@ -44,35 +46,35 @@ func evaluate(expression string) int {
 			i += 4
 			a := []string{}
 			for {
-				if !('a' <= expression[i] && expression[i] <= 'z') {
+				if !isLetter(expression[i]) {
 					o = innerEvaluate()
 					break
 				}
-				e := parseStr()
+				k := parseStr()
 				if expression[i] == ')' {
-					o = top(e)
+					o = getV(k)
 					break
 				}
-				a = append(a, e)
+				a = append(a, k)
 				i++
-				stk[e] = append(stk[e], innerEvaluate())
+				h[k] = append(h[k], innerEvaluate())
 				i++
 			}
-			for _, e := range a {
-				stk[e] = stk[e][:len(stk[e])-1]
+			for _, k := range a {
+				h[k] = h[k][:len(h[k])-1]
 			}
 		case 'a':
 			i += 4
-			e1 := innerEvaluate()
+			v1 := innerEvaluate()
 			i++
-			e2 := innerEvaluate()
-			o = e1 + e2
+			v2 := innerEvaluate()
+			o = v1 + v2
 		case 'm':
 			i += 5
-			e1 := innerEvaluate()
+			v1 := innerEvaluate()
 			i++
-			e2 := innerEvaluate()
-			o = e1 * e2
+			v2 := innerEvaluate()
+			o = v1 * v2
 		}
 		i++
 		return o

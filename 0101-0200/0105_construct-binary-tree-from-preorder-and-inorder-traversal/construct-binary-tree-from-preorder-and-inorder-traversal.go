@@ -1,41 +1,37 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // DFS
-
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func buildTree(preorder []int, inorder []int) *TreeNode {
-	inorderMap := make(map[int]int)
-	for i, num := range inorder {
-		inorderMap[num] = i
-	}
-	preorderIdx := 0
-	return dfs(preorder, inorderMap, &preorderIdx, 0, len(inorder)-1)
-}
-
-func dfs(preorder []int, inorderMap map[int]int, preorderIdx *int, l, r int) *TreeNode {
-	if l > r {
-		return nil
-	}
-	rootVal := preorder[*preorderIdx]
-	*preorderIdx++
-	m := inorderMap[rootVal]
-	return &TreeNode{
-		Val:   rootVal,
-		Left:  dfs(preorder, inorderMap, preorderIdx, l, m-1),
-		Right: dfs(preorder, inorderMap, preorderIdx, m+1, r),
-	}
-}
 
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
 	Right *TreeNode
+}
+
+func buildTree(preorder []int, inorder []int) *TreeNode {
+	n := len(preorder)
+	h := map[int]int{}
+	for i, x := range inorder {
+		h[x] = i
+	}
+	i := 0
+	var build func(l, r int) *TreeNode
+	build = func(l, r int) *TreeNode {
+		if l > r {
+			return nil
+		}
+		val := preorder[i]
+		mid := h[val]
+		i++
+		return &TreeNode{
+			Val:   val,
+			Left:  build(l, mid-1),
+			Right: build(mid+1, r),
+		}
+	}
+	return build(0, n-1)
 }
