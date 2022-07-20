@@ -25,6 +25,8 @@ func Test_generate(t *testing.T) {
 				{1, 4, 6, 4, 1},
 			},
 		},
+		{"2", args{1}, [][]int{{1}}},
+		{"3", args{2}, [][]int{{1}, {1, 1}}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

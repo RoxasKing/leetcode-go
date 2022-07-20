@@ -1,18 +1,23 @@
 package main
 
+// Difficulty:
+// Medium
+
+// Tags:
+// Graph
+
 func arrayNesting(nums []int) int {
-	n := len(nums)
-	vis := make([]bool, n)
-	out := 0
+	o := 0
+	vis := make([]bool, len(nums))
 	for i := range nums {
-		cnt := 0
-		for x := i; !vis[x]; x = nums[x] {
-			vis[x] = true
-			cnt++
+		c := 0
+		for ; !vis[i]; i = nums[i] {
+			vis[i] = true
+			c++
 		}
-		if cnt > out {
-			out = cnt
+		if o < c {
+			o = c
 		}
 	}
-	return out
+	return o
 }

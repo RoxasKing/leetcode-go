@@ -1,30 +1,32 @@
 package main
 
+// Difficulty:
+// Hard
+
 // Tags:
 // Prefix Sum
 // Hash
 
 func numSubmatrixSumTarget(matrix [][]int, target int) int {
 	m, n := len(matrix), len(matrix[0])
-	out := 0
-
+	o := 0
 	for r1 := 0; r1 < m; r1++ {
-		pSum := make([]int, n)
+		f := make([]int, n)
 		for r2 := r1; r2 < m; r2++ {
 			for c := 0; c < n; c++ {
-				pSum[c] += matrix[r2][c]
+				f[c] += matrix[r2][c]
 			}
-			dict := map[int]int{0: 1}
-			cur := 0
-			for _, sum := range pSum {
-				cur += sum
-				if cnt, ok := dict[cur-target]; ok {
-					out += cnt
+			h := map[int]int{0: 1}
+			v := 0
+			for _, x := range f {
+				v += x
+				if cnt, ok := h[v-target]; ok {
+					o += cnt
 				}
-				dict[cur]++
+				h[v]++
 			}
 		}
 	}
 
-	return out
+	return o
 }

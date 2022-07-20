@@ -1,13 +1,19 @@
 package main
 
+// Difficulty:
+// Easy
+
+// Tags:
+// Dynamic Programming
+
 func generate(numRows int) [][]int {
-	out := make([][]int, numRows)
+	o := make([][]int, numRows)
 	for i := 0; i < numRows; i++ {
-		out[i] = make([]int, i+1)
-		out[i][0], out[i][i] = 1, 1
+		o[i] = make([]int, i+1)
+		o[i][0], o[i][i] = 1, 1
 		for j := 1; j < i; j++ {
-			out[i][j] = out[i-1][j-1] + out[i-1][j]
+			o[i][j] = o[i-1][j-1] + o[i-1][j]
 		}
 	}
-	return out
+	return o
 }
