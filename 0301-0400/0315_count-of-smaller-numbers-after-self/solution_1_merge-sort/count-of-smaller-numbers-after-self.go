@@ -1,7 +1,11 @@
 package main
 
+// Difficulty:
+// Hard
+
 // Tags:
 // Merge Sort
+
 func countSmaller(nums []int) []int {
 	n := len(nums)
 	out := make([]int, n)

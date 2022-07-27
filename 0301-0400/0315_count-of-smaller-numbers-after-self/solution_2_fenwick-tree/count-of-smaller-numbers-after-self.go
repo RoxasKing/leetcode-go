@@ -1,11 +1,13 @@
 package main
 
-import (
-	"sort"
-)
+import "sort"
+
+// Difficulty:
+// Hard
 
 // Tags:
 // Fenwick Tree
+
 func countSmaller(nums []int) []int {
 	n := len(nums)
 	out := make([]int, 0, n)

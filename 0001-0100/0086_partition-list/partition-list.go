@@ -1,27 +1,42 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Linked List
-func partition(head *ListNode, x int) *ListNode {
-	leftHead := &ListNode{Val: -1}
-	leftTail := leftHead
-	rightHead := &ListNode{Val: -1}
-	rightTail := rightHead
-	for n := head; n != nil; n = n.Next {
-		if n.Val < x {
-			leftTail.Next = n
-			leftTail = leftTail.Next
-		} else {
-			rightTail.Next = n
-			rightTail = rightTail.Next
-		}
-	}
-	leftTail.Next = rightHead.Next
-	rightTail.Next = nil
-	return leftHead.Next
-}
 
 type ListNode struct {
 	Val  int
 	Next *ListNode
+}
+
+func partition(head *ListNode, x int) *ListNode {
+	if head == nil {
+		return nil
+	}
+	var a, b, atail, btail *ListNode
+	for p := head; p != nil; p = p.Next {
+		if p.Val < x {
+			if a == nil {
+				a, atail = p, p
+			} else {
+				atail.Next = p
+				atail = p
+			}
+		} else {
+			if b == nil {
+				b, btail = p, p
+			} else {
+				btail.Next = p
+				btail = p
+			}
+		}
+	}
+	if a == nil || b == nil {
+		return head
+	}
+	atail.Next = b
+	btail.Next = nil
+	return a
 }
