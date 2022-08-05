@@ -2,18 +2,23 @@ package main
 
 import "sort"
 
+// Difficulty:
+// Medium
+
+// Tags:
 // Dynamic Programming
+
 func combinationSum4(nums []int, target int) int {
 	sort.Ints(nums)
-	dp := make([]int, target+1)
-	dp[0] = 1
+	f := make([]int, target+1)
+	f[0] = 1
 	for i := 1; i <= target; i++ {
-		for _, num := range nums {
-			if num > i {
+		for _, x := range nums {
+			if i < x {
 				break
 			}
-			dp[i] += dp[i-num]
+			f[i] += f[i-x]
 		}
 	}
-	return dp[target]
+	return f[target]
 }

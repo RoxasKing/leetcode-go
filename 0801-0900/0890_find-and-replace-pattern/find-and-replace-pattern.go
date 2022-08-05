@@ -8,23 +8,19 @@ package main
 
 func findAndReplacePattern(words []string, pattern string) []string {
 	o := []string{}
-	for _, word := range words {
-		hu, hv := [26]int{}, [26]int{}
-		for i := 0; i < 26; i++ {
-			hu[i], hv[i] = -1, -1
-		}
+	for _, w := range words {
+		ha, hb := [27]int{}, [27]int{}
 		ok := true
 		for i := range pattern {
-			u, v := int(pattern[i]-'a'), int(word[i]-'a')
-			if hu[u] == -1 && hv[v] == -1 {
-				hu[u], hv[v] = v, u
-			} else if hu[u] != v || hv[v] != u {
+			u, v := int(pattern[i]-'a')+1, int(w[i]-'a')+1
+			if ha[u] != 0 && ha[u] != v || hb[v] != 0 && hb[v] != u {
 				ok = false
 				break
 			}
+			ha[u], hb[v] = v, u
 		}
 		if ok {
-			o = append(o, word)
+			o = append(o, w)
 		}
 	}
 	return o
