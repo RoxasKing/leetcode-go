@@ -6,25 +6,22 @@ package main
 // Tags:
 // Dynamic Programming
 
-var mod int = 1e9 + 7
-
 func countVowelPermutation(n int) int {
-	f0, f1 := [5]int{}, [5]int{}
-	for i := 0; i < 5; i++ {
-		f0[i] = 1
-	}
-	for k := 1; k < n; k++ {
-		f1[0] = (f0[1] + f0[2] + f0[4]) % mod
-		f1[1] = (f0[0] + f0[2]) % mod
-		f1[2] = (f0[1] + f0[3]) % mod
-		f1[3] = f0[2] % mod
-		f1[4] = (f0[2] + f0[3]) % mod
+	const mod int = 1e9 + 7
+	g := [][]int{{1}, {0, 2}, {0, 1, 3, 4}, {2, 4}, {0}}
+	f0, f1 := [5]int{1, 1, 1, 1, 1}, [5]int{}
+	for ; n > 1; n-- {
+		for i := 0; i < 5; i++ {
+			for _, j := range g[i] {
+				f1[i] = (f1[i] + f0[j]) % mod
+			}
+		}
+		f0 = [5]int{}
 		f0, f1 = f1, f0
 	}
-	var out int
+	o := 0
 	for i := 0; i < 5; i++ {
-		out += f0[i]
-		out %= mod
+		o = (o + f0[i]) % mod
 	}
-	return out
+	return o
 }

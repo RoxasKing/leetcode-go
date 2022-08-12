@@ -5,41 +5,30 @@ import (
 	"strings"
 )
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Stack
 
 func exclusiveTime(n int, logs []string) []int {
-	out := make([]int, n)
-	fs := FuncStack{}
+	stk := [][3]int{}
+	top := func() int { return len(stk) - 1 }
+	o := make([]int, n)
 	for _, log := range logs {
-		strs := strings.Split(log, ":")
-		id, _ := strconv.Atoi(strs[0])
-		tm, _ := strconv.Atoi(strs[2])
-		if strs[1] == "start" {
-			fs.Push(&Func{id: id, st: tm, ex: 0})
+		a := strings.Split(log, ":")
+		i, _ := strconv.Atoi(a[0])
+		t, _ := strconv.Atoi(a[2])
+		if a[1][0] == 's' {
+			stk = append(stk, [3]int{i, t, 0})
 			continue
 		}
-		fu := fs.Pop()
-		out[id] += tm + 1 - fu.st - fu.ex
-		if fs.Len() > 0 {
-			fs.Top().ex += tm + 1 - fu.st
+		p := stk[top()]
+		stk = stk[:top()]
+		o[i] += t + 1 - p[1] - p[2]
+		if len(stk) > 0 {
+			stk[top()][2] += t + 1 - p[1]
 		}
 	}
-	return out
-}
-
-type Func struct {
-	id, st, ex int
-}
-
-type FuncStack []*Func
-
-func (s FuncStack) Len() int      { return len(s) }
-func (s FuncStack) Top() *Func    { return s[s.Len()-1] }
-func (s *FuncStack) Push(x *Func) { *s = append(*s, x) }
-func (s *FuncStack) Pop() *Func {
-	top := s.Len() - 1
-	out := (*s)[top]
-	*s = (*s)[:top]
-	return out
+	return o
 }

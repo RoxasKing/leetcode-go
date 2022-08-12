@@ -2,19 +2,20 @@ package main
 
 import "sort"
 
+// Difficulty:
+// Medium
+
 // Tags:
-// Greedy
 // Binary Search
 
 func lengthOfLIS(nums []int) int {
-	mins := []int{}
-	for _, num := range nums {
-		i := sort.Search(len(mins), func(i int) bool { return mins[i] >= num })
-		if i == len(mins) {
-			mins = append(mins, num)
-		} else {
-			mins[i] = num
+	a := []int{}
+	for _, x := range nums {
+		if i := sort.Search(len(a), func(i int) bool { return a[i] >= x }); i < len(a) {
+			a[i] = x
+			continue
 		}
+		a = append(a, x)
 	}
-	return len(mins)
+	return len(a)
 }

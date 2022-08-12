@@ -1,16 +1,17 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Morris Traversal
 
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
+
 func isValidBST(root *TreeNode) bool {
 	var prev *TreeNode
 	for root != nil {
@@ -32,10 +33,4 @@ func isValidBST(root *TreeNode) bool {
 		prev, root = root, root.Right
 	}
 	return true
-}
-
-type TreeNode struct {
-	Val   int
-	Left  *TreeNode
-	Right *TreeNode
 }
