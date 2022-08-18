@@ -1,10 +1,13 @@
 package main
 
+// Difficulty:
+// Easy
+
 // Tags:
 // Math
 
 func romanToInt(s string) int {
-	dict := map[byte]int{
+	h := map[byte]int{
 		'I': 1,
 		'V': 5,
 		'X': 10,
@@ -13,12 +16,11 @@ func romanToInt(s string) int {
 		'D': 500,
 		'M': 1000,
 	}
-	out := 0
-	for i := range s {
-		out += dict[s[i]]
-		if i > 0 && dict[s[i-1]] < dict[s[i]] {
-			out -= 2 * dict[s[i-1]]
+	o := h[s[0]]
+	for i := 1; i < len(s); i++ {
+		if o += h[s[i]]; h[s[i-1]] < h[s[i]] {
+			o -= h[s[i-1]] * 2
 		}
 	}
-	return out
+	return o
 }

@@ -1,13 +1,15 @@
 package main
 
-import "math"
-
 // Difficulty:
 // Hard
 
 // Tags:
 // Math
 
-func poorPigs(buckets, minutesToDie, minutesToTest int) int {
-	return int(math.Ceil(math.Log(float64(buckets)) / math.Log(float64(minutesToTest/minutesToDie+1))))
+func poorPigs(buckets int, minutesToDie int, minutesToTest int) int {
+	o := 0
+	for sum, x := 1, minutesToTest/minutesToDie+1; sum < buckets; sum *= x {
+		o++
+	}
+	return o
 }
