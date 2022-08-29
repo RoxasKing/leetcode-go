@@ -27,17 +27,12 @@ func construct(grid [][]int) *Node {
 		tr := dfs(x, y+d, d)
 		bl := dfs(x+d, y, d)
 		br := dfs(x+d, y+d, d)
-		node := &Node{Val: tl.Val || tr.Val || bl.Val || br.Val}
-		if tl.Val == tr.Val && tl.Val == bl.Val && bl.Val == br.Val {
-			node.IsLeaf = tl.IsLeaf && tr.IsLeaf && bl.IsLeaf && br.IsLeaf
+		val := tl.Val || tr.Val || bl.Val || br.Val
+		if tl.Val == tr.Val && tl.Val == bl.Val && bl.Val == br.Val &&
+			tl.IsLeaf && tr.IsLeaf && bl.IsLeaf && br.IsLeaf {
+			return &Node{Val: val, IsLeaf: true}
 		}
-		if !node.IsLeaf {
-			node.TopLeft = tl
-			node.TopRight = tr
-			node.BottomLeft = bl
-			node.BottomRight = br
-		}
-		return node
+		return &Node{val, false, tl, tr, bl, br}
 	}
 	return dfs(0, 0, len(grid))
 }

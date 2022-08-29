@@ -1,8 +1,9 @@
 package main
 
-import (
-	"math/bits"
-)
+import "math/bits"
+
+// Difficulty:
+// Hard
 
 // Tags:
 // Math

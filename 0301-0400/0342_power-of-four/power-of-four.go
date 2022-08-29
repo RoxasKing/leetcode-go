@@ -1,5 +1,8 @@
 package main
 
+// Difficulty:
+// Easy
+
 // Tags:
 // Bit Manipulation
 // Math

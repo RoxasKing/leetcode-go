@@ -13,28 +13,29 @@ type TreeNode struct {
 }
 
 func widthOfBinaryTree(root *TreeNode) int {
-	out, cur_d, l_p := 0, 0, 0
-	for q := []*pair{{root, 0, 0}}; len(q) > 0; q = q[1:] {
-		e := q[0]
-		node, d, p := e.node, e.d, e.p
-		if node == nil {
-			continue
+	o := 0
+	for q := []*pair{{root, 1}}; len(q) > 0; {
+		n := len(q)
+		o = max(o, q[n-1].i+1-q[0].i)
+		for _, p := range q {
+			if p.t.Left != nil {
+				q = append(q, &pair{p.t.Left, p.i << 1})
+			}
+			if p.t.Right != nil {
+				q = append(q, &pair{p.t.Right, p.i<<1 + 1})
+			}
 		}
-		if cur_d != d {
-			cur_d, l_p = d, p
-		}
-		out = Max(out, p+1-l_p)
-		q = append(q, &pair{node.Left, d + 1, p << 1}, &pair{node.Right, d + 1, p<<1 + 1})
+		q = q[n:]
 	}
-	return out
+	return o
 }
 
 type pair struct {
-	node *TreeNode
-	d, p int
+	t *TreeNode
+	i int
 }
 
-func Max(a, b int) int {
+func max(a, b int) int {
 	if a > b {
 		return a
 	}

@@ -1,7 +1,11 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Union-Find
+
 func numIslands(grid [][]byte) int {
 	m, n := len(grid), len(grid[0])
 	uf := NewUnionFind(m * n)

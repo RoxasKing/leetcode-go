@@ -1,28 +1,30 @@
 package main
 
+// Difficulty:
+// Hard
+
 // Tags:
-// Math + Binary Search
+// Math
+// Binary Search
+
 func preimageSizeFZF(k int) int {
-	l, r := 0, 10*k+1
+	cnt0 := func(n int) int {
+		o := 0
+		for ; n >= 5; o += n {
+			n /= 5
+		}
+		return o
+	}
+	l, r := 0, 5*k+1
 	for l < r {
 		m := (l + r) >> 1
-		res := countZero(m)
-		if res < k {
-			l = m + 1
-		} else if res > k {
-			r = m - 1
-		} else {
+		if c := cnt0(m); c == k {
 			return 5
+		} else if c < k {
+			l = m + 1
+		} else {
+			r = m - 1
 		}
 	}
 	return 0
-}
-
-func countZero(n int) int {
-	out := 0
-	for n >= 5 {
-		n /= 5
-		out += n
-	}
-	return out
 }
