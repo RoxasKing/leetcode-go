@@ -5,6 +5,7 @@ package main
 
 // Tags:
 // DFS
+// Bit Manipulation
 
 func pacificAtlantic(heights [][]int) [][]int {
 	m, n := len(heights), len(heights[0])

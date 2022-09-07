@@ -32,7 +32,7 @@ func criticalConnections(n int, connections [][]int) [][]int {
 				dfs(v)
 				low[u] = min(low[u], low[v])
 			} else if v != parent[u] {
-				low[u] = min(low[u], d[v])
+				low[u] = min(low[u], low[v])
 			}
 		}
 	}

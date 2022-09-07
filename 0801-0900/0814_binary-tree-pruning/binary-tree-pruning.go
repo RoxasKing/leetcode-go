@@ -13,26 +13,20 @@ type TreeNode struct {
 }
 
 func pruneTree(root *TreeNode) *TreeNode {
-	var dfs func(node *TreeNode) bool
-	dfs = func(node *TreeNode) bool {
+	var dfs func(node *TreeNode) (*TreeNode, bool)
+	dfs = func(node *TreeNode) (*TreeNode, bool) {
 		if node == nil {
-			return false
+			return nil, false
 		}
-		ok := node.Val == 1
-		if !dfs(node.Left) {
-			node.Left = nil
-		} else {
-			ok = true
+		lt, lb := dfs(node.Left)
+		rt, rb := dfs(node.Right)
+		if node.Val == 0 && !lb && !rb {
+			return nil, false
 		}
-		if !dfs(node.Right) {
-			node.Right = nil
-		} else {
-			ok = true
-		}
-		return ok
+		node.Left = lt
+		node.Right = rt
+		return node, true
 	}
-	if !dfs(root) {
-		return nil
-	}
-	return root
+	o, _ := dfs(root)
+	return o
 }

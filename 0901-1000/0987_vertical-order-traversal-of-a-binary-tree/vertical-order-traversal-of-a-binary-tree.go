@@ -2,9 +2,12 @@ package main
 
 import "container/heap"
 
+// Difficulty:
+// Hard
+
 // Tags:
-// Priority Queue
 // DFS
+// Priority Queue
 
 type TreeNode struct {
 	Val   int
@@ -13,50 +16,38 @@ type TreeNode struct {
 }
 
 func verticalTraversal(root *TreeNode) [][]int {
-	h := NodeHeap{}
-	dfs(root, &h, 0, 0)
-	out := [][]int{}
-	for h.Len() > 0 {
-		node := heap.Pop(&h).(Node)
-		tmp := []int{node.val}
-		for h.Len() > 0 && h[0].col == node.col {
-			tmp = append(tmp, heap.Pop(&h).(Node).val)
+	h := minh{}
+	var dfs func(node *TreeNode, x, y int)
+	dfs = func(node *TreeNode, x, y int) {
+		if node == nil {
+			return
 		}
-		out = append(out, tmp)
+		heap.Push(&h, pair{x, y, node.Val})
+		dfs(node.Left, x+1, y-1)
+		dfs(node.Right, x+1, y+1)
 	}
-	return out
+	dfs(root, 0, 0)
+	o := [][]int{}
+	top := func() int { return len(o) - 1 }
+	for i := -1001; h.Len() > 0; {
+		p := heap.Pop(&h).(pair)
+		if i != p.y {
+			i = p.y
+			o = append(o, []int{})
+		}
+		o[top()] = append(o[top()], p.v)
+	}
+	return o
 }
 
-func dfs(root *TreeNode, h *NodeHeap, row, col int) {
-	if root == nil {
-		return
-	}
-	heap.Push(h, Node{col: col, row: row, val: root.Val})
-	dfs(root.Left, h, row+1, col-1)
-	dfs(root.Right, h, row+1, col+1)
-}
+type pair struct{ x, y, v int }
+type minh []pair
 
-type Node struct {
-	col, row, val int
+func (h minh) Len() int { return len(h) }
+func (h minh) Less(i, j int) bool {
+	a, b := h[i], h[j]
+	return a.y < b.y || a.y == b.y && a.x < b.x || a.y == b.y && a.x == b.x && a.v < b.v
 }
-
-type NodeHeap []Node
-
-func (h NodeHeap) Len() int { return len(h) }
-func (h NodeHeap) Less(i, j int) bool {
-	if h[i].col != h[j].col {
-		return h[i].col < h[j].col
-	}
-	if h[i].row != h[j].row {
-		return h[i].row < h[j].row
-	}
-	return h[i].val < h[j].val
-}
-func (h NodeHeap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }
-func (h *NodeHeap) Push(x interface{}) { *h = append(*h, x.(Node)) }
-func (h *NodeHeap) Pop() interface{} {
-	top := h.Len() - 1
-	out := (*h)[top]
-	*h = (*h)[:top]
-	return out
-}
+func (h minh) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }
+func (h *minh) Push(x interface{}) { *h = append(*h, x.(pair)) }
+func (h *minh) Pop() interface{}   { i := h.Len() - 1; o := (*h)[i]; *h = (*h)[:i]; return o }

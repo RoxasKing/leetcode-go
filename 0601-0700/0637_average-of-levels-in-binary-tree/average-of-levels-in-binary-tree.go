@@ -1,30 +1,33 @@
 package main
 
+// Difficulty:
+// Easy
+
 // Tags:
 // BFS
-func averageOfLevels(root *TreeNode) []float64 {
-	var out []float64
-	q := []*TreeNode{root}
-	for len(q) != 0 {
-		curSize := len(q)
-		var sum float64
-		for _, n := range q {
-			sum += float64(n.Val)
-			if n.Left != nil {
-				q = append(q, n.Left)
-			}
-			if n.Right != nil {
-				q = append(q, n.Right)
-			}
-		}
-		out = append(out, sum/float64(curSize))
-		q = q[curSize:]
-	}
-	return out
-}
 
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
 	Right *TreeNode
+}
+
+func averageOfLevels(root *TreeNode) []float64 {
+	o := []float64{}
+	for q := []*TreeNode{root}; len(q) > 0; {
+		n := len(q)
+		sum := 0
+		for _, t := range q {
+			sum += t.Val
+			if t.Left != nil {
+				q = append(q, t.Left)
+			}
+			if t.Right != nil {
+				q = append(q, t.Right)
+			}
+		}
+		o = append(o, float64(sum)/float64(n))
+		q = q[n:]
+	}
+	return o
 }
