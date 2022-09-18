@@ -6,43 +6,39 @@ import (
 )
 
 // Tags:
-// Stack
+// Greedy
+// Sorting
+// Priority Queue
+// Sliding Window
+
 func maxPerformance(n int, speed []int, efficiency []int, k int) int {
-	indexes := make([]int, n)
-	for i := range indexes {
-		indexes[i] = i
+	type pair struct{ s, e int }
+	a := []pair{}
+	for i := 0; i < n; i++ {
+		a = append(a, pair{speed[i], efficiency[i]})
 	}
-	sort.Slice(indexes, func(i, j int) bool {
-		return efficiency[indexes[i]] > efficiency[indexes[j]]
-	})
-	ph := speedHeap{}
-	heap.Init(&ph)
-	var speedSum int
-	var max int64
-	for _, index := range indexes {
-		if ph.Len() == k {
-			speedSum -= heap.Pop(&ph).(int)
+	sort.Slice(a, func(i, j int) bool { return a[i].e > a[j].e })
+	o, ss, h := -1<<31, 0, minh{}
+	for i, p := range a {
+		ss += p.s
+		heap.Push(&h, p.s)
+		if i > k-1 {
+			ss -= heap.Pop(&h).(int)
 		}
-		speedSum += speed[index]
-		heap.Push(&ph, speed[index])
-		max = Max(max, int64(speedSum)*int64(efficiency[index]))
+		o = max(o, ss*p.e)
 	}
-	return int(max % (1e9 + 7))
+	return o % int(1e9+7)
 }
 
-type speedHeap []int
+type minh []int
 
-func (h speedHeap) Less(i, j int) bool  { return h[i] < h[j] }
-func (h speedHeap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }
-func (h speedHeap) Len() int            { return len(h) }
-func (h *speedHeap) Push(x interface{}) { *h = append(*h, x.(int)) }
-func (h *speedHeap) Pop() interface{} {
-	res := (*h)[len(*h)-1]
-	*h = (*h)[:h.Len()-1]
-	return res
-}
+func (h minh) Len() int            { return len(h) }
+func (h minh) Less(i, j int) bool  { return h[i] < h[j] }
+func (h minh) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }
+func (h *minh) Push(x interface{}) { *h = append(*h, x.(int)) }
+func (h *minh) Pop() interface{}   { i := h.Len() - 1; o := (*h)[i]; *h = (*h)[:i]; return o }
 
-func Max(a, b int64) int64 {
+func max(a, b int) int {
 	if a > b {
 		return a
 	}

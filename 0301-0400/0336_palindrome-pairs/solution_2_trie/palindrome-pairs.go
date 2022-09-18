@@ -1,7 +1,11 @@
 package main
 
+// Difficulty:
+// Hard
+
 // Tags:
 // Trie
+
 func palindromePairs(words []string) [][]int {
 	trie := NewTrie()
 	for i, word := range words {
@@ -85,46 +89,4 @@ func (t *Trie) Search(word string) int {
 		n = n.child[idx]
 	}
 	return n.index
-}
-
-// Hash
-func palindromePairs2(words []string) [][]int {
-	revWord := func(word string) string {
-		bytes := []byte(word)
-		for i := 0; i < len(bytes)>>1; i++ {
-			bytes[i], bytes[len(bytes)-1-i] = bytes[len(bytes)-1-i], bytes[i]
-		}
-		return string(bytes)
-	}
-
-	isPalindrome := func(s string) bool {
-		for i := 0; i < len(s)>>1; i++ {
-			if s[i] != s[len(s)-1-i] {
-				return false
-			}
-		}
-		return true
-	}
-
-	dict := make(map[string]int)
-	for i, word := range words {
-		dict[word] = i
-	}
-
-	var out [][]int
-	for i, word := range words {
-		for j := 0; j <= len(word); j++ {
-			if isPalindrome(word[j:]) {
-				if index, ok := dict[revWord(word[:j])]; ok && index != i {
-					out = append(out, []int{i, index})
-				}
-			}
-			if j != 0 && isPalindrome(word[:j]) {
-				if index, ok := dict[revWord(word[j:])]; ok && index != i {
-					out = append(out, []int{index, i})
-				}
-			}
-		}
-	}
-	return out
 }

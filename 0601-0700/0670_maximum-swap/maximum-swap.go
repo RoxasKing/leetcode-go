@@ -1,34 +1,29 @@
 package main
 
 // Tags:
-// Math + Greedy Algorithm
+// Greedy
+// Math
+
 func maximumSwap(num int) int {
-	arr := []int{}
+	a := []int{}
 	for ; num > 0; num /= 10 {
-		arr = append(arr, num%10)
+		a = append(a, num%10)
 	}
-
-	n := len(arr)
-	for i := 0; i < n>>1; i++ {
-		arr[i], arr[n-1-i] = arr[n-1-i], arr[i]
-	}
-
-	for i := 0; i < n-1; i++ {
-		max, j := arr[i], i
-		for k := n - 1; k > i; k-- {
-			if arr[k] > max {
-				max, j = arr[k], k
+	for i := len(a) - 1; i > 0; i-- {
+		j := 0
+		for k := 1; k < i; k++ {
+			if a[j] < a[k] {
+				j = k
 			}
 		}
-		if max > arr[i] {
-			arr[i], arr[j] = arr[j], arr[i]
+		if a[i] < a[j] {
+			a[i], a[j] = a[j], a[i]
 			break
 		}
 	}
-
-	out := 0
-	for _, num := range arr {
-		out = out*10 + num
+	o := 0
+	for i := len(a) - 1; i >= 0; i-- {
+		o = o*10 + a[i]
 	}
-	return out
+	return o
 }

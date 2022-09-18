@@ -11,17 +11,15 @@ import "sort"
 
 func numberOfWeakCharacters(properties [][]int) int {
 	sort.Slice(properties, func(i, j int) bool {
-		return properties[i][0] < properties[j][0] ||
-			properties[i][0] == properties[j][0] && properties[i][1] > properties[j][1]
+		a, b := properties[i], properties[j]
+		return a[0] < b[0] || a[0] == b[0] && a[1] > b[1]
 	})
-	stk := []int{}
-	out := 0
+	o, a := 0, []int{}
 	for _, p := range properties {
-		for len(stk) > 0 && stk[len(stk)-1] < p[1] {
-			stk = stk[:len(stk)-1]
-			out++
+		for ; len(a) > 0 && a[len(a)-1] < p[1]; a = a[:len(a)-1] {
+			o++
 		}
-		stk = append(stk, p[1])
+		a = append(a, p[1])
 	}
-	return out
+	return o
 }

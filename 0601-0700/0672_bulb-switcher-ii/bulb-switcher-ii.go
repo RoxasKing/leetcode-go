@@ -1,7 +1,11 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Math
+
 func flipLights(n int, presses int) int {
 	if n > 3 {
 		n = 3

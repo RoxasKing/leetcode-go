@@ -2,8 +2,14 @@ package main
 
 import "sort"
 
+// Difficulty:
+// Hard
+
+// Tags:
 // Discretization
 // Line Sweep
+// Sorting
+// Hash
 
 func rectangleArea(rectangles [][]int) int {
 	set := map[int]struct{}{}
@@ -16,34 +22,30 @@ func rectangleArea(rectangles [][]int) int {
 		points = append(points, p)
 	}
 	sort.Ints(points)
-
-	var out int
+	o := 0
 	for k := 0; k < len(points)-1; k++ {
-		h1, h2 := points[k], points[k+1]
-		h := h2 - h1
-		idxs := []int{}
+		lo, hi := points[k], points[k+1]
+		a := []int{}
 		for i, x := range rectangles {
-			if x[1] <= h1 && h2 <= x[3] {
-				idxs = append(idxs, i)
+			if x[1] <= lo && hi <= x[3] {
+				a = append(a, i)
 			}
 		}
-		if len(idxs) == 0 {
+		if len(a) == 0 {
 			continue
 		}
-		sort.Slice(idxs, func(i, j int) bool {
-			i, j = idxs[i], idxs[j]
-			return rectangles[i][0] < rectangles[j][0]
-		})
-		l, r := rectangles[idxs[0]][0], rectangles[idxs[0]][2]
-		for _, i := range idxs[1:] {
-			if rectangles[i][0] > r {
-				out += (r - l) * h
-				l, r = rectangles[i][0], rectangles[i][2]
-			} else if rectangles[i][2] > r {
+		sort.Slice(a, func(i, j int) bool { return rectangles[a[i]][0] < rectangles[a[j]][0] })
+		l, r := rectangles[a[0]][0], rectangles[a[0]][2]
+		for _, i := range a[1:] {
+			if r < rectangles[i][0] {
+				o += (r - l) * (hi - lo)
+				l = rectangles[i][0]
+			}
+			if r < rectangles[i][2] {
 				r = rectangles[i][2]
 			}
 		}
-		out += (r - l) * h
+		o += (r - l) * (hi - lo)
 	}
-	return out % (1e9 + 7)
+	return o % (1e9 + 7)
 }

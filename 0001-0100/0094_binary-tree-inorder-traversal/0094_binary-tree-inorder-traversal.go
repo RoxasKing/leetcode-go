@@ -1,39 +1,33 @@
 package main
 
+// Difficulty:
+// Easy
+
 // Tags:
 // Morris Traversal
-
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func inorderTraversal(root *TreeNode) []int {
-	out := []int{}
-	for root != nil {
-		if root.Left != nil {
-			pre := root.Left
-			for pre.Right != nil && pre.Right != root {
-				pre = pre.Right
-			}
-			if pre.Right != root {
-				pre.Right = root
-				root = root.Left
-				continue
-			}
-			pre.Right = nil
-		}
-		out = append(out, root.Val)
-		root = root.Right
-	}
-	return out
-}
 
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
 	Right *TreeNode
+}
+
+func inorderTraversal(root *TreeNode) []int {
+	o := []int{}
+	for t := root; t != nil; {
+		if t.Left != nil {
+			p := t.Left
+			for ; p.Right != nil && p.Right != t; p = p.Right {
+			}
+			if p.Right != t {
+				p.Right = t
+				t = t.Left
+				continue
+			}
+			p.Right = nil
+		}
+		o = append(o, t.Val)
+		t = t.Right
+	}
+	return o
 }

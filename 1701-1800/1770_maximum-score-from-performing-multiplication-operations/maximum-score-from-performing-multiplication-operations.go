@@ -1,33 +1,35 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Dynamic Programming
+
 func maximumScore(nums []int, multipliers []int) int {
 	n, m := len(nums), len(multipliers)
-	dp := make([][]int, m+1)
-	for i := range dp {
-		dp[i] = make([]int, m+1)
+	f := make([][]int, m+1)
+	for i := range f {
+		f[i] = make([]int, m+1)
 	}
 	for i := 1; i <= m; i++ {
-		dp[i][0] = dp[i-1][0] + nums[i-1]*multipliers[i-1]
-		dp[0][i] = dp[0][i-1] + nums[n-i]*multipliers[i-1]
+		f[i][0] = f[i-1][0] + nums[i-1]*multipliers[i-1]
+		f[0][i] = f[0][i-1] + nums[n-i]*multipliers[i-1]
 	}
-
-	for i := 1; i <= m; i++ {
-		for j := 1; i+j <= m; j++ {
-			k := i + j - 1
-			dp[i][j] = Max(dp[i][j-1]+nums[n-j]*multipliers[k], dp[i-1][j]+nums[i-1]*multipliers[k])
+	for l := 1; l < m; l++ {
+		for r := 1; l+r <= m; r++ {
+			i := l + r - 1
+			f[l][r] = max(f[l-1][r]+nums[l-1]*multipliers[i], f[l][r-1]+nums[n-r]*multipliers[i])
 		}
 	}
-
-	out := -1 << 31
+	o := -1 << 31
 	for i := 0; i <= m; i++ {
-		out = Max(out, dp[i][m-i])
+		o = max(o, f[i][m-i])
 	}
-	return out
+	return o
 }
 
-func Max(a, b int) int {
+func max(a, b int) int {
 	if a > b {
 		return a
 	}
