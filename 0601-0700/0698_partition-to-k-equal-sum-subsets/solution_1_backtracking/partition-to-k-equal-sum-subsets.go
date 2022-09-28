@@ -3,10 +3,11 @@ package main
 import "sort"
 
 // Difficulty:
-// Hard
+// Medium
 
 // Tags:
 // Backtracking
+// Bitmask
 
 func canPartitionKSubsets(nums []int, k int) bool {
 	sort.Ints(nums)
@@ -19,28 +20,28 @@ func canPartitionKSubsets(nums []int, k int) bool {
 		return false
 	}
 	avg := sum / k
-	bucket := make([]int, k)
-	for i := range bucket {
-		bucket[i] = avg
+	b := make([]int, k)
+	for i := range b {
+		b[i] = avg
 	}
-	return backtrack(nums, avg, bucket, n-1)
-}
-
-func backtrack(nums []int, avg int, bucket []int, idx int) bool {
-	if idx < 0 {
-		return true
-	}
-	for i := range bucket {
-		if bucket[i] == nums[idx] || bucket[i]-nums[idx] >= nums[0] {
-			bucket[i] -= nums[idx]
-			if backtrack(nums, avg, bucket, idx-1) {
-				return true
+	var backtrack func(idx int) bool
+	backtrack = func(idx int) bool {
+		if idx < 0 {
+			return true
+		}
+		for i := range b {
+			if b[i] == nums[idx] || b[i]-nums[idx] >= nums[0] {
+				b[i] -= nums[idx]
+				if backtrack(idx - 1) {
+					return true
+				}
+				b[i] += nums[idx]
 			}
-			bucket[i] += nums[idx]
+			if b[i] == avg {
+				break
+			}
 		}
-		if bucket[i] == avg {
-			break
-		}
+		return false
 	}
-	return false
+	return backtrack(n - 1)
 }

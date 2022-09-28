@@ -8,40 +8,36 @@ package main
 
 func pushDominoes(dominoes string) string {
 	n := len(dominoes)
-	fl := make([]int, n)
-	fr := make([]int, n)
+	l, r := make([]int, n), make([]int, n)
 	for i := 0; i < n; i++ {
-		fl[i] = 1e5
-		fr[i] = 1e5
+		l[i], r[i] = 1e5, 1e5
 	}
 	for i := 0; i < n; i++ {
 		if dominoes[i] == 'R' {
-			fr[i] = 0
-		} else if dominoes[i] == '.' && i > 0 {
-			fr[i] = Min(fr[i], fr[i-1]+1)
+			r[i] = 0
+		} else if i > 0 && dominoes[i] == '.' {
+			r[i] = min(r[i], r[i-1]+1)
+		}
+		if dominoes[n-1-i] == 'L' {
+			l[n-1-i] = 0
+		} else if i > 0 && dominoes[n-1-i] == '.' {
+			l[n-1-i] = min(l[n-1-i], l[n-i]+1)
 		}
 	}
-	for i := n - 1; i >= 0; i-- {
-		if dominoes[i] == 'L' {
-			fl[i] = 0
-		} else if dominoes[i] == '.' && i < n-1 {
-			fl[i] = Min(fl[i], fl[i+1]+1)
-		}
-	}
-	arr := make([]byte, n)
+	a := make([]byte, n)
 	for i := 0; i < n; i++ {
-		if fl[i] < fr[i] {
-			arr[i] = 'L'
-		} else if fl[i] > fr[i] {
-			arr[i] = 'R'
-		} else {
-			arr[i] = '.'
+		a[i] = '.'
+		if l[i] < r[i] {
+			a[i] = 'L'
+		}
+		if l[i] > r[i] {
+			a[i] = 'R'
 		}
 	}
-	return string(arr)
+	return string(a)
 }
 
-func Min(a, b int) int {
+func min(a, b int) int {
 	if a < b {
 		return a
 	}

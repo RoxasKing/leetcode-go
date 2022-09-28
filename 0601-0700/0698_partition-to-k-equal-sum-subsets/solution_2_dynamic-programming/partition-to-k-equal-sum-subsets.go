@@ -1,7 +1,7 @@
 package main
 
 // Difficulty:
-// Hard
+// Medium
 
 // Tags:
 // Dynamic Programming
