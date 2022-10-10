@@ -2,41 +2,37 @@ package main
 
 import "sort"
 
+// Difficulty:
+// Medium
+
+// Tags:
+// Two Pointers
+
 func threeSumClosest(nums []int, target int) int {
-	n := len(nums)
 	sort.Ints(nums)
-	out := nums[0] + nums[1] + nums[2]
-	for i := 0; i < n-2 && nums[i] <= target/3; i++ {
-		l, r := i+1, n-1
-		for l < r {
+	n := len(nums)
+	o := 1<<31 - 1
+	for i := 0; i < n-2; i++ {
+		for l, r := i+1, n-1; l < r; {
 			sum := nums[i] + nums[l] + nums[r]
-			if sum < target {
-				for l+1 < r && nums[l] == nums[l+1] {
-					l++
-				}
-				l++
-			} else if sum > target {
-				for l < r-1 && nums[r-1] == nums[r] {
-					r--
-				}
-				r--
-			} else {
+			if sum == target {
 				return sum
+			} else if sum < target {
+				l++
+			} else {
+				r--
 			}
-			if Abs(sum-target) < Abs(out-target) {
-				out = sum
+			if abs(o-target) > abs(sum-target) {
+				o = sum
 			}
-		}
-		for i+1 < len(nums)-2 && nums[i] == nums[i+1] {
-			i++
 		}
 	}
-	return out
+	return o
 }
 
-func Abs(num int) int {
-	if num < 0 {
-		return -num
+func abs(x int) int {
+	if x < 0 {
+		return -x
 	}
-	return num
+	return x
 }

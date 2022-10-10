@@ -30,15 +30,8 @@ func addOneRow(root *TreeNode, val int, depth int) *TreeNode {
 		q = q[n:]
 	}
 	for _, t := range q {
-		l, r := t.Left, t.Right
-		t.Left = &TreeNode{Val: val}
-		t.Right = &TreeNode{Val: val}
-		if l != nil {
-			t.Left.Left = l
-		}
-		if r != nil {
-			t.Right.Right = r
-		}
+		t.Left = &TreeNode{val, t.Left, nil}
+		t.Right = &TreeNode{val, nil, t.Right}
 	}
 	return root
 }

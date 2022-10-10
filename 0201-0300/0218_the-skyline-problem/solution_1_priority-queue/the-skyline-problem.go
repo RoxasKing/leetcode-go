@@ -5,8 +5,12 @@ import (
 	"sort"
 )
 
+// Difficulty:
+// Hard
+
 // Tags:
 // Priority Queue
+
 func getSkyline(buildings [][]int) [][]int {
 	n := len(buildings)
 	points := make([]int, 0, n<<1)

@@ -1,5 +1,8 @@
 package main
 
+// Difficulty:
+// Medium
+
 func setZeroes(matrix [][]int) {
 	m, n := len(matrix), len(matrix[0])
 	col0 := false

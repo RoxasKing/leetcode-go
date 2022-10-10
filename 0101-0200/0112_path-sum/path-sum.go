@@ -1,35 +1,27 @@
 package main
 
-// Tags:
-// DFS
+// Difficulty:
+// Easy
 
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
-func hasPathSum(root *TreeNode, targetSum int) bool {
-	if root == nil {
-		return false
-	}
-	targetSum -= root.Val
-	if root.Left == nil && root.Right == nil {
-		return targetSum == 0
-	}
-	if root.Left != nil && hasPathSum(root.Left, targetSum) {
-		return true
-	}
-	if root.Right != nil && hasPathSum(root.Right, targetSum) {
-		return true
-	}
-	return false
-}
+// Tags:
+// Backtracking
 
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
 	Right *TreeNode
+}
+
+func hasPathSum(root *TreeNode, targetSum int) bool {
+	if root == nil {
+		return false
+	}
+	var backtrack func(node *TreeNode) bool
+	backtrack = func(node *TreeNode) bool {
+		targetSum -= node.Val
+		defer func() { targetSum += node.Val }()
+		return node.Left == nil && node.Right == nil && targetSum == 0 ||
+			node.Left != nil && backtrack(node.Left) || node.Right != nil && backtrack(node.Right)
+	}
+	return backtrack(root)
 }

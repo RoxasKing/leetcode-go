@@ -6,25 +6,25 @@ package main
 // Tags:
 // Segment Tree
 
-type val struct{ a, b int8 }
-type tree map[int]val
+type pair struct{ a, b int8 }
 
 type MyCalendarThree struct {
-	t tree
+	t map[int]pair
 }
 
 func Constructor() MyCalendarThree {
-	return MyCalendarThree{t: map[int]val{}}
+	return MyCalendarThree{map[int]pair{}}
 }
 
 func (this *MyCalendarThree) Book(start int, end int) int {
+	l, r := start, end-1
 	var update func(i, s, t int)
 	update = func(i, s, t int) {
-		if t < start || end < s {
+		if r < s || t < l {
 			return
 		}
 		p := this.t[i]
-		if start <= s && t <= end {
+		if l <= s && t <= r {
 			p.a++
 			p.b++
 			this.t[i] = p
@@ -36,7 +36,6 @@ func (this *MyCalendarThree) Book(start int, end int) int {
 		p.a = p.b + max(this.t[i*2].a, this.t[i*2+1].a)
 		this.t[i] = p
 	}
-	end-- // Attention!
 	update(1, 0, 1e9)
 	return int(this.t[1].a)
 }

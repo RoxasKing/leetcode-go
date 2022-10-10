@@ -2,39 +2,36 @@ package main
 
 import "sort"
 
+// Difficulty:
+// Medium
+
+// Tags:
+// Hash
 // Binary Search
 
 type TimeMap struct {
-	dict map[string][]*val
+	h map[string][]*pair
 }
 
-type val struct {
-	value     string
-	timestamp int
+type pair struct {
+	t int
+	v string
 }
 
-/** Initialize your data structure here. */
 func Constructor() TimeMap {
-	return TimeMap{
-		dict: map[string][]*val{},
-	}
+	return TimeMap{map[string][]*pair{}}
 }
 
 func (this *TimeMap) Set(key string, value string, timestamp int) {
-	this.dict[key] = append(this.dict[key], &val{value: value, timestamp: timestamp})
+	this.h[key] = append(this.h[key], &pair{v: value, t: timestamp})
 }
 
 func (this *TimeMap) Get(key string, timestamp int) string {
-	arr := this.dict[key]
-	if len(arr) == 0 {
-		return ""
+	a := this.h[key]
+	if i := sort.Search(len(a), func(i int) bool { return a[i].t > timestamp }) - 1; i >= 0 {
+		return a[i].v
 	}
-
-	i := sort.Search(len(arr), func(i int) bool { return arr[i].timestamp > timestamp }) - 1
-	if i < 0 {
-		return ""
-	}
-	return arr[i].value
+	return ""
 }
 
 /**
