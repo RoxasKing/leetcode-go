@@ -2,12 +2,18 @@ package main
 
 import "sort"
 
-func largestPerimeter(A []int) int {
-	sort.Ints(A)
-	n := len(A)
-	for i := n - 3; i >= 0; i-- {
-		if A[i]+A[i+1] > A[i+2] {
-			return A[i] + A[i+1] + A[i+2]
+// Difficulty:
+// Easy
+
+// Tags:
+// Greedy
+// Sorting
+
+func largestPerimeter(nums []int) int {
+	sort.Ints(nums)
+	for i := len(nums) - 3; i >= 0; i-- {
+		if nums[i]+nums[i+1] > nums[i+2] {
+			return nums[i] + nums[i+1] + nums[i+2]
 		}
 	}
 	return 0
