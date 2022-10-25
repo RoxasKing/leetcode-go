@@ -5,6 +5,9 @@ import (
 	"sort"
 )
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Trie
 // Priority Queue

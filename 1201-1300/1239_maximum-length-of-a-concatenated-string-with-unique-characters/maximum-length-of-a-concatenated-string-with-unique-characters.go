@@ -1,39 +1,48 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Backtracking
+// Bit Manipulation
 
 func maxLength(arr []string) int {
-	freq := make([]int, 26)
-	var out int
-	backtrack(arr, freq, 0, 0, &out)
-	return out
-}
-
-func backtrack(arr []string, freq []int, i, cur int, out *int) {
-	if i == len(arr) {
-		return
-	}
-	ok := true
-	for j := range arr[i] {
-		freq[arr[i][j]-'a']++
-		if freq[arr[i][j]-'a'] > 1 {
-			ok = false
+	o := 0
+	a := make([]int, len(arr))
+	for i, s := range arr {
+		v := 0
+		for _, c := range s {
+			if v>>int(c-'a')&1 == 1 {
+				v = -1
+				break
+			}
+			v |= 1 << int(c-'a')
 		}
+		a[i] = v
 	}
-	if ok {
-		cur += len(arr[i])
-		*out = Max(*out, cur)
-		backtrack(arr, freq, i+1, cur, out)
-		cur -= len(arr[i])
+	mask, cur := 1<<26-1, 0
+	var backtrack func(ptr int)
+	backtrack = func(ptr int) {
+		o = max(o, cur)
+		if ptr == len(arr) {
+			return
+		}
+		backtrack(ptr + 1)
+		if a[ptr] == -1 || mask^a[ptr] != mask-a[ptr] {
+			return
+		}
+		mask ^= a[ptr]
+		cur += len(arr[ptr])
+		backtrack(ptr + 1)
+		cur -= len(arr[ptr])
+		mask ^= a[ptr]
 	}
-	for j := range arr[i] {
-		freq[arr[i][j]-'a']--
-	}
-	backtrack(arr, freq, i+1, cur, out)
+	backtrack(0)
+	return o
 }
 
-func Max(a, b int) int {
+func max(a, b int) int {
 	if a > b {
 		return a
 	}

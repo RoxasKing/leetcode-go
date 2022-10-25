@@ -1,5 +1,8 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Math
 

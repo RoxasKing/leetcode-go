@@ -1,25 +1,29 @@
 package main
 
+// Difficulty:
+// Hard
+
 // Tags:
-// Sliding Window + Two Pointers
+// Sliding Window
+
 func minWindow(s string, t string) string {
-	cnt := [128]int{}
+	h := [128]int{}
 	for i := range t {
-		cnt[t[i]]++
+		h[t[i]]++
 	}
-	out := ""
-	for l, r, include := 0, 0, 0; r < len(s); r++ {
-		if cnt[s[r]] > 0 {
-			include++
+	o := ""
+	for l, r, c := 0, 0, 0; r < len(s); r++ {
+		if h[s[r]] > 0 {
+			c++
 		}
-		cnt[s[r]]--
-		for l <= r && cnt[s[l]] < 0 {
-			cnt[s[l]]++
+		h[s[r]]--
+		for l <= r && h[s[l]] < 0 {
+			h[s[l]]++
 			l++
 		}
-		if include == len(t) && (out == "" || len(out) > r+1-l) {
-			out = s[l : r+1]
+		if c == len(t) && (o == "" || len(o) > r+1-l) {
+			o = s[l : r+1]
 		}
 	}
-	return out
+	return o
 }

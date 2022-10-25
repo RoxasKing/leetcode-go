@@ -1,7 +1,11 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Monotonic Stack
+
 type StockSpanner struct {
 	prices []int
 	counts []int

@@ -1,20 +1,22 @@
 package main
 
+// Difficulty:
+// Easy
+
+// Tags:
+// Two Pointers
+
 func mergeAlternately(word1 string, word2 string) string {
+	a := []byte{}
 	i, j := 0, 0
-	out := ""
-	flg := 0
 	for i < len(word1) && j < len(word2) {
-		if flg == 0 {
-			out += word1[i : i+1]
+		if len(a)&1 == 0 {
+			a = append(a, word1[i])
 			i++
 		} else {
-			out += word2[j : j+1]
+			a = append(a, word2[j])
 			j++
 		}
-		flg ^= 1
 	}
-	out += word1[i:]
-	out += word2[j:]
-	return out
+	return string(a) + word1[i:] + word2[j:]
 }

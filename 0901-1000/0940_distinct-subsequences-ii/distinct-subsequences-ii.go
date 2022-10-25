@@ -1,24 +1,27 @@
 package main
 
+// Difficulty:
+// Hard
+
 // Tags:
 // Dynamic Programming
-func distinctSubseqII(S string) int {
-	mod := int(1e9 + 7)
-	n := len(S)
-	dp := make([]int, n+1)
-	dp[0] = 1
+
+func distinctSubseqII(s string) int {
+	const mod int = 1e9 + 7
+	n := len(s)
+	f := make([]int, n+1)
+	f[0] = 1 // 0: null ; 1: not null
 	last := [26]int{}
 	for i := range last {
 		last[i] = -1
 	}
-	for i := 0; i < n; i++ {
-		letter := S[i] - 'a'
-		dp[i+1] = (dp[i] << 1) % mod
-		if last[letter] != -1 {
-			dp[i+1] = (dp[i+1] - dp[last[letter]] + mod) % mod
+	for i, c := range s {
+		idx := int(c - 'a')
+		f[i+1] = f[i] * 2 % mod
+		if last[idx] != -1 {
+			f[i+1] = (f[i+1] - f[last[idx]] + mod) % mod
 		}
-		last[letter] = i
+		last[idx] = i
 	}
-	dp[n]--
-	return dp[n]
+	return f[n] - 1 // delete null string
 }

@@ -1,15 +1,19 @@
 package main
 
+// Difficulty:
+// Easy
+
+// Tags:
+// Hash
+
 func checkIfPangram(sentence string) bool {
-	mark := [26]bool{}
+	h := [26]int{}
 	cnt := 0
-	for i := range sentence {
-		idx := int(sentence[i] - 'a')
-		if mark[idx] {
-			continue
+	for _, c := range sentence {
+		if h[c-'a'] == 0 {
+			cnt++
 		}
-		cnt++
-		mark[idx] = true
+		h[c-'a']++
 	}
 	return cnt == 26
 }

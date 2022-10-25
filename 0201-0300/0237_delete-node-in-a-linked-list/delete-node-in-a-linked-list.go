@@ -1,7 +1,10 @@
 package main
 
 // Difficulty:
-// Easy
+// Medium
+
+// Tags:
+// Linked List
 
 type ListNode struct {
 	Val  int

@@ -1,8 +1,6 @@
 package main
 
-import (
-	"testing"
-)
+import "testing"
 
 func Test_minWindow(t *testing.T) {
 	type args struct {
@@ -15,6 +13,8 @@ func Test_minWindow(t *testing.T) {
 		want string
 	}{
 		{"1", args{"ADOBECODEBANC", "ABC"}, "BANC"},
+		{"2", args{"a", "a"}, "a"},
+		{"3", args{"a", "aa"}, ""},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

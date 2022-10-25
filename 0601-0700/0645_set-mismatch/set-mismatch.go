@@ -1,18 +1,21 @@
 package main
 
+// Difficulty:
+// Easy
+
+// Tags:
+// Two Pointers
+
 func findErrorNums(nums []int) []int {
-	for i := range nums {
-		for j := nums[i] - 1; i != j && nums[i] != nums[j]; j = nums[i] - 1 {
+	for i, x := range nums {
+		for j := x - 1; i != j && nums[i] != nums[j]; j = nums[i] - 1 {
 			nums[i], nums[j] = nums[j], nums[i]
 		}
 	}
-
-	var out []int
-	for i := range nums {
-		if i+1 != nums[i] {
-			out = []int{nums[i], i + 1}
-			break
+	for i, x := range nums {
+		if x != i+1 {
+			return []int{x, i + 1}
 		}
 	}
-	return out
+	return []int{-1, -1}
 }
