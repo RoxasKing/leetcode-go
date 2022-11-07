@@ -1,34 +1,29 @@
 package main
 
-// Tags:
-// Prefix Sum + Sliding Window
-func shortestSubarray(A []int, K int) int {
-	n := len(A)
-	pSum := make([]int, n+1)
-	for i := 0; i < n; i++ {
-		pSum[i+1] = pSum[i] + A[i]
-	}
-	out := 1<<31 - 1
+// Difficulty:
+// Hard
 
-	for i, q := 0, []int{}; i <= n; i++ {
-		for len(q) > 0 && pSum[i] <= pSum[q[len(q)-1]] {
-			q = q[:len(q)-1]
+// Tags:
+// Prefix Sum
+// Sliding Window
+// Stack
+
+func shortestSubarray(nums []int, k int) int {
+	n := len(nums)
+	ps := make([]int, n+1)
+	for i := 0; i < n; i++ {
+		ps[i+1] = ps[i] + nums[i]
+	}
+	o, q := -1, []int{}
+	for i, x := range ps {
+		for ; len(q) > 0 && x <= ps[q[len(q)-1]]; q = q[:len(q)-1] {
 		}
-		for ; len(q) > 0 && pSum[i]-pSum[q[0]] >= K; q = q[1:] {
-			out = Min(out, i-q[0])
+		for ; len(q) > 0 && x-ps[q[0]] >= k; q = q[1:] {
+			if o == -1 || o > i-q[0] {
+				o = i - q[0]
+			}
 		}
 		q = append(q, i)
 	}
-
-	if out == 1<<31-1 {
-		return -1
-	}
-	return out
-}
-
-func Min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
+	return o
 }

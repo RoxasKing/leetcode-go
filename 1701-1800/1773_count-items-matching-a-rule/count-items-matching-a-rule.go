@@ -1,13 +1,17 @@
 package main
 
+// Difficulty:
+// Easy
+
+// Tags:
+// Hash
+
 func countMatches(items [][]string, ruleKey string, ruleValue string) int {
-	out := 0
+	o, h := 0, map[string]int{"type": 0, "color": 1, "name": 2}
 	for _, item := range items {
-		if ruleKey == "type" && item[0] == ruleValue ||
-			ruleKey == "color" && item[1] == ruleValue ||
-			ruleKey == "name" && item[2] == ruleValue {
-			out++
+		if item[h[ruleKey]] == ruleValue {
+			o++
 		}
 	}
-	return out
+	return o
 }

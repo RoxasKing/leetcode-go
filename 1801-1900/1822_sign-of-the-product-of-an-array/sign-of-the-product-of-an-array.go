@@ -1,13 +1,16 @@
 package main
 
+// Difficulty:
+// Easy
+
 func arraySign(nums []int) int {
-	out := 1
-	for _, num := range nums {
-		if num == 0 {
+	o := 1
+	for _, x := range nums {
+		if x == 0 {
 			return 0
-		} else if num < 0 {
-			out = -out
+		} else if x < 0 {
+			o = -o
 		}
 	}
-	return out
+	return o
 }

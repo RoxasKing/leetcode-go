@@ -1,5 +1,8 @@
 package main
 
+// Difficulty:
+// Medium
+
 func isToeplitzMatrix(matrix [][]int) bool {
 	m, n := len(matrix), len(matrix[0])
 	for i := 0; i < m; i++ {

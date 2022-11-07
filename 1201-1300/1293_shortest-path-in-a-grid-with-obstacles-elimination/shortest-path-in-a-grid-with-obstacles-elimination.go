@@ -1,8 +1,11 @@
 package main
 
+// Difficulty:
+// Hard
+
 // Tags:
 // BFS
-// Queue
+// Hash
 
 func shortestPath(grid [][]int, k int) int {
 	m, n := len(grid), len(grid[0])
@@ -16,25 +19,20 @@ func shortestPath(grid [][]int, k int) int {
 			vis[i][j] = make([]bool, k+1)
 		}
 	}
-	q := []position{{0, 0, k, 0}}
-	for ; len(q) > 0; q = q[1:] {
-		r, c, k, steps := q[0].r, q[0].c, q[0].k, q[0].steps+1
-		for i := 0; i < 4; i++ {
-			x, y := r+dr[i], c+dc[i]
+	dirs := []int{-1, 0, 1, 0, -1}
+	type pair struct{ x, y, k, c int }
+	for q := []pair{{0, 0, k, 0}}; len(q) > 0; q = q[1:] {
+		for p, i := q[0], 0; i < 4; i++ {
+			x, y, c := p.x+dirs[i], p.y+dirs[i+1], p.c+1
 			if x == m-1 && y == n-1 {
-				return steps
+				return c
 			}
-			if x < 0 || m-1 < x || y < 0 || n-1 < y || k-grid[x][y] < 0 || vis[x][y][k-grid[x][y]] {
+			if x < 0 || m-1 < x || y < 0 || n-1 < y || p.k-grid[x][y] < 0 || vis[x][y][p.k-grid[x][y]] {
 				continue
 			}
-			vis[x][y][k-grid[x][y]] = true
-			q = append(q, position{x, y, k - grid[x][y], steps})
+			vis[x][y][p.k-grid[x][y]] = true
+			q = append(q, pair{x, y, p.k - grid[x][y], c})
 		}
 	}
 	return -1
 }
-
-type position struct{ r, c, k, steps int }
-
-var dr = []int{1, 0, -1, 0}
-var dc = []int{0, 1, 0, -1}

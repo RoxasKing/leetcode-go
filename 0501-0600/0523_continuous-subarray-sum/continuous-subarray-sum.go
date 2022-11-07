@@ -1,17 +1,19 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
-// Prefix Sum
 // Hash
+// Prefix Sum
 
 func checkSubarraySum(nums []int, k int) bool {
-	dict := map[int]int{0: -1}
+	h := map[int]int{0: -1}
 	sum := 0
-	for j, num := range nums {
-		sum += num
-		sum %= k
-		if i, ok := dict[sum]; !ok {
-			dict[sum] = j
+	for j, x := range nums {
+		sum = (sum + x) % k
+		if i, ok := h[sum]; !ok {
+			h[sum] = j
 		} else if j-i > 1 {
 			return true
 		}
