@@ -1,17 +1,18 @@
 package main
 
+// Difficulty:
+// Easy
+
 func removeDuplicates(nums []int) int {
-	n := len(nums)
-	if n == 0 {
+	if len(nums) == 0 {
 		return 0
 	}
-	idx := 0
-	for i := 1; i < n; i++ {
-		if nums[i] != nums[idx] {
-			idx++
-			nums[idx] = nums[i]
+	o := 0
+	for _, x := range nums {
+		if x != nums[o] {
+			o++
+			nums[o] = x
 		}
 	}
-	nums = nums[:idx+1]
-	return len(nums)
+	return o + 1
 }

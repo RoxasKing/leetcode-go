@@ -1,35 +1,36 @@
 package main
 
+// Difficulty:
+// Hard
+
 // Tags:
 // Stack
 
 func calculate(s string) int {
-	out := 0
-	ops := []int{1}
-	sig := 1
-	n := len(s)
-	for i := 0; i < n; {
+	isNumber := func(ch byte) bool { return '0' <= ch && ch <= '9' }
+	stk := []int{1}
+	top := func() int { return len(stk) - 1 }
+	o := 0
+	for i, n, sign := 0, len(s), 1; i < n; {
 		ch := s[i]
 		if isNumber(ch) {
-			num := 0
+			x := 0
 			for ; i < n && isNumber(s[i]); i++ {
-				num = num*10 + int(s[i]-'0')
+				x = x*10 + int(s[i]-'0')
 			}
-			out += sig * num
+			o += sign * x
 			continue
 		}
 		if ch == '+' {
-			sig = ops[len(ops)-1]
+			sign = stk[top()]
 		} else if ch == '-' {
-			sig = -ops[len(ops)-1]
+			sign = -stk[top()]
 		} else if ch == '(' {
-			ops = append(ops, sig)
+			stk = append(stk, sign)
 		} else if ch == ')' {
-			ops = ops[:len(ops)-1]
+			stk = stk[:top()]
 		}
 		i++
 	}
-	return out
+	return o
 }
-
-func isNumber(ch byte) bool { return '0' <= ch && ch <= '9' }

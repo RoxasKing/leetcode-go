@@ -11,13 +11,13 @@ func numSquares(n int) int {
 	for i := range f {
 		f[i] = i
 		for j := 2; j*j <= i; j++ {
-			f[i] = Min(f[i], f[i-j*j]+1)
+			f[i] = min(f[i], f[i-j*j]+1)
 		}
 	}
 	return f[n]
 }
 
-func Min(a, b int) int {
+func min(a, b int) int {
 	if a < b {
 		return a
 	}

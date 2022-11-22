@@ -1,5 +1,8 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Dynamic Programming
 
@@ -11,62 +14,60 @@ func orderOfLargestPlusSign(n int, mines [][]int) int {
 	for _, x := range mines {
 		f[x[0]][x[1]] = -1
 	}
-
-	for r := 0; r < n; r++ {
-		cnt := 1
-		for c := 0; c < n; c++ {
-			if f[r][c] == -1 {
-				cnt = 1
+	for i := 0; i < n; i++ {
+		c := 1
+		for j := 0; j < n; j++ {
+			if f[i][j] == -1 {
+				c = 1
 				continue
 			}
-			f[r][c] = cnt
-			cnt++
+			f[i][j] = c
+			c++
 		}
-		cnt = 1
-		for c := n - 1; c >= 0; c-- {
-			if f[r][c] == -1 {
-				cnt = 1
+		c = 1
+		for j := n - 1; j >= 0; j-- {
+			if f[i][j] == -1 {
+				c = 1
 				continue
 			}
-			f[r][c] = Min(f[r][c], cnt)
-			cnt++
+			f[i][j] = min(f[i][j], c)
+			c++
+		}
+	}
+	o := 0
+	for j := 0; j < n; j++ {
+		c := 1
+		for i := 0; i < n; i++ {
+			if f[i][j] == -1 {
+				c = 1
+				continue
+			}
+			f[i][j] = min(f[i][j], c)
+			c++
+		}
+		c = 1
+		for i := n - 1; i >= 0; i-- {
+			if f[i][j] == -1 {
+				c = 1
+				continue
+			}
+			f[i][j] = min(f[i][j], c)
+			c++
+			o = max(o, f[i][j])
 		}
 	}
 
-	out := 0
-	for c := 0; c < n; c++ {
-		cnt := 1
-		for r := 0; r < n; r++ {
-			if f[r][c] == -1 {
-				cnt = 1
-				continue
-			}
-			f[r][c] = Min(f[r][c], cnt)
-			cnt++
-		}
-		cnt = 1
-		for r := n - 1; r >= 0; r-- {
-			if f[r][c] == -1 {
-				cnt = 1
-				continue
-			}
-			f[r][c] = Min(f[r][c], cnt)
-			cnt++
-			out = Max(out, f[r][c])
-		}
-	}
-
-	return out
+	return o
 }
 
-func Min(a, b int) int {
+func min(a, b int) int {
 	if a < b {
 		return a
 	}
 	return b
 }
 
-func Max(a, b int) int {
+func max(a, b int) int {
 	if a > b {
 		return a
 	}

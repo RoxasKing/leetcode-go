@@ -1,17 +1,17 @@
 package main
 
-func largestAltitude(gain []int) int {
-	out, sum := 0, 0
-	for _, g := range gain {
-		sum += g
-		out = Max(out, sum)
-	}
-	return out
-}
+// Difficulty:
+// Easy
 
-func Max(a, b int) int {
-	if a > b {
-		return a
+// Tags:
+// Prefix Sum
+
+func largestAltitude(gain []int) int {
+	o, v := 0, 0
+	for _, x := range gain {
+		if v += x; o < v {
+			o = v
+		}
 	}
-	return b
+	return o
 }
