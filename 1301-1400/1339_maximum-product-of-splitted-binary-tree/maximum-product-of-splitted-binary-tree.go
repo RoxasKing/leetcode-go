@@ -1,5 +1,9 @@
 package main
 
+// Difficulty:
+// Medium
+
+// Tags:
 // DFS
 // Hash
 
@@ -10,36 +14,35 @@ type TreeNode struct {
 }
 
 func maxProduct(root *TreeNode) int {
-	var out int
-	dict := map[*TreeNode]int{}
-	dfs(root, dict, 0, &out)
-	return out % 1000000007
+	o, h := 0, map[*TreeNode]int{}
+	var subTreeSum func(t *TreeNode) int
+	subTreeSum = func(t *TreeNode) int {
+		if t == nil {
+			return 0
+		}
+		if v, ok := h[t]; ok {
+			return v
+		}
+		h[t] = t.Val + subTreeSum(t.Left) + subTreeSum(t.Right)
+		return h[t]
+	}
+	var dfs func(t *TreeNode, sum int)
+	dfs = func(t *TreeNode, sum int) {
+		if t == nil {
+			return
+		}
+		sum += t.Val
+		l := subTreeSum(t.Left)
+		r := subTreeSum(t.Right)
+		o = max(o, max((sum+l)*r, l*(sum+r)))
+		dfs(t.Left, sum+r)
+		dfs(t.Right, sum+l)
+	}
+	dfs(root, 0)
+	return o % (1e9 + 7)
 }
 
-func dfs(root *TreeNode, dict map[*TreeNode]int, sum int, out *int) {
-	if root == nil {
-		return
-	}
-	sum += root.Val
-	l := subTreeSum(root.Left, dict)
-	r := subTreeSum(root.Right, dict)
-	*out = Max(*out, Max((sum+l)*r, l*(sum+r)))
-	dfs(root.Left, dict, sum+r, out)
-	dfs(root.Right, dict, sum+l, out)
-}
-
-func subTreeSum(root *TreeNode, dict map[*TreeNode]int) int {
-	if root == nil {
-		return 0
-	}
-	if val, ok := dict[root]; ok {
-		return val
-	}
-	dict[root] = root.Val + subTreeSum(root.Left, dict) + subTreeSum(root.Right, dict)
-	return dict[root]
-}
-
-func Max(a, b int) int {
+func max(a, b int) int {
 	if a > b {
 		return a
 	}

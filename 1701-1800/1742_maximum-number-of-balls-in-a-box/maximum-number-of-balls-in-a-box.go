@@ -1,22 +1,28 @@
 package main
 
+// Difficulty:
+// Easy
+
+// Tags:
+// Hash
+
 func countBalls(lowLimit int, highLimit int) int {
-	cnt := [46]int{}
+	h := [46]int{}
 	for i := lowLimit; i <= highLimit; i++ {
-		idx := 0
+		x := 0
 		for j := i; j > 0; j /= 10 {
-			idx += j % 10
+			x += j % 10
 		}
-		cnt[idx]++
+		h[x]++
 	}
-	out := 0
-	for i := 1; i <= 45; i++ {
-		out = Max(out, cnt[i])
+	o := 0
+	for i := 1; i < 46; i++ {
+		o = max(o, h[i])
 	}
-	return out
+	return o
 }
 
-func Max(a, b int) int {
+func max(a, b int) int {
 	if a > b {
 		return a
 	}

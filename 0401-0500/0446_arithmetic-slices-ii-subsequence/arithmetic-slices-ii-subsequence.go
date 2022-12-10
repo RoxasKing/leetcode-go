@@ -1,5 +1,8 @@
 package main
 
+// Difficulty:
+// Hard
+
 // Tags:
 // Dynamic Programming
 // Hash

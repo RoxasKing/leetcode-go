@@ -1,21 +1,22 @@
 package main
 
+// Difficulty:
+// Easy
+
 func nearestValidPoint(x int, y int, points [][]int) int {
-	min, idx := 1<<31-1, -1
-	for i, p := range points {
-		if p[0] != x && p[1] != y {
+	o, v := -1, 1<<31-1
+	for i, e := range points {
+		if e[0] != x && e[1] != y {
 			continue
 		}
-		dis := Abs(p[0]-x) + Abs(p[1]-y)
-		if dis < min {
-			min = dis
-			idx = i
+		if d := abs(e[0]-x) + abs(e[1]-y); d < v {
+			o, v = i, d
 		}
 	}
-	return idx
+	return o
 }
 
-func Abs(n int) int {
+func abs(n int) int {
 	if n < 0 {
 		return -n
 	}

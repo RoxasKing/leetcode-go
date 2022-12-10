@@ -1,7 +1,12 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
+// Prefix Sum
 // Dynamic Programming
+
 func minOperations(boxes string) []int {
 	n := len(boxes)
 	balls := int(boxes[n-1] - '0')

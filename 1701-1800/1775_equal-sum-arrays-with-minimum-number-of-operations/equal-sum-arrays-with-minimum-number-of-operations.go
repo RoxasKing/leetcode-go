@@ -1,5 +1,8 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Greedy
 
@@ -14,17 +17,14 @@ func minOperations(nums1 []int, nums2 []int) int {
 		sum2 += num
 		cnt2[num]++
 	}
-
-	out := 0
+	o := 0
 	for sum1 != sum2 {
-		out++
-
+		o++
 		if sum1 < sum2 {
 			sum1, sum2 = sum2, sum1
 			cnt1, cnt2 = cnt2, cnt1
 		}
 		diff := sum1 - sum2
-
 		dec, decIdx := -1, -1
 		for i := 6; i > 1; i-- {
 			if cnt1[i] > 0 {
@@ -35,11 +35,9 @@ func minOperations(nums1 []int, nums2 []int) int {
 				break
 			}
 		}
-
 		if dec == diff {
 			break
 		}
-
 		inc, incIdx := -1, -1
 		for i := 1; i < 6; i++ {
 			if cnt2[i] > 0 {
@@ -50,11 +48,9 @@ func minOperations(nums1 []int, nums2 []int) int {
 				break
 			}
 		}
-
 		if inc == diff {
 			break
 		}
-
 		if decIdx == -1 && incIdx == -1 {
 			return -1
 		} else if decIdx != -1 && incIdx != -1 {
@@ -76,7 +72,6 @@ func minOperations(nums1 []int, nums2 []int) int {
 			cnt2[incIdx]--
 			cnt2[incIdx+inc]++
 		}
-
 	}
-	return out
+	return o
 }

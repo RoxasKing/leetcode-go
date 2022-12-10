@@ -1,14 +1,16 @@
 package main
 
+// Difficulty:
+// Medium
+
 // Tags:
 // Math
+
 func checkPowersOfThree(n int) bool {
-	for n > 0 {
-		remain := n % 3
-		if remain != 0 && remain != 1 {
+	for ; n > 0; n /= 3 {
+		if rem := n % 3; rem != 0 && rem != 1 {
 			return false
 		}
-		n /= 3
 	}
 	return true
 }

@@ -2,6 +2,9 @@ package main
 
 import "container/heap"
 
+// Difficulty:
+// Hard
+
 // Tags:
 // Graph
 // Dijkstra

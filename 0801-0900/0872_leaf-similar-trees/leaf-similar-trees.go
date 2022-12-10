@@ -1,16 +1,18 @@
 package main
 
-// Tags:
-// Stack + DFS
+// Difficulty:
+// Easy
 
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
+// Tags:
+// Stack
+// DFS
+
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
+
 func leafSimilar(root1 *TreeNode, root2 *TreeNode) bool {
 	arr1 := getAllLeaf(root1)
 	arr2 := getAllLeaf(root2)
@@ -42,10 +44,4 @@ func getAllLeaf(root *TreeNode) []int {
 		}
 	}
 	return out
-}
-
-type TreeNode struct {
-	Val   int
-	Left  *TreeNode
-	Right *TreeNode
 }

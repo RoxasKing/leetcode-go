@@ -1,30 +1,18 @@
 package main
 
+// Difficulty:
+// Easy
+
 func minOperations(s string) int {
-	x := 0
-	min := 0
-	for i := range s {
-		if int(s[i]-'0') != x {
-			min++
+	a, b := 0, 0
+	for i, c := range s {
+		if i&1 == 0 && c == '1' || i&1 == 1 && c == '0' {
+			a++
 		}
-		x ^= 1
-	}
-
-	x = 1
-	cur := 0
-	for i := range s {
-		if int(s[i]-'0') != x {
-			cur++
+		if i&1 == 0 && c == '0' || i&1 == 1 && c == '1' {
+			b++
 		}
-		x ^= 1
 	}
-
-	min = Min(cur, min)
-
-	return min
-}
-
-func Min(a, b int) int {
 	if a < b {
 		return a
 	}

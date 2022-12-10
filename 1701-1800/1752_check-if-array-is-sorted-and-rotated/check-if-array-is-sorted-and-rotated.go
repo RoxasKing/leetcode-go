@@ -2,6 +2,12 @@ package main
 
 import "sort"
 
+// Difficulty:
+// Easy
+
+// Tags:
+// Sorting
+
 func check(nums []int) bool {
 	n := len(nums)
 	arr := make([]int, n)

@@ -1,5 +1,8 @@
 package main
 
+// Difficulty:
+// Easy
+
 func squareIsWhite(coordinates string) bool {
 	x := int(coordinates[0] - 'a' + 1)
 	y := int(coordinates[1] - '0')
